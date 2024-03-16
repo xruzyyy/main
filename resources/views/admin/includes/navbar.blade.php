@@ -49,7 +49,6 @@
             @endforeach
             <!-- View All button -->
             @if (auth()->user()->unreadNotifications->count() > 10)
-                <button type="button" class="btn btn-primary btn-sm mx-3 my-2" id="viewAllNotifications">View All</button>
             @endif
         @else
             <p class="dropdown-item text-muted text-center my-2">No new notifications</p>
