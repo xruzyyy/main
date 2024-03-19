@@ -13,8 +13,8 @@ return [
     |
     */
 
-    'default' => env('FILESYSTEM_DISK', 'local'),
-
+    'storage_disk_name' => env('CHATIFY_STORAGE_DISK', 'public'),
+    
     /*
     |--------------------------------------------------------------------------
     | Filesystem Disks
