@@ -15,7 +15,7 @@
             {{-- Search input --}}
             <input type="text" class="messenger-search" placeholder="Search" />
             {{-- Tabs --}}
-            {{-- <div class="messenger-listView-tabs">
+            {{-- <div class="messenger-listView-tabs">f
                 <a href="#" class="active-tab" data-view="users">
                     <span class="far fa-user"></span> Contacts</a>
             </div> --}}
@@ -36,7 +36,7 @@
                {{-- Contact --}}
                <p class="messenger-title"><span>All Messages</span></p>
                <div class="listOfContacts" style="width: 100%;height: calc(100% - 272px);position: relative;"></div>
-           </div>
+            </div>
              {{-- ---------------- [ Search Tab ] ---------------- --}}
            <div class="messenger-tab search-tab app-scroll" data-view="search">
                 {{-- items --}}

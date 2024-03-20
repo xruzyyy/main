@@ -15,6 +15,7 @@ class ConversationController extends Controller
      */
     public function index()
     {
+        
         $conversations = Conversation::all();
         return response()->json($conversations);
         return view('conversations.index', compact('conversations'));
@@ -29,7 +30,9 @@ class ConversationController extends Controller
      */
     public function show(Conversation $conversation)
     {
-        return response()->json($conversation);
+        $conversations = Conversation::all();
+        return response()->json($conversations);
+        return view('conversations.index', compact('conversations'));
     }
 
     /**
