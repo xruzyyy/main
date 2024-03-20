@@ -8,84 +8,105 @@
     <!-- Brand -->
     <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" style="color: goldenrod;" onmouseover="this.style.color='azure'" onmouseout="this.style.color='goldenrod'" href="{{ url('/admin/dashboard') }}">TaytayOnline</a>
 
-    <ul class="navbar-nav flex-row ms-auto">
-        <!-- Logout Dropdown Menu -->
-        <!-- Notification Dropdown Menu -->
-        <li class="nav-item dropdown">
-            <a id="notificationDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: goldenrod;">
-                <i class="fa fa-bell"></i>
-                <span class="badge badge-light bg-danger badge-xs">{{ auth()->user()->unreadNotifications->count() }}</span>
-            </a>
-
-            <div class="dropdown-menu dropdown-menu-end bg-light" aria-labelledby="notificationDropdown">
-                <!-- Header with action buttons -->
-                <div class="d-flex justify-content-between align-items-center px-3 py-2">
-                    <h6 class="mb-0 text-dark">Notifications</h6>
-                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteAllNotificationsModal">Delete All</button>
-                </div>
-                <!-- Notification items -->
-<div class="notification-list-container" style="max-height: 800px; overflow-y: auto;">
-    <div class="notification-list" id="notificationList">
-        @if (auth()->user()->unreadNotifications->count() > 0)
-            <!-- Mark all as read button -->
-            <a href="{{ route('mark-as-read') }}" class="btn btn-sm btn-success text-success mb-2 ms-3 bg-light">Mark All as Read</a>
-            <!-- Unread Notifications -->
-            @foreach (auth()->user()->unreadNotifications as $notification)
-                <a href="#" class="dropdown-item notification-item bg-inherit">
-                    <span class="notification-message">
-                        <!-- Red Dot for Unread Notification -->
-                        <span class="red-dot"></span>
-                        <!-- Display notification message -->
-                        @if ($notification->type === 'App\Notifications\NewUserNotification' && isset($notification->data['new_user_name']))
-                            New user registered: {{ $notification->data['new_user_name'] }} (Type: {{ $notification->data['new_user_type'] ?? 'Unknown' }})
-                        @elseif ($notification->type === 'App\Notifications\BusinessListingNotification' && isset($notification->data['business_name']))
-                            New business listing added: {{ $notification->data['business_name'] }} (User ID: {{ $notification->data['user_id'] ?? 'Unknown' }})
-                        @else
-                            {{ $notification->data['message'] ?? '' }}
+<ul class="navbar-nav flex-row ms-auto">
+    <!-- Notification Dropdown Menu -->
+    <li class="nav-item dropdown">
+       
+        <a id="notificationDropdown" class="me-4 dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: goldenrod;">
+            <i class="fa fa-bell"></i>
+            <span class="badge badge-light bg-danger badge-xs">{{ auth()->user()->unreadNotifications->count() }}</span>
+        </a>
+        
+        <div class="dropdown-menu dropdown-menu-end bg-light" aria-labelledby="notificationDropdown">
+            <!-- Header with action buttons -->
+            <div class="d-flex justify-content-between align-items-center px-3 py-2">
+                <h6 class="mb-0 text-dark">Notifications</h6>
+                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteAllNotificationsModal">Delete All</button>
+            </div>
+            <!-- Notification items -->
+            <div class="notification-list-container" style="max-height: 800px; overflow-y: auto;">
+                <div class="notification-list" id="notificationList">
+                    @if (auth()->user()->unreadNotifications->count() > 0)
+                        <!-- Mark all as read button -->
+                        <a href="{{ route('mark-as-read') }}" class="btn btn-sm btn-success text-success mb-2 ms-3 bg-light">Mark All as Read</a>
+                        <!-- Unread Notifications -->
+                        @foreach (auth()->user()->unreadNotifications as $notification)
+                            <a href="#" class="dropdown-item notification-item bg-inherit">
+                                <span class="notification-message">
+                                    <!-- Red Dot for Unread Notification -->
+                                    <span class="red-dot"></span>
+                                    <!-- Display notification message -->
+                                    @if ($notification->type === 'App\Notifications\NewUserNotification' && isset($notification->data['new_user_name']))
+                                        New user registered: {{ $notification->data['new_user_name'] }} (Type: {{ $notification->data['new_user_type'] ?? 'Unknown' }})
+                                    @elseif ($notification->type === 'App\Notifications\BusinessListingNotification' && isset($notification->data['business_name']))
+                                        New business listing added: {{ $notification->data['business_name'] }} (User ID: {{ $notification->data['user_id'] ?? 'Unknown' }})
+                                    @else
+                                        {{ $notification->data['message'] ?? '' }}
+                                    @endif
+                                </span>
+                                <span class="notification-time">{{ $notification->created_at->diffForHumans() }}</span>
+                            </a>
+                        @endforeach
+                        <!-- View All button -->
+                        @if (auth()->user()->unreadNotifications->count() > 10)
                         @endif
-                    </span>
-                    <span class="notification-time">{{ $notification->created_at->diffForHumans() }}</span>
-                </a>
-            @endforeach
-            <!-- View All button -->
-            @if (auth()->user()->unreadNotifications->count() > 10)
-            @endif
-        @else
-            <p class="dropdown-item text-muted text-center my-2">No new notifications</p>
-        @endif
-
-        <!-- Read Notifications -->
-        @foreach (auth()->user()->readNotifications as $notification)
-            <a href="#" class="dropdown-item notification-item read">
-                <span class="notification-message">
-                    <!-- Display notification message -->
-                    @if ($notification->type === 'App\Notifications\NewUserNotification' && isset($notification->data['new_user_name']))
-                        New user registered: {{ $notification->data['new_user_name'] }} (Type: {{ $notification->data['new_user_type'] ?? 'Unknown' }})
-                    @elseif ($notification->type === 'App\Notifications\BusinessListingNotification' && isset($notification->data['business_name']))
-                        New business listing added: {{ $notification->data['business_name'] }} (User ID: {{ $notification->data['user_id'] ?? 'Unknown' }})
                     @else
-                        {{ $notification->data['message'] ?? '' }}
+                        <p class="dropdown-item text-muted text-center my-2">No new notifications</p>
                     @endif
-                </span>
-                <span class="notification-time">{{ $notification->created_at->diffForHumans() }}</span>
-            </a>
-        @endforeach
 
-        <!-- No new notifications message -->
-        @if (auth()->user()->unreadNotifications->isEmpty() && auth()->user()->readNotifications->isEmpty())
-            <p class="dropdown-item text-muted text-center my-2">No new notifications</p>
-        @endif
+                    <!-- Read Notifications -->
+                    @foreach (auth()->user()->readNotifications as $notification)
+                        <a href="#" class="dropdown-item notification-item read">
+                            <span class="notification-message">
+                                <!-- Display notification message -->
+                                @if ($notification->type === 'App\Notifications\NewUserNotification' && isset($notification->data['new_user_name']))
+                                    New user registered: {{ $notification->data['new_user_name'] }} (Type: {{ $notification->data['new_user_type'] ?? 'Unknown' }})
+                                @elseif ($notification->type === 'App\Notifications\BusinessListingNotification' && isset($notification->data['business_name']))
+                                    New business listing added: {{ $notification->data['business_name'] }} (User ID: {{ $notification->data['user_id'] ?? 'Unknown' }})
+                                @else
+                                    {{ $notification->data['message'] ?? '' }}
+                                @endif
+                            </span>
+                            <span class="notification-time">{{ $notification->created_at->diffForHumans() }}</span>
+                        </a>
+                    @endforeach
 
-        <!-- View All button -->
-        @if (auth()->user()->notifications->count() > 10)
-            <button type="button" class="btn btn-primary btn-sm mx-3 my-2" id="viewAllNotifications">View All</button>
-        @endif
-    </div>
-</div>
+                    <!-- No new notifications message -->
+                    @if (auth()->user()->unreadNotifications->isEmpty() && auth()->user()->readNotifications->isEmpty())
+                        <p class="dropdown-item text-muted text-center my-2">No new notifications</p>
+                    @endif
 
-        </li>
+                    <!-- View All button -->
+                    @if (auth()->user()->notifications->count() > 10)
+                        <button type="button" class="btn btn-primary btn-sm mx-3 my-2" id="viewAllNotifications">View All</button>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </li>
 
-    </ul>
+    <!-- User Profile Dropdown Menu -->
+    <li class="nav-item dropdown">
+        <a href="javascript:void(0)" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style="color: aliceblue;">
+            {{ auth()->user()->name }}
+        </a>
+        <ul class="dropdown-menu dropdown-menu-lg-start border-0 shadow-sm rounded-0">
+            {{-- <li><a class="dropdown-item" href="{{ route('admin.profile.index') }}">Profile</a></li> --}}
+            {{-- <li><a class="dropdown-item" href="{{ route('admin.password.index') }}">Change Password</a></li> --}}
+            {{-- <li><hr class="dropdown-divider"></li> --}}
+            <li>
+                <a class="dropdown-item" href="{{ route('logout') }}"
+                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    {{ __('Logout') }}
+                </a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                    @csrf
+                </form>
+            </li>
+        </ul>
+    </li>
+</ul>
+
 </header>
 <style>
     /* CSS for Red Dot */
