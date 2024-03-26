@@ -24,7 +24,11 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\BusinessListingAdded' => [
             'App\Listeners\ProcessBusinessListing',
         ],
+        'App\Events\MyEvent' => [
+            'App\Listeners\MyEventListener',
+        ],
     ];
+    
     
     
 

@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\User;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class ListingController extends Controller
 {
@@ -14,9 +16,17 @@ class ListingController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function create()
+        public function create()
     {
-        return view('listings.create');
+       // Fetch unseen message count
+    $unseenCount = DB::table('ch_messages')
+    ->where('to_id', '=', Auth::user()->id)
+    ->where('seen', '=', '0')
+    ->count();
+
+    // Pass the unseen count to the view
+    return view('listings.create', ['unseenCount' => $unseenCount]);
+
     }
 
     /**
@@ -25,7 +35,8 @@ class ListingController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    // Store a newly created listing in storage.
+    
+     // Store a newly created listing in storage.
     public function store(Request $request)
     {
         $request->validate([

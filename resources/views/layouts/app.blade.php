@@ -33,39 +33,61 @@
         .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
             color: aliceblue !important;
         }
+        .unread_notification
+        {
+            margin-top: 5px;
+            margin-left: -3px;
+            background-color: rgb(255, 51, 51);
+            display: inline-block;
+            color:whitesmoke;     
+            height: 15px;
+            width: 15px;
+            text-align: center;
+            font-size: 13px;
+            border-radius: 80%;
+        }
 
     </style>
      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"> 
      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
     <div id="app">
     <nav class="navbar navbar-expand-md navbar-light bg-dark shadow-sm">
-    <div class="container-fluid">
+    <div class="container-fluid" >
         @auth
             @if(auth()->user()->type === 'admin')
-                <a class="navbar-brand" href="{{ url('/admin/dashboard') }}">
+                <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" style="color: goldenrod;" onmouseover="this.style.color='azure'" onmouseout="this.style.color='goldenrod'" href="{{ url('/admin/dashboard') }}">
                     {{ config('app.name', 'TaytayOnline') }}
                 </a>
             @elseif(auth()->user()->type === 'business')
-                <a class="navbar-brand" href="{{ url('/business/home') }}">
+                <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" style="color: goldenrod;" onmouseover="this.style.color='azure'" onmouseout="this.style.color='goldenrod'" href="{{ url('/business/home') }}">
                     {{ config('app.name', 'TaytayOnline') }}
                 </a>
             @elseif(auth()->user()->type === 'user')
-                <a class="navbar-brand" href="{{ url('home') }}">
+                <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" style="color: goldenrod;" onmouseover="this.style.color='azure'" onmouseout="this.style.color='goldenrod'" href="{{ url('home') }}">
                     {{ config('app.name', 'TaytayOnline') }}
                 </a>
             @endif
         @endauth
-        
-        <button class="navbar-toggler" type="button" style="background-color: rgba(218, 165, 32, 0.884)" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav me-auto">
-
+                @if (Auth::check() && Auth::user()->email_verified_at && !request()->is('login'))
+                    <li style="margin-right: 10px;">
+                        <a href="/chatify" style="text-decoration: none;color: goldenrod;">
+                            <i class="fa-solid fa-envelope">
+                                <div class="unread_notification">
+                                    {{ $unseenCount }} <!-- Display the unseenCount here -->
+                                </div>
+                            </i>
+                        </a>
+                    </li>
+                @endif
             </ul>
 
             <!-- Right Side Of Navbar -->

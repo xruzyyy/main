@@ -11,9 +11,7 @@
     @include('partials.allUsersTbl')
     @include('partials.allUsersModalImagePreview') 
 
-
 </div>
-
 
 <!-- Back to Top Button -->
 <button onclick="topFunction()" id="backToTopBtn" title="Go to top"></button>
@@ -22,8 +20,11 @@
 
 @section('styles')
 <link rel="stylesheet" href="{{ asset('css/allusers.css') }}">
+<style>
+    *{
+        font-family: 'Bebas Neue', sans-serif;    }
+</style>
 @endsection
-
 
 @section('scripts')
 <!-- Include jQuery and DataTables JavaScript libraries -->
@@ -35,10 +36,12 @@
 <script src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.colVis.min.js"></script>
 
 <script>
-$(document).ready(function() {
+    $(document).ready(function() {
         // Get the current limit parameter from the URL
-        var defaultLimit = {{ request()->input('limit' , 0) }};
-        
+        var defaultLimit = {{ request()->input('limit', 10) }};
+        // Get the current sort parameter from the URL
+        var defaultSort = "{{ request()->input('sort', 'newest') }}";
+
         // DataTable initialization
         var table = $('#example').DataTable({
             "dom": '<"d-flex justify-content-between align-items-center"Bf><"clear">lirtp',
@@ -48,7 +51,8 @@ $(document).ready(function() {
             "autoWidth": true,
             "language": {
                 "info": "Showing _START_ to _END_ of _TOTAL_ entries"
-            },"buttons": [
+            },
+            "buttons": [
                 {
                     extend: 'colvis',
                     text: 'Columns',
@@ -84,24 +88,28 @@ $(document).ready(function() {
                 }
             ]
         });
+
+        // Set the default sorting
+        table.order([0, defaultSort === 'newest' ? 'desc' : 'asc']).draw();
+
     });
-    
 
-// Back to Top Button Functionality
-window.onscroll = function() {scrollFunction()};
 
-function scrollFunction() {
-    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-        document.getElementById("backToTopBtn").style.display = "block";
-    } else {
-        document.getElementById("backToTopBtn").style.display = "none";
+    // Back to Top Button Functionality
+    window.onscroll = function() {scrollFunction()};
+
+    function scrollFunction() {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            document.getElementById("backToTopBtn").style.display = "block";
+        } else {
+            document.getElementById("backToTopBtn").style.display = "none";
+        }
     }
-}
 
-function topFunction() {
-    document.body.scrollTop = 0;
-    document.documentElement.scrollTop = 0;
-}
+    function topFunction() {
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+    }
 
 </script>
 @endsection

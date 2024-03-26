@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Notifications\NewUserNotification;
-
+use Illuminate\Support\Facades\DB;
 class HomeController extends Controller
 {
     /**
@@ -26,20 +26,36 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $unseenCount = $this->fetchUnseenMessageCount();
+        return view('home', ['unseenCount' => $unseenCount]);
     }
+    
     public function adminDashboard()
     {
-        return view('admin.dashboard');
+        $unseenCount = $this->fetchUnseenMessageCount();
+        return view('admin.dashboard', ['unseenCount' => $unseenCount]);
     }
+    
     public function adminManageBusiness()
     {
-        return view('admin.users.manageBusiness');
+        $unseenCount = $this->fetchUnseenMessageCount();
+        return view('admin.users.manageBusiness', ['unseenCount' => $unseenCount]);
     }
+    
     public function businessHome()
     {
-        return view('businessHome');
+        $unseenCount = $this->fetchUnseenMessageCount();
+        return view('businessHome', ['unseenCount' => $unseenCount]);
     }
+    
+    private function fetchUnseenMessageCount()
+    {
+        return DB::table('ch_messages')
+            ->where('to_id', '=', Auth::user()->id)
+            ->where('seen', '=', '0')
+            ->count();
+    }
+
     public function markAsRead()
     {
         Auth::user()->unreadNotifications->markAsRead();

@@ -48,63 +48,73 @@ class RegisterController extends Controller
     
 
     protected function create(array $data)
-    {
-        $path = '';
-        $filename = '';
-        
-        if (isset($data['image'])) {
-            $file = $data['image'];
-            $extension = $file->getClientOriginalExtension();
-            $filename = time() . '.' . $extension;
-            $path = 'uploads/users/';
-            $file->move($path, $filename);
-        }
+{
+    $path = '';
+    $filename = '';
     
-        // Map user type string to integer value
-        $typeMap = [
-            'user' => 0,
-            'admin' => 1,
-            'business' => 2,
-        ];
-    
-        // Set status to 1 if user type is 'user' or 'admin', otherwise set to 0
-        $status = in_array($data['type'], ['user', 'admin']) ? 1 : 0;
-    
-        // Define expiration date for business type
-        $expirationDate = null;
-        if ($data['type'] === 'business') {
-            $expirationDate = Carbon::now('Asia/Manila')->addYear();
-        }
-    
-        // Create the user without adding expiration if the type is 'user' or 'admin'
-        if (in_array($data['type'], ['user', 'admin'])) {
-            $user = User::create([
-                'name' => $data['name'],
-                'email' => $data['email'],
-                'password' => Hash::make($data['password']),
-                'image' => $path . $filename,
-                'status' => $status,
-                'type' => $typeMap[$data['type']],
-                'account_expiration_date' => null, // Set account expiration date to null for 'user' and 'admin' types
-            ]);
-        } else {
-            // For business type, add expiration logic
-            $user = User::create([
-                'name' => $data['name'],
-                'email' => $data['email'],
-                'password' => Hash::make($data['password']),
-                'image' => $path . $filename,
-                'status' => $status,
-                'type' => $typeMap[$data['type']],
-                'account_expiration_date' => $expirationDate, // Set account expiration date for 'business' type
-            ]);
-        }
-    
-        // Trigger the NewUserRegistered event
-        event(new NewUserRegistered($user, $user->type));
-    
-        return $user;
+    if (isset($data['image'])) {
+        $file = $data['image'];
+        $extension = $file->getClientOriginalExtension();
+        $filename = time() . '.' . $extension;
+        $path = 'uploads/users/';
+        $file->move($path, $filename);
     }
+
+    // Map user type string to integer value
+    $typeMap = [
+        'user' => 0,
+        'admin' => 1,
+        'business' => 2,
+    ];
+
+    // Set status to 1 if user type is 'user' or 'admin', otherwise set to 0
+    $status = in_array($data['type'], ['user', 'admin']) ? 1 : 0;
+
+    // Define expiration date for business type
+    $expirationDate = null;
+    if ($data['type'] === 'business') {
+        $expirationDate = Carbon::now('Asia/Manila')->addYear();
+    }
+
+    // Set is_active based on user type
+    $isActive = $data['type'] === 'business' ? 0 : 1;
+
+    // Create the user without adding expiration if the type is 'user' or 'admin'
+    if (in_array($data['type'], ['user', 'admin'])) {
+        $roleAs = $typeMap[$data['type']] === 0 ? 'user' : 'admin'; // Set role_as based on user type
+        $user = User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+            'image' => $path . $filename,
+            'status' => $status,
+            'is_active' => $isActive,
+            'type' => $typeMap[$data['type']],
+            'role_as' => $roleAs, // Assign role_as based on user type
+            'account_expiration_date' => null, // Set account expiration date to null for 'user' and 'admin' types
+        ]);
+    } else {
+        // For business type, add expiration logic
+        $user = User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+            'image' => $path . $filename,
+            'status' => $status,
+            'is_active' => $isActive,
+            'type' => $typeMap[$data['type']],
+            'role_as' => 'business', // Assign role_as as 'business' for 'business' type
+            'account_expiration_date' => $expirationDate, // Set account expiration date for 'business' type
+        ]);
+    }
+
+    // Trigger the NewUserRegistered event
+    event(new NewUserRegistered($user, $user->type));
+
+    return $user;
+}
+
+
     
 
     protected function registered(Request $request, $user)

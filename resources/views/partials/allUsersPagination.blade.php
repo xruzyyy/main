@@ -1,5 +1,5 @@
-   <!-- Combined Dropdown for Sorting and Filtering -->
-   <div class="dropdown float-end mx-2">
+<!-- Combined Dropdown for Sorting and Filtering -->
+<div class="dropdown float-end mx-2">
     <button class="btn btn-sm btn-primary dropdown-toggle" type="button" id="combinedSortFilterButton" data-bs-toggle="dropdown" aria-expanded="false">
         Sort by:
         @if(request()->input('sort') == 'newest')
@@ -39,7 +39,6 @@
         <li>
             <a class="dropdown-item {{ request()->input('filter') == 'all' ? 'active' : '' }}" href="{{ route('users.sortTable', ['sort' => request()->input('sort', 'newest'), 'limit' => request()->input('limit', 10)]) }}">All</a>
         </li>
-        
     </ul>
 </div>
 

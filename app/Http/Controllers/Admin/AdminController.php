@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\User;
@@ -109,8 +111,11 @@ class AdminController extends Controller
         ->where('status', 0)
         ->get();
         
-        return view('admin.adminDashboard', compact('count','pendingBusinessUsers','userCreationDates', 'userCreationData','normalUserCreationData','expiredAccounts','pendingAccounts'));
-    
+        
+        $unseenCount = DB::table('ch_messages')->where('to_id', '=' , Auth::user()->id)->where('seen' ,'=' , '0')->count();
+
+        return view('admin.adminDashboard', compact('count', 'pendingBusinessUsers', 'userCreationDates', 'userCreationData', 'normalUserCreationData', 'expiredAccounts', 'pendingAccounts', 'unseenCount'));
+
     }
     
 

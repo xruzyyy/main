@@ -6,20 +6,37 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
     
     public function index()
-    {
-        $categories = Category::get();
-        return view('category.index', compact('categories'));
-    }
+{
+    // Fetch unseen message count
+    $unseenCount = DB::table('ch_messages')
+        ->where('to_id', '=', Auth::user()->id)
+        ->where('seen', '=', '0')
+        ->count();
 
-    public function create()
-    {
-        return view('category.create');
-    }
+    // Fetch all categories
+    $categories = Category::get();
+
+    // Pass both variables to the view
+    return view('category.index', compact('categories', 'unseenCount'));
+}
+
+public function create()
+{
+    // Fetch unseen message count
+    $unseenCount = DB::table('ch_messages')
+        ->where('to_id', '=', Auth::user()->id)
+        ->where('seen', '=', '0')
+        ->count();
+
+    return view('category.create', compact('unseenCount'));
+}
 
     public function store(Request $request)
     {
@@ -52,10 +69,19 @@ class CategoryController extends Controller
 
     
     public function edit(int $id)
-    {
-        $category = Category::findOrFail($id);
-        return view('category.edit', compact('category'));
-    }
+{
+    // Fetch unseen message count
+    $unseenCount = DB::table('ch_messages')
+        ->where('to_id', '=', Auth::user()->id)
+        ->where('seen', '=', '0')
+        ->count();
+
+    // Fetch the category by ID
+    $category = Category::findOrFail($id);
+
+    // Pass both variables to the view
+    return view('category.edit', compact('category', 'unseenCount'));
+}
 
 
 
@@ -146,7 +172,13 @@ class CategoryController extends Controller
         $categories = $query->paginate($limit);
     }
 
-    return view('category.index', compact('categories'));
+    // Fetch unseen message count
+    $unseenCount = DB::table('ch_messages')
+        ->where('to_id', '=', Auth::user()->id)
+        ->where('seen', '=', '0')
+        ->count();
+
+    return view('category.index', compact('categories', 'unseenCount'));
     
 }
 

@@ -51,11 +51,16 @@ Route::middleware([
     })->name('main');
     Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
     Route::post('/home', [App\Http\Controllers\HomeController::class,'index'])->name('home');
+    
+    // Route::delete('notifications/{id}', [HomeController::class, 'deleteNotification'])->name('notifications.delete');
+    // Route::get('/mark-as-read', [App\Http\Controllers\HomeController::class,'markAsRead'])->name('mark-as-read');
+    // Route::delete('/notifications', [HomeController::class, 'deleteAllNotifications'])->name('notifications.deleteAll');
+
+
     Route::delete('notifications/{id}', [HomeController::class, 'deleteNotification'])->name('notifications.delete');
-    Route::get('/mark-as-read', [App\Http\Controllers\HomeController::class,'markAsRead'])->name('mark-as-read');
+    Route::get('/mark-as-read', [HomeController::class,'markAsRead'])->name('mark-as-read');
     Route::delete('/notifications', [HomeController::class, 'deleteAllNotifications'])->name('notifications.deleteAll');
-
-
+    
 
 
 
@@ -74,7 +79,7 @@ Route::middleware([
     Route::get('/usersList', [UserController::class, 'index'])->name('users');
     Route::get('/user{id}', [UserController::class, 'update']);
     Route::get('/users/{user}/toggleStatus', [UserController::class, 'toggleStatus'])->name('users.toggleStatus');
-
+    
 
         // Route for displaying the form to create a new user
     Route::get('/users/create', [UserController::class, 'create'])->name('users.create');

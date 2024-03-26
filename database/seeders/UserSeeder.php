@@ -21,10 +21,10 @@ class UserSeeder extends Seeder
     {
         $faker = Faker::create();
 
-        for ($i = 0; $i < 100; $i++) { // Generating 10 users as an example, you can adjust the count as needed
+        for ($i = 0; $i < 10; $i++) { // Generating 10 users as an example, you can adjust the count as needed
             $firstName = $faker->firstName;
             $lastName = $faker->lastName;
-            $email = strtolower($firstName . '.' . $lastName . '@example.com');
+            $email = strtolower($firstName . '.' . $lastName . '@gmail.com');
 
 
             $userData = [
@@ -37,7 +37,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('password'),
                 'role_as' => 'business',
                 'type' => 2,
-                'created_at' => '2024-03-22 00:00:00', // Set a specific created_at date and time
+                'created_at' => '2024-03-26 12:10:00', // Set a specific created_at date and time
                 'updated_at' => now(),
             ];
 

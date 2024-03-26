@@ -1,7 +1,26 @@
-<!-- Deletion Confirmation Modal -->
+<!-- Delete All Notifications Confirmation Modal -->
 <div class="modal fade" id="deleteAllNotificationsModal" tabindex="-1" aria-labelledby="deleteAllNotificationsModalLabel" aria-hidden="true">
-    <!-- Modal content -->
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteAllNotificationsModalLabel">Delete All Notifications</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete all notifications?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form action="{{ route('notifications.deleteAll') }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">Delete All</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
+
 
 <!-- Header -->
 <header class="navbar navbar-expand-lg flex-md-nowrap p-3 shadow" tabindex="1" data-bs-theme="light" style="color: goldenrod; background-color: black;">
@@ -71,10 +90,10 @@
                         </a>
                     @endforeach
 
-                    <!-- No new notifications message -->
+                    {{-- <!-- No new notifications message -->
                     @if (auth()->user()->unreadNotifications->isEmpty() && auth()->user()->readNotifications->isEmpty())
                         <p class="dropdown-item text-muted text-center my-2">No new notifications</p>
-                    @endif
+                    @endif --}}
 
                     <!-- View All button -->
                     @if (auth()->user()->notifications->count() > 10)
@@ -84,6 +103,17 @@
             </div>
         </div>
     </li>
+    @if (Auth::check() && Auth::user()->email_verified_at && !request()->is('login'))
+    <li style="margin-right: 10px;">
+        <a href="/chatify" style="text-decoration: none;color: goldenrod;">
+            <i class="fa-solid fa-envelope">
+                <div class="unread_notification">
+                    {{ $unseenCount }} <!-- Display the unseenCount here -->
+                </div>
+            </i>
+        </a>
+    </li>
+@endif
 
     <!-- User Profile Dropdown Menu -->
     <li class="nav-item dropdown">
@@ -119,27 +149,65 @@
     margin-right: 8px; /* Adjust as needed for spacing */
 }
 
+.unread_notification
+{
+    margin-top: 5px;
+    margin-left: -3px;
+    background-color: rgb(255, 51, 51);
+    display: inline-block;
+    color:whitesmoke;     
+    height: 15px;
+    width: 15px;
+    text-align: center;
+    font-size: 13px;
+    border-radius: 80%;
+}
 </style>
+
+
+
+
 <!-- JavaScript -->
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-    // Show only first 10 notifications
-    var notifications = document.querySelectorAll('.notification-list .dropdown-item');
-    var viewAllButton = document.getElementById('viewAllNotifications');
+        // Show only first 10 notifications
+        var notifications = document.querySelectorAll('.notification-list .dropdown-item');
+        var viewAllButton = document.getElementById('viewAllNotifications');
 
-    notifications.forEach(function(notification, index) {
-        if (index >= 10) {
-            notification.style.display = 'none';
-        }
-    });
-
-    // Event listener for View All button
-    viewAllButton.addEventListener('click', function() {
-        notifications.forEach(function(notification) {
-            notification.style.display = 'block';
+        notifications.forEach(function(notification, index) {
+            if (index >= 10) {
+                notification.style.display = 'none';
+            }
         });
-        viewAllButton.style.display = 'none';
-    });
-});
 
+        // Event listener for View All button
+        viewAllButton.addEventListener('click', function() {
+            notifications.forEach(function(notification) {
+                notification.style.display = 'block';
+            });
+            viewAllButton.style.display = 'none';
+        });
+    });
+
+    // JavaScript for deleting a single notification
+    function deleteNotification(id) {
+        if (confirm('Are you sure you want to delete this notification?')) {
+            document.getElementById('delete-notification-form-' + id).submit();
+        }
+    }
 </script>
+
+@foreach (auth()->user()->unreadNotifications as $notification)
+    <form id="delete-notification-form-{{ $notification->id }}" action="{{ route('notifications.delete', ['id' => $notification->id]) }}" method="POST" style="display: none;">
+        @csrf
+        @method('DELETE')
+    </form>
+@endforeach
+
+@foreach (auth()->user()->readNotifications as $notification)
+    <form id="delete-notification-form-{{ $notification->id }}" action="{{ route('notifications.delete', ['id' => $notification->id]) }}" method="POST" style="display: none;">
+        @csrf
+        @method('DELETE')
+    </form>
+@endforeach
