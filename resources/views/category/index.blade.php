@@ -174,7 +174,7 @@
                                 <td>
                                     <div class="btn-group" role="group" aria-label="Edit and Delete">
                                         <a href="{{ url('categories/'.$item->id.'/edit')}}" class="btn btn-warning btn-sm" title="Edit">
-                                         <img src="{{ asset('images/edit.png') }}" alt="Edit Icon" style="width: 20px; height: 20px;"> Edit
+                                            <img src="{{ asset('images/edit.png') }}" alt="Edit Icon" style="width: 20px; height: 20px;"> Edit
                                         </a>
                                         <!-- Delete Button with Confirmation Modal -->
                                         <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $item->id }}" title="Delete">
@@ -190,16 +190,21 @@
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    Are you sure you want to delete this listing ' <strong>{{ $item->businessName }}</strong> '?
+                                                    Are you sure you want to delete this listing '<strong>{{ $item->businessName }}</strong>'?
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                    <button type="button" class="btn btn-danger">Delete</button>
+                                                    <!-- Form for Deletion -->
+                                                    <form action="{{ url('categories/'.$item->id.'/delete') }}" method="POST">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </td>
+                                </td>                                
                             </tr>
                             @endforeach
                         </tbody>

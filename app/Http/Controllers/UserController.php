@@ -204,7 +204,15 @@ public function toggleStatus($userId)
                 $users->appends(['limit' => $limit]); // Append the limit to the pagination links
             }
 
-        // Return view with paginated or all users data
-        return view('users.index', compact('users'));
+        
+            // Fetch unseen message count
+            $unseenCount = DB::table('ch_messages')
+            ->where('to_id', '=', Auth::user()->id)
+            ->where('seen', '=', '0')
+            ->count();
+
+
+            // Pass both variables to the view
+            return view('users.index', compact('users', 'unseenCount'));
     }
 }
