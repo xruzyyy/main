@@ -68,7 +68,7 @@
                 <ul class="nav flex-column mb-2">
                     <li class="nav-item">
                         <a class="nav-link mb-2" href="{{ route('admin.dashboard') }}">
-                            <i class="fas fa-chart-line mr-2"></i> <!-- Font Awesome icon -->
+                            <i class="fas fa-tachometer-alt mr-2"></i> <!-- Updated Font Awesome icon -->
                             Dashboard
                         </a>
                     </li>
@@ -80,17 +80,25 @@
                     </li>
                     <li class="nav-item mb-2">
                         <a class="nav-link" href="{{ route('users') }}">
-                            <i class="fas fa-users mr-2"></i> <!-- Font Awesome icon -->
-                           Manage All Users
+                            <i class="fas fa-user-cog mr-2"></i> <!-- Updated Font Awesome icon -->
+                            Manage All Users
                         </a>
                     </li>
                     <li class="nav-item mb-2">
                         <a class="nav-link" href="{{ route('admin.ManageBusiness') }}">
-                            <i class="fas fa-users mr-2"></i> <!-- Font Awesome icon -->
+                            <i class="fas fa-business-time mr-2"></i> <!-- Updated Font Awesome icon -->
                             Business Users
                         </a>
                     </li>
+                
+                    <li class="nav-item mb-2">
+                        <a class="nav-link" href="{{ route(config('chatify.routes.prefix')) }}">
+                            <i class="fas fa-comments mr-2"></i> <!-- Updated Font Awesome icon -->
+                            Messages <!-- Corrected spelling from "Messagess" -->
+                        </a>
+                    </li>
                 </ul>
+                
                 
             </div>
         </div>

@@ -37,7 +37,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('password'),
                 'role_as' => 'business',
                 'type' => 2,
-                'created_at' => '2024-03-21 00:00:00', // Set a specific created_at date and time
+                'created_at' => '2024-03-22 00:00:00', // Set a specific created_at date and time
                 'updated_at' => now(),
             ];
 
