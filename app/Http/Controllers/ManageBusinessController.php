@@ -10,8 +10,6 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Session;
 use App\Models\Category;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
 
 class ManageBusinessController extends Controller
 {
@@ -32,53 +30,25 @@ class ManageBusinessController extends Controller
                     ->where('account_expiration_date', '>=', now())
                     ->where('status', 1)
                     ->get();
-                
-                    $unseenCount = DB::table('ch_messages')
-                    ->where('to_id', '=', Auth::user()->id)
-                    ->where('seen', '=', '0')
-                    ->count();
-                                
-                    return view('admin.users.manageBusiness')
-                    ->with(compact('unseenCount', 'activeUsersData'))
-                    ->with('action', 'show-not-expired');
-                
+                return view('admin.users.manageBusiness', ['activeUsersData' => $activeUsersData, 'action' => 'show-not-expired']);
 
-                case 'show-expired-list':
-                    // Retrieve expired business users where account_expiration_date has passed and status is still active (1) and type is 2 (business)
-                    $expiredUsersData = User::where('type', 2)
-                        ->where('account_expiration_date', '<', now())
-                        ->where('status', 1)
-                        ->get();
-                
-                    // Fetch unseen message count
-                    $unseenCount = DB::table('ch_messages')
-                        ->where('to_id', '=', Auth::user()->id)
-                        ->where('seen', '=', '0')
-                        ->count();
-                
-                    return view('admin.users.manageBusiness')
-                                ->with(compact('unseenCount', 'expiredUsersData'))
-                                ->with('action', 'show-expired-list');
-                
+            case 'show-expired-list':
+                // Retrieve expired business users where account_expiration_date has passed and status is still active (1) and type is 2 (business)
+                $expiredUsersData = User::where('type', 2)
+                    ->where('account_expiration_date', '<', now())
+                    ->where('status', 1)
+                    ->get();
+                return view('admin.users.manageBusiness', ['expiredUsersData' => $expiredUsersData, 'action' => 'show-expired-list']);
 
             case 'show-inactive-list':
                 // Retrieve inactive business users where account_expiration_date has passed or status is 0 and type is 2 (business)
                 $inactiveUsersData = User::where('type', 2)
                     ->where(function ($query) {
                         $query->where('account_expiration_date', '<', now())
-                            ->orWhere('status', 0);})
+                            ->orWhere('status', 0);
+                    })
                     ->get();
-
-                    $unseenCount = DB::table('ch_messages')
-                    ->where('to_id', '=', Auth::user()->id)
-                    ->where('seen', '=', '0')
-                    ->count();
-
-
-                    return view('admin.users.manageBusiness')
-                    ->with(compact('unseenCount', 'inactiveUsersData'))
-                    ->with('action', 'show-inactive-list');
-
+                return view('admin.users.manageBusiness', ['inactiveUsersData' => $inactiveUsersData, 'action' => 'show-inactive-list']);
 
             case 'check-new-expired':
                 // Retrieve expired business users where account_expiration_date has passed and status is still active (1) and type is 2 (business)
