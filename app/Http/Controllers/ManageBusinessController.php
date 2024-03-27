@@ -162,11 +162,11 @@ class ManageBusinessController extends Controller
      // Method to update categories' is_active field based on the user's status
      public function updateUserStatus(Request $request)
      {
-         $userId = $request->input('user_id');
+         $userId = $request->input('id');
          $status = $request->input('status');
  
          // Update the is_active field of associated categories based on the user's status
-         Category::where('user_id', $userId)->update(['is_active' => $status]);
+         User::where('id', $userId)->update(['is_active' => $status]);
  
          return response()->json(['message' => 'Categories updated successfully']);
      }
