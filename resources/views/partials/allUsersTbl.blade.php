@@ -136,7 +136,7 @@
     </div>
   </div>
 </div>
-
+@endforeach
 
 <!-- Confirmation Modal -->
 <div class="modal fade" id="editConfirmationModal" tabindex="-1" aria-labelledby="editConfirmationModalLabel" aria-hidden="true" data-form-id="editForm{{ $user->id }}">
@@ -158,9 +158,6 @@
       </div>
     </div>
   </div>
-
-@endforeach
-
 
 
 
