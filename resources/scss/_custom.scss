@@ -1,0 +1,21 @@
+
+.navbar {
+    background-color: transparent !important; // Set navbar background to transparent
+}
+
+.navbar-brand {
+    color: rgb(255, 255, 255) !important; // Set color of "Tay" to blue
+}
+
+.navbar-brand span {
+    color: red !important; // Set color of "tay" to red
+}
+
+.navbar-brand .online {
+    color: white !important; // Set color of "Online" to white
+}
+
+.navbar-nav .nav-link {
+    color: rgba(255, 255, 255, 0.986) !important; // Set color of nav links to white
+}
+
