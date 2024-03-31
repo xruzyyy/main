@@ -1,47 +1,93 @@
 @extends('layouts.app')
+
 @section('content')
+<style>
+    .container {
+        margin-top: 2rem;
+    }
+    .card-body {
+        padding: 3rem;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .input {
+        height: 3.5rem;
+    }
+
+    .file-input {
+        height: 3.5rem;
+    }
+
+    .button {
+        height: 3.5rem;
+    }
+</style>
+
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+    <div class="columns is-centered">
+        <div class="column is-half">
             <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
-
-                <div class="card-body">
-                    You are a Business User.
-
+                <div class="card-header">
+                    <p class="card-header-title">Create Listing</p>
+                </div>
+                <div class="card-content">
                     @if(session('error'))
-                        <div class="alert alert-danger mt-3">
+                        <div class="notification is-danger">
                             {{ session('error') }}
                         </div>
                     @endif
 
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-8 offset-md-2">
-                                <form action="{{ route('listings.store') }}" method="POST" enctype="multipart/form-data">
-                                    @csrf
-                                    <div class="form-group">
-                                        <label for="businessName">Business Name</label>
-                                        <input type="text" class="form-control" id="businessName" name="businessName" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="description">Description</label>
-                                        <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="image">Image</label>
-                                        <input type="file" class="form-control-file" id="image" name="image" accept="image/*" required>
-                                    </div>
-                                    <button type="submit" class="btn btn-primary">Create Listing</button>
-                                </form>
+                    @if(session('success'))
+                        <div class="notification is-success">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+
+                    <form action="{{ route('listings.store') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <div class="field">
+                            <label class="label">Business Name</label>
+                            <div class="control">
+                                <input type="text" class="input" id="businessName" name="businessName" required>
                             </div>
                         </div>
-                    </div>
+                        <div class="field">
+                            <label class="label">Description</label>
+                            <div class="control">
+                                <textarea class="textarea" id="description" name="description" rows="3" required></textarea>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Image</label>
+                            <div class="control">
+                                <div class="file has-name is-boxed">
+                                    <label class="file-label">
+                                        <input type="file" class="file-input" id="image" name="image" accept="image/*" required>
+                                        <span class="file-cta">
+                                            <span class="file-icon">
+                                                <i class="fas fa-upload"></i>
+                                            </span>
+                                            <span class="file-label">
+                                                Choose a file…
+                                            </span>
+                                        </span>
+                                        
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="control">
+                                <button type="submit" class="button is-primary">Create Listing</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
+       
 
 @if(session('success'))
     <div class="container mt-3">
