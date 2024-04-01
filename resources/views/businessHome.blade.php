@@ -1,59 +1,40 @@
-
 @extends('layouts.app')
+
 @section('content')
+<style>
+    .container {
+        margin-top: 2rem;
+    }
+    .card-body {
+        padding: 3rem;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .input {
+        height: 3.5rem;
+    }
+
+    .file-input {
+        height: 3.5rem;
+    }
+
+    .button {
+        height: 3.5rem;
+    }
+
+    /* Ensure the map container has a fixed height */
+    #map-container {
+        height: 400px;
+        margin-bottom: 1rem; /* Adjust as needed */
+    }
+</style>
+
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
-
-                <div class="card-body">
-                    You are a Business User.
-
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-8 offset-md-2">
-                                <form action="{{ route('listings.store') }}" method="POST" enctype="multipart/form-data">
-                                    @csrf
-                                    <div class="form-group">
-                                        <label for="businessName">Business Name</label>
-                                        <input type="text" class="form-control" id="businessName" name="businessName" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="description">Description</label>
-                                        <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="image">Image</label>
-                                        <input type="file" class="form-control-file" id="image" name="image" accept="image/*" required>
-                                    </div>
-                                    <button type="submit" class="btn btn-primary">Create Listing</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <form action="{{ route('listings.create') }}" method="GET">
+        <button type="submit">Create Listings</button>
+    </form>
 </div>
-
-
-<!-- resources/views/messages.blade.php -->
-
-@if(session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
-@endif
-
-@if($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
 @endsection

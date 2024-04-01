@@ -21,7 +21,9 @@ class UserController extends Controller
 
     public function create()
     {
-        return view('users.create');
+        $users = User::all();
+        $unseenCount = DB::table('ch_messages')->where('to_id', '=' , Auth::user()->id)->where('seen' ,'=' , '0')->count();
+        return view('users.create', compact('users','unseenCount'));
     }
 
     public function edit($userId)
@@ -45,8 +47,7 @@ class UserController extends Controller
 
     // Determine if the user is active based on request status
     $is_active = $request->input('status') == 1 ? true : false;
-  
-    
+
     // Hash the password
     $userData = $request->all();
     $userData['password'] = Hash::make($request->input('password'));
@@ -69,6 +70,9 @@ class UserController extends Controller
         $userData['image'] = $path . $filename;
     }
 
+    // Set email_verified_at to current timestamp
+    $userData['email_verified_at'] = now();
+
     // Set account expiration date to null for 'user' and 'admin' types
     if (in_array($request->input('type'), ['user', 'admin'])) {
         $userData['account_expiration_date'] = null;
@@ -81,6 +85,7 @@ class UserController extends Controller
 
     return redirect()->route('users')->with('message', 'User created successfully!');
 }
+
 
 
 

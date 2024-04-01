@@ -10,7 +10,7 @@ class Category extends Model
 {
     use HasFactory;
     protected $table = 'categories';
-    protected $fillable = ['businessName', 'description', 'image', 'is_active', 'user_id', 'user_email'];
+    protected $fillable = ['businessName', 'description', 'image', 'is_active', 'user_id', 'user_email', 'latitude', 'longitude'];
 
     protected static function boot()
     {
@@ -32,6 +32,4 @@ class Category extends Model
     {
         return $this->belongsTo(User::class);
     }
-
-
 }

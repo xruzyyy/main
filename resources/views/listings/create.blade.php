@@ -78,6 +78,20 @@
                                     </label>
                                 </div>
                             </div>
+
+                            <div class="field">
+                                <label class="label">Latitude</label>
+                                <div class="control">
+                                    <input type="text" class="input" id="latitude" name="latitude" value="{{ $latitude }}" readonly>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Longitude</label>
+                                <div class="control">
+                                    <input type="text" class="input" id="longitude" name="longitude" value="{{ $longitude }}" readonly>
+                                </div>
+                            </div>
+                            
                         </div>
                         <div class="field">
                             <div class="control">

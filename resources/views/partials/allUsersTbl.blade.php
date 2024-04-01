@@ -9,8 +9,6 @@
             <th scope="col">Account Action</th>
             <th scope="col">Active Status</th> <!-- Updated column header -->
             <th scope="col">Role As</th> 
-            <th>Expiration Date</th> <!-- New column for expiration date -->
-
             {{-- <th scope="col">Action</th> --}}
         </tr>
     </thead>
@@ -63,8 +61,6 @@
             {{-- <td>
                
             </td> --}}
-            <td>{{ $user->account_expiration_date }}</td>
-
         </tr>
         @endforeach
     </tbody>

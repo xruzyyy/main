@@ -15,26 +15,22 @@
                             <div class="form-group">
                                 <label for="name">Name</label>
                                 <input type="text" name="name" id="name" class="form-control" required>
-                            </div>        <div class="invalid-feedback">{{ $errors->first('name') }}</div>
-
+                            </div>
 
                             <div class="form-group">
                                 <label for="email">Email</label>
                                 <input type="email" name="email" id="email" class="form-control" required>
-                            </div>        <div class="invalid-feedback">{{ $errors->first('email') }}</div>
-
+                            </div>
 
                             <div class="form-group">
                                 <label for="password">Password</label>
                                 <input type="password" name="password" id="password" class="form-control" required>
-                            </div>        <div class="invalid-feedback">{{ $errors->first('password') }}</div>
-
+                            </div>
 
                             <div class="form-group">
                                 <label for="password_confirmation">Confirm Password</label>
                                 <input type="password" name="password_confirmation" id="password_confirmation" class="form-control" required>
-                            </div>        <div class="invalid-feedback">{{ $errors->first('password_confirm') }}</div>
-
+                            </div>
 
                             <div class="form-group">
                                 <label for="type">Type</label>
@@ -49,15 +45,16 @@
                                 <label for="status">Status</label>
                                 <select name="status" id="status" class="form-control" required>
                                     <option value="1">Active</option>
-                                    <option value="0">Inactive</option>
                                 </select>
                             </div>
 
                             <div class="form-group">
                                 <label for="image">Image</label>
-                                <input type="file" name="image" id="image" class="form-control-file">
-                            </div>        <div class="invalid-feedback">{{ $errors->first('image') }}</div>
+                                <input type="file" name="image" id="image" class="form-control-file" required>
+                            </div>
 
+                            <!-- Add a hidden input field for email_verified_at with current timestamp -->
+                            <input type="hidden" name="email_verified_at" value="{{ now() }}">
 
                             <button type="submit" class="btn btn-primary">Create</button>
                         </form>

@@ -33,6 +33,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'image',
         'password',
         'role_as', // Add the role_as attribute to the fillable array
+        'email_verified_at', 
+
     ];
 
     // Define a boot method to listen for updated events

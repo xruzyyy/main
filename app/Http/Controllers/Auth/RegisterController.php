@@ -77,7 +77,7 @@ class RegisterController extends Controller
     }
 
     // Set is_active based on user type
-    $isActive = $data['type'] === 'business' ? 0 : 1;
+    $isActive = $data['type'] === 'admin' ? 1 : 0;
 
     // Create the user without adding expiration if the type is 'user' or 'admin'
     if (in_array($data['type'], ['user', 'admin'])) {
@@ -113,6 +113,7 @@ class RegisterController extends Controller
 
     return $user;
 }
+
 
 
     

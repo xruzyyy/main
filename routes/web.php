@@ -27,6 +27,11 @@ Route::middleware(['auth', 'user-access:business', 'verified','checkstatus'])->g
 Route::get('/listings/create', [ListingController::class, 'create'])->name('listings.create');
 Route::post('/listings', [ListingController::class, 'store'])->name('listings.store');
 
+
+
+
+// Route to display the map page
+Route::get('/map', [ListingController::class, 'map'])->name('map');
 });
 
 // Normal Users Routes with Email Verification Middleware
