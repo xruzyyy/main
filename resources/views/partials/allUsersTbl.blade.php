@@ -8,7 +8,7 @@
             <th scope="col">Image</th>
             <th scope="col">Account Action</th>
             <th scope="col">Active Status</th> <!-- Updated column header -->
-            <th scope="col">Role As</th> 
+            <th scope="col">Role As</th>
             {{-- <th scope="col">Action</th> --}}
         </tr>
     </thead>
@@ -31,7 +31,7 @@
                  <a href="#" class="btn btn-sm {{ $user->is_active ? 'btn btn-outline-danger' : 'btn btn-outline-success' }}" onclick="showConfirmationModal('{{ route('users.toggleStatus', $user->id) }}', {{ $user->is_active }}, '{{ $user->name }}')">
                     {{ $user->is_active ? 'Deactivate' : 'Activate' }} <!-- Updated button label -->
                 </a>
-                
+
                 <!-- Modal Toggle for Action Activate/Deactivate -->
                 <div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
@@ -54,12 +54,12 @@
                 <!-- Display Active or Inactive based on user's is_active status -->
                 <span style="color: {{ $user->is_active ? 'green' : 'red' }}">
                     {{ $user->is_active ? 'Active' : 'Inactive' }}
-                </span> 
+                </span>
             </td>
-            
+
             <td style="font-family: 'Bebas Neue', sans-serif; text-transform: uppercase;">{{ $user->role_as }}</td>
             {{-- <td>
-               
+
             </td> --}}
         </tr>
         @endforeach
@@ -117,7 +117,7 @@
                         <option value="0" {{ $user->status == 0 ? 'selected' : '' }}>Inactive</option>
                     </select>
                 </div>
-                
+
 
                 {{-- <div class="form-group">
                     <label for="image">Image</label>
@@ -128,7 +128,7 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button id="confirmActionBtn" class="btn btn-outline-primary" type="button" data-bs-toggle="modal" data-bs-target="#editConfirmationModal" onclick="showEditConfirmation('{{ route('users.update', $user->id) }}', '{{ $user->name }}')">Update</button>
 
-                     
+
                 </div>
             </form>
         </div>

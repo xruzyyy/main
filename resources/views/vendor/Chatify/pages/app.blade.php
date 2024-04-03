@@ -60,22 +60,25 @@
                     </div>
                     <a href="#" class="user-name">{{ config('chatify.name') }}</a>
                 </div>
-                {{-- header buttons --}}
+                {{-- header buttons --}}>
                 <nav class="m-header-right">
-                    @if (Auth::check())
-                        @if (Auth::user()->type == 'admin')
-                            <a href="{{ route('admin.dashboard') }}"><i class="fas fa-home"></i></a>
-                        @elseif (Auth::user()->type == 'business')
-                            <a href="{{ route('business.home') }}"><i class="fas fa-home"></i></a>
+                    @if(Auth::check())
+                        @if(Auth::user()->type == 'admin')
+                            <a href="{{ route('admin.dashboard') }}"><i class="fas fa-home"></i><i class="fas fa-cog settings-btn"></i></a>
+                        @elseif(Auth::user()->type == 'business')
+                            <a href="{{ route('business.home') }}"><i class="fas fa-home"></i><i class="fas fa-cog settings-btn"></i></a></a>
                         @else
-                            <a href="{{ route('home') }}"><i class="fas fa-home"></i></a>
+                            <a href="{{ route('home') }}"><i class="fas fa-home"></i><i class="fas fa-cog settings-btn"></i></a></a>
                         @endif
                     @else
-                        <a href="/"><i class="fas fa-home"></i></a>
+                        <a href="{{ route('home') }}"><i class="fas fa-home"></i></a>
                     @endif
                     <a href="#" class="add-to-favorite"><i class="fas fa-star"></i></a>
                     <a href="#" class="show-infoSide"><i class="fas fa-info-circle"></i></a>
+                    <a href="#" class="listView-x"><i class="fas fa-times"></i></a>
                 </nav>
+
+
             </nav>
             {{-- Internet connection --}}
             <div class="internet-connection">

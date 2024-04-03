@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->integer('status')->default(0);
-            $table->boolean('is_active')->default(true); // Change status field to is_active
+            $table->integer('is_active')->default(0);
             $table->timestamp('account_expiration_date')->nullable()->default(Carbon::now('Asia/Manila')->addMinutes(10)); // Set default value using Carbon
             $table->string('image')->notNullable();
             $table->timestamp('email_verified_at')->nullable();

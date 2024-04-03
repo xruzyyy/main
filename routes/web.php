@@ -21,7 +21,7 @@ Route::get('/protected-route', 'RegisterController@create')->middleware(['auth',
 
 // Business Routes with Email Verification Middleware
 Route::middleware(['auth', 'user-access:business', 'verified','checkstatus'])->group(function () {
-    Route::get('/business/home', [HomeController::class, 'businessHome'])->name('business.home');
+    Route::get('/business/home', [HomeController::class, 'businessHome'])-> name('business.home');
     
     // Define routes for listing creation
 Route::get('/listings/create', [ListingController::class, 'create'])->name('listings.create');

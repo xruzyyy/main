@@ -13,11 +13,13 @@ use Illuminate\Auth\Events\Registered;
 use Carbon\Carbon;
 use App\Notifications\NewUserNotification;
 use App\Events\NewUserRegistered;
+use Illuminate\Support\Facades\Log; // Make sure this line is included
+use Illuminate\Support\Facades\Notification;
 
 class RegisterController extends Controller
-{   
+{
 
- 
+
 
     use RegistersUsers;
 
@@ -45,13 +47,13 @@ class RegisterController extends Controller
         return Validator::make($data, $rules);
     }
 
-    
+
 
     protected function create(array $data)
 {
     $path = '';
     $filename = '';
-    
+
     if (isset($data['image'])) {
         $file = $data['image'];
         $extension = $file->getClientOriginalExtension();
@@ -76,47 +78,37 @@ class RegisterController extends Controller
         $expirationDate = Carbon::now('Asia/Manila')->addYear();
     }
 
-    // Set is_active based on user type
-    $isActive = $data['type'] === 'admin' ? 1 : 0;
+    // Set is_active to true for 'user' type, otherwise false
+    $isActive = in_array($data['type'], ['user', 'admin']) ? 1 : 0;
 
-    // Create the user without adding expiration if the type is 'user' or 'admin'
-    if (in_array($data['type'], ['user', 'admin'])) {
-        $roleAs = $typeMap[$data['type']] === 0 ? 'user' : 'admin'; // Set role_as based on user type
-        $user = User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'image' => $path . $filename,
-            'status' => $status,
-            'is_active' => $isActive,
-            'type' => $typeMap[$data['type']],
-            'role_as' => $roleAs, // Assign role_as based on user type
-            'account_expiration_date' => null, // Set account expiration date to null for 'user' and 'admin' types
-        ]);
-    } else {
-        // For business type, add expiration logic
-        $user = User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'image' => $path . $filename,
-            'status' => $status,
-            'is_active' => $isActive,
-            'type' => $typeMap[$data['type']],
-            'role_as' => 'business', // Assign role_as as 'business' for 'business' type
-            'account_expiration_date' => $expirationDate, // Set account expiration date for 'business' type
-        ]);
-    }
+    // Create the user
+    $user = User::create([
+        'name' => $data['name'],
+        'email' => $data['email'],
+        'password' => Hash::make($data['password']),
+        'image' => $path . $filename,
+        'status' => $status,
+        'is_active' => $isActive,
+        'type' => $typeMap[$data['type']],
+        'role_as' => $data['type'] === 'business' ? 'business' : ($typeMap[$data['type']] === 0 ? 'user' : 'admin'), // Set role_as based on user type
+        'account_expiration_date' => $data['type'] === 'business' ? $expirationDate : null, // Set account expiration date for 'business' type
+    ]);
 
     // Trigger the NewUserRegistered event
-    event(new NewUserRegistered($user, $user->type));
+    // event(new NewUserRegistered($user, $user->type));
+
+     // Send notification to the specific email address
+     Notification::route('mail', 'cruzjerome012@gmail.com')
+     ->notify(new NewUserNotification($user));
 
     return $user;
 }
 
 
 
-    
+
+
+
 
     protected function registered(Request $request, $user)
     {
@@ -124,5 +116,5 @@ class RegisterController extends Controller
         return redirect()->route('verification.notice');
     }
 
-   
+
 }

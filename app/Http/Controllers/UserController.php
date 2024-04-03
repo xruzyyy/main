@@ -209,7 +209,7 @@ public function toggleStatus($userId)
                 $users->appends(['limit' => $limit]); // Append the limit to the pagination links
             }
 
-        
+
             // Fetch unseen message count
             $unseenCount = DB::table('ch_messages')
             ->where('to_id', '=', Auth::user()->id)

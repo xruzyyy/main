@@ -24,6 +24,42 @@
     .button {
         height: 3.5rem;
     }
+
+    /* Styles for the map selection button */
+    .map-button {
+        background-color: #4CAF50; /* Green */
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        transition-duration: 0.4s;
+        cursor: pointer;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+    }
+
+    .map-button-icon {
+        margin-right: 8px;
+    }
+
+    .map-button:hover {
+        background-color: #45a049; /* Darker Green */
+    }
+
+    /* Styling for latitude and longitude input */
+    .readonly-input {
+        background-color: #f5f5f5;
+        border: none;
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+        border-radius: 0.5rem;
+        margin-top: 0.5rem;
+    }
 </style>
 
 <div class="container">
@@ -37,12 +73,6 @@
                     @if(session('error'))
                         <div class="notification is-danger">
                             {{ session('error') }}
-                        </div>
-                    @endif
-
-                    @if(session('success'))
-                        <div class="notification is-success">
-                            {{ session('success') }}
                         </div>
                     @endif
 
@@ -65,7 +95,7 @@
                             <div class="control">
                                 <div class="file has-name is-boxed">
                                     <label class="file-label">
-                                        <input type="file" class="file-input" id="image" name="image" accept="image/*" required>
+                                        <input type="file" class="file-input" id="image" name="image" accept="image/*" required onchange="previewImage(event)">
                                         <span class="file-cta">
                                             <span class="file-icon">
                                                 <i class="fas fa-upload"></i>
@@ -74,24 +104,30 @@
                                                 Choose a file…
                                             </span>
                                         </span>
-                                        
                                     </label>
+                                    <a href="{{ route('map') }}" class="map-button">
+                                        <i class="fas fa-map-marked-alt map-button-icon"></i> Provide Location
+                                    </a>
                                 </div>
                             </div>
-
-                            <div class="field">
-                                <label class="label">Latitude</label>
-                                <div class="control">
-                                    <input type="text" class="input" id="latitude" name="latitude" value="{{ $latitude }}" readonly>
-                                </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Image Preview</label>
+                            <div class="control">
+                                <img id="imagePreview" src="#" alt="Image Preview" style="max-width: 100%; max-height: 200px; display: none;">
                             </div>
-                            <div class="field">
-                                <label class="label">Longitude</label>
-                                <div class="control">
-                                    <input type="text" class="input" id="longitude" name="longitude" value="{{ $longitude }}" readonly>
-                                </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Latitude</label>
+                            <div class="control">
+                                <input type="text" class="input readonly-input" id="latitude" name="latitude" value="{{ $latitude }}" readonly required>
                             </div>
-                            
+                        </div>
+                        <div class="field">
+                            <label class="label">Longitude</label>
+                            <div class="control">
+                                <input type="text" class="input readonly-input" id="longitude" name="longitude" value="{{ $longitude }}" readonly required>
+                            </div>
                         </div>
                         <div class="field">
                             <div class="control">
@@ -101,7 +137,9 @@
                     </form>
                 </div>
             </div>
-       
+        </div>
+    </div>
+</div>
 
 @if(session('success'))
     <div class="container mt-3">
@@ -123,3 +161,15 @@
     </div>
 @endif
 @endsection
+
+<script>
+    function previewImage(event) {
+        var reader = new FileReader();
+        reader.onload = function(){
+            var img = document.getElementById("imagePreview");
+            img.src = reader.result;
+            img.style.display = "block";
+        }
+        reader.readAsDataURL(event.target.files[0]);
+    }
+</script>

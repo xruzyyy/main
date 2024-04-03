@@ -12,13 +12,13 @@ use Laravel\Sanctum\HasApiTokens;
 use App\Models\Category;
 
 class User extends Authenticatable implements MustVerifyEmail
-{   
+{
     use HasApiTokens;
     use HasFactory;
     use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;
-    
+
     /**
      * The attributes that are mass assignable.
      *
@@ -32,10 +32,11 @@ class User extends Authenticatable implements MustVerifyEmail
         'type',
         'image',
         'password',
-        'role_as', // Add the role_as attribute to the fillable array
-        'email_verified_at', 
-
+        'role_as',
+        'email_verified_at',
+        'is_active', // Add is_active to the fillable attributes
     ];
+
 
     // Define a boot method to listen for updated events
     public static function boot()
@@ -109,5 +110,6 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         $this->attributes['role_as'] = $value;
     }
+
 
 }

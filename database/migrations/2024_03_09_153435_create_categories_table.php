@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('description');
             $table->string('image')->notNullable();
             $table->boolean('is_active')->default(0);
+            $table->decimal('latitude', 10, 6);
+            $table->decimal('longitude', 10, 6);
             $table->timestamps();
         });
     }

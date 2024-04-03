@@ -30,12 +30,12 @@
 <ul class="navbar-nav flex-row ms-auto">
     <!-- Notification Dropdown Menu -->
     <li class="nav-item dropdown">
-       
+
         <a id="notificationDropdown" class="me-4 dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: goldenrod;">
             <i class="fa fa-bell"></i>
             <span class="badge badge-light bg-danger badge-xs">{{ auth()->user()->unreadNotifications->count() }}</span>
         </a>
-        
+
         <div class="dropdown-menu dropdown-menu-end bg-light" aria-labelledby="notificationDropdown">
             <!-- Header with action buttons -->
             <div class="d-flex justify-content-between align-items-center px-3 py-2">
@@ -155,7 +155,7 @@
     margin-left: -3px;
     background-color: rgb(255, 51, 51);
     display: inline-block;
-    color:whitesmoke;     
+    color:whitesmoke;
     height: 15px;
     width: 15px;
     text-align: center;
