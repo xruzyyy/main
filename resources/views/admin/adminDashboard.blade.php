@@ -24,13 +24,13 @@
             @include('components.expired-business-user-card-section') <!-- Include listing card section -->
         </div>
     </div>
-   
+
     {{-- <div class="col-md-6 mb-4">
         <div class="float-right">
             @include('components.pending-business-user-card-section') <!-- Include listing card section -->
         </div>
     </div> --}}
-    
+
 </div>
 
 <!-- Scripts -->
@@ -38,7 +38,7 @@
   <script>
 
     // Enable pusher logging - don't include this in production
-    Pusher.logToConsole = true;
+    // Pusher.logToConsole = true;
 
     var pusher = new Pusher('f8722a19e8bc706d28f9', {
       cluster: 'eu'
@@ -52,7 +52,7 @@
 
 </script>
 
-        
+
 @endsection
 
 
@@ -62,7 +62,7 @@
 
 @section('styles')
 <style>
-     
+
     #myChartPie{
         box-shadow: 5px 6px 8px rgb(0, 0, 0);
 
@@ -84,7 +84,7 @@
         border-radius: 8px;
         box-shadow: 0 4px 6px rgb(0, 0, 0);
         transition: all 0.3s ease;
-        
+
     }
 
     .flex-container > div:hover {
@@ -92,7 +92,7 @@
         transform: translateY(-5px);
         box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
     }
-    
+
 
     .flex-container > div > h3 {
         font-size: 24px;

@@ -7,17 +7,17 @@
   @vite(['resources/scss/category.scss'])
   @vite(['resources/scss/_section.scss'])
   @vite(['resources/scss/main.scss'])
-  @vite(['resources/scss/_bootstrap.scss'])
+  {{-- @vite(['resources/scss/_bootstrap.scss']) --}}
   @vite(['resources/scss/_businessHome.scss'])
-  @vite(['resources/scss/custom.scss'])
+  {{-- @vite(['resources/scss/custom.scss']) --}}
   @vite(['resources/scripts/script.js'])
+  @vite(['resources/js/app.js'])
   <link rel="stylesheet" href="../scss/businessHome.css">
   <link rel="stylesheet" href="../scss/category.css">
   <link rel="stylesheet" href="../scss/section.css">
   <link rel="stylesheet" href="../scss/main.css">
   <link rel="stylesheet" href="../scss/_bootstrap.css">
   <link rel="stylesheet" href="../scss/custom.css">
-  <script src="../../resources/js/app.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 </head>
@@ -68,12 +68,129 @@
     </div>
 </div>
 
-<div class="section bg-secondary text-white" id="section2">
-  <div class="container">
-    <h2>Section 2</h2>
-    <p>This is section 2 content.</p>
-  </div>
-</div>
+
+<section class="business-section" id="section2">
+    <div class="container">
+
+        <h2 class="section-title text-center mb-4">Business Categories</h2>
+        <div class="row justify-content-center">
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <ul class="business-list">
+                    <li class="business-item">
+                        <i class="fas fa-calculator business-icon"></i>
+                        <span class="business-name">Accounting</span>
+                    </li>
+                    <li class="business-item">
+                        <i class="fas fa-tractor business-icon"></i>
+                        <span class="business-name">Agriculture</span>
+                    </li>
+                    <li class="business-item">
+                        <i class="fas fa-hard-hat business-icon"></i>
+                        <span class="business-name">Construction</span>
+                    </li>
+                    <li class="business-item">
+                        <i class="fas fa-graduation-cap business-icon"></i>
+                        <span class="business-name">Education</span>
+                    </li>
+                    <li class="business-item">
+                        <i class="fas fa-dollar-sign business-icon"></i>
+                        <span class="business-name">Finance</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <ul class="business-list">
+                    <li class="business-item">
+                        <i class="fas fa-hospital business-icon"></i>
+                        <span class="business-name">Healthcare</span>
+                    </li>
+                    <li class="business-item">
+                        <i class="fas fa-hotel business-icon"></i>
+                        <span class="business-name">Hospitality</span>
+                    </li>
+                    <li class="business-item">
+                        <i class="fas fa-shopping-cart business-icon"></i>
+                        <span class="business-name">Retail</span>
+                    </li>
+                    <li class="business-item">
+                        <i class="fas fa-laptop business-icon"></i>
+                        <span class="business-name">Information Technology</span>
+                    </li>
+                    <li class="business-item">
+                        <i class="fas fa-shopping-bag business-icon"></i>
+                        <span class="business-name">Shopping Malls</span>
+                    </li>
+                    <li class="business-item">
+                        <i class="fas fa-briefcase business-icon"></i>
+                        <span class="business-name">Consulting</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <ul class="business-list">
+                    <li class="business-item">
+                        <i class="fas fa-paint-brush business-icon"></i>
+                        <span class="business-name">Design</span>
+                    </li>
+                    <li class="business-item">
+                        <i class="fas fa-shipping-fast business-icon"></i>
+                        <span class="business-name">Logistics</span>
+                    </li>
+                    <li class="business-item">
+                        <i class="fas fa-futbol business-icon"></i>
+                        <span class="business-name">Sports</span>
+                    </li>
+                    <li class="business-item">
+                        <i class="fas fa-paw business-icon"></i>
+                        <span class="business-name">Pets</span>
+                    </li>
+                    <li class="business-item">
+                        <i class="fas fa-music business-icon"></i>
+                        <span class="business-name">Entertainment</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <ul class="business-list">
+                    <li class="business-item">
+                        <i class="fas fa-globe business-icon"></i>
+                        <span class="business-name">International Trade</span>
+                    </li>
+                    <li class="business-item">
+                        <i class="fas fa-wrench business-icon"></i>
+                        <span class="business-name">Maintenance</span>
+                    </li>
+                    <li class="business-item">
+                        <i class="fas fa-medkit business-icon"></i>
+                        <span class="business-name">Pharmaceuticals</span>
+                    </li>
+                    <li class="business-item">
+                        <i class="fas fa-car business-icon"></i>
+                        <span class="business-name">Automotive</span>
+                    </li>
+                    <li class="business-item">
+                        <i class="fas fa-tree business-icon"></i>
+                        <span class="business-name">Environmental</span>
+                    </li>
+                    <li class="business-item">
+                        <i class="fas fa-utensils business-icon"></i>
+                        <span class="business-name">Food & Beverage</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="text-container">
+            <p class="scroll-text">Browse <br> The <br>Different <br>Businesses</p>
+        </div>
+         <!-- New business person image -->
+         <div class="business-person">
+            <img src="{{ asset('images/covermodel.png') }}">
+        </div>
+    </div>
+</section>
+
+
+
 
 <div class="section bg-success text-white" id="section2">
     <div class="container">
@@ -96,7 +213,35 @@
     </div>
   </div>
 <!-- Remaining sections -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    var scrollText = document.querySelector('.scroll-text');
+    var section = document.getElementById('section2');
 
+    function isElementInViewport(el) {
+        var rect = el.getBoundingClientRect();
+        return (
+            rect.top >= 0 &&
+            rect.left >= 0 &&
+            rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+            rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+        );
+    }
+
+    function onScroll() {
+        if (isElementInViewport(section)) {
+            scrollText.classList.add('scroll-text-visible');
+            window.removeEventListener('scroll', onScroll);
+        }
+    }
+
+    window.addEventListener('scroll', onScroll);
+
+    // Trigger on page load if section is already in view
+    onScroll();
+});
+
+</script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

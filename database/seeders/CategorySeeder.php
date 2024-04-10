@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Category;
 use Faker\Factory as Faker;
-use App\Models\User; 
+use App\Models\User;
 
 class CategorySeeder extends Seeder
 {

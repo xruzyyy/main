@@ -16,6 +16,9 @@ use App\Http\Controllers\ListingController;
 Auth::routes(['verify' => true]);
 Route::get('/protected-route', 'RegisterController@create')->middleware(['auth', 'verified']);
 
+// Route to display the map page
+Route::get('/mapStore', [ListingController::class, 'mapStore'])->name('mapStore');
+
 
 
 
@@ -32,18 +35,16 @@ Route::post('/listings', [ListingController::class, 'store'])->name('listings.st
 // Route to add a maps
 Route::get('/map', [ListingController::class, 'map'])->name('map');
 
-// Route to display the map page
-Route::get('/mapStore', [ListingController::class, 'mapStore'])->name('mapStore');
-
 
 });
 
-Route::get('/mapStore', [ListingController::class, 'mapStore'])->name('mapStore');
+
 
 
 // Normal Users Routes with Email Verification Middleware
 Route::middleware(['auth', 'user-access:user', 'verified'])->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
+
 });
 
 

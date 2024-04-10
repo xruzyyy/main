@@ -9,120 +9,128 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
     <link rel="stylesheet" href="map.css">
     <script src="map.js"></script>
-     <style>
-    body {
-      font-family: "Arial", sans-serif;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-      background-color: #f4f4f4;
-    }
+    <style>
+        body {
+          font-family: "Arial", sans-serif;
+          margin: 0;
+          padding: 0;
+          display: flex;
+          flex-direction: column;
+          min-height: 100vh;
+          background-color: #f4f4f4;
+        }
 
-    #map-container {
-      flex: 1;
-      margin: 10px;
-    }
+        #map-container {
+          flex: 1;
+          margin: 10px;
+          position: relative; /* Add position relative */
+        }
 
-    #map {
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      width: 100%;
-      height: 300px; /* Adjust height as needed */
-    }
+        #map {
+          border-radius: 8px;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          width: 100%;
+          height: 50vh; /* Adjust height as needed */
+        }
 
-    #search-form {
-      padding: 10px;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      background-color: #fff;
-      margin: 5px;
-    }
+        #search-form {
+          padding: 10px;
+          border-radius: 8px;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          background-color: #fff;
+          margin: 5px;
+        }
 
-    h2 {
-      text-align: center;
-      margin-bottom: 20px;
-      color: #007bff;
-      font-size: 1.5em;
-    }
+        h2 {
+          text-align: center;
+          margin-bottom: 20px;
+          color: #007bff;
+          font-size: 1.5em;
+        }
 
-    label {
-      display: block;
-      font-weight: bold;
-      margin-bottom: 10px;
-      color: #333;
-      font-size: 0.9em;
-    }
+        label {
+          display: block;
+          font-weight: bold;
+          margin-bottom: 10px;
+          color: #333;
+          font-size: 0.9em;
+        }
 
-    input {
-      padding: 8px;
-      margin-bottom: 15px;
-      width: calc(100% - 16px); /* Adjust width to accommodate padding */
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      font-size: 0.9em;
-    }
+        input {
+          padding: 8px;
+          margin-bottom: 15px;
+          width: calc(100% - 16px); /* Adjust width to accommodate padding */
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          font-size: 0.9em;
+        }
 
-    button {
-      padding: 10px 20px;
-      cursor: pointer;
-      border: none;
-      border-radius: 4px;
-      color: #fff;
-      background-color: #007bff;
-      transition: background-color 0.3s ease-in-out;
-      font-size: 1em;
-      margin-top: 10px;
-      width: 100%;
-    }
+        button {
+          padding: 10px 20px;
+          cursor: pointer;
+          border: none;
+          border-radius: 4px;
+          color: #fff;
+          background-color: #007bff;
+          transition: background-color 0.3s ease-in-out;
+          font-size: 1em;
+          margin-top: 10px;
+          width: 100%;
+        }
 
-    button:hover {
-      background-color: #0056b3;
-    }
+        button:hover {
+          background-color: #0056b3;
+        }
 
-    /* Leaflet Routing Machine Container Styling */
-    #directions-container {
-      margin: 10px;
-    }
+        /* Leaflet Routing Machine Container Styling */
+        #directions-container {
+          margin: 10px;
+          position: relative /* Position absolutely */
+          top: 0;
+          left: 0;
+          width: 100%; /* Make it take full width */
+        }
 
-    .leaflet-routing-container {
-      background-color: #fff;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      padding: 20px;
-    }
+        .leaflet-routing-container {
+          background-color: #fff;
+          border-radius: 8px;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          padding: 20px;
+          width: 100%; /* Set width to match parent */
+        }
 
-    /* Media query for larger screens */
-    @media screen and (min-width: 768px) {
-      #directions-container {
-        width: 50%;
-        margin: auto;
-      }
-    }
-  </style>
-</head>
-<body>
-  <div id="map-container">
-    <div id="map"></div>
+        /* Media query for larger screens */
+        @media screen and (min-width: 768px) {
+          #directions-container {
+            width: 50%;
+            margin: auto;
+          }
+        }
+      </style>
+    </head>
+    <body>
+      <div id="map-container">
+        <div id="map"></div>
 
-    <!-- Leaflet Routing Machine Container -->
-    <div id="directions-container">
-      <div class="leaflet-routing-container leaflet-bar leaflet-control">
-        <!-- Routing controls and directions information will be placed here -->
-        <div id="search-form">
-          <h2>Find Directions</h2>
-          <label for="start">From:</label>
-          <input type="text" id="start" placeholder="Enter start location">
-          <label for="end">To:</label>
-          <input type="text" id="end" placeholder="Enter end location">
-          <button onclick="useCurrentLocation('start')">Use Current Location</button>
-          <!-- Updated the button id to "search-button" -->
-          <button id="search-button" onclick="getDirections()">Get Directions</button>
+        <!-- Leaflet Routing Machine Container -->
+        <div id="directions-container">
+          <div class="leaflet-routing-container leaflet-bar leaflet-control">
+            <!-- Routing controls and directions information will be placed here -->
+
+          </div>
         </div>
       </div>
-    </div>
-  </div>
+
+      <div id="search-form">
+        <h2>Find Directions</h2>
+        <label for="start">From:</label>
+        <input type="text" id="start" placeholder="Enter start location">
+        <label for="end">To:</label>
+        <input type="text" id="end" placeholder="Enter end location">
+        <button onclick="useCurrentLocation('start')">Use Current Location</button>
+        <!-- Updated the button id to "search-button" -->
+        <button id="search-button" onclick="getDirections()">Get Directions</button>
+      </div>
 
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
@@ -160,9 +168,6 @@ function coloredIcon(color) {
         shadowSize: [41, 41]
     });
 }
-
-addCategoryMarkers();
-
 
 addCategoryMarkers();
 
