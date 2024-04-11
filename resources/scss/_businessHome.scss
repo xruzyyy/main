@@ -1,4 +1,5 @@
 /* Custom styles can be added here */
+
 .section {
     height: 100vh;
     display: flex;
@@ -23,7 +24,7 @@
 }
 
 .business-section {
-    background-color: #2c3e50; /* Adjust background color as needed */
+    background-color: #080808 !important; /* Adjust background color as needed */
     color: #fff; /* Adjust text color as needed */
     padding: 80px 0; /* Adjust padding as needed */
 }
@@ -47,8 +48,8 @@
 }
 
 .business-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    transform: translateY(-15px);
+    box-shadow: 0 5px 15px rgba(255, 254, 254, 0.5);
 }
 
 .business-icon {
@@ -85,10 +86,118 @@
 }
 .business-person {
     position: absolute;
-    top:77.5%;
+    top:55.5%;
     right: 5vw; /* Adjust as needed */
+    margin-left: 1.25em;
     transform: translateY(-50%);
     width: 100%; /* Adjust width as needed */
     z-index:  -1; /* Place behind other elements */
 }
 
+//search
+
+.fa-search{
+    margin-top: 1.7em !important;
+}
+.form-control {
+    margin-top: 2.5em !important;
+    height: 38px !important; /* Adjust the height as needed */
+    color: white !important;
+}
+.btn{
+    color: rgb(214, 114, 0) !important;
+    font-weight: bold !important;
+    font-style:italic !important;
+}
+.btn:hover{
+    color: goldenrod !important;
+}
+.transparent-form {
+    overflow: hidden; /* Hide overflow content */
+    padding: 0.3125rem; /* Add padding */
+    width: 80vw; /* Set a fixed width */
+}
+
+.transparent-form.transparent {
+    background-color: transparent;
+}
+.transparent-form .form-control::placeholder {
+    color: rgb(255, 255, 255); /* Placeholder text color */
+    font-weight: bold !important;
+    font-style:italic !important;
+}
+.form-control{
+    background-color: #00000000 !important;
+
+}
+
+
+//POST LIST
+
+// .section3-container {
+//     max-width: 100%; /* Ensure the container fills the width of its parent */
+//     padding: 0 15px; /* Adjust padding as needed */
+// }
+
+// .card {
+//     width: 10%; /* 10% of container's width */
+//     height: 10%; /* 10% of container's height */
+//     max-width: 100%; /* Limit card width to prevent overflow */
+//     margin: 10px auto; /* Center-align the cards and add spacing */
+// }
+
+// /* Ensure cards stay within section 3 */
+// #section3 {
+//     overflow-x:unset; /* Hide horizontal overflow */
+// }
+
+ /* Custom CSS for Latest Business Posts section */
+ .business-section-post {
+    background-color: #ffac41 !important; /* Adjust background color as needed */
+    color: #fff; /* Adjust text color as needed */
+    padding: 10px ; /* Adjust padding as needed */
+}
+.business-section-post h2 {
+    margin-bottom: 30px;
+    white-space: nowrap;
+    font-weight: bold;
+    font-family: 'Arial', sans-serif;font-weight: bold;
+    font-family: 'Arial', sans-serif;
+    font-size: 6vw; /* Responsive font size */
+    color: rgb(0, 0, 0)
+}
+
+/* Card deck container */
+.card-deck {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+/* Card styling */
+.card {
+    max-width: 18em;
+    flex: 0 0 calc(33.33% - 1.25em); /* Adjust the width as per your requirement */
+    margin-bottom: 20px;
+}
+.card-body{
+
+    background-color: #ffffff ;
+
+}
+.card img {
+    max-width: 100%;
+    height: 100%;
+}
+
+.card-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.card-text {
+    font-size: 1rem;
+    color: #6c757d;
+    margin-bottom: 5px;
+}

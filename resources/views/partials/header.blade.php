@@ -5,47 +5,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         {{-- Vite import for SCSS --}}
-        {{-- @vite(['../../scss/_bootstrap.scss']) --}}
-        @vite(['../../scss/_custom.scss'])
-        <link rel="stylesheet" href="../scss/custom.css">
-        <style>
-            @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
-            .navbar-toggler {
-            background-color: goldenrod !important;
-            border-color: goldenrod !important;
-        }
-
-            .py-4{
-                background-color: rgb(195, 221, 236);
-            }
-            .nav-link{
-                color: wheat !important;
-                font-family: 'Montserrat', sans-serif;
-            }
-            .navbar-toggler-icon {
-                color: aliceblue !important;
-            }
-         .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
-                color: aliceblue !important;
-            }
-            .unread_notification
-
-            {
-                margin-top: 5px;
-                margin-left: -3px;
-                background-color: rgb(255, 51, 51);
-                display: inline-block;
-                color:whitesmoke;
-                 width: 15px;
-                text-align: center;
-                font-size: 13px;
-                border-radius: 80%;
-            }
-
-        </style>
-
+        @vite(['../../scss/_header.scss'])
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+        <style>.navbar{
+            background-color: black !important;
+        }</style>
     </head>
 <body>
 
@@ -71,7 +35,9 @@
         @else
             <a href="{{ route('home') }}"><i class="fas fa-home" style="margin-top: 10px;"></i>
             </a>
-        @endif          </li>
+        @endif
+    </li>
+
           <li class="nav-item">
             <a class="nav-link" href="#">About</a>
           </li>

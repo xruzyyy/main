@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
 
 .navbar {
     background-color: transparent !important; // Set navbar background to transparent
@@ -22,31 +23,38 @@
 .navbar-nav .nav-link {
     color: rgba(255, 255, 255, 0.986) !important; // Set color of nav links to white
 }
-
-
-.form-control {
-    margin-top: 1.6em !important;
-    height: 38px !important; /* Adjust the height as needed */
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+.navbar-toggler {
+background-color: goldenrod !important;
+border-color: goldenrod !important;
 }
-
-
-.btn {
-    color: white !important; /* Change text color on hover to white */
-    background-color: rgb(0, 0, 0) !important; /* Change background color on hover to navbar brand color */
+.navbar{
+    background-color: black !important;
 }
-
-.btn i {
-    margin-right: 8px; /* Add margin to separate icon from text */
+.py-4{
+    background-color: rgb(195, 221, 236);
 }
-
-.btn:hover {
-    color: rgb(0, 0, 0) !important; /* Set text color to match navbar brand color */
-    background-color: transparent !important; /* Set background color to transparent */
-    padding: 8px 8px !important; /* Add padding */
-    border-radius: 4px !important; /* Add border-radius */
-    transition: background-color 0.3s ease, color 0.3s ease; /* Add transition */
-    display: flex; /* Make button and icon align horizontally */
-    align-items: center; /* Align items vertically */
+.nav-link{
+    color: wheat !important;
+    font-family: 'Montserrat', sans-serif;
+}
+.navbar-toggler-icon {
+    color: aliceblue !important;
+}
+.navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
+    color: aliceblue !important;
+}
+.unread_notification
+{
+    margin-top: 5px;
+    margin-left: -3px;
+    background-color: rgb(255, 51, 51);
+    display: inline-block;
+    color:whitesmoke;
+     width: 15px;
+    text-align: center;
+    font-size: 13px;
+    border-radius: 80%;
 }
 
 .listingCreate {

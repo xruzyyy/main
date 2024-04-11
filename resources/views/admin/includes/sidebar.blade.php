@@ -33,11 +33,12 @@
                     </li>
 
                     <li class="nav-item mb-2">
-                        <a class="nav-link" href="{{ route(config('chatify.routes.prefix')) }}">
-                            <i class="fas fa-comments mr-2"></i> <!-- Updated Font Awesome icon -->
-                            Messages <!-- Corrected spelling from "Messagess" -->
+                        <a class="nav-link" href="{{ route(config('chatify.routes.prefix'), ['userId' => auth()->id()]) }}">
+                            <i class="fas fa-comments mr-2"></i>
+                            Messages
                         </a>
                     </li>
+
                 </ul>
 
 

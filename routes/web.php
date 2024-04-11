@@ -11,6 +11,8 @@ use App\Http\Controllers\ManageBusinessController;
 use App\Http\Middleware\CheckStatus;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\ListingController;
+use App\Http\Controllers\vendor\Chatify\MessagesController;
+
 
 
 Auth::routes(['verify' => true]);
@@ -21,10 +23,14 @@ Route::get('/mapStore', [ListingController::class, 'mapStore'])->name('mapStore'
 
 
 
+Route::get('/chatify/{id}', [MessagesController::class, 'index'])->name('chatify.id')->middleware(['auth', 'verified']);
+Route::get('/chatify/user/{userId}', 'MessagesController@index')->name('chatify.user')->middleware(['auth', 'verified']);
+
 
 // Business Routes with Email Verification Middleware
 Route::middleware(['auth', 'user-access:business', 'verified','checkstatus'])->group(function () {
     Route::get('/business/home', [HomeController::class, 'businessHome'])-> name('business.home');
+    Route::get('/business/home', [HomeController::class, 'businessPostList'])-> name('business.home');
 
     // Define routes for listing creation
 Route::get('/listings/create', [ListingController::class, 'create'])->name('listings.create');

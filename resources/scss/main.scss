@@ -5,6 +5,8 @@
   @import 'category';
   @import 'latest-listing';
   @import 'section';
+  @import 'header';
+
   // 1. Include functions first (so you can manipulate colors, SVGs, calc, etc)
   @import "../../node_modules/bootstrap/scss/functions";
 
@@ -25,7 +27,7 @@
   @import "../../node_modules/bootstrap/scss/utilities";
   @import "../../node_modules/bootstrap/scss/reboot";
   @import "../../node_modules/bootstrap/scss/type";
-  @import "../../node_modules/bootstrap/scss/images"; 
+  @import "../../node_modules/bootstrap/scss/images";
   @import "../../node_modules/bootstrap/scss/containers";
   @import "../../node_modules/bootstrap/scss/grid";
   @import "../../node_modules/bootstrap/scss/helpers";
@@ -49,8 +51,8 @@
     width: 105%;
     position: relative;
     display: flex;
-    
-    
+
+
   .searchTerm {
       width: 100%;
       border: 3px solid #00b4cc00;
@@ -61,7 +63,7 @@
       outline: none;
       color: #9DBFAF;
       margin-top: 5%;
-      
+
     }
     .searchButton {
       width: 40px;
@@ -72,7 +74,7 @@
       color: #fff;
       border-radius: 0 5px 5px 0;
       cursor: pointer;
-      font-size: 20px;    
+      font-size: 20px;
     }
   }
 
@@ -84,10 +86,10 @@
       position: relative;
       display: flex;
     }
-    
+
   }
 
- 
+
   .home {
     height: 100vh;
     position: relative;
@@ -126,17 +128,17 @@
     padding: 12px 20px;
     cursor: pointer;
   }
-    
-  
 
-  
+
+
+
 
   @media only screen and (max-width: 768px) {
     .featured-container {
       margin-top: 10%; /* Adjusted margin-top for smaller screens */
       padding: 10px; /* Reduced padding for smaller screens */
     }
-    
+
     .business {
       width: calc(50% - 20px); /* Adjusted width to 50% for smaller screens */
       margin-bottom: 15px; /* Reduced margin-bottom for smaller screens */
@@ -149,11 +151,11 @@
     .search {
       width: 100%; /* Full width for smaller screens */
     }
-    
+
     .home p {
       font-size: 16px; /* Adjusted font size for smaller screens */
     }
-    
+
     .home-content button {
       margin: 30px auto 0; /* Adjusted margin for smaller screens */
     }
@@ -161,7 +163,7 @@
 
 
 
-  
+
   .content {
     display: table-cell;
     vertical-align: middle;
@@ -184,11 +186,11 @@
     font-weight: 700;
     color: #373B44;
     position: relative;
-    
-    &:hover{ 
+
+    &:hover{
       opacity: 0.8;
     }
-    
+
     &:active {
       top: 1px;
     }
