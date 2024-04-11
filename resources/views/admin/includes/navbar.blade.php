@@ -105,8 +105,8 @@
     </li>
     @if (Auth::check() && Auth::user()->email_verified_at && !request()->is('login'))
     <li style="margin-right: 10px;">
-        <a href="/chatify" style="text-decoration: none;color: goldenrod;">
-            <i class="fa-solid fa-envelope">
+        <a href="/chatify" style="text-decoration: none;color: #006ce7f1">
+            <i class="fa-brands fa-facebook-messenger">
                 <div class="unread_notification">
                     {{ $unseenCount }} <!-- Display the unseenCount here -->
                 </div>

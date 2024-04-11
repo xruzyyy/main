@@ -20,3 +20,28 @@ function handleScroll() {
 
 // Add event listener for scrolling
 window.addEventListener('scroll', handleScroll);
+
+
+
+// JavaScript
+document.addEventListener("DOMContentLoaded", function() {
+    var cards = document.querySelectorAll('.animate-on-scroll');
+
+    function checkScroll() {
+        cards.forEach(function(card) {
+            var cardTop = card.getBoundingClientRect().top;
+            var cardBottom = card.getBoundingClientRect().bottom;
+            var windowHeight = window.innerHeight;
+
+            if (cardTop < windowHeight && cardBottom >= 0) {
+                card.classList.add('visible');
+            } else {
+                card.classList.remove('visible');
+            }
+        });
+    }
+
+    window.addEventListener('scroll', checkScroll);
+    checkScroll(); // Check on initial load
+});
+
