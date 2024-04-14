@@ -1,9 +1,30 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+
+.navbar {
+    background-color: transparent !important; // Set navbar background to transparent
+}
+
+.navbar-brand {
+    color: goldenrod !important;
+    min-height: 0px !important;
+
+}
+.navbar-brand:hover {
+    color: rgb(255, 255, 255) !important;
+}
+
+
+.navbar-nav .nav-link {
+    color: rgba(255, 255, 255, 0.986) !important; // Set color of nav links to white
+}
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
 .navbar-toggler {
 background-color: goldenrod !important;
 border-color: goldenrod !important;
 }
-
+.navbar{
+    background-color: black !important;
+}
 .py-4{
     background-color: rgb(195, 221, 236);
 }
@@ -29,3 +50,21 @@ border-color: goldenrod !important;
     font-size: 13px;
     border-radius: 80%;
 }
+
+.listingCreate {
+    padding: 8px 6px; /* Add padding */
+    border-radius: 4px; /* Add border-radius */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Add transition */
+}
+
+.btn-red {
+    background-color: rgb(14, 13, 13); /* Set background color to red */
+    color: white; /* Set text color to white */
+    border: 1px solid rgb(0, 0, 0); /* Add border with the same color as background */
+}
+
+.btn-red:hover {
+    color: rgb(255, 77, 71); /* Change text color on hover to red */
+    background-color: white; /* Change background color on hover to white */
+}
+

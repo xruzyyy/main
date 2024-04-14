@@ -63,6 +63,13 @@
 </style>
 
 <div class="container">
+    @if(session('success'))
+    <div class="container mt-3">
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    </div>
+@endif
     <div class="columns is-centered">
         <div class="column is-half">
             <div class="card">
@@ -78,18 +85,75 @@
 
                     <form action="{{ route('listings.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
+                        <a href="{{ route('map') }}" class="map-button" required title="Please provide your business location">
+                            <i class="fas fa-map-marked-alt map-button-icon"></i> Provide Location
+                        </a>
+
+
                         <div class="field">
                             <label class="label">Business Name</label>
                             <div class="control">
-                                <input type="text" class="input" id="businessName" name="businessName" required>
+                                <input type="text" class="input" id="businessName" name="businessName" required title="Please provide the name of your business">
                             </div>
                         </div>
+
+
                         <div class="field">
                             <label class="label">Description</label>
                             <div class="control">
-                                <textarea class="textarea" id="description" name="description" rows="3" required></textarea>
+                                <textarea class="textarea" id="description" name="description" rows="3" required title="Please provide a description of your business"></textarea>
                             </div>
                         </div>
+                        <div class="field">
+                            <label class="label">Contact Number</label>
+                            <div class="control">
+                                <input type="tel" class="input" id="contactNumber" name="contactNumber" pattern="[0-9]{11}" title="Please enter a valid 11-digit numeric contact number" required>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label" for="type">Type</label>
+                            <div class="control">
+                                <select id="type" name="type" class="input" title="Please Choose a type" required>
+                                    <option value="" disabled selected>Please select</option>
+                                    <option value="Accounting">Accounting</option>
+                                    <option value="Agriculture">Agriculture</option>
+                                    <option value="Construction">Construction</option>
+                                    <option value="Education">Education</option>
+                                    <option value="Finance">Finance</option>
+                                    <option value="Retail">Retail</option>
+                                    <option value="Fashion Photography Studios">Fashion Photography Studios</option>
+                                    <option value="Healthcare">Healthcare</option>
+                                    <option value="Information Technology">Information Technology</option>
+                                    <option value="Shopping Malls">Shopping Malls</option>
+                                    <option value="Consulting">Consulting</option>
+                                    <option value="Barbershop">Barbershop</option>
+                                    <option value="Fashion Consultancy">Fashion Consultancy</option>
+                                    <option value="Beauty Salon">Beauty Salon</option>
+                                    <option value="Logistics">Logistics</option>
+                                    <option value="Sports">Sports</option>
+                                    <option value="Pets">Pets</option>
+                                    <option value="Entertainment">Entertainment</option>
+                                    <option value="Pattern Making Services">Pattern Making Services</option>
+                                    <option value="Maintenance">Maintenance</option>
+                                    <option value="Pharmaceuticals">Pharmaceuticals</option>
+                                    <option value="Automotive">Automotive</option>
+                                    <option value="Environmental">Environmental</option>
+                                    <option value="Food & Beverage">Food & Beverage</option>
+                                    <option value="Garment Manufacturing">Garment Manufacturing</option>
+                                    <option value="Fashion Events Management">Fashion Events Management</option>
+                                    <option value="Retail Clothing Stores">Retail Clothing Stores</option>
+                                    <option value="Fashion Design Studios">Fashion Design Studios</option>
+                                    <option value="Shoe Manufacturing">Shoe Manufacturing</option>
+                                    <option value="Tailoring and Alterations">Tailoring and Alterations</option>
+                                    <option value="Textile Printing and Embroidery">Textile Printing and Embroidery</option>
+                                    <option value="Fashion Accessories">Fashion Accessories</option>
+                                    <option value="Boutiques">Boutiques</option>
+                                    <option value="Apparel Recycling and Upcycling">Apparel Recycling and Upcycling</option>
+                                    <option value="Apparel Exporters">Apparel Exporters</option>
+                                </select>
+                            </div>
+                        </div>
+
                         <div class="field">
                             <label class="label">Image</label>
                             <div class="control">
@@ -105,9 +169,6 @@
                                             </span>
                                         </span>
                                     </label>
-                                    <a href="{{ route('map') }}" class="map-button">
-                                        <i class="fas fa-map-marked-alt map-button-icon"></i> Provide Location
-                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -141,13 +202,7 @@
     </div>
 </div>
 
-@if(session('success'))
-    <div class="container mt-3">
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    </div>
-@endif
+
 
 @if($errors->any())
     <div class="container mt-3">

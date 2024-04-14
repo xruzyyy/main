@@ -12,6 +12,7 @@ use App\Http\Middleware\CheckStatus;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\vendor\Chatify\MessagesController;
+use App\Http\Controllers\ManagePostCategories;
 
 
 
@@ -36,6 +37,7 @@ Route::middleware(['auth', 'user-access:business', 'verified','checkstatus'])->g
 Route::get('/listings/create', [ListingController::class, 'create'])->name('listings.create');
 Route::post('/listings', [ListingController::class, 'store'])->name('listings.store');
 
+Route::get('/categories/accounting', [ManagePostCategories::class, 'showAccountingCategories'])->name('showAccountingCategories');
 
 
 // Route to add a maps

@@ -48,8 +48,8 @@ function toggleBusinessPermitSection(userType) {
 </script>
 @endsection
 @section('styles')
-<style>  
-  
+<style>
+
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
 
 * {
@@ -143,7 +143,7 @@ input {
 .container {
 	border-radius: 5px;
 	background-color: #fff;
-  	box-shadow: 0 14px 28px rgba(255, 255, 255, 0.25), 
+  	box-shadow: 0 14px 28px rgba(255, 255, 255, 0.25),
 			0 10px 10px rgba(0,0,0,0.22);
 	position: relative;
 	overflow: hidden;
@@ -191,7 +191,7 @@ input {
 		opacity: 0;
 		z-index: 1;
 	}
-	
+
 	50%, 100% {
 		opacity: 1;
 		z-index: 5;
@@ -388,8 +388,8 @@ footer a {
 									</span>
 								@enderror
 							</div>
-						</div>						
-						
+						</div>
+
 						<input placeholder="Name" id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
 						@error('name')
 						<span class="invalid-feedback" role="alert">
@@ -426,20 +426,20 @@ footer a {
 								@enderror
 							</div>
 						</div>
-						
-						
+
+
 						<button type="submit" class="btn btn-primary">
 							{{ __('Register') }}
 						</button>
 		</form>
 	</div>
 
-	
+
 	<div class="form-container sign-in-container">
         <form method="POST" action="{{ route('login') }}" enctype="multipart/form-data">
 			@csrf
             <h1>Sign in</h1>
-		
+
 			<input placeholder="Email" id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" autofocus>
 
                                 @error('email')
@@ -448,7 +448,7 @@ footer a {
                                     </span>
                                 @enderror
 
-			
+
 			<input placeholder="Password" id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
 
                                 @error('password')
@@ -481,7 +481,7 @@ footer a {
 	@endif
 	</div>
 		</form>
-		
+
 		<div class="overlay-container">
 			<div class="overlay">
 				<div class="overlay-panel overlay-left">
@@ -496,7 +496,7 @@ footer a {
 				</div>
 			</div>
 		</div>
-		
-		
+
+
 </div>
 @endsection

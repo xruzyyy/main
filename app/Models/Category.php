@@ -10,7 +10,18 @@ class Category extends Model
 {
     use HasFactory;
     protected $table = 'categories';
-    protected $fillable = ['businessName', 'description', 'image', 'is_active', 'user_id', 'user_email', 'latitude', 'longitude'];
+    protected $fillable = [
+        'businessName',
+        'description',
+        'image',
+        'is_active',
+        'user_id',
+        'user_email',
+        'latitude',
+        'longitude',
+        'type',
+        'contactNumber',
+    ];
 
     protected static function boot()
     {
@@ -27,7 +38,7 @@ class Category extends Model
             $user->update(['status' => $hasActiveCategories ? 1 : 0]);
         });
     }
-    
+
     public function user()
     {
         return $this->belongsTo(User::class);

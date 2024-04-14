@@ -55,7 +55,7 @@ class HomeController extends Controller
     $unseenCount = $this->fetchUnseenMessageCount();
 
     // Retrieve the 7 latest categories from the database
-    $categories = Category::oldest()->take(6)->get(['id','user_id', 'businessName', 'description', 'image', 'latitude', 'longitude', 'is_active']);
+    $categories = Category::latest()->take(6)->get(['id','user_id', 'businessName', 'description', 'image', 'latitude', 'longitude', 'is_active','type','contactNumber']);
 
     // Pass category data and any other necessary data to the view
     return view('businessHome', [

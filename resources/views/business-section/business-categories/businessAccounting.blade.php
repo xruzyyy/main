@@ -1,7 +1,10 @@
-<!-- HTML -->
+@extends('layouts.app')
+
+@section('content')
+
 <section class="business-section-post" id="section3">
     <div class="container section3-container">
-        <h2 class="animate-on-scroll">Latest Business Posts</h2>
+        <h2 class="animate-on-scroll">Accounting Business Posts</h2>
 
         <!-- Card Deck for Latest Business Posts -->
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 justify-content-between">
@@ -12,10 +15,7 @@
                         <div class="card-body d-flex flex-column justify-content-between">
                             <h5 class="card-title">{{ $post->businessName }}</h5>
                             <p class="card-text">{{ $post->description }}</p>
-                            <!-- Display the type -->
-                            <p class="card-text"><strong>Type:</strong> {{ $post->type }}</p>
-                            <p class="card-text"><strong>Contact Number:</strong> {{ $post->contactNumber }}</p>
-                            <!-- Updated HTML for the link -->
+                          <!-- Updated HTML for the link -->
                             <a href="/chatify/{{ $post->user_id }}" class="message-link">
                                 <b style="color:black;">Message:</b>
                                 <i class="fa-brands fa-facebook-messenger"></i>
@@ -23,7 +23,7 @@
                             </a>
 
                             <p class="card-text">
-                                <i class="fas fa-map-marker-alt" style="color: #006ce7f1;"></i>
+                                <i class="fas fa-map-marker-alt" style="color: #006ce7f1;                                "></i>
                                 <a href="{{ route('mapStore') }}" class="store-map-link" style="text-decoration: none;">
                                     <b style="color: black;">Explore Store on Map</b>
                                 </a>
@@ -37,3 +37,5 @@
         </div>
     </div>
 </section>
+
+@endsection
