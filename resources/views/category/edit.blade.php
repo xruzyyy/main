@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('categoriesEdit')
+@section('ManagePostEdit')
 <div class="container mx-auto p-5">
     <div class="row">
         <div class="col-md-12">
@@ -12,12 +12,12 @@
             <div class="card">
                 <div class="card-header">
                     <h4>Edit Business
-                        <a href="{{ url('categories') }}" class="btn btn-primary float-end">Back</a>
+                        <a href="{{ url('ManagePost') }}" class="btn btn-primary float-end">Back</a>
                     </h4>
                 </div>
 
                 <div class="card-body">
-                    <form id="updateForm" action="{{ url('categories/'.$category->id.'/edit') }}" method="POST" enctype="multipart/form-data">
+                    <form id="updateForm" action="{{ url('ManagePost/'.$category->id.'/edit') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
 
@@ -79,7 +79,7 @@
 
 <!-- JavaScript for Delete Confirmation -->
 @section('scriptsEdit')
- 
+
 <script>
     document.getElementById("confirmUpdateBtn").addEventListener("click", function () {
         document.getElementById("updateForm").submit();

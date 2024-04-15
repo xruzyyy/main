@@ -14,7 +14,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link mb-2" href="{{ route('categories') }}">
+                        <a class="nav-link mb-2" href="{{ route('ManagePost') }}">
                             <i class="fas fa-list-alt mr-2"></i> <!-- Font Awesome icon -->
                             Business List
                         </a>

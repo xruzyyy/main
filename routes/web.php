@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ManagePostController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\UserController;
@@ -12,7 +12,7 @@ use App\Http\Middleware\CheckStatus;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\vendor\Chatify\MessagesController;
-use App\Http\Controllers\ManagePostCategories;
+use App\Http\Controllers\PostCategories;
 
 
 
@@ -37,7 +37,7 @@ Route::middleware(['auth', 'user-access:business', 'verified','checkstatus'])->g
 Route::get('/listings/create', [ListingController::class, 'create'])->name('listings.create');
 Route::post('/listings', [ListingController::class, 'store'])->name('listings.store');
 
-Route::get('/categories/accounting', [ManagePostCategories::class, 'showAccountingCategories'])->name('showAccountingCategories');
+Route::get('/categories/accounting', [PostCategories::class, 'showAccountingCategories'])->name('showAccountingCategories');
 
 
 // Route to add a maps
@@ -86,16 +86,16 @@ Route::middleware([
 
 
     Route::get('/main', [App\Http\Controllers\HomeController::class, 'index'])->name('main');
-    Route::get('categories', [App\Http\Controllers\CategoryController::class, 'index'])->name('categories');
-    Route::get('categories', [App\Http\Controllers\CategoryController::class, 'sortTable'])->name('categories');
+    Route::get('ManagePost', [App\Http\Controllers\ManagePostController::class, 'index'])->name('ManagePost');
+    Route::get('ManagePost', [App\Http\Controllers\ManagePostController::class, 'sortTable'])->name('ManagePost');
 
 
-    Route::get('categories/create',[App\Http\Controllers\CategoryController::class, 'create']);
-    Route::post('categories/create', [App\Http\Controllers\CategoryController::class, 'store']);
-    Route::get('categories/{id}/edit',[App\Http\Controllers\CategoryController::class, 'edit']);
-    Route::put('categories/{id}/edit',[App\Http\Controllers\CategoryController::class, 'update']);
-    Route::delete('categories/{id}/delete', [CategoryController::class, 'destroy']);
-    Route::get('categories/{id}/toggleStatus', [CategoryController::class, 'toggleStatus'])->name('categories.toggleStatus');
+    Route::get('ManagePost/create',[App\Http\Controllers\ManagePostController::class, 'create']);
+    Route::post('ManagePost/create', [App\Http\Controllers\ManagePostController::class, 'store']);
+    Route::get('ManagePost/{id}/edit',[App\Http\Controllers\ManagePostController::class, 'edit']);
+    Route::put('ManagePost/{id}/edit',[App\Http\Controllers\ManagePostController::class, 'update']);
+    Route::delete('ManagePost/{id}/delete', [ManagePostController::class, 'destroy']);
+    Route::get('ManagePost/{id}/toggleStatus', [ManagePostController::class, 'toggleStatus'])->name('ManagePost.toggleStatus');
 
     Route::get('/usersList', [UserController::class, 'index'])->name('users');
     Route::get('/user{id}', [UserController::class, 'update']);

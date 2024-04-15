@@ -10,9 +10,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
-class CategoryController extends Controller
+class ManagePostController extends Controller
 {
-    
+
     public function index()
 {
     // Fetch unseen message count
@@ -21,11 +21,11 @@ class CategoryController extends Controller
         ->where('seen', '=', '0')
         ->count();
 
-    // Fetch all categories with their associated users
-    $categories = Category::with('user')->get();
+    // Fetch all ManagePost with their associated users
+    $ManagePost = Category::with('user')->get();
 
     // Pass both variables to the view
-    return view('category.index', compact('categories', 'unseenCount'));
+    return view('category.index', compact('ManagePost', 'unseenCount'));
 }
 
 
@@ -70,10 +70,10 @@ public function store(Request $request)
         'user_email' => $user->email // Include the email of the authenticated user
     ]);
 
-    return redirect('categories/create')->with('status', 'Business Listing Created');
+    return redirect('ManagePost/create')->with('status', 'Business Listing Created');
 }
 
-    
+
     public function edit(int $id)
 {
     // Fetch unseen message count
@@ -143,10 +143,10 @@ public function store(Request $request)
     {
         $category = Category::findOrFail($id);
         $category->update(['is_active' => !$category->is_active]);
-        
+
         return redirect()->back();
     }
-    
+
     public function sortTable(Request $request)
 {
     $query = Category::query();
@@ -173,9 +173,9 @@ public function store(Request $request)
     // Pagination
     $limit = $request->input('limit', 10);
     if ($limit == 'all') {
-        $categories = $query->get();
+        $ManagePost = $query->get();
     } else {
-        $categories = $query->paginate($limit);
+        $ManagePost = $query->paginate($limit);
     }
 
     // Fetch unseen message count
@@ -184,15 +184,15 @@ public function store(Request $request)
         ->where('seen', '=', '0')
         ->count();
 
-    return view('category.index', compact('categories', 'unseenCount'));
-    
+    return view('category.index', compact('ManagePost', 'unseenCount'));
+
 }
 
 
 
 
 
-    
+
 
 
 

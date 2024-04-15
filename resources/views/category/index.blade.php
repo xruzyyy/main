@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('categories')
+@section('ManagePost')
 <!-- Main content for this view -->
 <div class="container mx-auto p-1">
     <div class="row">
@@ -8,7 +8,7 @@
             <div class="card">
                 <div class="card-header">
                     <h4>Business List</h4>
-                    <a href="{{ url('categories/create') }}" class="btn btn-primary float-end ms-2 mb-2">Add Listing</a>
+                    <a href="{{ url('ManagePost/create') }}" class="btn btn-primary float-end ms-2 mb-2">Add Listing</a>
 
                     <!-- Combined Dropdown for Sorting and Filtering -->
                     <div class="btn-group">
@@ -34,23 +34,23 @@
                         <ul class="dropdown-menu">
                             <!-- Dropdown menu items -->
                             <li>
-                                <a class="dropdown-item {{ request()->input('sort') == 'newest' ? 'active' : '' }}" href="{{ route('categories', ['sort' => 'newest', 'filter' => request()->input('filter', 'all'), 'limit' => request()->input('limit', 10)]) }}">Newest</a>
+                                <a class="dropdown-item {{ request()->input('sort') == 'newest' ? 'active' : '' }}" href="{{ route('ManagePost', ['sort' => 'newest', 'filter' => request()->input('filter', 'all'), 'limit' => request()->input('limit', 10)]) }}">Newest</a>
                             </li>
                             <li>
-                                <a class="dropdown-item {{ request()->input('sort') == 'oldest' ? 'active' : '' }}" href="{{ route('categories', ['sort' => 'oldest', 'filter' => request()->input('filter', 'all'), 'limit' => request()->input('limit', 10)]) }}">Oldest</a>
+                                <a class="dropdown-item {{ request()->input('sort') == 'oldest' ? 'active' : '' }}" href="{{ route('ManagePost', ['sort' => 'oldest', 'filter' => request()->input('filter', 'all'), 'limit' => request()->input('limit', 10)]) }}">Oldest</a>
                             </li>
                             <li>
-                                <a class="dropdown-item {{ !request()->input('sort') ? 'active' : '' }}" href="{{ route('categories', ['filter' => request()->input('filter', 'all'), 'limit' => request()->input('limit', 10)]) }}">Default</a>
+                                <a class="dropdown-item {{ !request()->input('sort') ? 'active' : '' }}" href="{{ route('ManagePost', ['filter' => request()->input('filter', 'all'), 'limit' => request()->input('limit', 10)]) }}">Default</a>
                             </li>
                             <li class="dropdown-divider"></li>
                             <li>
-                                <a class="dropdown-item {{ request()->input('filter') == 'active' ? 'active' : '' }}" href="{{ route('categories', ['sort' => request()->input('sort', 'newest'), 'filter' => 'active', 'limit' => request()->input('limit', 10)]) }}">Active</a>
+                                <a class="dropdown-item {{ request()->input('filter') == 'active' ? 'active' : '' }}" href="{{ route('ManagePost', ['sort' => request()->input('sort', 'newest'), 'filter' => 'active', 'limit' => request()->input('limit', 10)]) }}">Active</a>
                             </li>
                             <li>
-                                <a class="dropdown-item {{ request()->input('filter') == 'not_active' ? 'active' : '' }}" href="{{ route('categories', ['sort' => request()->input('sort', 'newest'), 'filter' => 'not_active', 'limit' => request()->input('limit', 10)]) }}">Not Active</a>
+                                <a class="dropdown-item {{ request()->input('filter') == 'not_active' ? 'active' : '' }}" href="{{ route('ManagePost', ['sort' => request()->input('sort', 'newest'), 'filter' => 'not_active', 'limit' => request()->input('limit', 10)]) }}">Not Active</a>
                             </li>
                             <li>
-                                <a class="dropdown-item {{ !request()->input('filter') ? 'active' : '' }}" href="{{ route('categories', ['sort' => request()->input('sort', 'newest'), 'limit' => request()->input('limit', 10)]) }}">All</a>
+                                <a class="dropdown-item {{ !request()->input('filter') ? 'active' : '' }}" href="{{ route('ManagePost', ['sort' => request()->input('sort', 'newest'), 'limit' => request()->input('limit', 10)]) }}">All</a>
                             </li>
                         </ul>
                     </div>
@@ -68,22 +68,22 @@
     </button>
     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
         <li>
-            <a class="dropdown-item {{ request()->input('limit', 10) == 5 ? 'active' : '' }}" href="{{ route('categories', ['limit' => 5, 'sort' => request()->input('sort', 'newest')]) }}">5</a>
+            <a class="dropdown-item {{ request()->input('limit', 10) == 5 ? 'active' : '' }}" href="{{ route('ManagePost', ['limit' => 5, 'sort' => request()->input('sort', 'newest')]) }}">5</a>
         </li>
         <li>
-            <a class="dropdown-item {{ request()->input('limit', 10) == 10 ? 'active' : '' }}" href="{{ route('categories', ['limit' => 10, 'sort' => request()->input('sort', 'newest')]) }}">10</a>
+            <a class="dropdown-item {{ request()->input('limit', 10) == 10 ? 'active' : '' }}" href="{{ route('ManagePost', ['limit' => 10, 'sort' => request()->input('sort', 'newest')]) }}">10</a>
         </li>
         <li>
-            <a class="dropdown-item {{ request()->input('limit', 10) == 20 ? 'active' : '' }}" href="{{ route('categories', ['limit' => 20, 'sort' => request()->input('sort', 'newest')]) }}">20</a>
+            <a class="dropdown-item {{ request()->input('limit', 10) == 20 ? 'active' : '' }}" href="{{ route('ManagePost', ['limit' => 20, 'sort' => request()->input('sort', 'newest')]) }}">20</a>
         </li>
         <li>
-            <a class="dropdown-item {{ request()->input('limit', 10) == 50 ? 'active' : '' }}" href="{{ route('categories', ['limit' => 50, 'sort' => request()->input('sort', 'newest')]) }}">50</a>
+            <a class="dropdown-item {{ request()->input('limit', 10) == 50 ? 'active' : '' }}" href="{{ route('ManagePost', ['limit' => 50, 'sort' => request()->input('sort', 'newest')]) }}">50</a>
         </li>
         <li>
-            <a class="dropdown-item {{ request()->input('limit', 10) == 100 ? 'active' : '' }}" href="{{ route('categories', ['limit' => 100, 'sort' => request()->input('sort', 'newest')]) }}">100</a>
+            <a class="dropdown-item {{ request()->input('limit', 10) == 100 ? 'active' : '' }}" href="{{ route('ManagePost', ['limit' => 100, 'sort' => request()->input('sort', 'newest')]) }}">100</a>
         </li>
         <li>
-            <a class="dropdown-item {{ request()->input('limit') == 'all' ? 'active' : '' }}" href="{{ route('categories', ['limit' => 'all', 'sort' => request()->input('sort', 'newest')]) }}">All</a>
+            <a class="dropdown-item {{ request()->input('limit') == 'all' ? 'active' : '' }}" href="{{ route('ManagePost', ['limit' => 'all', 'sort' => request()->input('sort', 'newest')]) }}">All</a>
         </li>
     </ul>
 </div>
@@ -107,7 +107,7 @@
                         </thead>
                         <tbody>
                             <!-- Your table body -->
-                            @foreach ($categories as $item)
+                            @foreach ($ManagePost as $item)
                             <tr>
                                 <td>{{ $item->id }}</td>
                                 <td>{{ $item->businessName }}</td>
@@ -148,7 +148,7 @@
                                     <a href="#" class="btn btn-sm btn-{{ $item->is_active ? 'danger' : 'success' }}" data-bs-toggle="modal" data-bs-target="#toggleStatusModal{{ $item->id }}">
                                         {{ $item->is_active ? 'Disable' : 'Enable' }}
                                     </a>
-                                    
+
                                     <div class="modal fade" id="toggleStatusModal{{ $item->id }}" tabindex="-1" aria-labelledby="toggleStatusModalLabel{{ $item->id }}" aria-hidden="true">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
@@ -165,11 +165,11 @@
                                                         Confirm
                                                     </a>
                                                 </div>
-                                                
+
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                 </td>
                                 <td>
                                     <!-- Add user's ID -->
@@ -181,11 +181,11 @@
                                         {{ $item->user->email }}
                                     @endif
                                 </td>
-                                
-                                
+
+
                                 <td>
                                     <div class="btn-group" role="group" aria-label="Edit and Delete">
-                                        <a href="{{ url('categories/'.$item->id.'/edit')}}" class="btn btn-warning btn-sm" title="Edit">
+                                        <a href="{{ url('ManagePost/'.$item->id.'/edit')}}" class="btn btn-warning btn-sm" title="Edit">
                                             <img src="{{ asset('images/edit.png') }}" alt="Edit Icon" style="width: 20px; height: 20px;"> Edit
                                         </a>
                                         <!-- Delete Button with Confirmation Modal -->
@@ -207,7 +207,7 @@
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                                     <!-- Form for Deletion -->
-                                                    <form action="{{ url('categories/'.$item->id.'/delete') }}" method="POST">
+                                                    <form action="{{ url('ManagePost/'.$item->id.'/delete') }}" method="POST">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" class="btn btn-danger">Delete</button>
@@ -216,7 +216,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </td>                                
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -289,22 +289,22 @@
             ]
         });
     });
-    
 
-    
+
+
 
 
 function confirmToggleStatus(id) {
         if (confirm) {
             // Redirect to the toggle status route with the category ID
-            window.location.href = "{{ url('categories') }}/" + id + "/toggleStatus";
+            window.location.href = "{{ url('ManagePost') }}/" + id + "/toggleStatus";
         }
     }
 
         function confirmDelete(id) {
             if (confirm) {
                 // Redirect to the delete route with the record ID
-                window.location.href = "{{ url('categories') }}/" + id + "/delete";
+                window.location.href = "{{ url('ManagePost') }}/" + id + "/delete";
             }
         }
 
@@ -419,9 +419,9 @@ function topFunction() {
     }
     .dataTables_length {
      display: none;
-    }   
+    }
 
-  
+
 
     .dataTables_info {
         visibility: visible; /* Ensure pagination info is visible */

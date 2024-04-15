@@ -9,10 +9,16 @@
     <title>{{ config('app.name', 'TaytayOnline
     ') }}</title>
 
-        @vite(['resources/scss/main.scss'])
-        @vite(['resources/scss/_businessHome.scss'])
-        @vite(['resources/scripts/script.js'])
-        @vite(['resources/js/app.js'])
+    @if (!request()->is('login'))
+    @vite(['resources/scss/category.scss'])
+    @vite(['resources/scss/_section.scss'])
+    @vite(['resources/scss/main.scss'])
+    {{-- @vite(['resources/scss/_bootstrap.scss']) --}}
+    @vite(['resources/scss/_businessHome.scss'])
+    {{-- @vite(['resources/scss/custom.scss']) --}}
+    @vite(['resources/scripts/script.js'])
+    @vite(['resources/js/app.js'])
+    @endif
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
@@ -35,8 +41,8 @@
 </head>
 <body>
     <div id="app">
-        @if (Auth::check())
-        @include('../partials.header')
+        @if (!request()->is('login'))
+             @include('../partials.header')
         @endif
 
 
