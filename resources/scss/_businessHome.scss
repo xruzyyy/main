@@ -1,5 +1,7 @@
 /* Custom styles can be added here */
-
+.py-4{
+    background-color: #ffac41 !important; /* Adjust background color as needed */
+}
 .section {
     height: 100vh;
     display: flex;
@@ -173,7 +175,9 @@
 }
 
 .message-link:hover {
-    background-color: #f0e68c; /* Change to desired hover color */
+    background-color: goldenrod ;
+    transition: background-color .8s ease;
+
 }
 
 .message-link i {
@@ -228,15 +232,20 @@
     flex: 1 1 calc(33.33% - 1.25em); /* Adjust the width as per your requirement */
     margin-bottom: 20px;
     animation: slideInFromTop 0.5s ease-out; /* Apply animation to each card */
+    border: 4px solid rgb(0, 0, 0) !important; /* Add black border */
+    border-radius: 9px !important;
 }
+
 
 .card-body {
     background-color: #ffffff;
+    height: 12em;
+    border-top: 2px solid black !important; /* Add black border */
 }
 
 .card img {
     max-width: 100%;
-    height: 15em;
+    height: 12em;
 }
 
 .card-title {

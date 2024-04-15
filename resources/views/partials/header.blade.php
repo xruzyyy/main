@@ -21,15 +21,15 @@
     <div class="container-fluid">
         @auth
             @if(auth()->user()->type === 'admin')
-                <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" style="color: goldenrod;" onmouseover="this.style.color='azure'" onmouseout="this.style.color='goldenrod'" href="{{ url('/admin/dashboard') }}">
+                <a class="navbar-brand " style="color: goldenrod;" onmouseover="this.style.color='azure'" onmouseout="this.style.color='goldenrod'" href="{{ url('/admin/dashboard') }}">
                     {{ config('app.name', 'TaytayOnline') }}
                 </a>
             @elseif(auth()->user()->type === 'business')
-                <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" style="color: goldenrod;" onmouseover="this.style.color='azure'" onmouseout="this.style.color='goldoenrd'" href="{{ url('/business/home') }}">
+                <a class="navbar-brand " style="color: goldenrod;" onmouseover="this.style.color='azure'" onmouseout="this.style.color='goldoenrd'" href="{{ url('/business/home') }}">
                     {{ config('app.name', 'TaytayOnline') }}
                 </a>
             @elseif(auth()->user()->type === 'user')
-                <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" style="color: goldenrod;" onmouseover="this.style.color='azure'" onmouseout="this.style.color='goldenrod'" href="{{ url('home') }}">
+                <a class="navbar-brand " style="color: goldenrod;" onmouseover="this.style.color='azure'" onmouseout="this.style.color='goldenrod'" href="{{ url('home') }}">
                     {{ config('app.name', 'TaytayOnline') }}
                 </a>
             @endif
@@ -63,20 +63,6 @@
                 </li>
             </ul>
 
-            <!-- Right Side Of Navbar -->
-            <ul class="navbar-nav">
-                @if (Auth::check() && Auth::user()->email_verified_at && !request()->is('login'))
-                    <li style="margin-right: 10px;">
-                        <a href="/chatify" style="text-decoration: none;color: #006ce7f1">
-                            <i class="fa-brands fa-facebook-messenger">
-                                <div class="unread_notification">
-                                    {{ $unseenCount }} <!-- Display the unseenCount here -->
-                                </div>
-                            </i>
-                        </a>
-                    </li>
-                @endif
-            </ul>
 
             <!-- Right Side Of Navbar -->
             <ul class="navbar-nav ms-auto">
@@ -94,6 +80,21 @@
                         </li>
                     @endif
                 @else
+                    <!-- Right Side Of Navbar -->
+                    {{-- <ul class="navbar-nav ms-auto mt-2">
+                        @if (Auth::check() && Auth::user()->email_verified_at && !request()->is('login'))
+
+                    @endif
+                    </ul> --}}
+                     <li class="chatify mt-2">
+                        <a href="/chatify" style="text-decoration: none;color: #006ce7f1">
+                            <i class="fa-brands fa-facebook-messenger">
+                                <div class="unread_notification">
+                                    {{ $unseenCount }} <!-- Display the unseenCount here -->
+                                </div>
+                            </i>
+                        </a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('listings.create') }}">Create Listings</a>
                     </li>

@@ -29,4 +29,22 @@ class PostCategories extends Controller
         ]);
     }
 
+    public function showCoffeeShopsCategories()
+    {
+        // Retrieve categories from the database
+        $unseenCount = DB::table('ch_messages')
+                    ->where('to_id', '=', Auth::user()->id)
+                    ->where('seen', '=', '0')
+                    ->count();
+        // Retrieve only categories with the type "Coffee Shops"
+        $categories = Category::where('type', 'Coffee Shops')
+        ->get(['id', 'user_id', 'businessName', 'description', 'image', 'latitude', 'longitude', 'is_active']);
+
+        // Pass the retrieved categories to the view for display
+        return view('business-section.business-categories.businessCoffeeShops', [
+            'categories' => $categories,
+            'unseenCount' => $unseenCount
+        ]);
+    }
+
 }

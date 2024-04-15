@@ -77,14 +77,15 @@
                     <p class="card-header-title">Create Listing</p>
                 </div>
                 <div class="card-content">
-                    @if(session('error'))
+
+                    <form action="{{ route('listings.store') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @if(session('error'))
                         <div class="notification is-danger">
                             {{ session('error') }}
                         </div>
                     @endif
 
-                    <form action="{{ route('listings.store') }}" method="POST" enctype="multipart/form-data">
-                        @csrf
                         <a href="{{ route('map') }}" class="map-button" required title="Please provide your business location">
                             <i class="fas fa-map-marked-alt map-button-icon"></i> Provide Location
                         </a>
@@ -123,8 +124,10 @@
                                     <option value="Retail">Retail</option>
                                     <option value="Fashion Photography Studios">Fashion Photography Studios</option>
                                     <option value="Healthcare">Healthcare</option>
+                                    <option value="Coffee Shops">Coffee Shops</option>
                                     <option value="Information Technology">Information Technology</option>
                                     <option value="Shopping Malls">Shopping Malls</option>
+                                    <option value="Trading Goods">Trading Goods</option>
                                     <option value="Consulting">Consulting</option>
                                     <option value="Barbershop">Barbershop</option>
                                     <option value="Fashion Consultancy">Fashion Consultancy</option>

@@ -41,6 +41,10 @@
                         <span class="business-name">Healthcare</span>
                     </li>
                     <li class="business-item">
+                        <i class="fas fa-coffee business-icon"></i>
+                        <a  href="{{ route('showCoffeeShopsCategories') }}" class="business-name">Coffee Shops</a>
+                    </li>
+                    <li class="business-item">
                         <i class="fas fa-shopping-cart business-icon"></i>
                         <span class="business-name">Retail</span>
                     </li>
@@ -51,6 +55,10 @@
                     <li class="business-item">
                         <i class="fas fa-shopping-bag business-icon"></i>
                         <span class="business-name">Shopping Malls</span>
+                    </li>
+                    <li class="business-item">
+                        <i class="fas fa-store business-icon"></i>
+                        <span class="business-name">Trading Goods</span>
                     </li>
                     <li class="business-item">
                         <i class="fas fa-briefcase business-icon"></i>

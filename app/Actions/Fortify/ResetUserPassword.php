@@ -6,6 +6,8 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\ResetsUserPasswords;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class ResetUserPassword implements ResetsUserPasswords
 {
@@ -18,6 +20,12 @@ class ResetUserPassword implements ResetsUserPasswords
      */
     public function reset(User $user, array $input): void
     {
+         // Fetch unseen message count
+         $unseenCount = DB::table('ch_messages')
+         ->where('to_id', '=', Auth::user()->id)
+         ->where('seen', '=', '0')
+         ->count();
+
         Validator::make($input, [
             'password' => $this->passwordRules(),
         ])->validate();

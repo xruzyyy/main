@@ -19,8 +19,16 @@ use App\Http\Controllers\PostCategories;
 Auth::routes(['verify' => true]);
 Route::get('/protected-route', 'RegisterController@create')->middleware(['auth', 'verified']);
 
-// Route to display the map page
+
+//Must be Auth for normal use in categories of business and for maps
+Route::middleware(['auth'])->group(function () {
+    Route::get('/categories/accounting', [PostCategories::class, 'showAccountingCategories'])->name('showAccountingCategories');
+    Route::get('/categories/coffeeShops', [PostCategories::class, 'showCoffeeShopsCategories'])->name('showCoffeeShopsCategories');
+
+    // Route to display the map page
 Route::get('/mapStore', [ListingController::class, 'mapStore'])->name('mapStore');
+});
+
 
 
 
@@ -37,7 +45,6 @@ Route::middleware(['auth', 'user-access:business', 'verified','checkstatus'])->g
 Route::get('/listings/create', [ListingController::class, 'create'])->name('listings.create');
 Route::post('/listings', [ListingController::class, 'store'])->name('listings.store');
 
-Route::get('/categories/accounting', [PostCategories::class, 'showAccountingCategories'])->name('showAccountingCategories');
 
 
 // Route to add a maps
