@@ -59,9 +59,7 @@
     margin-right: 15px;
 }
 
-.business-name {
-    font-size: 18px;
-}
+
 
 /* Animations for text */
 .text-container {
@@ -89,7 +87,7 @@
 .business-person {
     position: absolute;
     right: 5vw; /* Adjust as needed */
-    top: 77.9%;
+    top: 75.5%;
     margin-left: 1.25em;
     transform: translateY(-50%);
     width: 100%; /* Adjust width as needed */
@@ -98,7 +96,7 @@
 
 @media (min-width: 400px) and (min-height: 900px) {
     .business-person {
-        top: 88.5%;
+        top: 87%;
     }
 }
 

@@ -23,7 +23,48 @@ Route::get('/protected-route', 'RegisterController@create')->middleware(['auth',
 //Must be Auth for normal use in categories of business and for maps
 Route::middleware(['auth'])->group(function () {
     Route::get('/categories/accounting', [PostCategories::class, 'showAccountingCategories'])->name('showAccountingCategories');
-    Route::get('/categories/coffeeShops', [PostCategories::class, 'showCoffeeShopsCategories'])->name('showCoffeeShopsCategories');
+    Route::get('/categories/agriculture', [PostCategories::class, 'showAgricultureCategories'])->name('showAgricultureCategories');
+    Route::get('/categories/construction', [PostCategories::class, 'showConstructionCategories'])->name('showConstructionCategories');
+    Route::get('/categories/education', [PostCategories::class, 'showEducationCategories'])->name('showEducationCategories');
+    Route::get('/categories/finance', [PostCategories::class, 'showFinanceCategories'])->name('showFinanceCategories');
+    Route::get('/categories/retail', [PostCategories::class, 'showRetailCategories'])->name('showRetailCategories');
+    Route::get('/categories/fashion', [PostCategories::class, 'showFashionCategories'])->name('showFashionCategories');
+    Route::get('/categories/fashion-photography-studios', [PostCategories::class, 'showFashionPhotographyStudiosCategories'])->name('showFashionPhotographyStudiosCategories');
+    Route::get('/categories/healthcare', [PostCategories::class, 'showHealthcareCategories'])->name('showHealthcareCategories');
+    Route::get('/categories/information-technology', [PostCategories::class, 'showInformationTechnologyCategories'])->name('showInformationTechnologyCategories');
+    Route::get('/categories/shopping-malls', [PostCategories::class, 'showShoppingMallsCategories'])->name('showShoppingMallsCategories');
+    Route::get('/categories/trading-goods', [PostCategories::class, 'showTradingGoodsCategories'])->name('showTradingGoodsCategories');
+    Route::get('/categories/consulting', [PostCategories::class, 'showConsultingCategories'])->name('showConsultingCategories');
+    Route::get('/categories/barber-shops', [PostCategories::class, 'showBarberShopsCategories'])->name('showBarberShopsCategories');
+    Route::get('/categories/fashion-consultancy', [PostCategories::class, 'showFashionConsultancyCategories'])->name('showFashionConsultancyCategories');
+    Route::get('/categories/beauty-salon', [PostCategories::class, 'showBeautySalonCategories'])->name('showBeautySalonCategories');
+    Route::get('/categories/logistics', [PostCategories::class, 'showLogisticsCategories'])->name('showLogisticsCategories');
+    Route::get('/categories/sports', [PostCategories::class, 'showSportsCategories'])->name('showSportsCategories');
+    Route::get('/categories/pets', [PostCategories::class, 'showPetsCategories'])->name('showPetsCategories');
+    Route::get('/categories/Pharmaceuticals', [PostCategories::class, 'showPharmaceuticalsCategories'])->name('showPharmaceuticalsCategories');
+    Route::get('/categories/entertainment', [PostCategories::class, 'showEntertainmentCategories'])->name('showEntertainmentCategories');
+    Route::get('/categories/pattern-making-services', [PostCategories::class, 'showPatternMakingServicesCategories'])->name('showPatternMakingServicesCategories');
+    Route::get('/categories/maintenance', [PostCategories::class, 'showMaintenanceCategories'])->name('showMaintenanceCategories');
+    Route::get('/categories/automative', [PostCategories::class, 'showAutomativeCategories'])->name('showAutomativeCategories');
+    Route::get('/categories/environmental', [PostCategories::class, 'showEnvironmentalCategories'])->name('showEnvironmentalCategories');
+    Route::get('/categories/food-beverages', [PostCategories::class, 'showFoodBeveragesCategories'])->name('showFoodBeveragesCategories');
+    Route::get('/categories/garment-manufacturing', [PostCategories::class, 'showGarmentManufacturingCategories'])->name('showGarmentManufacturingCategories');
+    Route::get('/categories/fashion-events-management', [PostCategories::class, 'showFashionEventsManagementCategories'])->name('showFashionEventsManagementCategories');
+    Route::get('/categories/retail-clothing-stores', [PostCategories::class, 'showRetailClothingStoresCategories'])->name('showRetailClothingStoresCategories');
+    Route::get('/categories/fashion-design-studios', [PostCategories::class, 'showFashionDesignStudiosCategories'])->name('showFashionDesignStudiosCategories');
+    Route::get('/categories/shoe-manufacturing', [PostCategories::class, 'showShoeManufacturingCategories'])->name('showShoeManufacturingCategories');
+    Route::get('/categories/tailoring-and-alterations', [PostCategories::class, 'showTailoringAndAlterationsCategories'])->name('showTailoringAndAlterationsCategories');
+    Route::get('/categories/textile-printing-and-embroidery', [PostCategories::class, 'showTextilePrintingAndEmbroideryCategories'])->name('showTextilePrintingAndEmbroideryCategories');
+    Route::get('/categories/fashion-accessories', [PostCategories::class, 'showFashionAccessoriesCategories'])->name('showFashionAccessoriesCategories');
+    Route::get('/categories/boutiques', [PostCategories::class, 'showBoutiquesCategories'])->name('showBoutiquesCategories');
+    Route::get('/categories/apparel-recycling-and-upcycling', [PostCategories::class, 'showApparelRecyclingAndUpcyclingCategories'])->name('showApparelRecyclingAndUpcyclingCategories');
+    Route::get('/categories/apparel-exporters', [PostCategories::class, 'showApparelExportersCategories'])->name('showApparelExportersCategories');
+    Route::get('/categories/coffee-shops', [PostCategories::class, 'showCoffeeShopsCategories'])->name('showCoffeeShopsCategories');
+    Route::get('/categories/Automotive', [PostCategories::class, 'showAutomotiveCategories'])->name('showAutomotiveCategories');
+
+
+
+
 
     // Route to display the map page
 Route::get('/mapStore', [ListingController::class, 'mapStore'])->name('mapStore');
