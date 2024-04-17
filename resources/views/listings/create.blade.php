@@ -62,7 +62,7 @@
     }
 </style>
 
-<div class="container">
+<div class="container2">
     @if(session('success'))
     <div class="container mt-3">
         <div class="alert alert-success">
@@ -181,7 +181,7 @@
                                 <img id="imagePreview" src="#" alt="Image Preview" style="max-width: 100%; max-height: 200px; display: none;">
                             </div>
                         </div>
-                        <div class="field">
+                        {{-- <div class="field">
                             <label class="label">Latitude</label>
                             <div class="control">
                                 <input type="text" class="input readonly-input" id="latitude" name="latitude" value="{{ $latitude }}" readonly required>
@@ -192,7 +192,7 @@
                             <div class="control">
                                 <input type="text" class="input readonly-input" id="longitude" name="longitude" value="{{ $longitude }}" readonly required>
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="field">
                             <div class="control">
                                 <button type="submit" class="button is-primary">Create Listing</button>
@@ -200,9 +200,6 @@
                         </div>
                     </form>
                 </div>
-            </div>
-        </div>
-    </div>
 </div>
 
 

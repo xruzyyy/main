@@ -100,6 +100,8 @@ Route::get('/map', [ListingController::class, 'map'])->name('map');
 // Normal Users Routes with Email Verification Middleware
 Route::middleware(['auth', 'user-access:user', 'verified'])->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::get('/home', [HomeController::class, 'businessPostListForUser'])-> name('home');
+
 
 });
 

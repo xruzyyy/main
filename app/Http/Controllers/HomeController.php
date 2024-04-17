@@ -64,6 +64,21 @@ class HomeController extends Controller
     ]);
 }
 
+public function businessPostListForUser(Request $request)
+{
+    // Retrieve categories from the database
+    $unseenCount = $this->fetchUnseenMessageCount();
+
+    // Retrieve the 7 latest categories from the database
+    $categories = Category::latest()->take(6)->get(['id','user_id', 'businessName', 'description', 'image', 'latitude', 'longitude', 'is_active','type','contactNumber']);
+
+    // Pass category data and any other necessary data to the view
+    return view('Home', [
+        'categories' => $categories,
+        'unseenCount' => $unseenCount
+    ]);
+}
+
 
     private function fetchUnseenMessageCount()
     {

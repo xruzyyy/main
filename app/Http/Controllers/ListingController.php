@@ -146,6 +146,17 @@ protected function store(Request $request)
     return redirect()->route('listings.create')->with('success', 'Listing created successfully!');
 }
 
+// Display the map page
+public function createForm()
+{
+    // Fetch unseen message count
+    $unseenCount = DB::table('ch_messages')
+        ->where('to_id', '=', Auth::user()->id)
+        ->where('seen', '=', '0')
+        ->count();
+
+    return view('listings.createForm', ['unseenCount' => $unseenCount]);
+}
 
     // Display the map page
     public function map()
