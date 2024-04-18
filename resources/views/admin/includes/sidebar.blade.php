@@ -8,6 +8,12 @@
             <div class="offcanvas-body position-static sidebar-sticky d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto">
                 <ul class="nav flex-column mb-2">
                     <li class="nav-item">
+                        <a class="nav-link mb-2" href="{{ route('business.home') }}">
+                            <i class="fas fa-home mr-2"></i> <!-- Home icon -->
+                            Main
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link mb-2" href="{{ route('admin.dashboard') }}">
                             <i class="fas fa-tachometer-alt mr-2"></i> <!-- Updated Font Awesome icon -->
                             Dashboard

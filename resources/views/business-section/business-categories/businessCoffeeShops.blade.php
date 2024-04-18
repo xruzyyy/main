@@ -4,7 +4,7 @@
 
 <section class="business-section-post" id="section3">
     <div class="container section3-container">
-        <h2 class="animate-on-scroll">CoffeeShops Business Posts</h2>
+        <h2 class="animate-on-scroll"> Business Posts</h2>
 
         <!-- Card Deck for Latest Business Posts -->
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 justify-content-between">
@@ -16,6 +16,8 @@
                             <h5 class="card-title">{{ $post->businessName }}</h5>
                             <p class="card-text">{{ $post->description }}</p>
                           <!-- Updated HTML for the link -->
+                          <p class="card-text"><strong>Type:</strong> {{ $post->type }}</p>
+                          <p class="card-text"><strong>Contact Number:</strong> {{ $post->contactNumber }}</p>
                             <a href="/chatify/{{ $post->user_id }}" class="message-link">
                                 <b style="color:black;">Message:</b>
                                 <i class="fa-brands fa-facebook-messenger"></i>
