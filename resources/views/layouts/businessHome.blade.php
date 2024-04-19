@@ -28,10 +28,15 @@
     <h1>Welcome Back, {{ auth()->user()->name }}!</h1>
     <h1 >SELL AND BUY NEAR YOU <br>
             Simple, Trusted and Efficient</h1>
-            <form class="d-flex transparent-form" role="search">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn" type="submit"><i class="fas fa-search"></i>Search</button>
+            <form action="{{ route('searchCategories') }}" method="GET" class="row g-3 align-items-center">
+                <div class="col">
+                    <input type="text" class="form-control" placeholder="Search Business Posts" name="search">
+                </div>
+                <div class="col-auto">
+                    <button class="btn" type="submit"><i class="fas fa-search"></i>Search</button>
+                </div>
             </form>
+
     </div>
 </div>
 

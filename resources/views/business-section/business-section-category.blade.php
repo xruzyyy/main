@@ -15,7 +15,12 @@
                     </li>
                     <li class="business-item">
                         <i class="fas fa-camera business-icon"></i>
-                        <a href="{{ route('showFashionPhotographyStudiosCategories') }}" class="business-name">Fashion Photography Studios</a>
+                        <a href="{{ route('showFashionPhotographyStudiosCategories') }}" class="business-name">Fashion
+                            Photography Studios</a>
+                    </li>
+                    <li class="business-item">
+                        <i class="fas fa-store business-icon"></i>
+                        <a href="{{ route('showBoutiquesCategories') }}" class="business-name">Boutiques</a>
                     </li>
                     <li class="business-item">
                         <i class="fas fa-hospital business-icon"></i>
@@ -52,11 +57,13 @@
                     </li>
                     <li class="business-item">
                         <i class="fas fa-chart-line business-icon"></i>
-                        <a href="{{ route('showFashionConsultancyCategories') }}" class="business-name">Fashion Consultancy</a>
+                        <a href="{{ route('showFashionConsultancyCategories') }}" class="business-name">Fashion
+                            Consultancy</a>
                     </li>
                     <li class="business-item">
                         <i class="fas fa-pencil-alt business-icon"></i>
-                        <a href="{{ route('showPatternMakingServicesCategories') }}" class="business-name">Pattern Making Services</a>
+                        <a href="{{ route('showPatternMakingServicesCategories') }}" class="business-name">Pattern
+                            Making Services</a>
                     </li>
 
                 </ul>
@@ -70,15 +77,21 @@
                     </li>
                     <li class="business-item">
                         <i class="fas fa-shoe-prints business-icon"></i>
-                        <a href="{{ route('showShoeManufacturingCategories') }}" class="business-name">Shoe Manufacturing</a>
+                        <a href="{{ route('showShoeManufacturingCategories') }}" class="business-name">Shoe
+                            Manufacturing</a>
                     </li>
                     <li class="business-item">
                         <i class="fas fa-laptop business-icon"></i>
-                        <a href="{{ route('showInformationTechnologyCategories') }}" class="business-name">Information Technology</a>
+                        <a href="{{ route('showInformationTechnologyCategories') }}" class="business-name">Information
+                            Technology</a>
                     </li>
                     <li class="business-item">
                         <i class="fas fa-tree business-icon"></i>
                         <a href="{{ route('showEnvironmentalCategories') }}" class="business-name">Environmental</a>
+                    </li>
+                    <li class="business-item">
+                        <i class="fas fa-hamburger business-icon"></i>
+                        <a href="{{ route('showQuickServiceRestaurantsCategories') }}" class="business-name">Quick Service Restaurants</a>
                     </li>
                     <li class="business-item">
                         <i class="fas fa-utensils business-icon"></i>
@@ -86,7 +99,8 @@
                     </li>
                     <li class="business-item">
                         <i class="fas fa-palette business-icon"></i>
-                        <a href="{{ route('showFashionDesignStudiosCategories') }}" class="business-name">Fashion Design Studios</a>
+                        <a href="{{ route('showFashionDesignStudiosCategories') }}" class="business-name">Fashion
+                            Design Studios</a>
                     </li>
                 </ul>
             </div>
@@ -99,19 +113,23 @@
                     </li>
                     <li class="business-item">
                         <i class="fas fa-tshirt business-icon"></i>
-                        <a href="{{ route('showGarmentManufacturingCategories') }}" class="business-name">Garment Manufacturing</a>
+                        <a href="{{ route('showGarmentManufacturingCategories') }}" class="business-name">Garment
+                            Manufacturing</a>
                     </li>
                     <li class="business-item">
                         <i class="fas fa-cut business-icon"></i>
-                        <a href="{{ route('showTailoringAndAlterationsCategories') }}" class="business-name">Tailoring and Alterations</a>
+                        <a href="{{ route('showTailoringAndAlterationsCategories') }}" class="business-name">Tailoring
+                            and Alterations</a>
                     </li>
                     <li class="business-item">
                         <i class="fas fa-gem business-icon"></i>
-                        <a href="{{ route('showFashionAccessoriesCategories') }}" class="business-name">Fashion Accessories</a>
+                        <a href="{{ route('showFashionAccessoriesCategories') }}" class="business-name">Fashion
+                            Accessories</a>
                     </li>
                     <li class="business-item">
                         <i class="fas fa-recycle business-icon"></i>
-                        <a href="{{ route('showApparelRecyclingAndUpcyclingCategories') }}" class="business-name">Apparel Recycling and Upcycling</a>
+                        <a href="{{ route('showApparelRecyclingAndUpcyclingCategories') }}"
+                            class="business-name">Apparel Recycling and Upcycling</a>
                     </li>
                 </ul>
             </div>
@@ -124,11 +142,13 @@
                     </li>
                     <li class="business-item">
                         <i class="fas fa-chalkboard-teacher business-icon"></i>
-                        <a href="{{ route('showFashionEventsManagementCategories') }}" class="business-name">Fashion Events Management</a>
+                        <a href="{{ route('showFashionEventsManagementCategories') }}" class="business-name">Fashion
+                            Events Management</a>
                     </li>
                     <li class="business-item">
                         <i class="fas fa-industry business-icon"></i>
-                        <a href="{{ route('showApparelExportersCategories') }}" class="business-name">Apparel Exporters</a>
+                        <a href="{{ route('showApparelExportersCategories') }}" class="business-name">Apparel
+                            Exporters</a>
                     </li>
                     <li class="business-item">
                         <i class="fas fa-shopping-bag business-icon"></i>
@@ -169,7 +189,8 @@
                     </li>
                     <li class="business-item">
                         <i class="fas fa-store business-icon"></i>
-                        <a href="{{ route('showRetailClothingStoresCategories') }}" class="business-name">Retail Clothing Stores</a>
+                        <a href="{{ route('showRetailClothingStoresCategories') }}" class="business-name">Retail
+                            Clothing Stores</a>
                     </li>
                 </ul>
             </div>

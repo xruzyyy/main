@@ -141,6 +141,7 @@
                                     <option value="Pharmaceuticals">Pharmaceuticals</option>
                                     <option value="Automotive">Automotive</option>
                                     <option value="Environmental">Environmental</option>
+                                    <option value="Quick Service Restaurants">Quick Service Restaurants</option>
                                     <option value="Food & Beverage">Food & Beverage</option>
                                     <option value="Garment Manufacturing">Garment Manufacturing</option>
                                     <option value="Fashion Events Management">Fashion Events Management</option>

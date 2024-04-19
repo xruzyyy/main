@@ -13,6 +13,7 @@ use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\vendor\Chatify\MessagesController;
 use App\Http\Controllers\PostCategories;
+use App\Http\Controllers\SearchController;
 
 
 
@@ -47,6 +48,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/categories/maintenance', [PostCategories::class, 'showMaintenanceCategories'])->name('showMaintenanceCategories');
     Route::get('/categories/automative', [PostCategories::class, 'showAutomativeCategories'])->name('showAutomativeCategories');
     Route::get('/categories/environmental', [PostCategories::class, 'showEnvironmentalCategories'])->name('showEnvironmentalCategories');
+    Route::get('/categories/quick-service-restaurants', [PostCategories::class, 'showQuickServiceRestaurantsCategories'])->name('showQuickServiceRestaurantsCategories');
     Route::get('/categories/food-beverages', [PostCategories::class, 'showFoodBeveragesCategories'])->name('showFoodBeveragesCategories');
     Route::get('/categories/garment-manufacturing', [PostCategories::class, 'showGarmentManufacturingCategories'])->name('showGarmentManufacturingCategories');
     Route::get('/categories/fashion-events-management', [PostCategories::class, 'showFashionEventsManagementCategories'])->name('showFashionEventsManagementCategories');
@@ -54,7 +56,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/categories/fashion-design-studios', [PostCategories::class, 'showFashionDesignStudiosCategories'])->name('showFashionDesignStudiosCategories');
     Route::get('/categories/shoe-manufacturing', [PostCategories::class, 'showShoeManufacturingCategories'])->name('showShoeManufacturingCategories');
     Route::get('/categories/tailoring-and-alterations', [PostCategories::class, 'showTailoringAndAlterationsCategories'])->name('showTailoringAndAlterationsCategories');
-    Route::get('/categories/textile-printing-and-embroidery', [PostCategories::class, 'showTextilePrintingAndEmbroideryCategories'])->name('showTextilePrintingAndEmbroideryCategories');
     Route::get('/categories/fashion-accessories', [PostCategories::class, 'showFashionAccessoriesCategories'])->name('showFashionAccessoriesCategories');
     Route::get('/categories/boutiques', [PostCategories::class, 'showBoutiquesCategories'])->name('showBoutiquesCategories');
     Route::get('/categories/apparel-recycling-and-upcycling', [PostCategories::class, 'showApparelRecyclingAndUpcyclingCategories'])->name('showApparelRecyclingAndUpcyclingCategories');
@@ -62,7 +63,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/categories/coffee-shops', [PostCategories::class, 'showCoffeeShopsCategories'])->name('showCoffeeShopsCategories');
     Route::get('/categories/Automotive', [PostCategories::class, 'showAutomotiveCategories'])->name('showAutomotiveCategories');
 
+    Route::get('/search-business-posts', [PostCategories::class, 'showAccountingCategories'])->name('searchBusinessPosts');
 
+    Route::get('/search-categories', [SearchController::class, 'searchCategories'])->name('searchCategories');
 
 
 

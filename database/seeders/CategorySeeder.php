@@ -20,12 +20,54 @@ class CategorySeeder extends Seeder
         $userIds = User::pluck('id')->toArray();
 
         // Generate 10 categories with unique business names and different images
-        for ($i = 0; $i < 10; $i++) {
+        // Define the array containing the list of categories
+$categories = [
+    "Accounting",
+    "Agriculture",
+    "Construction",
+    "Education",
+    "Finance",
+    "Retail",
+    "Fashion Photography Studios",
+    "Healthcare",
+    "Coffee Shops",
+    "Information Technology",
+    "Shopping Malls",
+    "Trading Goods",
+    "Consulting",
+    "Barbershop",
+    "Fashion Consultancy",
+    "Beauty Salon",
+    "Logistics",
+    "Sports",
+    "Pets",
+    "Entertainment",
+    "Pattern Making Services",
+    "Maintenance",
+    "Pharmaceuticals",
+    "Automotive",
+    "Environmental",
+    "Food & Beverage",
+    "Garment Manufacturing",
+    "Fashion Events Management",
+    "Retail Clothing Stores",
+    "Fashion Design Studios",
+    "Shoe Manufacturing",
+    "Tailoring and Alterations",
+    "Textile Printing and Embroidery",
+    "Fashion Accessories",
+    "Boutiques",
+    "Apparel Recycling and Upcycling",
+    "Apparel Exporters",
+];
+        for ($i = 0; $i < 1000; $i++) {
             Category::factory()->create([
                 'businessName' => $faker->unique()->company,
                 'description' => $faker->sentence(),
                 'image' => $this->getRandomImage(),
+                'type' => $categories[array_rand($categories)], // Randomly select a type from the $categories array
                 'is_active' => 0,
+                'contactNumber' => $faker->unique()->randomNumber(9, true), // Generate a random 9-digit contact number
                 'user_id' => $faker->randomElement($userIds), // Assign a random user_id
             ]);
         }
