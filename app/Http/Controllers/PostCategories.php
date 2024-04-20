@@ -1047,4 +1047,14 @@ class PostCategories extends Controller
             'unseenCount' => $unseenCount
         ]);
     }
+
+    public function show($id)
+    {
+        $unseenCount = DB::table('ch_messages')
+        ->where('to_id', '=', Auth::user()->id)
+        ->where('seen', '=', '0')
+        ->count();
+        $post = Category::findOrFail($id); // Assuming your model is named Post
+        return view('business-section.business-categories.business_post', compact('post','unseenCount'));
+    }
 }

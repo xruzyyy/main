@@ -67,6 +67,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/search-categories', [SearchController::class, 'searchCategories'])->name('searchCategories');
 
+    Route::get('/business-post/{id}', [PostCategories::class, 'show'])->name('businessPost');
+
 
 
     // Route to display the map page
