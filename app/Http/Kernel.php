@@ -21,7 +21,7 @@ class Kernel extends HttpKernel
 
 ];
 
- 
+
 
 
      protected $middleware = [
@@ -54,6 +54,11 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\ThrottleRequests::class.':api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
+
+        'chatify' => [
+            \App\Http\Middleware\CheckStatus::class,
+        ],
+
     ];
 
     /**

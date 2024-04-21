@@ -19,6 +19,14 @@ class MessagesController extends Controller
 {
     protected $perPage = 30;
 
+
+    /**
+     * Construct the controller and apply middleware.
+     */
+    public function __construct()
+    {
+        $this->middleware(['auth', 'checkstatus', 'verified']);
+    }
     /**
      * Authenticate the connection for pusher
      *
@@ -41,15 +49,35 @@ class MessagesController extends Controller
      * @param int $id
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function index($id = null)
-    {
-        $messenger_color = Auth::user()->messenger_color;
-        return view('Chatify::pages.app', [
-            'id' => $id ?? 0,
-            'messengerColor' => $messenger_color ? $messenger_color : Chatify::getFallbackColor(),
-            'dark_mode' => Auth::user()->dark_mode < 1 ? 'light' : 'dark',
-        ]);
+
+public function index($id = null)
+{
+    // Check if the user is authenticated
+    if (Auth::check()) {
+        $user = Auth::user();
+
+        // Check if the user's email is verified
+        if ($user->email_verified_at !== null) {
+            // User is authenticated and email is verified, proceed to retrieve messenger color and dark mode settings
+            $messenger_color = $user->messenger_color;
+            $dark_mode = $user->dark_mode < 1 ? 'light' : 'dark';
+
+            return view('Chatify::pages.app', [
+                'id' => $id ?? 0,
+                'messengerColor' => $messenger_color ? $messenger_color : Chatify::getFallbackColor(),
+                'dark_mode' => $dark_mode,
+            ]);
+        } else {
+            // User's email is not verified, handle the case accordingly (e.g., redirect to verification page)
+            return redirect()->route('verification.notice')->withErrors('Please verify your email to access Chatify.');
+        }
+    } else {
+        // User is not authenticated, redirect them to the login page
+        return redirect()->route('login')->withErrors('Please login to access Chatify.');
     }
+}
+
+
 
 
 

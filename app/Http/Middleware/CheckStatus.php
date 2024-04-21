@@ -21,13 +21,13 @@ class CheckStatus
             // Redirect the user to the verify-email route
             return redirect()->route('verify-email');
         }
-    
-        // If the status is not approved, log out the user and redirect to login 
+
+        // If the status is not approved, log out the user and redirect to login
         if (Auth::check() && Auth::user()->status != 1) {
             Auth::logout();
             return redirect('login')->withErrors('Your Account Is Under Checking Status!');
         }
-    
+
         return $next($request);
     }
 }
