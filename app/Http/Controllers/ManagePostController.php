@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -9,9 +10,54 @@ use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
+use App\Http\Controllers\CommentController;
 
 class ManagePostController extends Controller
 {
+
+
+    /**
+     * Display the specified business post.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $post = Category::findOrFail($id);
+        $comments = $post->comments()->orderBy('created_at', 'desc')->get();
+        return view('business_post', compact('post', 'comments'));
+    }
+
+    /**
+     * Store a newly created comment for the specified business post.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+     // Method for storing comments
+     public function storeComment(Request $request, $categoryId)
+     {
+         // Validation
+         $request->validate([
+             'content' => 'required|string|max:255',
+         ]);
+
+         // Find the category based on the ID
+         $category = Category::findOrFail($categoryId);
+
+         // Create a new comment associated with the category
+         $comment = new Comment();
+         $comment->content = $request->input('content');
+         $comment->category_id = $category->id; // Assuming 'category_id' is the foreign key
+         $comment->user_id = auth()->user()->id; // Assuming the user is authenticated
+         $comment->save();
+
+         // Redirect back or return a response
+         return redirect()->back()->with('success', 'Comment added successfully!');
+     }
+
 
     public function index()
 {

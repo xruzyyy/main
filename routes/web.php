@@ -14,6 +14,7 @@ use App\Http\Controllers\ListingController;
 use App\Http\Controllers\vendor\Chatify\MessagesController;
 use App\Http\Controllers\PostCategories;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\CommentController;
 
 
 
@@ -73,6 +74,14 @@ Route::controller(PostCategories::class)->middleware(['auth', 'verified','checks
 
     Route::get('/business-post/{id}','show')->name('businessPost');
 
+// // Route to display a single business post
+// Route::get('/business/{id}', [ManagePostController::class, 'show'])->name('business.show');
+// Route::post('/categories/{category}/comments', 'CommentController@store')->name('comments.store');
+
+
+    // Route to handle adding comments to a business post
+Route::post('/posts/{id}/comments', [ManagePostController::class, 'storeComment'])
+    ->name('comments.store');
 
 
     // Route to display the search business
