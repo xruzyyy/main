@@ -102,6 +102,8 @@ Route::middleware(['auth', 'user-access:business', 'verified','checkstatus'])->g
 
 // Route to add a maps
 Route::get('/map', [ListingController::class, 'map'])->name('map');
+// Route to add a maps
+Route::get('/mapAdmin', [ManagePostController::class, 'mapAdmin'])->name('mapAdmin');
 
 
 });
@@ -150,10 +152,13 @@ Route::middleware([
     Route::get('/main', [App\Http\Controllers\HomeController::class, 'index'])->name('main');
     Route::get('ManagePost', [App\Http\Controllers\ManagePostController::class, 'index'])->name('ManagePost');
     Route::get('ManagePost', [App\Http\Controllers\ManagePostController::class, 'sortTable'])->name('ManagePost');
+    Route::get('/ManagePost/create', [ManagePostController::class, 'create'])->name('managepost.create');
+    Route::post('/ManagePost', [ManagePostController::class, 'store'])->name('managepost.store');
 
 
-    Route::get('ManagePost/create',[App\Http\Controllers\ManagePostController::class, 'create']);
-    Route::post('ManagePost/create', [App\Http\Controllers\ManagePostController::class, 'store']);
+
+    // Route::get('ManagePost/create',[App\Http\Controllers\ManagePostController::class, 'create']);
+    // Route::post('ManagePost/create', [App\Http\Controllers\ManagePostController::class, 'store']);
     Route::get('ManagePost/{id}/edit',[App\Http\Controllers\ManagePostController::class, 'edit']);
     Route::put('ManagePost/{id}/edit',[App\Http\Controllers\ManagePostController::class, 'update']);
     Route::delete('ManagePost/{id}/delete', [ManagePostController::class, 'destroy']);

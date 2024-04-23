@@ -9,7 +9,7 @@ use App\Models\User;
 class Category extends Model
 {
     use HasFactory;
-    protected $table = 'categories';
+    protected $table = 'posts';
     protected $fillable = [
         'businessName',
         'description',
