@@ -31,6 +31,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'status',
         'type',
         'image',
+        'profile_image', // Add profile_image to the fillable array
         'password',
         'role_as',
         'email_verified_at',

@@ -48,7 +48,7 @@
         p{
             font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
             color: #000000;
-            margin-top: .5em; /* Remove default margin */
+            margin-top: 0; /* Remove default margin */
         }
         h1 {
             font-family: fantasy;
@@ -117,12 +117,13 @@
         <!-- Loop through comments and display -->
         @foreach($post->comments as $comment)
         <div class="comment">
-            <img class="businessCommentImage"  src="{{ asset($comment->user->image) }}" alt="User Image">
+            <img class="businessCommentImage" src="{{ asset($comment->user->profile_image) }}" alt="User Profile Image">
             <div class="comment-content">
                 <p><strong>{{ $comment->user->name }}</strong>: {{ $comment->content }}</p>
             </div>
         </div>
         @endforeach
     </div>
+
 </body>
 </html>

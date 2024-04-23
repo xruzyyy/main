@@ -52,7 +52,21 @@
                                 <label for="image">Image</label>
                                 <input type="file" name="image" id="image" class="form-control-file" required>
                             </div>
-
+                            <!-- Add profile image field -->
+                        <div class="mb-3 row align-items-center">
+                            <label for="profile_image" class="col-md-4 col-form-label text-md-center label-custom"><b>Profile</b></label>
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <input id="profile_image" type="file" class="form-control file-input @error('profile_image') is-invalid @enderror" name="profile_image" required>
+                                    <label class="input-group-text btn btn-primary" for="profile_image"><i class="fas fa-upload"></i> Choose File</label>
+                                </div>
+                                @error('profile_image')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                        </div>
                             <!-- Add a hidden input field for email_verified_at with current timestamp -->
                             <input type="hidden" name="email_verified_at" value="{{ now() }}">
 

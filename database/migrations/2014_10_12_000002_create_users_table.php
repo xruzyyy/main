@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('is_active')->default(0);
             $table->timestamp('account_expiration_date')->nullable()->default(Carbon::now('Asia/Manila')->addMinutes(10)); // Set default value using Carbon
             $table->string('image')->notNullable();
+            $table->string('profile_image')->nullable(); // Add profile image field
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('role_as')->nullable();

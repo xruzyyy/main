@@ -5,7 +5,7 @@
             <th scope="col">ID</th>
             <th scope="col">Name</th>
             <th scope="col">Business Email</th>
-            <th scope="col">Image</th>
+            <th scope="col">Permit</th>
             <th scope="col">Account Action</th>
             <th scope="col">Active Status</th> <!-- Updated column header -->
             <th scope="col">Role As</th>

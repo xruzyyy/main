@@ -37,6 +37,8 @@ class RegisterController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'type' => ['required', 'string', 'in:user,admin,business'],
+            'profile_image' => ['required', 'mimes:jpg,jpeg,webp,png,jfif,heic'],
+
         ];
 
         // If the selected type is not 'user', require the image
@@ -51,15 +53,17 @@ class RegisterController extends Controller
 
     protected function create(array $data)
 {
-    $path = '';
-    $filename = '';
+    // Initialize variables for image handling
+    $imagePath = '';
+    $imageName = '';
 
-    if (isset($data['image'])) {
-        $file = $data['image'];
-        $extension = $file->getClientOriginalExtension();
-        $filename = time() . '.' . $extension;
-        $path = 'uploads/users/';
-        $file->move($path, $filename);
+    // Check if profile image is uploaded
+    if (isset($data['profile_image'])) {
+        $image = $data['profile_image'];
+        $extension = $image->getClientOriginalExtension();
+        $imageName = time() . '.' . $extension;
+        $imagePath = 'uploads/profile_images/';
+        $image->move($imagePath, $imageName);
     }
 
     // Map user type string to integer value
@@ -86,7 +90,8 @@ class RegisterController extends Controller
         'name' => $data['name'],
         'email' => $data['email'],
         'password' => Hash::make($data['password']),
-        'image' => $path . $filename,
+        'image' => $imagePath . $imageName, // Store profile image path
+        'profile_image' => $imagePath . $imageName, // Store profile image path
         'status' => $status,
         'is_active' => $isActive,
         'type' => $typeMap[$data['type']],
@@ -97,12 +102,13 @@ class RegisterController extends Controller
     // Trigger the NewUserRegistered event
     event(new NewUserRegistered($user, $user->type));
 
-     // Send notification to the specific email address
-     Notification::route('mail', 'cruzjerome012@gmail.com')
-     ->notify(new NewUserNotification($user));
+    // Send notification to the specific email address
+    Notification::route('mail', 'cruzjerome012@gmail.com')
+        ->notify(new NewUserNotification($user));
 
     return $user;
 }
+
 
 
 
