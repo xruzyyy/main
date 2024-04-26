@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Category;
+use App\Models\Posts;
 use Faker\Factory as Faker;
 use App\Models\User;
 
@@ -61,7 +61,7 @@ $categories = [
     "Apparel Exporters",
 ];
         for ($i = 0; $i < 1000; $i++) {
-            Category::factory()->create([
+            Posts::factory()->create([
                 'businessName' => $faker->unique()->company,
                 'description' => $faker->sentence(),
                 'image' => $this->getRandomImage(),

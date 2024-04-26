@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\Category;
+use App\Models\Posts;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class CategoryFactory extends Factory
@@ -12,7 +12,7 @@ class CategoryFactory extends Factory
      *
      * @var string
      */
-    protected $model = Category::class;
+    protected $model = Posts::class;
 
     /**
      * Define the model's default state.

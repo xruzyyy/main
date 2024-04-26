@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comment;
-use App\Models\Category;
+use App\Models\Posts;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use App\Models\User;
@@ -24,7 +24,7 @@ class ManagePostController extends Controller
      */
     public function show($id)
     {
-        $post = Category::findOrFail($id);
+        $post = Posts::findOrFail($id);
         $comments = $post->comments()->orderBy('created_at', 'desc')->get();
         return view('business_post', compact('post', 'comments'));
     }
@@ -36,27 +36,6 @@ class ManagePostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-     // Method for storing comments
-     public function storeComment(Request $request, $categoryId)
-     {
-         // Validation
-         $request->validate([
-             'content' => 'required|string|max:255',
-         ]);
-
-         // Find the category based on the ID
-         $category = Category::findOrFail($categoryId);
-
-         // Create a new comment associated with the category
-         $comment = new Comment();
-         $comment->content = $request->input('content');
-         $comment->category_id = $category->id; // Assuming 'category_id' is the foreign key
-         $comment->user_id = auth()->user()->id; // Assuming the user is authenticated
-         $comment->save();
-
-         // Redirect back or return a response
-         return redirect()->back()->with('success', 'Comment added successfully!');
-     }
 
 
     public function index()
@@ -68,7 +47,7 @@ class ManagePostController extends Controller
         ->count();
 
     // Fetch all ManagePost with their associated users
-    $ManagePost = Category::with('user')->get();
+    $ManagePost = Posts::with('user')->get();
 
     // Pass both variables to the view
     return view('category.index', compact('ManagePost', 'unseenCount'));
@@ -128,7 +107,7 @@ public function create(Request $request)
         }
 
         // Create the category with the user_id set to the currently authenticated user's ID
-        $category = Category::create([
+        $category = Posts::create([
             'businessName' => $request->businessName,
             'description' => $request->description,
             'image' => $path . $filename,
@@ -146,7 +125,7 @@ public function create(Request $request)
             User::where('id', auth()->user()->id)
                 ->update(['status' => 0]); // Update user's status to 0
 
-            Category::where('user_id', auth()->user()->id)
+            Posts::where('user_id', auth()->user()->id)
                 ->update(['is_active' => 0]); // Update related categories' is_active to 0
         }
 
@@ -195,7 +174,7 @@ protected function store(Request $request)
     }
 
     // Create the category with the user_id set to the currently authenticated user's ID
-    $category = Category::create([
+    $category = Posts::create([
         'businessName' => $request->businessName,
         'description' => $request->description,
         'image' => $path . $filename,
@@ -215,7 +194,7 @@ protected function store(Request $request)
         User::where('id', auth()->user()->id)
             ->update(['status' => 0]); // Update user's status to c
 
-        Category::where('user_id', auth()->user()->id)
+        Posts::where('user_id', auth()->user()->id)
             ->update(['is_active' => 0]); // Update related categories' is_active to 0
     }
 
@@ -232,7 +211,7 @@ protected function store(Request $request)
         ->count();
 
     // Fetch the category by ID
-    $category = Category::findOrFail($id);
+    $category = Posts::findOrFail($id);
 
     // Pass both variables to the view
     return view('category.edit', compact('category', 'unseenCount'));
@@ -249,7 +228,7 @@ protected function store(Request $request)
             // 'is_active' => 'boolean'
         ]);
 
-        $category = Category::findOrFail($id);
+        $category = Posts::findOrFail($id);
         $path = ''; // Define path variable
 
         if ($request->has('image')) {
@@ -279,7 +258,7 @@ protected function store(Request $request)
 
     public function destroy(int $id)
     {
-        $category = Category::findOrFail($id);
+        $category = Posts::findOrFail($id);
         if (File::exists($category->image)) {
             File::delete($category->image);
         }
@@ -290,7 +269,7 @@ protected function store(Request $request)
 
     public function toggleStatus($id)
     {
-        $category = Category::findOrFail($id);
+        $category = Posts::findOrFail($id);
         $category->update(['is_active' => !$category->is_active]);
 
         return redirect()->back();
@@ -298,7 +277,7 @@ protected function store(Request $request)
 
     public function sortTable(Request $request)
 {
-    $query = Category::query();
+    $query = Posts::query();
 
     // Sorting
     if ($request->has('sort')) {

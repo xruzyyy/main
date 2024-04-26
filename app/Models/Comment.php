@@ -5,7 +5,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
-use App\Models\Category;
+use App\Models\Posts;
 
 
 class Comment extends Model
@@ -17,11 +17,11 @@ class Comment extends Model
 
     public function post()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Posts::class);
     }
     public function category()
     {
-        return $this->belongsTo(Category::class, 'category_id');
+        return $this->belongsTo(Posts::class, 'posts_id');
     }
 
 }

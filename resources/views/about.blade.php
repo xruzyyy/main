@@ -1,4 +1,3 @@
-
 <section class="business-section-about">
     <div class="container">
         <div class="row">
@@ -6,34 +5,30 @@
                 <div class="inner-column">
                     <div class="sec-title">
                         <span class="title">Promoting Legitimate Businesses</span>
-                        <h2>Providing Trusted Solutions</h2>
+                        <h2>Empowering the Community</h2>
                     </div>
                     <div class="text">
-                        At Taytay Online, we're committed to delivering top-notch solutions for your website or web application needs. Our focus is on creating useful plugins that enhance the attractiveness and efficiency of your online presence.
+                        At Taytay Online, we are on a mission to foster a thriving environment for legitimate businesses in Taytay, Rizal. Our commitment is to provide unwavering support and resources to ensure that businesses operate ethically and transparently, contributing positively to the local economy and community.
                     </div>
                     <div class="text">
-                        We pride ourselves on offering cutting-edge tutorials that align with current industry trends, tailored to match your expertise. Taytay Online serves as a hub for high-quality web development content and plugin tutorials. Our expertise spans across HTML, HTML5, CSS, CSS3, jQuery, and JavaScript, accompanied by inspirational UI design layouts crafted by professionals using Photoshop and Adobe Illustrator.
+                        We firmly believe that supporting legitimate businesses is not only essential for economic growth but also for building a stronger, more reputable business ecosystem. Our focus is on promoting integrity and legitimacy across all aspects of business operations, from legal compliance to ethical practices.
                     </div>
                     <div class="btn-box">
                         <a href="#" class="theme-btn btn-style-one">Contact Us</a>
                     </div>
-
                 </div>
-
             </div>
 
             <!-- Image Column -->
             <div class="image-column col-lg-6 col-md-12 col-sm-12">
                 <div class="inner-column wow fadeInLeft">
-                  <div class="author-desc">
-                    <h2>Taytay Online</h2>
-                    <span>Web Developer</span>
-                  </div>
-                    <figure class="image-1"><a href="#" class="lightbox-image" data-fancybox="images"><img title="Rahul Kumar Yadav" src="https://goldfortunetextile.com/wp-content/uploads/2024/02/AB-1.jpg" alt=""></a></figure>
-
+                    <div class="author-desc">
+                        <h2>Taytay Online</h2>
+                        <span>Empowering Legitimate Businesses</span>
+                    </div>
+                    <figure class="image-1"><a href="#" class="lightbox-image" data-fancybox="images"><img title="Taytay Best!" src="https://goldfortunetextile.com/wp-content/uploads/2024/02/AB-1.jpg" alt=""></a></figure>
                 </div>
             </div>
-
         </div>
         <div class="sec-title">
             <span class="title">Supporting Legitimate Businesses</span>
@@ -59,7 +54,5 @@
         <div class="text">
             Together, we can build a stronger, more reputable business ecosystem in Taytay, Rizal. Join us in supporting legitimate businesses and driving sustainable growth for our community.
         </div>
-
     </div>
 </section>
-

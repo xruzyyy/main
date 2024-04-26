@@ -136,7 +136,7 @@
   <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
   <script>
     // Assuming you have already fetched the categories data from your database in PHP
-var categories = {!! json_encode($categories) !!};
+var posts = {!! json_encode($posts) !!};
 
 
 var map = L.map("map").setView([14.5695, 121.1126], 13);
@@ -148,7 +148,7 @@ L.tileLayer("https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}", {
 }).addTo(map);
 
 function addCategoryMarkers() {
-    var categories = {!! json_encode($categories) !!};
+    var posts = {!! json_encode($posts) !!};
 
     categories.forEach(function(category) {
         var markerColor = category.is_active ? 'blue' : 'red'; // Set marker color based on is_active value

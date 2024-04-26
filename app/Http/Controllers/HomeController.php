@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
-use App\Models\Category;
+use App\Models\Posts;
 use App\Notifications\NewUserNotification;
 use Illuminate\Support\Facades\DB;
 class HomeController extends Controller
@@ -51,30 +51,30 @@ class HomeController extends Controller
 
     public function businessPostList(Request $request)
 {
-    // Retrieve categories from the database
+    // Retrieve posts from the database
     $unseenCount = $this->fetchUnseenMessageCount();
 
-    // Retrieve the 7 latest categories from the database
-    $categories = Category::latest()->take(6)->get(['id','user_id', 'businessName', 'description', 'image', 'latitude', 'longitude', 'is_active','type','contactNumber']);
+    // Retrieve the 7 latest posts from the database
+    $posts = Posts::latest()->take(6)->get(['id','user_id', 'businessName', 'description', 'image', 'latitude', 'longitude', 'is_active','type','contactNumber']);
 
     // Pass category data and any other necessary data to the view
     return view('businessHome', [
-        'categories' => $categories,
+        'posts' => $posts,
         'unseenCount' => $unseenCount
     ]);
 }
 
 public function businessPostListForUser(Request $request)
 {
-    // Retrieve categories from the database
+    // Retrieve posts from the database
     $unseenCount = $this->fetchUnseenMessageCount();
 
-    // Retrieve the 7 latest categories from the database
-    $categories = Category::latest()->take(6)->get(['id','user_id', 'businessName', 'description', 'image', 'latitude', 'longitude', 'is_active','type','contactNumber']);
+    // Retrieve the 7 latest posts from the database
+    $posts = Posts::latest()->take(6)->get(['id','user_id', 'businessName', 'description', 'image', 'latitude', 'longitude', 'is_active','type','contactNumber']);
 
     // Pass category data and any other necessary data to the view
     return view('Home', [
-        'categories' => $categories,
+        'posts' => $posts,
         'unseenCount' => $unseenCount
     ]);
 }

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Responsive Landing Page</title>
+  <title>Business Homepage</title>
   @vite(['resources/scss/category.scss'])
   @vite(['resources/scss/_section.scss'])
   @vite(['resources/scss/main.scss'])
@@ -28,7 +28,7 @@
     <h1>Welcome Back, {{ auth()->user()->name }}!</h1>
     <h1 >SELL AND BUY NEAR YOU <br>
             Simple, Trusted and Efficient</h1>
-            <form action="{{ route('searchCategories') }}" method="GET" class="row g-3 align-items-center">
+            <form action="{{ route('searchPosts') }}" method="GET" class="row g-3 align-items-center">
                 <div class="col">
                     <input type="text" class="form-control" placeholder="Search Business Posts" name="search">
                 </div>

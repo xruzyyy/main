@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use App\Models\Category;
+use App\Models\Posts;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
@@ -23,7 +23,7 @@ class BusinessListingAdded
      * @param  int  $user_id
      * @return void
      */
-    public function __construct(Category $category, $businessName, $user_id) // Adjust the constructor parameters
+    public function __construct(Posts $category, $businessName, $user_id) // Adjust the constructor parameters
     {
         $this->category = $category;
         $this->businessName = $businessName;

@@ -112,7 +112,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($categories as $item)
+                                @foreach ($posts as $item)
                                 <tr>
                                     <td>{{ $item->id }}</td>
                                     <td>{{ $item->businessName }}</td>

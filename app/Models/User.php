@@ -9,7 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
-use App\Models\Category;
+use App\Models\Posts;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -56,7 +56,7 @@ class User extends Authenticatable implements MustVerifyEmail
     // Define the relationship with categories
     public function categories()
     {
-        return $this->hasMany(Category::class);
+        return $this->hasMany(Posts::class);
     }
 
     // Define an accessor for the 'type' attribute

@@ -4,7 +4,7 @@
 
 <!-- HTML -->
 <!-- HTML -->
-<section class="business-section-post" id="section3">
+<section class="business-section-post-list" id="section3">
     <div class="container section3-container">
         <h2 class="animate-on-scroll">Latest Business Posts</h2>
           <!-- Search Form -->
@@ -18,7 +18,7 @@
         </form>
         <!-- Card Deck for Latest Business Posts -->
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 justify-content-between">
-            @foreach ($categories as $post)
+            @foreach ($posts as $post)
                 <div class="col mb-4">
                     <div class="card h-100 ">
                         <!-- Only the image is wrapped in the onclick event -->
@@ -50,7 +50,7 @@
     </div>
        <!-- Pagination Links -->
        <div class="d-flex justify-content-center mt-4">
-        {{ $categories->links('pagination::bootstrap-4')   }}
+        {{ $posts->links('pagination::bootstrap-4')   }}
     </div>
 </section>
 <!-- JavaScript -->

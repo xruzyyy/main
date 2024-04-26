@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Category;
+use App\Models\Posts;
 use App\Models\User;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
@@ -28,7 +28,7 @@ class ListingController extends Controller
         // Validate the request data
         $request->validate([
             'businessName' => 'required|max:255|string',
-            'description' => 'required|max:255|string',
+            'description' => 'required|max:200|string',
             'image' => 'required|mimes:jpg,jpeg,webp,png,jfif',
             'type' => 'required', // Validate the type field
             'contactNumber' => 'required|numeric|digits:11', // Ensure contact number is required, numeric, and exactly 11 digits long
@@ -46,7 +46,7 @@ class ListingController extends Controller
         }
 
         // Create the category with the user_id set to the currently authenticated user's ID
-        $category = Category::create([
+        $category = Posts::create([
             'businessName' => $request->businessName,
             'description' => $request->description,
             'image' => $path . $filename,
@@ -64,7 +64,7 @@ class ListingController extends Controller
             User::where('id', auth()->user()->id)
                 ->update(['status' => 0]); // Update user's status to 0
 
-            Category::where('user_id', auth()->user()->id)
+            Posts::where('user_id', auth()->user()->id)
                 ->update(['is_active' => 0]); // Update related categories' is_active to 0
         }
 
@@ -89,7 +89,7 @@ class ListingController extends Controller
 protected function store(Request $request)
 {
         // Check if the user already has a listing
-        $existingListing = Category::where('user_id', auth()->user()->id)->first();
+        $existingListing = Posts::where('user_id', auth()->user()->id)->first();
 
         // If the user already has a listing, redirect back with an error message
         if ($existingListing) {
@@ -99,7 +99,7 @@ protected function store(Request $request)
     // Validate the request data
     $request->validate([
         'businessName' => 'required|max:255|string',
-        'description' => 'required|max:255|string',
+        'description' => 'required|max:200|string',
         'image' => 'required|mimes:jpg,jpeg,webp,png,jfif',
         'type' => 'required', // Validate the type field
         'latitude' => 'required|numeric',
@@ -119,7 +119,7 @@ protected function store(Request $request)
     }
 
     // Create the category with the user_id set to the currently authenticated user's ID
-    $category = Category::create([
+    $category = Posts::create([
         'businessName' => $request->businessName,
         'description' => $request->description,
         'image' => $path . $filename,
@@ -139,7 +139,7 @@ protected function store(Request $request)
         User::where('id', auth()->user()->id)
             ->update(['status' => 0]); // Update user's status to c
 
-        Category::where('user_id', auth()->user()->id)
+        Posts::where('user_id', auth()->user()->id)
             ->update(['is_active' => 0]); // Update related categories' is_active to 0
     }
 
@@ -173,11 +173,11 @@ public function createForm()
     public function mapStore(Request $request)
 {
     // Retrieve categories from the database
-    $categories = Category::all(['id', 'businessName', 'description', 'image', 'latitude', 'longitude', 'is_active']);
+    $posts = Posts::all(['id', 'businessName', 'description', 'image', 'latitude', 'longitude', 'is_active']);
 
     // Pass category data and any other necessary data to the view
     return view('mapStore', [
-        'categories' => $categories,
+        'categories' => $posts,
     ]);
 }
 

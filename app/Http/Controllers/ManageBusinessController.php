@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Session;
-use App\Models\Category;
+use App\Models\Posts;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -18,22 +18,22 @@ class ManageBusinessController extends Controller
     public function ManageBusiness(Request $request)
     {
         $action = $request->input('action');
-        
+
         switch ($action) {
             case 'check-new-expired':
                 // Perform the action to check for new expired accounts and disable them
                 Artisan::call('accounts:disable');
-                
+
                 // Update is_active attribute based on status
                 $usersToUpdate = User::where('account_expiration_date', '<', now())
                                     ->orWhere('status', 0)
                                     ->get();
-                
+
                 foreach ($usersToUpdate as $user) {
                     $user->is_active = $user->status;
                     $user->save();
                 }
-            
+
                 Session::flash('info_message', 'Checked for new expired accounts and disabled them.');
                 break;
 
@@ -43,16 +43,16 @@ class ManageBusinessController extends Controller
                     ->where('account_expiration_date', '>=', now())
                     ->where('status', 1)
                     ->get();
-                
+
                     $unseenCount = DB::table('ch_messages')
                     ->where('to_id', '=', Auth::user()->id)
                     ->where('seen', '=', '0')
                     ->count();
-                                
+
                     return view('admin.users.manageBusiness')
                     ->with(compact('unseenCount', 'activeUsersData'))
                     ->with('action', 'show-not-expired');
-                
+
 
                 case 'show-expired-list':
                     // Retrieve expired business users where account_expiration_date has passed and status is still active (1) and type is 2 (business)
@@ -60,17 +60,17 @@ class ManageBusinessController extends Controller
                         ->where('account_expiration_date', '<', now())
                         ->where('status', 1)
                         ->get();
-                
+
                     // Fetch unseen message count
                     $unseenCount = DB::table('ch_messages')
                         ->where('to_id', '=', Auth::user()->id)
                         ->where('seen', '=', '0')
                         ->count();
-                
+
                     return view('admin.users.manageBusiness')
                                 ->with(compact('unseenCount', 'expiredUsersData'))
                                 ->with('action', 'show-expired-list');
-                
+
 
             case 'show-inactive-list':
                 // Retrieve inactive business users where account_expiration_date has passed or status is 0 and type is 2 (business)
@@ -97,12 +97,12 @@ class ManageBusinessController extends Controller
                     ->where('account_expiration_date', '<', now())
                     ->where('status', 1)
                     ->get();
-                
+
                 // Loop through expired users and disable their categories
                 foreach ($expiredUsers as $user) {
                     $user->categories()->update(['is_active' => false]);
                 }
-                
+
                 // Flash a message to indicate the action
                 Session::flash('info_message', 'Checked for new expired accounts and disabled associated categories.');
                 break;
@@ -146,8 +146,8 @@ class ManageBusinessController extends Controller
                         ],
                     ],
                 ];
-                
-                
+
+
 
                 return view('admin.adminDashboard')->with('userData', $userData);
 
@@ -175,10 +175,10 @@ class ManageBusinessController extends Controller
      {
          $userId = $request->input('user_id');
          $status = $request->input('status');
- 
+
          // Update the is_active field of associated categories based on the user's status
-         Category::where('user_id', $userId)->update(['is_active' => $status]);
- 
+         Posts::where('user_id', $userId)->update(['is_active' => $status]);
+
          return response()->json(['message' => 'Categories updated successfully']);
      }
 }

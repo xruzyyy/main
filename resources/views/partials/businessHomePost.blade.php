@@ -5,7 +5,7 @@
     <h2>Latest Business Posts</h2>
     <!-- Card Deck for Latest Business Posts -->
     <div class="card-deck">
-        @foreach ($categories as $post)
+        @foreach ($posts as $post)
         <div class="card">
             <img src="{{ asset($post->image) }}" class="card-img-top" alt="Business Image">
             <div class="card-body">

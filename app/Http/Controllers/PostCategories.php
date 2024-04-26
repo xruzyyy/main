@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Category;
+use App\Models\Posts;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
@@ -22,20 +22,20 @@ class PostCategories extends Controller
             ->count();
 
         // Query categories based on search query or retrieve all if no search query provided
-        $categoriesQuery = Category::where('type', 'Accounting');
+        $postsQuery = Posts::where('type', 'Accounting');
         if ($searchQuery) {
-            $categoriesQuery->where(function ($query) use ($searchQuery) {
+            $postsQuery->where(function ($query) use ($searchQuery) {
                 $query->where('businessName', 'like', '%' . $searchQuery . '%')
                     ->orWhere('description', 'like', '%' . $searchQuery . '%');
             });
         }
 
         // Paginate the results with 10 businesses per page
-        $categories = $categoriesQuery->paginate(9);
+        $posts = $postsQuery->paginate(9);
 
         // Pass the retrieved categories to the view for display
         return view('business-section.business-categories.businessAccounting', [
-            'categories' => $categories,
+            'posts' => $posts,
             'unseenCount' => $unseenCount,
         ]);
     }
@@ -51,19 +51,19 @@ class PostCategories extends Controller
             ->where('seen', '=', '0')
             ->count();
         // Query categories based on search query or retrieve all if no search query provided
-        $categoriesQuery = Category::where('type', 'Retail');
+        $postsQuery = Posts::where('type', 'Retail');
         if ($searchQuery) {
-            $categoriesQuery->where(function ($query) use ($searchQuery) {
+            $postsQuery->where(function ($query) use ($searchQuery) {
                 $query->where('businessName', 'like', '%' . $searchQuery . '%')
                     ->orWhere('description', 'like', '%' . $searchQuery . '%');
             });
         }
 
         // Paginate the results with 10 businesses per page
-        $categories = $categoriesQuery->paginate(9);
+        $posts = $postsQuery->paginate(9);
 
         return view('business-section.business-categories.businessRetail', [
-            'categories' => $categories,
+            'posts' => $posts,
             'unseenCount' => $unseenCount
         ]);
     }
@@ -79,19 +79,19 @@ class PostCategories extends Controller
             ->count();
 
         // Query categories based on search query or retrieve all if no search query provided
-        $categoriesQuery = Category::where('type', 'Fashion Photography Studios');
+        $postsQuery = Posts::where('type', 'Fashion Photography Studios');
         if ($searchQuery) {
-            $categoriesQuery->where(function ($query) use ($searchQuery) {
+            $postsQuery->where(function ($query) use ($searchQuery) {
                 $query->where('businessName', 'like', '%' . $searchQuery . '%')
                     ->orWhere('description', 'like', '%' . $searchQuery . '%');
             });
         }
 
         // Paginate the results with 10 businesses per page
-        $categories = $categoriesQuery->paginate(9);
+        $posts = $postsQuery->paginate(9);
 
         return view('business-section.business-categories.businessFashion', [
-            'categories' => $categories,
+            'posts' => $posts,
             'unseenCount' => $unseenCount
         ]);
     }
@@ -107,19 +107,19 @@ class PostCategories extends Controller
             ->count();
 
         // Query categories based on search query or retrieve all if no search query provided
-        $categoriesQuery = Category::where('type', 'Automotive');
+        $postsQuery = Posts::where('type', 'Automotive');
         if ($searchQuery) {
-            $categoriesQuery->where(function ($query) use ($searchQuery) {
+            $postsQuery->where(function ($query) use ($searchQuery) {
                 $query->where('businessName', 'like', '%' . $searchQuery . '%')
                     ->orWhere('description', 'like', '%' . $searchQuery . '%');
             });
         }
 
         // Paginate the results with 10 businesses per page
-        $categories = $categoriesQuery->paginate(9);
+        $posts = $postsQuery->paginate(9);
         // Pass the retrieved categories to the view for display
         return view('business-section.business-categories.businessAutomotive', [
-            'categories' => $categories,
+            'posts' => $posts,
             'unseenCount' => $unseenCount
         ]);
     }
@@ -134,19 +134,19 @@ class PostCategories extends Controller
             ->where('seen', '=', '0')
             ->count();
       // Query categories based on search query or retrieve all if no search query provided
-      $categoriesQuery = Category::where('type','Apparel Exporters');
+      $postsQuery = Posts::where('type','Apparel Exporters');
       if ($searchQuery) {
-          $categoriesQuery->where(function ($query) use ($searchQuery) {
+          $postsQuery->where(function ($query) use ($searchQuery) {
               $query->where('businessName', 'like', '%' . $searchQuery . '%')
                   ->orWhere('description', 'like', '%' . $searchQuery . '%');
           });
       }
 
       // Paginate the results with 10 businesses per page
-      $categories = $categoriesQuery->paginate(9);
+      $posts = $postsQuery->paginate(9);
         // Pass the retrieved categories to the view for display
         return view('business-section.business-categories.businessApparelExporters', [
-            'categories' => $categories,
+            'posts' => $posts,
             'unseenCount' => $unseenCount
         ]);
     }
@@ -161,18 +161,18 @@ class PostCategories extends Controller
             ->where('seen', '=', '0')
             ->count();
       // Query categories based on search query or retrieve all if no search query provided
-      $categoriesQuery = Category::where('type', 'Fashion Photography Studios');
+      $postsQuery = Posts::where('type', 'Fashion Photography Studios');
       if ($searchQuery) {
-          $categoriesQuery->where(function ($query) use ($searchQuery) {
+          $postsQuery->where(function ($query) use ($searchQuery) {
               $query->where('businessName', 'like', '%' . $searchQuery . '%')
                   ->orWhere('description', 'like', '%' . $searchQuery . '%');
           });
       }
 
       // Paginate the results with 10 businesses per page
-      $categories = $categoriesQuery->paginate(9);
+      $posts = $postsQuery->paginate(9);
         return view('business-section.business-categories.businessFashionPhotographyStudios', [
-            'categories' => $categories,
+            'posts' => $posts,
             'unseenCount' => $unseenCount
         ]);
     }
@@ -187,18 +187,18 @@ class PostCategories extends Controller
             ->where('seen', '=', '0')
             ->count();
       // Query categories based on search query or retrieve all if no search query provided
-      $categoriesQuery = Category::where('type', 'Healthcare');
+      $postsQuery = Posts::where('type', 'Healthcare');
       if ($searchQuery) {
-          $categoriesQuery->where(function ($query) use ($searchQuery) {
+          $postsQuery->where(function ($query) use ($searchQuery) {
               $query->where('businessName', 'like', '%' . $searchQuery . '%')
                   ->orWhere('description', 'like', '%' . $searchQuery . '%');
           });
       }
 
       // Paginate the results with 10 businesses per page
-      $categories = $categoriesQuery->paginate(9);
+      $posts = $postsQuery->paginate(9);
         return view('business-section.business-categories.businessHealthcare', [
-            'categories' => $categories,
+            'posts' => $posts,
             'unseenCount' => $unseenCount
         ]);
     }
@@ -213,18 +213,18 @@ class PostCategories extends Controller
             ->where('seen', '=', '0')
             ->count();
       // Query categories based on search query or retrieve all if no search query provided
-      $categoriesQuery = Category::where('type', 'Information Technology');
+      $postsQuery = Posts::where('type', 'Information Technology');
       if ($searchQuery) {
-          $categoriesQuery->where(function ($query) use ($searchQuery) {
+          $postsQuery->where(function ($query) use ($searchQuery) {
               $query->where('businessName', 'like', '%' . $searchQuery . '%')
                   ->orWhere('description', 'like', '%' . $searchQuery . '%');
           });
       }
 
       // Paginate the results with 10 businesses per page
-      $categories = $categoriesQuery->paginate(9);
+      $posts = $postsQuery->paginate(9);
         return view('business-section.business-categories.businessInformationTechnology', [
-            'categories' => $categories,
+            'posts' => $posts,
             'unseenCount' => $unseenCount
         ]);
     }
@@ -238,18 +238,18 @@ class PostCategories extends Controller
             ->where('seen', '=', '0')
             ->count();
       // Query categories based on search query or retrieve all if no search query provided
-      $categoriesQuery = Category::where('type', 'Shopping Malls');
+      $postsQuery = Posts::where('type', 'Shopping Malls');
       if ($searchQuery) {
-          $categoriesQuery->where(function ($query) use ($searchQuery) {
+          $postsQuery->where(function ($query) use ($searchQuery) {
               $query->where('businessName', 'like', '%' . $searchQuery . '%')
                   ->orWhere('description', 'like', '%' . $searchQuery . '%');
           });
       }
 
       // Paginate the results with 10 businesses per page
-      $categories = $categoriesQuery->paginate(9);
+      $posts = $postsQuery->paginate(9);
         return view('business-section.business-categories.businessShoppingMalls', [
-            'categories' => $categories,
+            'posts' => $posts,
             'unseenCount' => $unseenCount
         ]);
     }
@@ -264,18 +264,18 @@ class PostCategories extends Controller
             ->where('seen', '=', '0')
             ->count();
       // Query categories based on search query or retrieve all if no search query provided
-      $categoriesQuery = Category::where('type', 'Trading Goods');
+      $postsQuery = Posts::where('type', 'Trading Goods');
       if ($searchQuery) {
-          $categoriesQuery->where(function ($query) use ($searchQuery) {
+          $postsQuery->where(function ($query) use ($searchQuery) {
               $query->where('businessName', 'like', '%' . $searchQuery . '%')
                   ->orWhere('description', 'like', '%' . $searchQuery . '%');
           });
       }
 
       // Paginate the results with 10 businesses per page
-      $categories = $categoriesQuery->paginate(9);
+      $posts = $postsQuery->paginate(9);
         return view('business-section.business-categories.businessTradingGoods', [
-            'categories' => $categories,
+            'posts' => $posts,
             'unseenCount' => $unseenCount
         ]);
     }
@@ -290,18 +290,18 @@ class PostCategories extends Controller
             ->where('seen', '=', '0')
             ->count();
       // Query categories based on search query or retrieve all if no search query provided
-      $categoriesQuery = Category::where('type', 'Consulting');
+      $postsQuery = Posts::where('type', 'Consulting');
       if ($searchQuery) {
-          $categoriesQuery->where(function ($query) use ($searchQuery) {
+          $postsQuery->where(function ($query) use ($searchQuery) {
               $query->where('businessName', 'like', '%' . $searchQuery . '%')
                   ->orWhere('description', 'like', '%' . $searchQuery . '%');
           });
       }
 
       // Paginate the results with 10 businesses per page
-      $categories = $categoriesQuery->paginate(9);
+      $posts = $postsQuery->paginate(9);
         return view('business-section.business-categories.businessConsulting', [
-            'categories' => $categories,
+            'posts' => $posts,
             'unseenCount' => $unseenCount
         ]);
     }
@@ -316,18 +316,18 @@ class PostCategories extends Controller
             ->where('seen', '=', '0')
             ->count();
       // Query categories based on search query or retrieve all if no search query provided
-      $categoriesQuery = Category::where('type', 'Barbershop');
+      $postsQuery = Posts::where('type', 'Barbershop');
       if ($searchQuery) {
-          $categoriesQuery->where(function ($query) use ($searchQuery) {
+          $postsQuery->where(function ($query) use ($searchQuery) {
               $query->where('businessName', 'like', '%' . $searchQuery . '%')
                   ->orWhere('description', 'like', '%' . $searchQuery . '%');
           });
       }
 
       // Paginate the results with 10 businesses per page
-      $categories = $categoriesQuery->paginate(9);
+      $posts = $postsQuery->paginate(9);
         return view('business-section.business-categories.businessBarberShops', [
-            'categories' => $categories,
+            'posts' => $posts,
             'unseenCount' => $unseenCount
         ]);
     }
@@ -342,18 +342,18 @@ class PostCategories extends Controller
             ->where('seen', '=', '0')
             ->count();
       // Query categories based on search query or retrieve all if no search query provided
-      $categoriesQuery = Category::where('type', 'Construction');
+      $postsQuery = Posts::where('type', 'Construction');
       if ($searchQuery) {
-          $categoriesQuery->where(function ($query) use ($searchQuery) {
+          $postsQuery->where(function ($query) use ($searchQuery) {
               $query->where('businessName', 'like', '%' . $searchQuery . '%')
                   ->orWhere('description', 'like', '%' . $searchQuery . '%');
           });
       }
 
       // Paginate the results with 10 businesses per page
-      $categories = $categoriesQuery->paginate(9);
+      $posts = $postsQuery->paginate(9);
         return view('business-section.business-categories.businessConstruction', [
-            'categories' => $categories,
+            'posts' => $posts,
             'unseenCount' => $unseenCount
         ]);
     }
@@ -368,18 +368,18 @@ class PostCategories extends Controller
             ->where('seen', '=', '0')
             ->count();
       // Query categories based on search query or retrieve all if no search query provided
-      $categoriesQuery = Category::where('type','Fashion Consultancy');
+      $postsQuery = Posts::where('type','Fashion Consultancy');
       if ($searchQuery) {
-          $categoriesQuery->where(function ($query) use ($searchQuery) {
+          $postsQuery->where(function ($query) use ($searchQuery) {
               $query->where('businessName', 'like', '%' . $searchQuery . '%')
                   ->orWhere('description', 'like', '%' . $searchQuery . '%');
           });
       }
 
       // Paginate the results with 10 businesses per page
-      $categories = $categoriesQuery->paginate(9);
+      $posts = $postsQuery->paginate(9);
         return view('business-section.business-categories.businessFashionConsultancy', [
-            'categories' => $categories,
+            'posts' => $posts,
             'unseenCount' => $unseenCount
         ]);
     }
@@ -394,18 +394,18 @@ class PostCategories extends Controller
             ->where('seen', '=', '0')
             ->count();
       // Query categories based on search query or retrieve all if no search query provided
-      $categoriesQuery = Category::where('type', 'Beauty Salon');
+      $postsQuery = Posts::where('type', 'Beauty Salon');
       if ($searchQuery) {
-          $categoriesQuery->where(function ($query) use ($searchQuery) {
+          $postsQuery->where(function ($query) use ($searchQuery) {
               $query->where('businessName', 'like', '%' . $searchQuery . '%')
                   ->orWhere('description', 'like', '%' . $searchQuery . '%');
           });
       }
 
       // Paginate the results with 10 businesses per page
-      $categories = $categoriesQuery->paginate(9);
+      $posts = $postsQuery->paginate(9);
         return view('business-section.business-categories.businessBeautySalon', [
-            'categories' => $categories,
+            'posts' => $posts,
             'unseenCount' => $unseenCount
         ]);
     }
@@ -420,18 +420,18 @@ class PostCategories extends Controller
             ->where('seen', '=', '0')
             ->count();
       // Query categories based on search query or retrieve all if no search query provided
-      $categoriesQuery = Category::where('type', 'Logistics');
+      $postsQuery = Posts::where('type', 'Logistics');
       if ($searchQuery) {
-          $categoriesQuery->where(function ($query) use ($searchQuery) {
+          $postsQuery->where(function ($query) use ($searchQuery) {
               $query->where('businessName', 'like', '%' . $searchQuery . '%')
                   ->orWhere('description', 'like', '%' . $searchQuery . '%');
           });
       }
 
       // Paginate the results with 10 businesses per page
-      $categories = $categoriesQuery->paginate(9);
+      $posts = $postsQuery->paginate(9);
         return view('business-section.business-categories.businessLogistics', [
-            'categories' => $categories,
+            'posts' => $posts,
             'unseenCount' => $unseenCount
         ]);
     }
@@ -446,18 +446,18 @@ class PostCategories extends Controller
             ->where('seen', '=', '0')
             ->count();
       // Query categories based on search query or retrieve all if no search query provided
-      $categoriesQuery = Category::where('type', 'Sports');
+      $postsQuery = Posts::where('type', 'Sports');
       if ($searchQuery) {
-          $categoriesQuery->where(function ($query) use ($searchQuery) {
+          $postsQuery->where(function ($query) use ($searchQuery) {
               $query->where('businessName', 'like', '%' . $searchQuery . '%')
                   ->orWhere('description', 'like', '%' . $searchQuery . '%');
           });
       }
 
       // Paginate the results with 10 businesses per page
-      $categories = $categoriesQuery->paginate(9);
+      $posts = $postsQuery->paginate(9);
         return view('business-section.business-categories.businessSports', [
-            'categories' => $categories,
+            'posts' => $posts,
             'unseenCount' => $unseenCount
         ]);
     }
@@ -473,19 +473,19 @@ class PostCategories extends Controller
             ->where('seen', '=', '0')
             ->count();
       // Query categories based on search query or retrieve all if no search query provided
-      $categoriesQuery = Category::where('type', 'Pharmaceuticals');
+      $postsQuery = Posts::where('type', 'Pharmaceuticals');
       if ($searchQuery) {
-          $categoriesQuery->where(function ($query) use ($searchQuery) {
+          $postsQuery->where(function ($query) use ($searchQuery) {
               $query->where('businessName', 'like', '%' . $searchQuery . '%')
                   ->orWhere('description', 'like', '%' . $searchQuery . '%');
           });
       }
 
       // Paginate the results with 10 businesses per page
-      $categories = $categoriesQuery->paginate(9);
+      $posts = $postsQuery->paginate(9);
         // Pass the retrieved categories to the view for display
         return view('business-section.business-categories.businessPharmaceuticals', [
-            'categories' => $categories,
+            'posts' => $posts,
             'unseenCount' => $unseenCount
         ]);
     }
@@ -501,18 +501,18 @@ class PostCategories extends Controller
             ->where('seen', '=', '0')
             ->count();
       // Query categories based on search query or retrieve all if no search query provided
-      $categoriesQuery = Category::where('type', 'Pets');
+      $postsQuery = Posts::where('type', 'Pets');
       if ($searchQuery) {
-          $categoriesQuery->where(function ($query) use ($searchQuery) {
+          $postsQuery->where(function ($query) use ($searchQuery) {
               $query->where('businessName', 'like', '%' . $searchQuery . '%')
                   ->orWhere('description', 'like', '%' . $searchQuery . '%');
           });
       }
 
       // Paginate the results with 10 businesses per page
-      $categories = $categoriesQuery->paginate(9);
+      $posts = $postsQuery->paginate(9);
         return view('business-section.business-categories.businessPets', [
-            'categories' => $categories,
+            'posts' => $posts,
             'unseenCount' => $unseenCount
         ]);
     }
@@ -527,18 +527,18 @@ class PostCategories extends Controller
             ->where('seen', '=', '0')
             ->count();
       // Query categories based on search query or retrieve all if no search query provided
-      $categoriesQuery = Category::where('type', 'Entertainment');
+      $postsQuery = Posts::where('type', 'Entertainment');
       if ($searchQuery) {
-          $categoriesQuery->where(function ($query) use ($searchQuery) {
+          $postsQuery->where(function ($query) use ($searchQuery) {
               $query->where('businessName', 'like', '%' . $searchQuery . '%')
                   ->orWhere('description', 'like', '%' . $searchQuery . '%');
           });
       }
 
       // Paginate the results with 10 businesses per page
-      $categories = $categoriesQuery->paginate(9);
+      $posts = $postsQuery->paginate(9);
         return view('business-section.business-categories.businessEntertainment', [
-            'categories' => $categories,
+            'posts' => $posts,
             'unseenCount' => $unseenCount
         ]);
     }
@@ -554,19 +554,19 @@ class PostCategories extends Controller
             ->where('seen', '=', '0')
             ->count();
       // Query categories based on search query or retrieve all if no search query provided
-      $categoriesQuery = Category::where('type', 'Agriculture');
+      $postsQuery = Posts::where('type', 'Agriculture');
       if ($searchQuery) {
-          $categoriesQuery->where(function ($query) use ($searchQuery) {
+          $postsQuery->where(function ($query) use ($searchQuery) {
               $query->where('businessName', 'like', '%' . $searchQuery . '%')
                   ->orWhere('description', 'like', '%' . $searchQuery . '%');
           });
       }
 
       // Paginate the results with 10 businesses per page
-      $categories = $categoriesQuery->paginate(9);
+      $posts = $postsQuery->paginate(9);
         // Pass the retrieved categories to the view for display
         return view('business-section.business-categories.businessAgriculture', [
-            'categories' => $categories,
+            'posts' => $posts,
             'unseenCount' => $unseenCount
         ]);
     }
@@ -582,19 +582,19 @@ class PostCategories extends Controller
             ->where('seen', '=', '0')
             ->count();
       // Query categories based on search query or retrieve all if no search query provided
-      $categoriesQuery = Category::where('type', 'Education');
+      $postsQuery = Posts::where('type', 'Education');
       if ($searchQuery) {
-          $categoriesQuery->where(function ($query) use ($searchQuery) {
+          $postsQuery->where(function ($query) use ($searchQuery) {
               $query->where('businessName', 'like', '%' . $searchQuery . '%')
                   ->orWhere('description', 'like', '%' . $searchQuery . '%');
           });
       }
 
       // Paginate the results with 10 businesses per page
-      $categories = $categoriesQuery->paginate(9);
+      $posts = $postsQuery->paginate(9);
         // Pass the retrieved categories to the view for display
         return view('business-section.business-categories.businessEducation', [
-            'categories' => $categories,
+            'posts' => $posts,
             'unseenCount' => $unseenCount
         ]);
     }
@@ -610,19 +610,19 @@ class PostCategories extends Controller
             ->where('seen', '=', '0')
             ->count();
       // Query categories based on search query or retrieve all if no search query provided
-      $categoriesQuery = Category::where('type', 'Finance');
+      $postsQuery = Posts::where('type', 'Finance');
       if ($searchQuery) {
-          $categoriesQuery->where(function ($query) use ($searchQuery) {
+          $postsQuery->where(function ($query) use ($searchQuery) {
               $query->where('businessName', 'like', '%' . $searchQuery . '%')
                   ->orWhere('description', 'like', '%' . $searchQuery . '%');
           });
       }
 
       // Paginate the results with 10 businesses per page
-      $categories = $categoriesQuery->paginate(9);
+      $posts = $postsQuery->paginate(9);
         // Pass the retrieved categories to the view for display
         return view('business-section.business-categories.businessFinance', [
-            'categories' => $categories,
+            'posts' => $posts,
             'unseenCount' => $unseenCount
         ]);
     }
@@ -639,19 +639,19 @@ class PostCategories extends Controller
             ->where('seen', '=', '0')
             ->count();
       // Query categories based on search query or retrieve all if no search query provided
-      $categoriesQuery = Category::where('type', 'Coffee Shops');
+      $postsQuery = Posts::where('type', 'Coffee Shops');
       if ($searchQuery) {
-          $categoriesQuery->where(function ($query) use ($searchQuery) {
+          $postsQuery->where(function ($query) use ($searchQuery) {
               $query->where('businessName', 'like', '%' . $searchQuery . '%')
                   ->orWhere('description', 'like', '%' . $searchQuery . '%');
           });
       }
 
       // Paginate the results with 10 businesses per page
-      $categories = $categoriesQuery->paginate(9);
+      $posts = $postsQuery->paginate(9);
         // Pass the retrieved categories to the view for display
         return view('business-section.business-categories.businessCoffeeShops', [
-            'categories' => $categories,
+            'posts' => $posts,
             'unseenCount' => $unseenCount
         ]);
     }
@@ -666,18 +666,18 @@ class PostCategories extends Controller
             ->where('seen', '=', '0')
             ->count();
       // Query categories based on search query or retrieve all if no search query provided
-      $categoriesQuery = Category::where('type', 'Pattern Making Services');
+      $postsQuery = Posts::where('type', 'Pattern Making Services');
       if ($searchQuery) {
-          $categoriesQuery->where(function ($query) use ($searchQuery) {
+          $postsQuery->where(function ($query) use ($searchQuery) {
               $query->where('businessName', 'like', '%' . $searchQuery . '%')
                   ->orWhere('description', 'like', '%' . $searchQuery . '%');
           });
       }
 
       // Paginate the results with 10 businesses per page
-      $categories = $categoriesQuery->paginate(9);
+      $posts = $postsQuery->paginate(9);
         return view('business-section.business-categories.businessPatternMakingServices', [
-            'categories' => $categories,
+            'posts' => $posts,
             'unseenCount' => $unseenCount
         ]);
     }
@@ -692,18 +692,18 @@ class PostCategories extends Controller
             ->where('seen', '=', '0')
             ->count();
       // Query categories based on search query or retrieve all if no search query provided
-      $categoriesQuery = Category::where('type', 'Maintenance');
+      $postsQuery = Posts::where('type', 'Maintenance');
       if ($searchQuery) {
-          $categoriesQuery->where(function ($query) use ($searchQuery) {
+          $postsQuery->where(function ($query) use ($searchQuery) {
               $query->where('businessName', 'like', '%' . $searchQuery . '%')
                   ->orWhere('description', 'like', '%' . $searchQuery . '%');
           });
       }
 
       // Paginate the results with 10 businesses per page
-      $categories = $categoriesQuery->paginate(9);
+      $posts = $postsQuery->paginate(9);
         return view('business-section.business-categories.businessMaintenance', [
-            'categories' => $categories,
+            'posts' => $posts,
             'unseenCount' => $unseenCount
         ]);
     }
@@ -718,18 +718,18 @@ class PostCategories extends Controller
             ->where('seen', '=', '0')
             ->count();
       // Query categories based on search query or retrieve all if no search query provided
-      $categoriesQuery = Category::where('type', 'Automotive');
+      $postsQuery = Posts::where('type', 'Automotive');
       if ($searchQuery) {
-          $categoriesQuery->where(function ($query) use ($searchQuery) {
+          $postsQuery->where(function ($query) use ($searchQuery) {
               $query->where('businessName', 'like', '%' . $searchQuery . '%')
                   ->orWhere('description', 'like', '%' . $searchQuery . '%');
           });
       }
 
       // Paginate the results with 10 businesses per page
-      $categories = $categoriesQuery->paginate(9);
+      $posts = $postsQuery->paginate(9);
         return view('business-section.business-categories.businessAutomative', [
-            'categories' => $categories,
+            'posts' => $posts,
             'unseenCount' => $unseenCount
         ]);
     }
@@ -744,18 +744,18 @@ class PostCategories extends Controller
             ->where('seen', '=', '0')
             ->count();
       // Query categories based on search query or retrieve all if no search query provided
-      $categoriesQuery = Category::where('type', 'Environmental');
+      $postsQuery = Posts::where('type', 'Environmental');
       if ($searchQuery) {
-          $categoriesQuery->where(function ($query) use ($searchQuery) {
+          $postsQuery->where(function ($query) use ($searchQuery) {
               $query->where('businessName', 'like', '%' . $searchQuery . '%')
                   ->orWhere('description', 'like', '%' . $searchQuery . '%');
           });
       }
 
       // Paginate the results with 10 businesses per page
-      $categories = $categoriesQuery->paginate(9);
+      $posts = $postsQuery->paginate(9);
         return view('business-section.business-categories.businessEnvironmental', [
-            'categories' => $categories,
+            'posts' => $posts,
             'unseenCount' => $unseenCount
         ]);
     }
@@ -770,18 +770,18 @@ class PostCategories extends Controller
             ->where('seen', '=', '0')
             ->count();
       // Query categories based on search query or retrieve all if no search query provided
-      $categoriesQuery = Category::where('type', 'Food & Beverage');
+      $postsQuery = Posts::where('type', 'Food & Beverage');
       if ($searchQuery) {
-          $categoriesQuery->where(function ($query) use ($searchQuery) {
+          $postsQuery->where(function ($query) use ($searchQuery) {
               $query->where('businessName', 'like', '%' . $searchQuery . '%')
                   ->orWhere('description', 'like', '%' . $searchQuery . '%');
           });
       }
 
       // Paginate the results with 10 businesses per page
-      $categories = $categoriesQuery->paginate(9);
+      $posts = $postsQuery->paginate(9);
         return view('business-section.business-categories.businessFoodBeverages', [
-            'categories' => $categories,
+            'posts' => $posts,
             'unseenCount' => $unseenCount
         ]);
     }
@@ -796,18 +796,18 @@ class PostCategories extends Controller
             ->where('seen', '=', '0')
             ->count();
       // Query categories based on search query or retrieve all if no search query provided
-      $categoriesQuery = Category::where('type', 'Quick Service Restaurants');
+      $postsQuery = Posts::where('type', 'Quick Service Restaurants');
       if ($searchQuery) {
-          $categoriesQuery->where(function ($query) use ($searchQuery) {
+          $postsQuery->where(function ($query) use ($searchQuery) {
               $query->where('businessName', 'like', '%' . $searchQuery . '%')
                   ->orWhere('description', 'like', '%' . $searchQuery . '%');
           });
       }
 
       // Paginate the results with 10 businesses per page
-      $categories = $categoriesQuery->paginate(9);
+      $posts = $postsQuery->paginate(9);
         return view('business-section.business-categories.businessQuickServiceRestaurants', [
-            'categories' => $categories,
+            'posts' => $posts,
             'unseenCount' => $unseenCount
         ]);
     }
@@ -822,18 +822,18 @@ class PostCategories extends Controller
             ->where('seen', '=', '0')
             ->count();
       // Query categories based on search query or retrieve all if no search query provided
-      $categoriesQuery = Category::where('type', 'Garment Manufacturing');
+      $postsQuery = Posts::where('type', 'Garment Manufacturing');
       if ($searchQuery) {
-          $categoriesQuery->where(function ($query) use ($searchQuery) {
+          $postsQuery->where(function ($query) use ($searchQuery) {
               $query->where('businessName', 'like', '%' . $searchQuery . '%')
                   ->orWhere('description', 'like', '%' . $searchQuery . '%');
           });
       }
 
       // Paginate the results with 10 businesses per page
-      $categories = $categoriesQuery->paginate(9);
+      $posts = $postsQuery->paginate(9);
         return view('business-section.business-categories.businessGarmentManufacturing', [
-            'categories' => $categories,
+            'posts' => $posts,
             'unseenCount' => $unseenCount
         ]);
     }
@@ -848,18 +848,18 @@ class PostCategories extends Controller
             ->where('seen', '=', '0')
             ->count();
       // Query categories based on search query or retrieve all if no search query provided
-      $categoriesQuery = Category::where('type', 'Fashion Events Management');
+      $postsQuery = Posts::where('type', 'Fashion Events Management');
       if ($searchQuery) {
-          $categoriesQuery->where(function ($query) use ($searchQuery) {
+          $postsQuery->where(function ($query) use ($searchQuery) {
               $query->where('businessName', 'like', '%' . $searchQuery . '%')
                   ->orWhere('description', 'like', '%' . $searchQuery . '%');
           });
       }
 
       // Paginate the results with 10 businesses per page
-      $categories = $categoriesQuery->paginate(9);
+      $posts = $postsQuery->paginate(9);
         return view('business-section.business-categories.businessFashionEventsManagement', [
-            'categories' => $categories,
+            'posts' => $posts,
             'unseenCount' => $unseenCount
         ]);
     }
@@ -874,18 +874,18 @@ class PostCategories extends Controller
             ->where('seen', '=', '0')
             ->count();
       // Query categories based on search query or retrieve all if no search query provided
-      $categoriesQuery = Category::where('type', 'Retail Clothing Stores');
+      $postsQuery = Posts::where('type', 'Retail Clothing Stores');
       if ($searchQuery) {
-          $categoriesQuery->where(function ($query) use ($searchQuery) {
+          $postsQuery->where(function ($query) use ($searchQuery) {
               $query->where('businessName', 'like', '%' . $searchQuery . '%')
                   ->orWhere('description', 'like', '%' . $searchQuery . '%');
           });
       }
 
       // Paginate the results with 10 businesses per page
-      $categories = $categoriesQuery->paginate(9);
+      $posts = $postsQuery->paginate(9);
         return view('business-section.business-categories.businessRetailClothingStores', [
-            'categories' => $categories,
+            'posts' => $posts,
             'unseenCount' => $unseenCount
         ]);
     }
@@ -900,18 +900,18 @@ class PostCategories extends Controller
             ->where('seen', '=', '0')
             ->count();
       // Query categories based on search query or retrieve all if no search query provided
-      $categoriesQuery = Category::where('type', 'Fashion Design Studios');
+      $postsQuery = Posts::where('type', 'Fashion Design Studios');
       if ($searchQuery) {
-          $categoriesQuery->where(function ($query) use ($searchQuery) {
+          $postsQuery->where(function ($query) use ($searchQuery) {
               $query->where('businessName', 'like', '%' . $searchQuery . '%')
                   ->orWhere('description', 'like', '%' . $searchQuery . '%');
           });
       }
 
       // Paginate the results with 10 businesses per page
-      $categories = $categoriesQuery->paginate(9);
+      $posts = $postsQuery->paginate(9);
         return view('business-section.business-categories.businessFashionDesignStudios', [
-            'categories' => $categories,
+            'posts' => $posts,
             'unseenCount' => $unseenCount
         ]);
     }
@@ -926,18 +926,18 @@ class PostCategories extends Controller
             ->where('seen', '=', '0')
             ->count();
       // Query categories based on search query or retrieve all if no search query provided
-      $categoriesQuery = Category::where('type', 'Shoe Manufacturing');
+      $postsQuery = Posts::where('type', 'Shoe Manufacturing');
       if ($searchQuery) {
-          $categoriesQuery->where(function ($query) use ($searchQuery) {
+          $postsQuery->where(function ($query) use ($searchQuery) {
               $query->where('businessName', 'like', '%' . $searchQuery . '%')
                   ->orWhere('description', 'like', '%' . $searchQuery . '%');
           });
       }
 
       // Paginate the results with 10 businesses per page
-      $categories = $categoriesQuery->paginate(9);
+      $posts = $postsQuery->paginate(9);
         return view('business-section.business-categories.businessShoeManufacturing', [
-            'categories' => $categories,
+            'posts' => $posts,
             'unseenCount' => $unseenCount
         ]);
     }
@@ -952,18 +952,18 @@ class PostCategories extends Controller
             ->where('seen', '=', '0')
             ->count();
       // Query categories based on search query or retrieve all if no search query provided
-      $categoriesQuery = Category::where('type', 'Tailoring and Alterations');
+      $postsQuery = Posts::where('type', 'Tailoring and Alterations');
       if ($searchQuery) {
-          $categoriesQuery->where(function ($query) use ($searchQuery) {
+          $postsQuery->where(function ($query) use ($searchQuery) {
               $query->where('businessName', 'like', '%' . $searchQuery . '%')
                   ->orWhere('description', 'like', '%' . $searchQuery . '%');
           });
       }
 
       // Paginate the results with 10 businesses per page
-      $categories = $categoriesQuery->paginate(9);
+      $posts = $postsQuery->paginate(9);
         return view('business-section.business-categories.businessTailoringAndAlterations', [
-            'categories' => $categories,
+            'posts' => $posts,
             'unseenCount' => $unseenCount
         ]);
     }
@@ -980,18 +980,18 @@ class PostCategories extends Controller
             ->where('seen', '=', '0')
             ->count();
       // Query categories based on search query or retrieve all if no search query provided
-      $categoriesQuery = Category::where('type', 'Fashion Accessories');
+      $postsQuery = Posts::where('type', 'Fashion Accessories');
       if ($searchQuery) {
-          $categoriesQuery->where(function ($query) use ($searchQuery) {
+          $postsQuery->where(function ($query) use ($searchQuery) {
               $query->where('businessName', 'like', '%' . $searchQuery . '%')
                   ->orWhere('description', 'like', '%' . $searchQuery . '%');
           });
       }
 
       // Paginate the results with 10 businesses per page
-      $categories = $categoriesQuery->paginate(9);
+      $posts = $postsQuery->paginate(9);
         return view('business-section.business-categories.businessFashionAccessories', [
-            'categories' => $categories,
+            'posts' => $posts,
             'unseenCount' => $unseenCount
         ]);
     }
@@ -1006,18 +1006,18 @@ class PostCategories extends Controller
             ->where('seen', '=', '0')
             ->count();
       // Query categories based on search query or retrieve all if no search query provided
-      $categoriesQuery = Category::where('type', 'Boutiques');
+      $postsQuery = Posts::where('type', 'Boutiques');
       if ($searchQuery) {
-          $categoriesQuery->where(function ($query) use ($searchQuery) {
+          $postsQuery->where(function ($query) use ($searchQuery) {
               $query->where('businessName', 'like', '%' . $searchQuery . '%')
                   ->orWhere('description', 'like', '%' . $searchQuery . '%');
           });
       }
 
       // Paginate the results with 10 businesses per page
-      $categories = $categoriesQuery->paginate(9);
+      $posts = $postsQuery->paginate(9);
         return view('business-section.business-categories.businessBoutiques', [
-            'categories' => $categories,
+            'posts' => $posts,
             'unseenCount' => $unseenCount
         ]);
     }
@@ -1032,18 +1032,18 @@ class PostCategories extends Controller
             ->where('seen', '=', '0')
             ->count();
       // Query categories based on search query or retrieve all if no search query provided
-      $categoriesQuery = Category::where('type', 'Apparel Recycling and Upcycling');
+      $postsQuery = Posts::where('type', 'Apparel Recycling and Upcycling');
       if ($searchQuery) {
-          $categoriesQuery->where(function ($query) use ($searchQuery) {
+          $postsQuery->where(function ($query) use ($searchQuery) {
               $query->where('businessName', 'like', '%' . $searchQuery . '%')
                   ->orWhere('description', 'like', '%' . $searchQuery . '%');
           });
       }
 
       // Paginate the results with 10 businesses per page
-      $categories = $categoriesQuery->paginate(9);
+      $posts = $postsQuery->paginate(9);
         return view('business-section.business-categories.businessApparelRecyclingAndUpcycling', [
-            'categories' => $categories,
+            'posts' => $posts,
             'unseenCount' => $unseenCount
         ]);
     }
@@ -1054,7 +1054,7 @@ class PostCategories extends Controller
         ->where('to_id', '=', Auth::user()->id)
         ->where('seen', '=', '0')
         ->count();
-        $post = Category::findOrFail($id); // Assuming your model is named Post
+        $post = Posts::findOrFail($id); // Assuming your model is named Post
         return view('business-section.business-categories.business_post', compact('post','unseenCount'));
     }
 }

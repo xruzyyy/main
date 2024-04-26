@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Category;
+use App\Models\Posts;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,22 +21,22 @@ class SearchController extends Controller
             ->count();
 
         // Query all categories
-        $categoriesQuery = Category::query();
+        $postsQuery = Posts::query();
 
         // Apply search if search query is provided
         if ($searchQuery) {
-            $categoriesQuery->where(function ($query) use ($searchQuery) {
+            $postsQuery->where(function ($query) use ($searchQuery) {
                 $query->where('businessName', 'like', '%' . $searchQuery . '%')
                     ->orWhere('description', 'like', '%' . $searchQuery . '%');
             });
         }
 
         // Paginate the results with 10 businesses per page
-        $categories = $categoriesQuery->paginate(10);
+        $posts = $postsQuery->paginate(10);
 
         // Pass the retrieved categories to the view for display
         return view('business-section.business-categories.searchResults', [
-            'categories' => $categories,
+            'categories' => $posts,
             'unseenCount' => $unseenCount,
         ]);
     }

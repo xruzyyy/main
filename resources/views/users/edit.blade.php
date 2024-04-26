@@ -51,7 +51,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="image">Image</label>
+                                <label for="image">Permit</label>
                                 <input type="file" name="image" id="image" class="form-control-file">
                             </div>
 

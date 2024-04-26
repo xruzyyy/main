@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
+use App\Models\Posts;
 use Illuminate\Http\Request;
 use App\Models\Comment;
 use App\Models\Post;
@@ -19,25 +19,27 @@ class CommentController extends Controller
    // ManagePostController.php
 
 
-public function storeComment(Request $request, $id)
-{
-    // Validate the request data
-    $request->validate([
-        'content' => 'required|string|max:255',
-    ]);
 
-    // Find the category/post by its ID
-    $post = Category::findOrFail($id);
+   public function storeComment(Request $request, $id)
+   {
+       // Validate the request data
+       $request->validate([
+           'content' => 'required|string|max:255',
+       ]);
 
-    // Create a new Comment instance
-    $comment = new Comment();
-    $comment->content = $request->content;
-    $comment->user_id = auth()->user()->id; // Assuming the user is authenticated
-    // Associate the comment with the category/post
-    $post->comments()->save($comment);
+       // Find the category/post by its ID
+       $post = Posts::findOrFail($id);
 
-    // Redirect back with a success message
-    return redirect()->back()->with('success', 'Comment added successfully!');
-}
+       // Create a new Comment instance
+       $comment = new Comment();
+       $comment->content = $request->content;
+       $comment->user_id = auth()->user()->id; // Assuming the user is authenticated
+       // Associate the comment with the category/post
+       $post->comments()->save($comment);
+
+       // Redirect back with a success message
+       return redirect()->back()->with('success', 'Comment added successfully!');
+   }
+
 
 }

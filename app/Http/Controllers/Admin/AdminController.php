@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
-use App\Models\Category;
+use App\Models\Posts;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -42,14 +42,14 @@ class AdminController extends Controller
 
 
         // Counting total listings (categories)
-        $count['listing'] = Category::count();
+        $count['listing'] = Posts::count();
 
         // Counting inactive listings
-        $count['inactive_listings'] = Category::where('is_active', 0)->count();
+        $count['inactive_listings'] = Posts::where('is_active', 0)->count();
 
 
        // Counting expired listings
-        $count['expired_listings'] = Category::where('is_active', 1)
+        $count['expired_listings'] = Posts::where('is_active', 1)
         ->whereHas('user', function ($query) {
             $query->where('status', 1)
                 ->where('account_expiration_date', '<', now());
@@ -59,9 +59,9 @@ class AdminController extends Controller
 
 
         // Counting active listings
-        $count['active_listings'] = Category::where('is_active', 1)->count();
+        $count['active_listings'] = Posts::where('is_active', 1)->count();
 
-        
+
 
        // Counting active business users over time
         $activeBusinessUsersOverTime = User::where('status', 1)
@@ -81,19 +81,19 @@ class AdminController extends Controller
         // Logic to retrieve user creation data
         $userCreationData = User::selectRaw('DATE(created_at) as date, COUNT(*) as count')
             ->where('type', 2) // Filter for type 2 users (business users)
-            ->whereDate('created_at', '>=', Carbon::now()->subDays(36500)) 
+            ->whereDate('created_at', '>=', Carbon::now()->subDays(36500))
             ->groupBy('date')
             ->orderBy('date')
             ->get();
-        
+
         // Logic to retrieve user creation data
         $normalUserCreationData = User::selectRaw('DATE(created_at) as date, COUNT(*) as count')
             ->where('type', 0) // Filter for type 0 users (normal users)
-            ->whereDate('created_at', '>=', Carbon::now()->subDays(36500)) 
+            ->whereDate('created_at', '>=', Carbon::now()->subDays(36500))
             ->groupBy('date')
             ->orderBy('date')
             ->get();
-        
+
          // Fetch expired accounts
         $expiredAccounts = User::where('type', 2)
         ->where('status', 1)
@@ -105,18 +105,18 @@ class AdminController extends Controller
         ->where('status', 0) // Assuming status 0 represents pending accounts
         ->get();
 
-        
+
         // Retrieve pending business user registrations
         $pendingBusinessUsers = User::where('type', 2)
         ->where('status', 0)
         ->get();
-        
-        
+
+
         $unseenCount = DB::table('ch_messages')->where('to_id', '=' , Auth::user()->id)->where('seen' ,'=' , '0')->count();
 
         return view('admin.adminDashboard', compact('count', 'pendingBusinessUsers', 'userCreationDates', 'userCreationData', 'normalUserCreationData', 'expiredAccounts', 'pendingAccounts', 'unseenCount'));
 
     }
-    
+
 
 }
