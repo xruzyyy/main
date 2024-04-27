@@ -1,0 +1,203 @@
+  // Custom.scss
+  // Option B: Include parts of Bootstrap
+//   @import 'variables';
+  @import 'businessHome';
+  @import 'category';
+  @import 'latest-listing';
+  @import 'section';
+  @import 'header';
+  @import 'about';
+
+
+  // 1. Include functions first (so you can manipulate colors, SVGs, calc, etc)
+  @import "../../node_modules/bootstrap/scss/functions";
+
+  // 2. Include any default variable overrides here
+
+  // 3. Include remainder of required Bootstrap stylesheets (including any separate color mode stylesheets)
+  @import "../../node_modules/bootstrap/scss/variables";
+
+  @import "../../node_modules/bootstrap/scss/variables-dark";
+  // 4. Inc../lude any default map overrides here
+
+  // 5. Inc../lude remainder of required parts
+  @import "../../node_modules/bootstrap/scss/maps";
+  @import "../../node_modules/bootstrap/scss/mixins";
+  @import "../../node_modules/bootstrap/scss/root";
+
+  // 6. Opt../ionally include any other parts as needed
+  @import "../../node_modules/bootstrap/scss/utilities";
+  @import "../../node_modules/bootstrap/scss/reboot";
+  @import "../../node_modules/bootstrap/scss/type";
+  @import "../../node_modules/bootstrap/scss/images";
+  @import "../../node_modules/bootstrap/scss/containers";
+  @import "../../node_modules/bootstrap/scss/grid";
+  @import "../../node_modules/bootstrap/scss/helpers";
+
+  // 7. Opt../ionally include utilities API last to generate classes based on the Sass map in `_utilities.scss`
+  @import "../../node_modules/bootstrap/scss/utilities/api";
+
+  // 8. Add additional custom code here
+  @import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
+
+  *, ::before, ::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+  }
+  /* Hide scrollbar for Chrome, Safari and Opera */
+*::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbar for IE, Edge and Firefox */
+  * {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+
+
+  .home {
+    height: 100vh;
+    position: relative;
+  }
+  video {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .home-content {
+    position: relative;
+    padding-top: 150px;
+    color: #fff;
+    text-align: center;
+  }
+  h1 {
+    font-family: Playfair Display, serif;
+    font-size: clamp(45px, 7vw, 130px);
+    line-height: 1.1;
+  }
+
+  .home p {
+    font-size: clamp(15px, 4vw, 40px);
+    margin-top: 10px;
+  }
+
+  .home-content button {
+    display: block;
+    font-size: clamp(14px, 1.5vw, 18px);
+    border: 1px solid #f1f1f1;
+    border-radius: 5px;
+    background: transparent;
+    color: #fff;
+    margin: 50px auto 0;
+    padding: 12px 20px;
+    cursor: pointer;
+  }
+
+
+
+
+
+  @media only screen and (max-width: 768px) {
+    .featured-container {
+      margin-top: 10%; /* Adjusted margin-top for smaller screens */
+      padding: 10px; /* Reduced padding for smaller screens */
+    }
+
+    .business {
+      width: calc(50% - 20px); /* Adjusted width to 50% for smaller screens */
+      margin-bottom: 15px; /* Reduced margin-bottom for smaller screens */
+      padding: 15px; /* Reduced padding for smaller screens */
+    }
+  }
+
+  /* Additional adjustments for even smaller screens */
+  @media only screen and (max-width: 576px) {
+    .search {
+      width: 100%; /* Full width for smaller screens */
+    }
+
+    .home p {
+      font-size: 16px; /* Adjusted font size for smaller screens */
+    }
+
+    .home-content button {
+      margin: 30px auto 0; /* Adjusted margin for smaller screens */
+    }
+  }
+
+
+
+
+  .content {
+    display: table-cell;
+    vertical-align: middle;
+  }
+
+  h1 {
+    font-size: 3em;
+    display: block;
+    color: white;
+    font-weight: 300;
+  }
+
+  p {
+    font-size: 1.5em;
+    font-weight: 500;
+    color: #C3CAD9;
+  }
+
+  a {
+    font-weight: 700;
+    color: #373B44;
+    position: relative;
+
+    &:hover{
+      opacity: 0.8;
+    }
+
+    &:active {
+      top: 1px;
+    }
+  }
+
+   /* CSS for the advanced footer design */
+.footer {
+  background-color: #0a0808;
+  color: #fff;
+  padding: 30px 0;
+}
+
+.footer-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.footer-section {
+  padding: 20px;
+  flex: 1;
+}
+
+.footer-section h3 {
+  font-size: 1.5rem;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+ul li a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.footer-bottom {
+  text-align: center;
+  padding: 10px 0;
+  background-color: #474040;
+}
