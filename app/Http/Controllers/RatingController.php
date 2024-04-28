@@ -25,6 +25,9 @@ class RatingController extends Controller
         'rating' => 'required|numeric|between:1,5',
     ]);
 
+    // Find the post
+    $post = Posts::findOrFail($postId);
+
     // Find the rating for the current user and post
     $rating = Rating::where('post_id', $postId)
                     ->where('user_id', auth()->id())
@@ -43,7 +46,12 @@ class RatingController extends Controller
         $rating->save();
     }
 
+    // Recalculate and update the average rating for the post
+    $post->average_rating = $post->ratings()->avg('rating');
+    $post->save();
+
     // Redirect back to the post page
     return redirect()->back()->with('success', 'Rating submitted successfully.');
 }
+
 }

@@ -11,27 +11,31 @@
                         <!-- Only the image is wrapped in the onclick event -->
                         <img src="{{ asset($post->image) }}" class="card-img-top" alt="Business Image"
                             onclick="openFullScreen('{{ route('businessPost', ['id' => $post->id]) }}')">
-                            <div class="card-body">
-                                <p class="card-text"><strong>Type:</strong> {{ $post->type }}</p>
-                                <h5 class="card-title">{{ $post->businessName }}</h5>
-                                <!-- Limit description to 30 characters -->
-                                <p class="card-text">{{ \Illuminate\Support\Str::limit($post->description, 60) }}</p>
-                                <!-- Display the type -->
-                                <p class="card-text"><strong>Contact Number:</strong> {{ $post->contactNumber }}</p>
-                                <p class="card-text">
-                                    <i class="fas fa-map-marker-alt" style="color: #006ce7f1;"></i>
-                                    <a href="{{ route('mapStore') }}" class="store-map-link" style="text-decoration: none;">
-                                        <b style="color: black;">Explore Store on Map</b>
-                                    </a>
-                                </p>
-                                <!-- Updated HTML for the link -->
-                                <a href="/chatify/{{ $post->user_id }}" class="message-link">
-                                    <b style="color:black;">Message:</b>
-                                    <i class="fa-brands fa-facebook-messenger"></i>
-                                    {{ $post->businessName }}
+                        <div class="card-body">
+                            <p class="card-text"><strong>Type:</strong> {{ $post->type }}</p>
+                            <h5 class="card-title">{{ $post->businessName }}</h5>
+                            <!-- Limit description to 30 characters -->
+                            <p class="card-text">{{ \Illuminate\Support\Str::limit($post->description, 60) }}</p>
+                            <!-- Display the type -->
+                            <p class="card-text"><strong>Contact Number:</strong> {{ $post->contactNumber }}</p>
+                            <!-- Display average rating and ratings count -->
+                            <p class="card-text">
+                                <strong>Ratings:</strong> {{ number_format($post->ratings()->avg('rating'), 2) ?? 'Not Rated' }} ({{ $post->ratings()->count() }} ratings)
+                            </p>
+                            <p class="card-text">
+                                <i class="fas fa-map-marker-alt" style="color: #006ce7f1;"></i>
+                                <a href="{{ route('mapStore') }}" class="store-map-link" style="text-decoration: none;">
+                                    <b style="color: black;">Explore Store on Map</b>
                                 </a>
-                                <!-- Add any other relevant information here -->
-                            </div>
+                            </p>
+                            <!-- Updated HTML for the link -->
+                            <a href="/chatify/{{ $post->user_id }}" class="message-link">
+                                <b style="color:black;">Message:</b>
+                                <i class="fa-brands fa-facebook-messenger"></i>
+                                {{ $post->businessName }}
+                            </a>
+                            <!-- Add any other relevant information here -->
+                        </div>
                     </div>
                 </div>
             @endforeach

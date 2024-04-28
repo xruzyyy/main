@@ -49,9 +49,10 @@ class Posts extends Model
         return $this->hasMany(Comment::class);
     }
 
+    // Define the relationship with the Rating model
     public function ratings()
     {
-        return $this->hasMany(Rating::class);
+        return $this->hasMany(Rating::class, 'post_id'); // Adjust 'post_id' to match your actual foreign key
     }
 
 }

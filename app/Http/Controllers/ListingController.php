@@ -46,7 +46,7 @@ class ListingController extends Controller
         }
 
         // Create the category with the user_id set to the currently authenticated user's ID
-        $category = Posts::create([
+        $posts = Posts::create([
             'businessName' => $request->businessName,
             'description' => $request->description,
             'image' => $path . $filename,
@@ -57,7 +57,7 @@ class ListingController extends Controller
         ]);
 
         // Dispatch the BusinessListingAdded event
-        event(new \App\Events\BusinessListingAdded($category, $request->businessName, auth()->user()->id));
+        event(new \App\Events\BusinessListingAdded($posts, $request->businessName, auth()->user()->id));
 
         // Check if the user's status is 0 and update the related category's is_active field to 0
         if ($request->has('is_active') && $request->input('is_active') == 0) {
@@ -119,7 +119,7 @@ protected function store(Request $request)
     }
 
     // Create the category with the user_id set to the currently authenticated user's ID
-    $category = Posts::create([
+    $posts = Posts::create([
         'businessName' => $request->businessName,
         'description' => $request->description,
         'image' => $path . $filename,
@@ -132,7 +132,7 @@ protected function store(Request $request)
     ]);
 
     // Dispatch the BusinessListingAdded event
-    event(new \App\Events\BusinessListingAdded($category, $request->businessName, auth()->user()->id));
+    event(new \App\Events\BusinessListingAdded($posts, $request->businessName, auth()->user()->id));
 
     // Check if the user's status is 0 and update the related category's is_active field to 0
     if ($request->has('is_active') && $request->input('is_active') == 0) {
@@ -171,15 +171,15 @@ public function createForm()
     }
 
     public function mapStore(Request $request)
-{
-    // Retrieve categories from the database
-    $posts = Posts::all(['id', 'businessName', 'description', 'image', 'latitude', 'longitude', 'is_active']);
-
-    // Pass category data and any other necessary data to the view
-    return view('mapStore', [
-        'categories' => $posts,
-    ]);
-}
-
+    {
+        // Retrieve categories from the database
+        $posts = Posts::all(['id', 'businessName', 'description', 'image', 'latitude', 'longitude', 'is_active']);
+    
+        // Pass category data and any other necessary data to the view
+        return view('mapStore', [
+            'posts' => $posts, // Use 'posts' instead of 'categories' as the variable name
+        ]);
+    }
+    
 
 }

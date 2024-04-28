@@ -35,9 +35,10 @@ class Rating extends Model
         });
     }
 
+    // Define the relationship with the Post model
     public function post()
     {
-        return $this->belongsTo(Posts::class);
+        return $this->belongsTo(Posts::class, 'post_id'); // Adjust 'post_id' to match your actual foreign key
     }
 
     public function user()

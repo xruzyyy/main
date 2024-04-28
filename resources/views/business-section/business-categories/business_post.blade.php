@@ -19,8 +19,8 @@
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
 
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/starability/starability-basic.min.css">
-<script src="https://cdn.jsdelivr.net/npm/starability/starability.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/starability/starability-basic.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/starability/starability.min.js"></script>
 
     @if (!request()->is('login'))
         @vite(['resources/scss/main.scss'])
@@ -149,6 +149,18 @@
         .comment-form button:hover {
             background-color: #000000;
         }
+
+        /* Star ratings */
+        .star-rating {
+            display: flex;
+            align-items: center;
+            margin-top: 5px;
+        }
+
+        .star-rating i {
+            color: gold;
+            font-size: 1.2rem;
+        }
     </style>
 </head>
 
@@ -156,44 +168,55 @@
 
     <div class="container">
         <div class="business-details">
-            <img src="{{ asset($post->image) }}" alt="Business Image" class="business-image" style="width: 40em">
-            <h1>{{ $post->businessName }}</h1>
-            <p>{{ $post->description }}</p>
-            <p><strong>Type:</strong> {{ $post->type }}</p>
-            <p><strong>Contact Number:</strong> {{ $post->contactNumber }}</p>
-            <p><strong>Ratings:</strong> {{ $post->average_rating }} ({{ $post->ratings_count }} ratings)</p>
-    
-            <p>
-                <i class="fas fa-map-marker-alt" style="color: #006ce7f1;"></i>
-                <a href="{{ route('mapStore') }}" class="store-map-link" style="text-decoration: none;">
-                    <b style="color: black;">Explore Store on Map</b>
-                </a>
-            </p>
-            <a href="/chatify/{{ $post->user_id }}" class="message-link">
-                <b style="color:black;">Message:</b>
-                <i class="fa-brands fa-facebook-messenger"></i>
-                {{ $post->businessName }}
-            </a>
+            <div class="business-image-container">
+                <img src="{{ asset($post->image) }}" alt="Business Image" class="business-image">
+            </div>
+            <div class="business-info">
+                <h1>{{ $post->businessName }}</h1>
+                <p>{{ $post->description }}</p>
+                <div class="business-meta">
+                    <p><strong>Type:</strong> {{ $post->type }}</p>
+                    <p><strong>Contact Number:</strong> {{ $post->contactNumber }}</p>
+                    <p><strong>Ratings:</strong> {{ $post->average_rating }} ({{ $post->ratings_count }} ratings)</p>
+                </div>
+                <div class="business-actions">
+                    <p>
+                        <i class="fas fa-map-marker-alt" style="color: #006ce7f1;"></i>
+                        <a href="{{ route('mapStore') }}" class="store-map-link" style="text-decoration: none;">
+                            <b>Explore Store on Map</b>
+                        </a>
+                    </p>
+                    <p>
+                        <a href="/chatify/{{ $post->user_id }}" class="message-link" style="text-decoration: none;">
+                            <b>Message:</b>
+                            <i class="fa-brands fa-facebook-messenger"></i>
+                            {{ $post->businessName }}
+                        </a>
+                    </p>
+                </div>
+            </div>
         </div>
-    
-        <!-- Rating form -->
-        <form action="{{ route('ratings.store', $post->id) }}" method="POST" class="rating-form">
-            @csrf
-            <fieldset class="starability-grow">
-                <input type="radio" id="rating-1" name="rating" value="1" required />
-                <label for="rating-1" title="Terrible">1 star</label>
-                <input type="radio" id="rating-2" name="rating" value="2" />
-                <label for="rating-2" title="Not good">2 stars</label>
-                <input type="radio" id="rating-3" name="rating" value="3" />
-                <label for="rating-3" title="Average">3 stars</label>
-                <input type="radio" id="rating-4" name="rating" value="4" />
-                <label for="rating-4" title="Very good">4 stars</label>
-                <input type="radio" id="rating-5" name="rating" value="5" />
-                <label for="rating-5" title="Amazing">5 stars</label>
-            </fieldset>
-            <button type="submit" class="btn btn-primary">Submit Rating</button>
-        </form>
-    
+
+
+      <!-- Rating form -->
+<form action="{{ route('ratings.store', $post->id) }}" method="POST" class="rating-form">
+    @csrf
+    <fieldset class="starability-grow">
+        <span> Rate <i class="fas fa-star"></i> : </span>
+        <input type="radio" id="rating-1" name="rating" value="1" required />
+        <label for="rating-1" title="Terrible">Terrible</label>
+        <input type="radio" id="rating-2" name="rating" value="2" />
+        <label for="rating-2" title="Not good">Not Good</label>
+        <input type="radio" id="rating-3" name="rating" value="3" />
+        <label for="rating-3" title="Average">Average</label>
+        <input type="radio" id="rating-4" name="rating" value="4" />
+        <label for="rating-4" title="Very good">Very Good</label>
+        <input type="radio" id="rating-5" name="rating" value="5" />
+        <label for="rating-5" title="Amazing">Amazing</i></label>
+    </fieldset>
+    <button type="submit" class="btn">Submit</button>
+</form>
+
         <!-- Comment form -->
         <form action="{{ route('comments.store', $post->id) }}" method="POST" class="comment-form">
             @csrf
@@ -203,20 +226,25 @@
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
-    
-        <!-- Comment list -->
-        <ul class="comment-list">
-            @foreach ($post->comments as $comment)
-                <li class="comment-item">
-                    <div class="comment-content">
-                        <img class="comment-avatar" src="{{ asset($comment->user->profile_image) }}" alt="User Profile Image">
-                        <p><strong>{{ $comment->user->name }}</strong>: {{ $comment->content }}</p>
-                    </div>
-                </li>
-            @endforeach
-        </ul>
+
+      <!-- Comment list -->
+<ul class="comment-list">
+    @foreach ($post->comments as $comment)
+    <li class="comment-item">
+        <div class="comment-content">
+            <img class="comment-avatar" src="{{ asset($comment->user->profile_image) }}" alt="User Profile Image">
+            <p><strong>{{ $comment->user->name }}</strong>: {{ $comment->content }}</p>
+
+            <!-- Generate stars based on user's rating -->
+            <div class="star-rating">
+                {!! App\Http\Controllers\CommentController::generateStarsForUser($post->id, $comment->user_id) !!}
+            </div>
+        </div>
+    </li>
+    @endforeach
+</ul>
+
     </div>
-    
 
 </body>
 

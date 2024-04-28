@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Posts;
 use Illuminate\Http\Request;
 use App\Models\Comment;
-use App\Models\Post;
+use App\Models\Rating;
 
 class CommentController extends Controller
 {
@@ -42,4 +42,23 @@ class CommentController extends Controller
    }
 
 
+   public static function generateStarsForUser($postId, $userId)
+    {
+        // Retrieve the user's rating for the specified post
+        $rating = Rating::where('post_id', $postId)
+                        ->where('user_id', $userId)
+                        ->first();
+
+        // If the user has rated the post, generate star icons based on their rating
+        if ($rating) {
+            $stars = '';
+            for ($i = 0; $i < $rating->rating; $i++) {
+                $stars .= '<i class="fas fa-star" style="color: gold;"></i>';
+            }
+            return $stars;
+        }
+
+        // If the user hasn't rated the post, return an empty string
+        return '';
+    }
 }

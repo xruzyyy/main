@@ -49,13 +49,14 @@ class HomeController extends Controller
         return view('businessHome', ['unseenCount' => $unseenCount]);
     }
 
-    public function businessPostList(Request $request)
+
+public function businessPostList(Request $request)
 {
     // Retrieve posts from the database
     $unseenCount = $this->fetchUnseenMessageCount();
 
-    // Retrieve the 7 latest posts from the database
-    $posts = Posts::latest()->take(6)->get(['id','user_id', 'businessName', 'description', 'image', 'latitude', 'longitude', 'is_active','type','contactNumber']);
+    // Retrieve the 7 latest posts from the database along with their ratings
+    $posts = Posts::with('ratings')->latest()->take(6)->get(['id','user_id', 'businessName', 'description', 'image', 'latitude', 'longitude', 'is_active','type','contactNumber']);
 
     // Pass category data and any other necessary data to the view
     return view('businessHome', [
@@ -69,8 +70,8 @@ public function businessPostListForUser(Request $request)
     // Retrieve posts from the database
     $unseenCount = $this->fetchUnseenMessageCount();
 
-    // Retrieve the 7 latest posts from the database
-    $posts = Posts::latest()->take(6)->get(['id','user_id', 'businessName', 'description', 'image', 'latitude', 'longitude', 'is_active','type','contactNumber']);
+    // Retrieve the 7 latest posts from the database along with their ratings
+    $posts = Posts::with('ratings')->latest()->take(6)->get(['id','user_id', 'businessName', 'description', 'image', 'latitude', 'longitude', 'is_active','type','contactNumber']);
 
     // Pass category data and any other necessary data to the view
     return view('Home', [
@@ -78,6 +79,7 @@ public function businessPostListForUser(Request $request)
         'unseenCount' => $unseenCount
     ]);
 }
+
 
 
     private function fetchUnseenMessageCount()

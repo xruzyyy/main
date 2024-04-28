@@ -36,7 +36,7 @@ class SearchController extends Controller
 
         // Pass the retrieved categories to the view for display
         return view('business-section.business-categories.searchResults', [
-            'categories' => $posts,
+            'posts' => $posts,
             'unseenCount' => $unseenCount,
         ]);
     }
