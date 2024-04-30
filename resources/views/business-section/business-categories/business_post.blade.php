@@ -32,7 +32,7 @@
     @endif
 
     @if (!request()->is('login'))
-        @include('../partials.header')
+    @include('../partials.userHeader')
     @endif
     <!-- Custom CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">

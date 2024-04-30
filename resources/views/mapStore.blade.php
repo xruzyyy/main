@@ -107,8 +107,20 @@
           }
         }
       </style>
+        @vite(['resources/scss/category.scss'])
+        @vite(['resources/scss/_section.scss'])
+        @vite(['resources/scss/main.scss'])
+        @vite(['resources/scss/_businessHome.scss'])
+        @vite(['resources/scss/_about.scss'])
+        @vite(['resources/scripts/script.js'])
+        @vite(['resources/js/app.js'])
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+      </head>
     </head>
     <body>
+        @include('../partials.userHeader')
+
       <div id="map-container">
         <div id="map"></div>
 
@@ -135,7 +147,7 @@
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
   <script>
-    // Assuming you have already fetched the categories data from your database in PHP
+    // Assuming you have already fetched the posts data from your database in PHP
 var posts = {!! json_encode($posts) !!};
 
 
@@ -148,9 +160,12 @@ L.tileLayer("https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}", {
 }).addTo(map);
 
 function addCategoryMarkers() {
-    posts.forEach(function(post) {
-        var marker = L.marker([post.latitude, post.longitude]).addTo(map);
-        marker.bindPopup("<b>" + post.businessName + "</b><br>" + post.description + "<br><img src='" + post.image + "' width='100'>");
+    var posts = {!! json_encode($posts) !!};
+
+    posts.forEach(function(category) {
+        var markerColor = category.is_active ? 'blue' : 'red'; // Set marker color based on is_active value
+        var marker = L.marker([category.latitude, category.longitude], {icon: coloredIcon(markerColor)}).addTo(map);
+        marker.bindPopup("<b>" + category.businessName + "</b><br>" + category.description + "<br><img src='" + category.image + "' width='100'>" + (category.is_active ? "" : "<br><strong>Expired Permit</strong>"));
     });
 }
 
@@ -210,25 +225,8 @@ function updateUserLocationMarker(userLatLng) {
 }
 
 function useCurrentLocation(field) {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-            function(position) {
-                var userLatLng = L.latLng(
-                    position.coords.latitude,
-                    position.coords.longitude
-                );
-                map.setView(userLatLng, 13);
-                updateUserLocationMarker(userLatLng);
-                document.getElementById(field).value = "Current Location";
-            },
-            function(error) {
-                console.error("Error getting user location:", error.message);
-            },
-            { maximumAge: 60000, timeout: 5000, enableHighAccuracy: true }
-        );
-    } else {
-        console.error("Geolocation is not supported by this browser.");
-    }
+  getUserLocation();
+  document.getElementById(field).value = "Current Location";
 }
 
 var routingControl = L.Routing.control({
@@ -295,12 +293,12 @@ function getDirections() {
 }
 
 function findLocationByName(name) {
-    // Search for the location by business name in the categories array
-    for (var i = 0; i < categories.length; i++) {
-        if (categories[i].businessName.toLowerCase() === name.toLowerCase()) {
+    // Search for the location by business name in the posts array
+    for (var i = 0; i < posts.length; i++) {
+        if (posts[i].businessName.toLowerCase() === name.toLowerCase()) {
             return {
-                lat: categories[i].latitude,
-                lng: categories[i].longitude
+                lat: posts[i].latitude,
+                lng: posts[i].longitude
             };
         }
     }
@@ -327,7 +325,7 @@ var endInput = document.getElementById("end");
 
 startInput.addEventListener("input", function() {
   var inputValue = this.value.toLowerCase();
-  var suggestions = categories.filter(function(category) {
+  var suggestions = posts.filter(function(category) {
     return category.businessName.toLowerCase().includes(inputValue);
   });
 
@@ -340,7 +338,7 @@ startInput.addEventListener("input", function() {
 
 endInput.addEventListener("input", function() {
   var inputValue = this.value.toLowerCase();
-  var suggestions = categories.filter(function(category) {
+  var suggestions = posts.filter(function(category) {
     return category.businessName.toLowerCase().includes(inputValue);
   });
 

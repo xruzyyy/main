@@ -315,10 +315,10 @@ class MessagesController extends Controller
      * @param Request $request
      * @return void
      */
-    public function deleteConversation(Request $request)
+    public function (Request $request)
     {
         // delete
-        $delete = Chatify::deleteConversation($request['id']);
+        $delete = Chatify::($request['id']);
 
         // send the response
         return Response::json([

@@ -172,14 +172,20 @@ public function createForm()
 
     public function mapStore(Request $request)
     {
+        // Fetch unseen message count
+        $unseenCount = DB::table('ch_messages')
+            ->where('to_id', '=', Auth::user()->id)
+            ->where('seen', '=', '0')
+            ->count();
         // Retrieve categories from the database
         $posts = Posts::all(['id', 'businessName', 'description', 'image', 'latitude', 'longitude', 'is_active']);
-    
+
         // Pass category data and any other necessary data to the view
         return view('mapStore', [
             'posts' => $posts, // Use 'posts' instead of 'categories' as the variable name
+            'unseenCount' => $unseenCount,
         ]);
     }
-    
+
 
 }
