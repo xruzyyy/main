@@ -22,10 +22,6 @@
             <!-- Image Column -->
             <div class="image-column col-lg-6 col-md-12 col-sm-12">
                 <div class="inner-column wow fadeInLeft">
-                    <div class="author-desc">
-                        <h2>Taytay Online</h2>
-                        <span>Empowering Legitimate Businesses</span>
-                    </div>
                     <figure class="image-1"><a href="#" class="lightbox-image" data-fancybox="images"><img title="Taytay Best!" src="https://goldfortunetextile.com/wp-content/uploads/2024/02/AB-1.jpg" alt=""></a></figure>
                 </div>
             </div>

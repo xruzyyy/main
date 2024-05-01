@@ -75,7 +75,7 @@
           transition: background-color 0.3s ease-in-out;
           font-size: 1em;
           margin-top: 10px;
-          width: 100%;
+          width: 30%;
         }
 
         button:hover {

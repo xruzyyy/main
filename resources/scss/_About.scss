@@ -169,6 +169,15 @@
   position: relative;
   padding-left: 30px;
 }
+.business-section-about {
+    .container {
+      @media screen and (max-height: 991px) {
+        .content-column {
+          margin-top: 80px; // Adjust the value as needed
+        }
+      }
+    }
+  }
 
 .business-section-about .text{
   margin-bottom: 20px;

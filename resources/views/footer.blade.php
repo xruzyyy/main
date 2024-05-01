@@ -33,11 +33,13 @@
         </div>
         <div class="footer-content pt-5 pb-5">
             <div class="row">
-                <div class="col-xl-4 col-lg-4 mb-50">
+                <div class="col-xl-4 col-lg-4 mb-5">
                     <div class="footer-widget">
                         <div class="footer-logo">
-                            <a href="index.html"><img src="https://i.ibb.co/QDy827D/ak-logo.png" class="img-fluid" alt="logo"></a>
+                            <img src="{{ asset('images/Taytay.png') }}" style="width: 200px; height:auto;" class="img-fluid" alt="Taytay Logo">
+                            {{-- <a href="index.html"><img src="https://i.ibb.co/QDy827D/ak-logo.png" class="img-fluid" alt="logo"></a> --}}
                         </div>
+
                         <div class="footer-text">
                             <p>Lorem ipsum dolor sit amet, consec tetur adipisicing elit, sed do eiusmod tempor incididuntut consec tetur adipisicing
                             elit,Lorem ipsum dolor sit amet.</p>
