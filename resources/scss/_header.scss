@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,800");
 
 .navbar {
     background-color: transparent !important; // Set navbar background to transparent
@@ -7,28 +7,31 @@
 .navbar-brand {
     color: goldenrod !important;
     min-height: 0px !important;
-
 }
 .navbar-brand:hover {
     color: rgb(255, 255, 255) !important;
 }
 
-
 .navbar-nav .nav-link {
     color: rgba(255, 255, 255, 0.986) !important; // Set color of nav links to white
 }
-@import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,800");
 .navbar-toggler {
-background-color: goldenrod !important;
-border-color: goldenrod !important;
+    background-color: goldenrod !important;
+    border-color: goldenrod !important;
 }
-.navbar{
+.navbar {
     background-color: black !important;
 }
+@media (max-height: 990px) {
+    .nav-link {
+        display: inline-block !important;
+    }
+}
 
-.nav-link{
+.nav-link {
     color: wheat !important;
-    font-family: 'Montserrat', sans-serif;
+    font-family: "Montserrat", sans-serif;
 }
 .navbar-toggler-icon {
     color: aliceblue !important;
@@ -36,14 +39,13 @@ border-color: goldenrod !important;
 .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
     color: aliceblue !important;
 }
-.unread_notification
-{
+.unread_notification {
     margin-top: 5px;
     margin-left: -3px;
     background-color: rgb(255, 51, 51);
     display: inline-block;
-    color:whitesmoke;
-     width: 15px;
+    color: whitesmoke;
+    width: 15px;
     text-align: center;
     font-size: 13px;
     border-radius: 80%;
@@ -52,7 +54,9 @@ border-color: goldenrod !important;
 .listingCreate {
     padding: 8px 6px; /* Add padding */
     border-radius: 4px; /* Add border-radius */
-    transition: background-color 0.3s ease, color 0.3s ease; /* Add transition */
+    transition:
+        background-color 0.3s ease,
+        color 0.3s ease; /* Add transition */
 }
 
 .btn-red {
@@ -65,4 +69,3 @@ border-color: goldenrod !important;
     color: rgb(255, 77, 71); /* Change text color on hover to red */
     background-color: white; /* Change background color on hover to white */
 }
-

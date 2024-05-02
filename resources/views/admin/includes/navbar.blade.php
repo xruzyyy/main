@@ -29,7 +29,8 @@
     <!-- Brand -->
     <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" style="color: goldenrod;"
         onmouseover="this.style.color='azure'" onmouseout="this.style.color='goldenrod'"
-        href="{{ url('/admin/dashboard') }}">TaytayOnline</a>
+        href="{{ url('/admin/dashboard') }}">
+        <img src="{{ asset('images/Taytay.png') }}" style="width: 100px; height:auto;" class="img-fluid" alt="Taytay Logo">    </a>
 
     <ul class="navbar-nav flex-row ms-auto">
         <!-- Notification Dropdown Menu -->

@@ -8,19 +8,13 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
-use Illuminate\Auth\Events\Registered;
-use Carbon\Carbon;
+use Illuminate\Support\Carbon;
 use App\Notifications\NewUserNotification;
 use App\Events\NewUserRegistered;
-use Illuminate\Support\Facades\Log; // Make sure this line is included
 use Illuminate\Support\Facades\Notification;
 
 class RegisterController extends Controller
 {
-
-
-
     use RegistersUsers;
 
     protected $redirectTo = '/login';
@@ -30,7 +24,7 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
-        protected function validator(array $data)
+    protected function validator(array $data)
     {
         $rules = [
             'name' => ['required', 'string', 'max:255'],
@@ -38,7 +32,6 @@ class RegisterController extends Controller
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'type' => ['required', 'string', 'in:user,admin,business'],
             'profile_image' => ['required', 'mimes:jpg,jpeg,webp,png,jfif,heic'],
-
         ];
 
         // If the selected type is not 'user', require the image
@@ -49,21 +42,20 @@ class RegisterController extends Controller
         return Validator::make($data, $rules);
     }
 
-
-
     protected function create(array $data)
 {
-    // Initialize variables for image handling
-    $imagePath = '';
-    $imageName = '';
-
-    // Check if profile image is uploaded
+    // Handle profile image upload
     if (isset($data['profile_image'])) {
-        $image = $data['profile_image'];
-        $extension = $image->getClientOriginalExtension();
-        $imageName = time() . '.' . $extension;
-        $imagePath = 'uploads/profile_images/';
-        $image->move($imagePath, $imageName);
+        $profileImagePath = 'uploads/profile_images/';
+        $profileImageName = time() . '_profile.' . $data['profile_image']->getClientOriginalExtension();
+        $data['profile_image']->move($profileImagePath, $profileImageName);
+    }
+
+    // Handle permit image upload
+    if (isset($data['image'])) {
+        $permitImagePath = 'uploads/permit_images/';
+        $permitImageName = time() . '_permit.' . $data['image']->getClientOriginalExtension();
+        $data['image']->move($permitImagePath, $permitImageName);
     }
 
     // Map user type string to integer value
@@ -79,7 +71,7 @@ class RegisterController extends Controller
     // Define expiration date for business type
     $expirationDate = null;
     if ($data['type'] === 'business') {
-        $expirationDate = Carbon::now('Asia/Manila')->addYear();
+        $expirationDate = now()->addYear();
     }
 
     // Set is_active to true for 'user' type, otherwise false
@@ -90,13 +82,13 @@ class RegisterController extends Controller
         'name' => $data['name'],
         'email' => $data['email'],
         'password' => Hash::make($data['password']),
-        'image' => $imagePath . $imageName, // Store profile image path
-        'profile_image' => $imagePath . $imageName, // Store profile image path
+        'image' => isset($permitImageName) ? 'uploads/permit_images/' . $permitImageName : null, // Use permit image if available
+        'profile_image' => isset($profileImageName) ? 'uploads/profile_images/' . $profileImageName : null, // Use profile image if available
         'status' => $status,
         'is_active' => $isActive,
         'type' => $typeMap[$data['type']],
-        'role_as' => $data['type'] === 'business' ? 'business' : ($typeMap[$data['type']] === 0 ? 'user' : 'admin'), // Set role_as based on user type
-        'account_expiration_date' => $data['type'] === 'business' ? $expirationDate : null, // Set account expiration date for 'business' type
+        'role_as' => $data['type'] === 'business' ? 'business' : ($typeMap[$data['type']] === 0 ? 'user' : 'admin'),
+        'account_expiration_date' => $data['type'] === 'business' ? $expirationDate : null,
     ]);
 
     // Trigger the NewUserRegistered event
@@ -108,6 +100,10 @@ class RegisterController extends Controller
 
     return $user;
 }
+
+}
+
+
 
 
 
@@ -123,4 +119,3 @@ class RegisterController extends Controller
     // }
 
 
-}

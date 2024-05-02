@@ -183,15 +183,15 @@
                             </div>
                         </div>
                         <div class="field">
-                            <label class="label">Latitude</label>
-                            <div class="control">
+                            <label class="labelLocated">Latitude</label>
+                            <div class="labelLocated">
                                 <input type="text" class="input readonly-input" id="latitude" name="latitude" value="{{ $latitude }}" readonly required>
                             </div>
                         </div>
                         <div class="field">
-                            <label class="label">Longitude</label>
-                            <div class="control">
-                                <input type="text" class="input readonly-input" id="longitude" name="longitude" value="{{ $longitude }}" readonly required>
+                            <label class="labelLocated">Longitude</label>
+                            <div class="labelLocated">
+                                <input style="display: hide" type="text" class="input readonly-input" id="longitude" name="longitude" value="{{ $longitude }}" readonly required>
                             </div>
                         </div>
                         <div class="field">

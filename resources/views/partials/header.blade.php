@@ -19,21 +19,22 @@
 
 <nav class="navbar navbar-expand-lg bg-dark">
     <div class="container-fluid">
-        @auth
+            @auth
             @if(auth()->user()->type === 'admin')
-                <a class="navbar-brand " style="color: goldenrod;" onmouseover="this.style.color='azure'" onmouseout="this.style.color='goldenrod'" href="{{ url('/admin/dashboard') }}">
-                    {{ config('app.name', 'TaytayOnline') }}
+                <a class="navbar-brand" href="{{ url('/admin/dashboard') }}">
+                    <img src="{{ asset('images/Taytay.png') }}" style="width: 100px; height:auto;" class="img-fluid" alt="Taytay Logo">
                 </a>
             @elseif(auth()->user()->type === 'business')
-                <a class="navbar-brand " style="color: goldenrod;" onmouseover="this.style.color='azure'" onmouseout="this.style.color='goldoenrd'" href="{{ url('/business/home') }}">
-                    {{ config('app.name', 'TaytayOnline') }}
+                <a class="navbar-brand" href="{{ url('/business/home') }}">
+                    <img src="{{ asset('images/Taytay.png') }}" style="width: 100px; height:auto;" class="img-fluid" alt="Taytay Logo">
                 </a>
             @elseif(auth()->user()->type === 'user')
-                <a class="navbar-brand " style="color: goldenrod;" onmouseover="this.style.color='azure'" onmouseout="this.style.color='goldenrod'" href="{{ url('home') }}">
-                    {{ config('app.name', 'TaytayOnline') }}
+                <a class="navbar-brand" href="{{ url('/home') }}">
+                    <img src="{{ asset('images/Taytay.png') }}" style="width: 100px; height:auto;" class="img-fluid" alt="Taytay Logo">
                 </a>
             @endif
         @endauth
+
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -96,7 +97,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('listings.create') }}">Create Listings</a>
+                        <a class="nav-link" style="background-color: rgba(236, 21, 21, 0.904); border-radius: 10px; margin-top: 7px; font-style: inherit; padding: 3px 10px;" href="{{ route('listings.create') }}">Create Listings</a>
                     </li>
 
                     <li class="nav-item dropdown">
