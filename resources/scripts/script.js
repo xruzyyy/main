@@ -1,38 +1,16 @@
-window.addEventListener('scroll', function() {
-    var exploreWords = document.querySelectorAll('.intro .hidden-from-left');
-    var screenHeight = window.innerHeight;
-    var delay = 300; // Adjust the delay between each word in milliseconds
-
-    exploreWords.forEach(function(word, index) {
-        var wordPosition = word.getBoundingClientRect().top;
-
-        if (wordPosition < screenHeight / 1.5) {
-            setTimeout(function() {
-                word.classList.add('show-from-left');
-            }, delay * index);
-        } else {
-            word.classList.remove('show-from-left');
-        }
-    });
+document.addEventListener('DOMContentLoaded', function () {
+    window.addEventListener('scroll', revealOnScroll);
 });
 
+function revealOnScroll() {
+    var revealContainers = document.querySelectorAll('.reveal-container');
 
+    revealContainers.forEach(function (container) {
+        var revealPosition = container.offsetTop + container.offsetHeight / 2;
+        var scrollPosition = window.scrollY + window.innerHeight;
 
-
-window.addEventListener('scroll', function() {
-    var aboutWords = document.querySelectorAll('.aboutUs .hidden-from-right');
-    var screenHeight = window.innerHeight;
-    var delay = 1000; // Adjust the delay between each word in milliseconds
-
-    aboutWords.forEach(function(word, index) {
-        var wordPosition = word.getBoundingClientRect().top;
-
-        if (wordPosition < screenHeight / 1.5) {
-            setTimeout(function() {
-                word.classList.add('show');
-            }, delay * index);
-        } else {
-            word.classList.remove('show');
+        if (scrollPosition >= revealPosition) {
+            container.querySelector('.text-container').classList.add('revealed');
         }
     });
-});
+}

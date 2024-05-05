@@ -61,17 +61,22 @@
 
 
 
-/* Animations for text */
+/* Updated CSS with opacity transition and right slide-in */
 .text-container {
     overflow: hidden;
-    margin-top: 20px; /* Adjust spacing as needed */
-    opacity: 0; /* Initially hide the text */
-    transition: opacity 1.15s, transform 1.5s; /* Add a smooth transition for opacity and transform */
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    margin-top: 20px;
+    opacity: 0;
+    transform: translateX(100%); /* Initially off-screen to the right */
+    transition: opacity 3.15s, transform 2s; /* Smooth transition for opacity and transform */
 }
 
-.text-container.show {
-    opacity: 1; /* Show the text when the show class is added */
-    transform: translateX(-50%); /* Move the text to the center */
+/* Class to reveal content */
+.revealed {
+    opacity: 1;
+    transform: translateX(0); /* Slide in from the right */
 }
 
 .scroll-text {
@@ -80,19 +85,13 @@
     font-family: 'Arial', sans-serif;
     font-size: 6vw; /* Responsive font size */
     color: goldenrod;
-    left: 0; /* Start from the left side */
-    top: 50%; /* Align vertically centered */
-    transform: translateX(50%); /* Adjust for vertical centering */
+    position: relative; /* Positioning for the image */
 }
-.business-person {
-    position: absolute;
-    right: 5vw; /* Adjust as needed */
-    top: 75.5%;
-    margin-left: 1.25em;
-    transform: translateY(-50%);
-    width: 100%; /* Adjust width as needed */
-    z-index: -1; /* Place behind other elements */
+
+.business-section {
+    position: relative; /* Ensure the container is relative */
 }
+
 
 @media (min-width: 400px) and (min-height: 900px) {
     .business-person {
@@ -264,6 +263,10 @@
 .card img {
     max-width: 100%;
     height: 12em;
+}
+.personImg {
+    max-width: 40%;
+    height: auto;
 }
 
 .card-title {

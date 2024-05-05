@@ -1,7 +1,19 @@
 <section class="business-section" id="section2">
     <div class="container">
-        <h2 class="section-title text-center mb-4">Business Categories</h2>
-        <div class="row">
+        <div class="container">
+            <h2 class="section-title text-center mb-4">Business Categories</h2>
+
+            <div class="row">
+                <div class="col-lg-15">
+                    <div class="reveal-container">
+                        <div class="text-container">
+                            <p class="scroll-text">
+                                Browse <br> The <br> Different <br> Businesses
+                            </p>
+                            <img class="personImg" src="{{ asset('images/covermodel.png') }}" alt="Business Person Image">
+                        </div>
+                    </div>
+                </div>
             <!-- Column 1 -->
             <div class="col-lg-2 col-md-2 col-sm-4">
                 <ul class="business-list">
@@ -36,6 +48,7 @@
                     </li>
                 </ul>
             </div>
+
             <!-- Column 2 -->
             <div class="col-lg-2 col-md-2 col-sm-4">
                 <ul class="business-list">
@@ -199,11 +212,7 @@
 
 
 
-        <div class="text-container">
-            <p class="scroll-text">Browse <br> The <br>Different <br>Businesses</p>
-        </div>
-        <div class="business-person">
-            <img src="{{ asset('images/covermodel.png') }}">
-        </div>
+
+
     </div>
 </section>
