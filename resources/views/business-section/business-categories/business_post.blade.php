@@ -39,51 +39,47 @@
 
     <style>
         /* Global styles */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+        }
+
         .container {
             width: 90%;
             max-width: 1200px;
             margin: 0 auto;
-            text-align: center;
-            /* Center-align all content */
             padding: 20px;
-            background-color: #f9f9f9;
+            background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin-top: 1em;
-            margin-bottom: 1em;
             color: #333;
-            /* Adjust text color */
         }
 
         .business-details {
-            display: inline-block;
-            /* Ensures it respects text-align:center */
+            margin: 20px auto;
             text-align: left;
-            /* Align text inside the business details to the left */
-            margin: 20px;
-            /* Adjust margin as needed */
         }
 
         .business-details h1 {
             color: #333;
-            /* Adjust heading color */
             font-size: 32px;
+            margin-bottom: 10px;
         }
 
         .business-details p {
             color: #555;
-            /* Adjust paragraph text color */
+            margin-bottom: 15px;
         }
 
         .business-details a {
             color: #006ce7;
-            /* Adjust link color */
             text-decoration: none;
         }
 
         .business-details a:hover {
             text-decoration: underline;
-            /* Add underline on hover */
         }
 
         .comment-list {
@@ -109,6 +105,7 @@
 
         .comment-content {
             display: flex;
+            overflow: overlay;
             align-items: center;
         }
 
@@ -117,40 +114,6 @@
             color: #000000;
         }
 
-        .comment-form {
-            margin-bottom: 20px;
-            color: #000;
-        }
-
-        .comment-form label {
-            font-weight: bold;
-        }
-
-        .comment-form textarea {
-            width: 100%;
-            color: #000 !important;
-            padding: 10px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            resize: none;
-            margin-top: 5px;
-            margin-bottom: 10px;
-        }
-
-        .comment-form button {
-            background-color: rgb(255, 255, 255);
-            color: #000000;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-        }
-
-        .comment-form button:hover {
-            background-color: #000000;
-        }
-
-        /* Star ratings */
         .star-rating {
             display: flex;
             align-items: center;
@@ -161,6 +124,18 @@
             color: gold;
             font-size: 1.2rem;
         }
+        .business-image-container {
+        width: 100%;
+        max-height: 400px; /* Adjust as needed */
+        overflow: hidden;
+    }
+
+    .business-image {
+        width: 100%;
+        height: auto;
+        display: block;
+        object-fit: cover;
+    }
     </style>
 </head>
 
@@ -168,26 +143,28 @@
 
     <div class="container">
         <div class="business-details">
-            <div class="business-image-container">
+           <div class="business-image-container">
                 <img src="{{ asset($post->image) }}" alt="Business Image" class="business-image">
             </div>
             <div class="business-info">
                 <h1>{{ $post->businessName }}</h1>
-                <p>{{ $post->description }}</p>
+                <p class="postText">{{ $post->description }}</p>
                 <div class="business-meta">
-                    <p><strong>Type:</strong> {{ $post->type }}</p>
-                    <p><strong>Contact Number:</strong> {{ $post->contactNumber }}</p>
-                    <p><strong>Ratings:</strong> {{ $post->average_rating }} ({{ $post->ratings_count }} ratings)</p>
+                    <p class="postText"><strong>Type:</strong> {{ $post->type }}</p>
+                    <p class="postText"><strong>Contact Number:</strong> {{ $post->contactNumber }}</p>
+                    <p class="postText"><strong>Ratings:</strong> {{ $post->average_rating }} ({{ $post->ratings_count }}
+                        ratings)</p>
                 </div>
                 <div class="business-actions">
-                    <p>
+                    <p class="postText">
                         <i class="fas fa-map-marker-alt" style="color: #006ce7f1;"></i>
                         <a href="{{ route('mapStore') }}" class="store-map-link" style="text-decoration: none;">
                             <b>Explore Store on Map</b>
                         </a>
                     </p>
-                    <p>
-                        <a href="/chatify/{{ $post->user_id }}" class="message-link" style="text-decoration: none;">
+                    <p class="postText">
+                        <a href="/chatify/{{ $post->user_id }}" class="message-link"
+                            style="text-decoration: none;">
                             <b>Message:</b>
                             <i class="fa-brands fa-facebook-messenger"></i>
                             {{ $post->businessName }}
@@ -197,53 +174,53 @@
             </div>
         </div>
 
-
-      <!-- Rating form -->
-<form action="{{ route('ratings.store', $post->id) }}" method="POST" class="rating-form">
-    @csrf
-    <fieldset class="starability-grow">
-        <span> Rate <i class="fas fa-star"></i> : </span>
-        <input type="radio" id="rating-1" name="rating" value="1" required />
-        <label for="rating-1" title="Terrible">Terrible</label>
-        <input type="radio" id="rating-2" name="rating" value="2" />
-        <label for="rating-2" title="Not good">Not Good</label>
-        <input type="radio" id="rating-3" name="rating" value="3" />
-        <label for="rating-3" title="Average">Average</label>
-        <input type="radio" id="rating-4" name="rating" value="4" />
-        <label for="rating-4" title="Very good">Very Good</label>
-        <input type="radio" id="rating-5" name="rating" value="5" />
-        <label for="rating-5" title="Amazing">Amazing</i></label>
-    </fieldset>
-    <button type="submit" class="btn">Submit</button>
-</form>
+        <!-- Rating form -->
+        <form action="{{ route('ratings.store', $post->id) }}" method="POST" class="rating-form">
+            @csrf
+            <fieldset class="starability-grow">
+                <span> Rate <i class="fas fa-star"></i> : </span>
+                <input type="radio" id="rating-1" name="rating" value="1" required />
+                <label for="rating-1" title="Terrible">Terrible</label>
+                <input type="radio" id="rating-2" name="rating" value="2" />
+                <label for="rating-2" title="Not good">Not Good</label>
+                <input type="radio" id="rating-3" name="rating" value="3" />
+                <label for="rating-3" title="Average">Average</label>
+                <input type="radio" id="rating-4" name="rating" value="4" />
+                <label for="rating-4" title="Very good">Very Good</label>
+                <input type="radio" id="rating-5" name="rating" value="5" />
+                <label for="rating-5" title="Amazing">Amazing</i></label>
+            </fieldset>
+            <button type="submit" class="btn">Submit</button>
+        </form>
 
         <!-- Comment form -->
         <form action="{{ route('comments.store', $post->id) }}" method="POST" class="comment-form">
             @csrf
             <div class="mb-3">
                 <label for="comment" class="form-label">Leave a Comment:</label>
-                <textarea class="form-control" id="comment" name="content" rows="3" placeholder="Add your comment here"></textarea>
+                <textarea class="form-control" id="comment" name="content" rows="3"
+                    placeholder="Add your comment here"></textarea>
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
 
-      <!-- Comment list -->
-<ul class="comment-list">
-    @foreach ($post->comments as $comment)
-    <li class="comment-item">
-        <div class="comment-content">
-            <img class="comment-avatar" src="{{ asset($comment->user->profile_image) }}" alt="User Profile Image">
-            <p><strong>{{ $comment->user->name }}</strong>: {{ $comment->content }}</p>
+        <!-- Comment list -->
+        <ul class="comment-list">
+            @foreach ($post->comments as $comment)
+            <li class="comment-item">
+                <div class="comment-content">
+                    <img class="comment-avatar" src="{{ asset($comment->user->profile_image) }}"
+                        alt="User Profile Image">
+                    <p class="postText"><strong>{{ $comment->user->name }}</strong>: {{ $comment->content }}</p>
 
-            <!-- Generate stars based on user's rating -->
-            <div class="star-rating">
-                {!! App\Http\Controllers\CommentController::generateStarsForUser($post->id, $comment->user_id) !!}
-            </div>
-        </div>
-    </li>
-    @endforeach
-</ul>
-
+                    <!-- Generate stars based on user's rating -->
+                    <div class="star-rating">
+                        {!! App\Http\Controllers\CommentController::generateStarsForUser($post->id, $comment->user_id) !!}
+                    </div>
+                </div>
+            </li>
+            @endforeach
+        </ul>
     </div>
 
 </body>

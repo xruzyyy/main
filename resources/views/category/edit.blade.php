@@ -40,7 +40,7 @@
                         </div>
 
                         <div class="mb-3">
-                            <label>Upload Business Permit</label>
+                            <label>Upload Business profile</label>
                             <input type="file" name="image" class="form-control" value={{old('businessName')}}>
                             @error('image') <span class="text-danger"> {{ $message }} </span>  @enderror
 

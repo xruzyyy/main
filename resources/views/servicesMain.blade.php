@@ -6,123 +6,147 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Services</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
-        @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&display=swap");
-
-        p {
-            color: #000000;
+        body {
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            margin: 0;
+            padding: 0;
         }
 
-        h2 {
-            font-family: "Playfair Display", serif;
-            font-optical-sizing: auto;
-            font-weight: 400;
-            font-style: normal;
-        }
-
-        .cardServices {
-            position: relative;
-            background-color: #ffffff !important;
-            border-radius: 0.75rem;
-            transition: all 0.3s ease;
-        }
-
-        .cardServices:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-        }
-
-        .circle {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background-size: cover;
-            filter: brightness(0.5);
-        }
-
-        .cardServices:hover .circle {
-            background-image: url("https://images.unsplash.com/photo-1587440871875-191322ee64b0?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
-            background-size: cover;
-            background-position: center;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(1, 1fr);
-            gap: 1.5rem;
+        .containerService {
+            height: 120vh;
+            display: flex;
+            flex-direction: column;
             justify-content: center;
-            /* Center horizontally */
-            justify-items: center;
-            /* Center each card */
+            align-items: center;
+            padding: 20px;
         }
 
-        @media (max-width: 639px) {
-            .cardServices {
-                margin: 2em !important; /* Set margin for screens >= 640px */
-            }
-        }
-        @media (min-width: 640px) {
-            .grid {
-                grid-template-columns: repeat(2, 1fr);
-                margin: 2em;
-            }
+        .services-header {
+            text-align: center;
+            margin-bottom: 30px;
         }
 
-        @media (min-width: 1024px) {
-            .grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
+        .services-header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
         }
 
+        .services-header p {
+            font-size: 16px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+        }
+
+        .service-card {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .service-title {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .service-icon {
+            font-size: 36px;
+            margin-bottom: 15px;
+            color: #ff6b6b;
+        }
+
+        .service-description {
+            font-size: 14px;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .containerService {
+                height: auto;
+                padding: 10px;
+            }
+
+            .services-header h1 {
+                font-size: 28px;
+            }
+
+            .services-header p {
+                font-size: 14px;
+            }
+
+            .service-card {
+                padding: 15px;
+            }
+
+            .service-title {
+                font-size: 18px;
+            }
+
+            .service-icon {
+                font-size: 32px;
+                margin-bottom: 10px;
+            }
+
+            .service-description {
+                font-size: 12px;
+            }
+        }
     </style>
 </head>
 
 <body>
-    <section class="min-h-screen text-center py-20 px-8 xl:px-0 flex flex-col justify-center">
-
-        <h1 class="text-white text-4xl md:text-5xl xl:text-6xl font-semibold max-w-3xl mx-auto mb-16 leading-snug">
-            Services Offered by Taytay Businesses</h1>
-
-        <div class="grid-offer">
-            <div class="grid">
-                <div class="cardServices relative overflow-hidden">
-                    <div class="circle"></div>
-                    <div class="relative lg:pr-52">
-                        <h2 class="capitalize text-black mb-4 text-2xl xl:text-3xl">Custom Apparel Manufacturing</h2>
-                        <p class="text-gray-400">Creating custom-designed clothing and apparel for various occasions,
-                            from casual wear to uniforms and corporate attire.</p>
-                    </div>
-                </div>
-                <div class="cardServices relative overflow-hidden">
-                    <div class="circle"></div>
-                    <div class="relative lg:pl-48">
-                        <h2 class="capitalize text-black mb-4 text-2xl xl:text-3xl">Garment Retail</h2>
-                        <p class="text-gray-400">Selling a wide range of ready-to-wear garments, including dresses,
-                            shirts, pants, and accessories, catering to different styles and preferences.</p>
-                    </div>
-                </div>
-                <div class="cardServices relative overflow-hidden">
-                    <div class="circle"></div>
-                    <div class="relative lg:pr-44">
-                        <h2 class="capitalize text-black mb-4 text-2xl xl:text-3xl">Tailoring Services</h2>
-                        <p class="text-gray-400">Providing expert tailoring and alteration services to ensure that
-                            garments fit perfectly and meet customers' specific requirements.</p>
-                    </div>
-                </div>
-                <div class="cardServices relative overflow-hidden">
-                    <div class="circle"></div>
-                    <div class="relative lg:pl-48">
-                        <h2 class="capitalize text-black mb-4 text-2xl xl:text-3xl">Fashion Consultation</h2>
-                        <p class="text-gray-400">Providing personalized fashion consultation services to individuals and
-                            businesses, offering expert advice on style, trends, and wardrobe planning.</p>
-                    </div>
-                </div>
-            </div>
+    <div class="containerService">
+        <div class="services-header">
+            <h1>Services Offered by Taytay Businesses</h1>
+            <p>Explore our range of services tailored just for you.</p>
         </div>
 
-    </section>
-
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-tshirt"></i>
+                </div>
+                <div class="service-title">Custom Apparel Manufacturing</div>
+                <div class="service-description">Creating custom-designed clothing and apparel for various occasions, from casual wear to uniforms and corporate attire.</div>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-shopping-bag"></i>
+                </div>
+                <div class="service-title">Garment Retail</div>
+                <div class="service-description">Selling a wide range of ready-to-wear garments, including dresses, shirts, pants, and accessories, catering to different styles and preferences.</div>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-cut"></i>
+                </div>
+                <div class="service-title">Tailoring Services</div>
+                <div class="service-description">Providing expert tailoring and alteration services to ensure that garments fit perfectly and meet customers' specific requirements.</div>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-user-tie"></i>
+                </div>
+                <div class="service-title">Fashion Consultation</div>
+                <div class="service-description">Providing personalized fashion consultation services to individuals and businesses, offering expert advice on style, trends, and wardrobe planning.</div>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>

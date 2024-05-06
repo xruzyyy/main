@@ -128,7 +128,7 @@
   border-bottom: 1px solid #373636;
 }
 .single-cta i {
-  color: #ff5e14;
+  color: #14bcff;
   font-size: 30px;
   float: left;
   margin-top: 8px;
@@ -214,7 +214,7 @@
   bottom: -15px;
   height: 2px;
   width: 50px;
-  background: #ff5e14;
+  background: #14a1ff;
 }
 .footer-widget ul li {
   display: inline-block;
@@ -223,7 +223,7 @@
   margin-bottom: 12px;
 }
 .footer-widget ul li a:hover{
-  color: #ff5e14;
+  color: #14bcff;
 }
 .footer-widget ul li a {
   color: #878787;
@@ -263,14 +263,14 @@
   color: #878787;
 }
 .copyright-text p a{
-  color: #ff5e14;
+  color: #14d0ff;
 }
 .footer-menu li {
   display: inline-block;
   margin-left: 20px;
 }
 .footer-menu li:hover a{
-  color: #ff5e14;
+  color: #14d0ff;
 }
 .footer-menu li a {
   font-size: 14px;
