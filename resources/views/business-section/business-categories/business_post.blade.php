@@ -114,6 +114,39 @@
             color: #000000;
         }
 
+        .comment-form {
+            margin-bottom: 20px;
+            color: #000;
+        }
+
+        .comment-form label {
+            font-weight: bold;
+        }
+
+        .comment-form textarea {
+            width: 100%;
+            color: #000 !important;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            resize: none;
+            margin-top: 5px;
+            margin-bottom: 10px;
+        }
+
+        .comment-form button {
+            background-color: rgb(255, 255, 255);
+            color: #000000;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .comment-form button:hover {
+            background-color: #000000;
+        }
+
         .star-rating {
             display: flex;
             align-items: center;

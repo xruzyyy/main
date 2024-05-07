@@ -4,31 +4,31 @@
 <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
     <h1>Business User Management</h1>
 
-   
+
      <!-- Buttons for actions -->
      <div class="mb-3">
-        
+
         <form action="{{ route('manageBusiness') }}" method="post" class="d-inline">
             @csrf
             <input type="hidden" name="action" value="show-not-expired">
             <button type="submit" class="btn btn-primary">Show Active Users</button>
         </form>
-        
+
         <form id="manageBusinessForm" action="{{ route('manageBusiness') }}" method="post" class="d-inline">
             @csrf
             <input type="hidden" name="action" value="show-expired-list">
             <button type="submit" class="btn btn-primary">Pending To Disable</button>
         </form>
-        
-        
-        
+
+
+
 
         <form action="{{ route('manageBusiness') }}" method="post" class="d-inline">
             @csrf
             <input type="hidden" name="action" value="show-inactive-list">
             <button type="submit" class="btn btn-primary">Show Inactive Users</button>
         </form>
-        
+
     </div>
     <thead class="thead-dark">
         <tr>
@@ -39,8 +39,8 @@
             <th>Expiration Date</th> <!-- New column for expiration date -->
         </tr>
     </thead>
-   
-    
+
+
     <tbody>
         @if(isset($activeUsersData))
             @foreach($activeUsersData as $userData)
@@ -135,10 +135,10 @@
             // Listen for form submission
             $('#manageBusinessForm').submit(function(event) {
                 event.preventDefault(); // Prevent the default form submission
-        
+
                 var formData = $(this).serialize(); // Serialize form data
                 var userId = {{ auth()->user()->id }}; // Get the current user's ID
-        
+
                 // Send an AJAX request to update categories
                 $.ajax({
                     url: '/update-categories',

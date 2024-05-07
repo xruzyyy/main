@@ -7,9 +7,9 @@
     </div>
     <a href="{{ route('users.create') }}" class="btn btn-md btn-primary">Add Business User</a>
 
-    @include('partials.allUsersPagination') 
+    @include('partials.allUsersPagination')
     @include('partials.allUsersTbl')
-    @include('partials.allUsersModalImagePreview') 
+    @include('partials.allUsersModalImagePreview')
 
 </div>
 
@@ -67,14 +67,6 @@
                     }
                 },
                 {
-                    extend: 'copyHtml5',
-                    className: 'btn btn-secondary'
-                },
-                {
-                    extend: 'csvHtml5',
-                    className: 'btn btn-secondary'
-                },
-                {
                     extend: 'excelHtml5',
                     className: 'btn btn-secondary'
                 },
@@ -82,10 +74,7 @@
                     extend: 'pdfHtml5',
                     className: 'btn btn-secondary'
                 },
-                {
-                    extend: 'print',
-                    className: 'btn btn-secondary'
-                }
+
             ]
         });
 

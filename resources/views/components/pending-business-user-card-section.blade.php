@@ -4,26 +4,32 @@
             <div class="card-header" style="background-color: goldenrod">
                 Pending Accounts
             </div>
-            <div class="card-body" style="background-color: rgba(0, 0, 0, 0.2)">
+            <div class="card-body overflow-auto" style="background-color: rgba(0, 0, 0, 0.2)"> <!-- Added overflow-auto class here -->
                 <table id="pendingAccountsTable" class="table">
                     <thead>
                         <tr>
                             <th>User ID</th>
+                            <th>Profile</th>
                             <th>Name</th>
                             <th>Email</th>
-                            <th>Status</th>
                             <th>Registration Date</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($pendingAccounts as $account)
-                            <tr>
-                                <td>{{ $account->id }}</td>
-                                <td>{{ $account->name }}</td>
-                                <td>{{ $account->email }}</td>
-                                <td>{{ $account->status }}</td>
-                                <td>{{ $account->created_at }}</td>
-                            </tr>
+                        <tr>
+                            <td>{{ $account->id }}</td>
+                            <td>
+                                <!-- Add a container div for the circular image -->
+                                <div class="rounded-image-container">
+                                    <!-- Add class "rounded-image" to apply CSS -->
+                                    <img class="rounded-image" src="{{ asset($account->image) }}" alt="">
+                                </div>
+                            </td>
+                            <td>{{ $account->name }}</td>
+                            <td>{{ $account->email }}</td>
+                            <td>{{ $account->created_at }}</td>
+                        </tr>
                         @endforeach
                     </tbody>
                 </table>
@@ -32,6 +38,7 @@
     </div>
 </div>
 
+
 <style>
     /* Custom CSS for the table
     #pendingAccountsTable_wrapper {
@@ -39,6 +46,25 @@
         border-radius: 8px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     } */
+
+
+    .rounded-image-container {
+        width: 40px;
+        height: 40px;
+        overflow: hidden;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(255, 255, 255, 0.2); /* Optional: Add a background color */
+    }
+
+    .rounded-image {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+    }
+
 
     #pendingAccountsTable_length label {
         font-weight: bold;
@@ -137,10 +163,6 @@
 <!-- Include jQuery and DataTables JavaScript libraries -->
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.0.0/js/dataTables.buttons.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.html5.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.print.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.colVis.min.js"></script>
 
 <script>
     $(document).ready(function() {
@@ -152,39 +174,7 @@
             "paging": true,
             "autoWidth": true,
             "buttons": [
-                {
-                    extend: 'colvis',
-                    text: 'Columns',
-                    className: 'btn btn-secondary dropdown-toggle',
-                    attr: {
-                        'aria-haspopup': true,
-                        'aria-expanded': false,
-                        'data-toggle': 'dropdown'
-                    },
-                    dropdown: {
-                        className: 'dropdown-menu dropdown-menu-right'
-                    }
-                },
-                {
-                    extend: 'copyHtml5',
-                    className: 'btn btn-secondary'
-                },
-                {
-                    extend: 'csvHtml5',
-                    className: 'btn btn-secondary'
-                },
-                {
-                    extend: 'excelHtml5',
-                    className: 'btn btn-secondary'
-                },
-                {
-                    extend: 'pdfHtml5',
-                    className: 'btn btn-secondary'
-                },
-                {
-                    extend: 'print',
-                    className: 'btn btn-secondary'
-                }
+
             ]
         });
     });

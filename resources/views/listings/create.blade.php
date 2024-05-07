@@ -160,6 +160,7 @@
 
                         <div class="field">
                             <label class="label">Image</label>
+                            <p class="image-note">Please upload a high-resolution image.</p>
                             <div class="control">
                                 <div class="file has-name is-boxed">
                                     <label class="file-label">

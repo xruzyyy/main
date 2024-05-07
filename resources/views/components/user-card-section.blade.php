@@ -1,50 +1,71 @@
-<!-- resources/views/admin/includes/left/left-sidebar.blade.php -->
-<div class="d-flex align-items-start" style="width: 100px; height:100px;">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+
+<div class="d-flex align-items-start" style="width: 100%;">
     <div class="flex-grow-1">
-        <div class="flex-container text-center">
-            <div style="background:rgb(32, 218, 193); margin:10px; padding: 10px; border-radius: 8px; text-align: center;">
-                <h3 class="mb-2">{{ $count['users'] ?? 0 }}</h3>
-                <form action="{{ route('manageBusiness') }}" method="post" class="d-inline">
-                    @csrf
-                    <input type="hidden" name="action" value="show-not-expired">
-                    <button type="submit" class="btn" style="background:rgba(32, 218, 193,0);">Total Active Users</button>
-                </form>
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <div class="card bg-primary text-white shadow">
+                    <div class="card-body">
+                        <h3 class="card-title">{{ $count['users'] ?? 0 }} Total Active Users</h3>
+                        <form action="{{ route('manageBusiness') }}" method="post" class="d-inline">
+                            @csrf
+                            <input type="hidden" name="action" value="show-not-expired">
+                            <button type="submit" class="btn btn-light">Show Active Users <i class="fas fa-users"></i></button>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <div style="background:goldenrod; margin:10px;">
-                <h3 class="mb-2">{{ $count['inactive'] ?? 0 }}</h3>
-                <form action="{{ route('manageBusiness') }}" method="post" class="d-inline">
-                    @csrf
-                    <input type="hidden" name="action" value="show-inactive-list">
-                    <button type="submit" class="btn" style=" background:rgba(3, 80, 247, 0);">Total Inactive Users</button>
-                </form>
+
+            <div class="col-md-6 mb-4">
+                <div class="card bg-warning text-dark shadow">
+                    <div class="card-body">
+                        <h3 class="card-title">{{ $count['inactive'] ?? 0 }} Total Inactive Users</h3>
+                        <form action="{{ route('manageBusiness') }}" method="post" class="d-inline">
+                            @csrf
+                            <input type="hidden" name="action" value="show-inactive-list">
+                            <button type="submit" class="btn btn-light">Show Inactive Users <i class="fas fa-user-slash"></i></button>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <div style="background:rgba(3, 80, 247, 0.568); margin:10px;">
-                <h3 class="mb-2">{{ $count['active'] ?? 0 }} Business</h3>
-                 <form action="{{ route('manageBusiness') }}" method="post" class="d-inline">
-                     @csrf
-                     <input type="hidden" name="action" value="show-not-expired">
-                    <button type="submit" class="btn" style="rgba(3, 80, 247, 0.568); margin:10px;">Show Active Users</button>
-                </form>
+
+            <div class="col-md-6 mb-4">
+                <div class="card bg-info text-white shadow">
+                    <div class="card-body">
+                        <h3 class="card-title">{{ $count['active'] ?? 0 }} Total Active Businesses</h3>
+                         <form action="{{ route('manageBusiness') }}" method="post" class="d-inline">
+                             @csrf
+                             <input type="hidden" name="action" value="show-not-expired">
+                            <button type="submit" class="btn btn-light">Show Active Businesses <i class="fas fa-business-time"></i></button>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <div style="background:rgba(247, 3, 56, 0.568); margin:10px;">
-                <h3 class="mb-2">{{ $count['expired'] ?? 0 }} Expired</h3>
-                <form action="{{ route('manageBusiness') }}" method="post" class="d-inline">
-                    @csrf
-                    <input type="hidden" name="action" value="check-new-expired">
-                    <button type="submit" class="btn" style="background:rgba(247, 3, 56,0; margin:10px;">Disable All Expired</button>
-                </form>
+
+            <div class="col-md-6 mb-4">
+                <div class="card bg-danger text-white shadow">
+                    <div class="card-body">
+                        <h3 class="card-title">{{ $count['expired'] ?? 0 }} Total Expired Businesses</h3>
+                        <form action="{{ route('manageBusiness') }}" method="post" class="d-inline">
+                            @csrf
+                            <input type="hidden" name="action" value="check-new-expired">
+                            <button type="submit" class="btn btn-light">Disable All Expired <i class="fas fa-calendar-times"></i></button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
+
         <!-- Chart DateCreation -->
-        <div>
-            <canvas id="userCreationLineChart" width="00" height="200"></canvas>
+        <div class="mb-4">
+            <canvas id="userCreationLineChart" width="350" height="200"></canvas>
         </div>
-       
+
         <!-- Chart 2: Bar Chart -->
         <div>
-            <canvas id="myChartBar" width="150" height="100"></canvas>
+            <canvas id="myChartBar" width="350" height="200"></canvas>
         </div>
-        
+
     </div>
 </div>
 
@@ -174,3 +195,4 @@
 
     </script>
 @endsection
+
