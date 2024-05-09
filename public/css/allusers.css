@@ -1,0 +1,146 @@
+/* Custom CSS for the table */
+#example_wrapper {
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+#example_length label {
+    font-weight: bold;
+}
+#example_filter input {
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    padding: 8px 15px;
+    transition: border-color 0.3s ease;
+}
+#example_filter input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+#example_paginate .paginate_button {
+    padding: 8px 15px;
+    margin: 0 5px;
+    border-radius: 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+#example_paginate .paginate_button:hover {
+    background-color: #0056b3;
+}
+#example_paginate .paginate_button.disabled {
+    background-color: #6c757d;
+}
+#example_paginate .paginate_button.current {
+    background-color: #0056b3;
+}
+
+/* Custom CSS for the dropdown menu */
+.dropdown-menu {
+    border: none;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    border-radius: 0.25rem;
+}
+.dropdown-menu .dropdown-item {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+}
+.dropdown-menu .dropdown-item:hover {
+    background-color: #f8f9fa;
+    color: #495057;
+}
+
+/* Custom CSS for the columns dropdown button */
+.btn-secondary.dropdown-toggle {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+.btn-secondary.dropdown-toggle:hover {
+    background-color: #5a6268;
+    border-color: #545b62;
+}
+.btn-secondary.dropdown-toggle:focus {
+    box-shadow: 0 0 0 0.2rem rgba(108, 117, 125, 0.5);
+}
+
+/* Custom CSS for the DataTables links */
+.dataTables_wrapper .dt-buttons {
+    margin-bottom: 10px; /* Added margin */
+}
+
+/* Custom CSS for the buttons-columnVisibility */
+.buttons-columnVisibility {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    color: #fff;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 14px;
+    margin-right: 10px;
+    margin-bottom: 10px; /* Added margin */
+}
+
+.buttons-columnVisibility.active {
+    background-color: #2333c8;
+    border-color: #3121bd;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 70, 0);
+}
+.dataTables_length {
+ display: none;
+}   
+
+
+
+.dataTables_info {
+    visibility: visible; /* Ensure pagination info is visible */
+}
+
+/* Back to Top Button */
+#backToTopBtn {
+display: none;
+position: fixed;
+bottom: 70px;
+right: 10px;
+z-index: 99;
+border: none;
+outline: none;
+background-color: #000000;
+color: white;
+cursor: pointer;
+padding: 15px;
+border-radius: 50%;
+transition: background-color 0.3s ease, transform 0.3s ease;
+animation: fadeIn 0.3s;
+}
+
+#backToTopBtn:hover {
+background-color: crimson;
+box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Add a subtle shadow on hover */
+transform: scale(1.1); /* Enlarge slightly on hover */
+}
+
+@keyframes fadeIn {
+0% {
+    opacity: 0;
+    transform: scale(0);
+}
+100% {
+    opacity: 1;
+    transform: scale(1);
+}
+}
+
+/* FontAwesome Icon */
+#backToTopBtn::before {
+content: "\f062"; /* Unicode for FontAwesome arrow-up icon */
+font-family: "Font Awesome 5 Free"; /* Use FontAwesome font family */
+font-weight: 900;
+font-size: 20px;
+}
+
+/* Hide the default browser scrollbar */
+body::-webkit-scrollbar {
+display: none;
+}
+
