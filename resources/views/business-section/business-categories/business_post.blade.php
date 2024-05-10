@@ -163,8 +163,8 @@
         }
 
         .business-image {
-            width: 100%;
-            height: 100%;
+            width: 60%;
+            height: 70%;
             display: block;
             object-fit: cover;
         }
