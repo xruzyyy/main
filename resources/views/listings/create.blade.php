@@ -159,18 +159,18 @@
                         </div>
 
                         <div class="field">
-                            <label class="label">Image</label>
-                            <p class="image-note">Please upload a high-resolution image.</p>
+                            <label class="label">Images</label>
+                            <p class="image-note">Please upload high-resolution images. You can select multiple images.</p>
                             <div class="control">
                                 <div class="file has-name is-boxed">
                                     <label class="file-label">
-                                        <input type="file" class="file-input" id="image" name="image" accept="image/*" required onchange="previewImage(event)">
+                                        <input type="file" class="file-input" id="images" name="images[]" accept="image/*" multiple required onchange="previewImages(event)">
                                         <span class="file-cta">
                                             <span class="file-icon">
                                                 <i class="fas fa-upload"></i>
                                             </span>
                                             <span class="file-label">
-                                                Choose a file…
+                                                Choose files…
                                             </span>
                                         </span>
                                     </label>
@@ -178,11 +178,12 @@
                             </div>
                         </div>
                         <div class="field">
-                            <label class="label">Image Preview</label>
+                            <label class="label">Image Previews</label>
                             <div class="control">
-                                <img id="imagePreview" src="#" alt="Image Preview" style="max-width: 100%; max-height: 200px; display: none;">
+                                <div id="imagePreviews" class="image-previews"></div>
                             </div>
                         </div>
+                        
                         <div class="field">
                             <label class="labelLocated">Latitude</label>
                             <div class="labelLocated">
@@ -219,7 +220,7 @@
 @endif
 @endsection
 
-<script>
+{{-- <script>
     function previewImage(event) {
         var reader = new FileReader();
         reader.onload = function(){
@@ -228,5 +229,30 @@
             img.style.display = "block";
         }
         reader.readAsDataURL(event.target.files[0]);
+    }
+</script> --}}
+
+<script>
+    function previewImages(event) {
+        var files = event.target.files;
+
+        var previewContainer = document.getElementById('imagePreviews');
+        previewContainer.innerHTML = '';
+
+        for (var i = 0; i < files.length; i++) {
+            var file = files[i];
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                var img = document.createElement('img');
+                img.src = e.target.result;
+                img.style.maxWidth = '100%';
+                img.style.maxHeight = '200px';
+                img.style.marginRight = '10px';
+                previewContainer.appendChild(img);
+            }
+
+            reader.readAsDataURL(file);
+        }
     }
 </script>

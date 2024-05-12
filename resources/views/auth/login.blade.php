@@ -548,8 +548,8 @@
                             info</p>
 
                          <div class="image-preview" style="display: none;">
-                            <img id="image_preview_business" src="#" style="max-width: 100%; height: auto;">
-                                <img id="image_preview_profile" src="#" style="max-width: 100%; height: auto;">
+                            <img id="image_preview_business" src="#" style="max-width: 100%; height: 50%;">
+                                <img id="image_preview_profile" src="#" style="max-width: 100%; height: 50%;">
                         </div>
 
                         <a class="nav-link" id="signInView" href="{{ route('login') }}">{{ __('Login') }}</a>

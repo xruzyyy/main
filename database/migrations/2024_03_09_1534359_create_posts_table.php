@@ -15,13 +15,13 @@ return new class extends Migration
             $table->id();
             $table->string('businessName');
             $table->string('description');
-            $table->string('image')->notNullable();
-            $table->bigInteger('contactNumber')->unique(); // Define the contactNumber column as a big integer and unique
+            $table->json('images')->Notnullable(); // Change 'image' to 'images' and make it nullable
+            $table->bigInteger('contactNumber')->unique();
             $table->boolean('is_active')->default(0);
             $table->decimal('latitude', 10, 6);
             $table->decimal('longitude', 10, 6);
             $table->string('type');
-            $table->unsignedBigInteger('user_id')->default(null);
+            $table->unsignedBigInteger('user_id')->nullable(); // Make user_id nullable
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });

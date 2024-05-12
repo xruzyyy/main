@@ -55,7 +55,6 @@
         }
     }
 
-
 </style>
 @endsection
 
@@ -91,6 +90,31 @@
     </div>
 </div>
 
+<!-- Button to toggle sidebar -->
+<button class="btn btn-primary d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu">
+    Toggle Sidebar
+</button>
+
+<!-- Offcanvas sidebar -->
+<div class="offcanvas offcanvas-start bg-light" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="sidebarMenuLabel">Sidebar</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <!-- Sidebar content -->
+        <ul class="nav flex-column">
+            <!-- Your sidebar navigation links here -->
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Dashboard</a>
+            </li>
+            <!-- Add more sidebar links as needed -->
+        </ul>
+    </div>
+</div>
 
 <!-- Scripts -->
 <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
@@ -110,6 +134,5 @@
     });
 
 </script>
-
 
 @endsection

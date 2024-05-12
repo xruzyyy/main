@@ -13,7 +13,7 @@ class Posts extends Model
     protected $fillable = [
         'businessName',
         'description',
-        'image',
+        'images',
         'is_active',
         'user_id',
         'user_email',

@@ -12,8 +12,13 @@
             @foreach ($posts as $post)
                 <div class="col mb-4">
                     <div class="card h-100 ">
-                        <!-- Only the image is wrapped in the onclick event -->
-                        <img src="{{ asset($post->image) }}" class="card-img-top" alt="Business Image" onclick="openFullScreen('{{ route('businessPost', ['id' => $post->id]) }}')">
+                        <!-- Display only the first image from the array -->
+                        @php
+                            $images = json_decode($post->images);
+                            $firstImage = isset($images[0]) ? $images[0] : null;
+                        @endphp
+                        <img src="{{ asset($firstImage) }}" class="card-img-top" alt="Business Image"
+                            onclick="openFullScreen('{{ route('businessPost', ['id' => $post->id]) }}')">
                         <div class="card-body">
                             <p class="card-text"><strong>Type:</strong> {{ $post->type }}</p>
                             <h5 class="card-title">{{ $post->businessName }}</h5>

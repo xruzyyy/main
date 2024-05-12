@@ -162,12 +162,26 @@ L.tileLayer("https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}", {
 function addCategoryMarkers() {
     var posts = {!! json_encode($posts) !!};
 
-    posts.forEach(function(category) {
-        var markerColor = category.is_active ? 'blue' : 'red'; // Set marker color based on is_active value
-        var marker = L.marker([category.latitude, category.longitude], {icon: coloredIcon(markerColor)}).addTo(map);
-        marker.bindPopup("<b>" + category.businessName + "</b><br>" + category.description + "<br><img src='" + category.image + "' width='100'>" + (category.is_active ? "" : "<br><strong>Expired Permit</strong>"));
+    posts.forEach(function(post) {
+        var markerColor = post.is_active ? 'blue' : 'red'; // Set marker color based on is_active value
+        var marker = L.marker([post.latitude, post.longitude], {icon: coloredIcon(markerColor)}).addTo(map);
+
+        // Check if the images property is defined and not empty
+        if (post.images && post.images.length > 0) {
+            // Parse the JSON-encoded images string
+            var images = JSON.parse(post.images);
+
+            // Get the first image from the array
+            var firstImage = images[0];
+
+            marker.bindPopup("<b>" + post.businessName + "</b><br>" + post.description + "<br><img src='" + firstImage + "' width='100'>" + (post.is_active ? "" : "<br><strong>Expired Permit</strong>"));
+        } else {
+            // If no image is available, display a default message
+            marker.bindPopup("<b>" + post.businessName + "</b><br>" + post.description + "<br>No image available" + (post.is_active ? "" : "<br><strong>Expired Permit</strong>"));
+        }
     });
 }
+
 
 // Define a function to create colored markers
 function coloredIcon(color) {

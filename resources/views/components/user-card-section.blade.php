@@ -63,7 +63,7 @@
 
         <!-- Chart 2: Bar Chart -->
         <div>
-            <canvas id="myChartBar" width="350" height="200" style="border-radius: 2em;"></canvas>
+            <canvas id="myChartBar"  width="360" height="240" style="border-radius: 2em;"></canvas>
         </div>
 
     </div>
