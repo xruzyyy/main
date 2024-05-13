@@ -25,10 +25,7 @@ use App\Http\Controllers\contactController;
 Auth::routes(['verify' => true]);
 Route::get('/protected-route', 'RegisterController@create')->middleware(['auth', 'verified']);
 
-Route::get('/contactIndex',  [contactController::class, 'index']);
 
-Route::get('contact', [contactController::class, 'showContactForm'])->name('contact.show');
-Route::post('contact', [contactController::class, 'submitContactForm'])->name('contact.submit');
 
 // Using Laravel's built-in email verification feature
 Route::get('verify-email', function () {
@@ -101,6 +98,11 @@ Route::controller(PostCategories::class)->middleware(['auth', 'verified', 'check
     // Route to display the map page
     Route::get('/mapStore', [ListingController::class, 'mapStore'])->name('mapStore');
 
+
+    Route::get('/contactIndex',  [contactController::class, 'index']);
+
+Route::get('contact', [contactController::class, 'showContactForm'])->name('contact.show');
+Route::post('contact', [contactController::class, 'submitContactForm'])->name('contact.submit');
 
 });
 
