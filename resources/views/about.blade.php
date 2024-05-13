@@ -14,7 +14,7 @@
                             We firmly believe that supporting legitimate businesses is not only essential for economic growth but also for building a stronger, more reputable business ecosystem. Our focus is on promoting integrity and legitimacy across all aspects of business operations, from legal compliance to ethical practices.
                         </div>
                         <div class="btn-box">
-                            <a href="#" class="theme-btn btn-style-one">Contact Us</a>
+                            <a href="{{ route('contact.show') }}" class="theme-btn btn-style-one">Contact Us</a>
                         </div>
                     </div>
                 </div>

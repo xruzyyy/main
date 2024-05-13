@@ -12,7 +12,7 @@ $angle: 170deg;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 20px;
+    padding: 30px;
     position: relative; // Ensure container is positioned relative to the body
     z-index: 2; // Ensure container is above the pseudo-elements
 }
@@ -44,6 +44,8 @@ $angle: 170deg;
     padding: 20px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 10px;
+    overflow: hidden;
 }
 
 .service-card:hover {

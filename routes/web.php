@@ -1,5 +1,6 @@
 <?php
 
+
 use App\Http\Controllers\ManagePostController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmployeeController;
@@ -16,12 +17,18 @@ use App\Http\Controllers\PostCategories;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\RatingController;
+use App\Http\Controllers\contactController;
+
 
 
 
 Auth::routes(['verify' => true]);
 Route::get('/protected-route', 'RegisterController@create')->middleware(['auth', 'verified']);
 
+Route::get('/contactIndex',  [contactController::class, 'index']);
+
+Route::get('contact', [contactController::class, 'showContactForm'])->name('contact.show');
+Route::post('contact', [contactController::class, 'submitContactForm'])->name('contact.submit');
 
 // Using Laravel's built-in email verification feature
 Route::get('verify-email', function () {
@@ -93,6 +100,8 @@ Route::controller(PostCategories::class)->middleware(['auth', 'verified', 'check
     Route::get('/search-categories', [SearchController::class, 'searchCategories'])->name('searchPosts');
     // Route to display the map page
     Route::get('/mapStore', [ListingController::class, 'mapStore'])->name('mapStore');
+
+
 });
 
 
@@ -118,6 +127,7 @@ Route::middleware(['auth', 'user-access:business', 'verified', 'checkstatus'])->
     Route::get('/map', [ListingController::class, 'map'])->name('map');
     // Route to add a maps
     Route::get('/mapAdmin', [ManagePostController::class, 'mapAdmin'])->name('mapAdmin');
+
 });
 
 
