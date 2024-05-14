@@ -18,6 +18,8 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\contactController;
+use App\Http\Controllers\NotificationController;
+
 
 
 
@@ -25,10 +27,6 @@ use App\Http\Controllers\contactController;
 Auth::routes(['verify' => true]);
 Route::get('/protected-route', 'RegisterController@create')->middleware(['auth', 'verified']);
 
-Route::get('/contactIndex',  [contactController::class, 'index']);
-
-Route::get('contact', [contactController::class, 'showContactForm'])->name('contact.show');
-Route::post('contact', [contactController::class, 'submitContactForm'])->name('contact.submit');
 
 // Using Laravel's built-in email verification feature
 Route::get('verify-email', function () {
@@ -102,6 +100,36 @@ Route::controller(PostCategories::class)->middleware(['auth', 'verified', 'check
     Route::get('/mapStore', [ListingController::class, 'mapStore'])->name('mapStore');
 
 
+    Route::get('/contactIndex',  [contactController::class, 'index']);
+
+Route::get('contact', [contactController::class, 'showContactForm'])->name('contact.show');
+Route::post('contact', [contactController::class, 'submitContactForm'])->name('contact.submit');
+
+
+
+
+Route::get('/notifications', [NotificationController::class, 'getUserProfile'])->name('notifications.index');
+// Route to handle deleting a single notification
+// Route::delete('notifications/{id}', [NotificationController::class, 'deleteNotification'])->name('notifications.delete');
+
+// // Route to handle marking all notifications as read
+// Route::post('notifications/mark-as-read', [NotificationController::class, 'markAllAsRead'])->name('notifications.markAsRead');
+
+
+// Route for marking notifications as read
+// Route::post('/notifications/markAsRead', [NotificationController::class, 'markAsRead'])
+//     ->name('notifications.markAsRead');
+
+// // Route for deleting a single notification
+// Route::delete('/notifications/{id}/delete', [NotificationController::class, 'deleteNotification'])
+//     ->name('notifications.delete');
+
+// // Route for deleting all notifications
+// Route::delete('/notifications/deleteAll', [NotificationController::class, 'deleteAllNotifications'])
+//     ->name('notifications.deleteAll');
+
+
+
 });
 
 
@@ -127,6 +155,12 @@ Route::middleware(['auth', 'user-access:business', 'verified', 'checkstatus'])->
     Route::get('/map', [ListingController::class, 'map'])->name('map');
     // Route to add a maps
     Route::get('/mapAdmin', [ManagePostController::class, 'mapAdmin'])->name('mapAdmin');
+
+    Route::get('/notificationBusiness', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::post('/notifications/mark-all-as-read', [NotificationController::class, 'markAllAsRead'])->name('notifications.markAllAsRead');
+    Route::put('/notifications/markAsRead/{id}', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
+    Route::delete('/notifications/delete/{id}', [NotificationController::class, 'delete'])->name('notifications.delete');
+    Route::delete('/notifications/delete-all', [NotificationController::class, 'deleteAll'])->name('notifications.deleteAll');
 
 });
 
@@ -162,9 +196,9 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
         // Route::delete('/notifications', [HomeController::class, 'deleteAllNotifications'])->name('notifications.deleteAll');
 
 
-        Route::delete('notifications/{id}', [HomeController::class, 'deleteNotification'])->name('notifications.delete');
+        Route::delete('/admin/notifications/delete/{id}', [HomeController::class, 'deleteNotification'])->name('admin.notifications.delete');
         Route::get('/mark-as-read', [HomeController::class, 'markAsRead'])->name('mark-as-read');
-        Route::delete('/notifications', [HomeController::class, 'deleteAllNotifications'])->name('notifications.deleteAll');
+        Route::delete('/notifications', [HomeController::class, 'deleteAllNotifications'])->name('admin.notifications.deleteAll');
 
 
 

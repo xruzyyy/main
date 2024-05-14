@@ -48,11 +48,17 @@ class BusinessListingNotification extends Notification
      */
     public function toArray($notifiable)
     {
-        return [
-            'message' => 'A new business listing has been added.',
-            'business_name' => $this->businessListing->businessName,
-            'user_id' => $this->businessListing->user_id,
-            // You can include additional details about the business listing here
-        ];
+        // Check if the authenticated user type is admin
+        if ($notifiable->type === 'admin') {
+            return [
+                'message' => 'A new business listing has been added.',
+                'business_name' => $this->businessListing->businessName,
+                'user_id' => $this->businessListing->user_id,
+                // You can include additional details about the business listing here
+            ];
+        } else {
+            // Return an empty array if the user is not an admin
+            return [];
+        }
     }
 }

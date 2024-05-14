@@ -7,7 +7,10 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Posts;
 use App\Notifications\NewUserNotification;
+use App\Notifications\NewCommentNotification;
 use Illuminate\Support\Facades\DB;
+use App\Models\Notification;
+
 class HomeController extends Controller
 {
     /**
@@ -45,9 +48,26 @@ class HomeController extends Controller
 
     public function businessHome()
     {
+        // Fetch the count of unseen messages (replace with your actual method)
         $unseenCount = $this->fetchUnseenMessageCount();
-        return view('businessHome', ['unseenCount' => $unseenCount]);
+
+
+
+        return view('businessHome', [
+            'unseenCount' => $unseenCount,
+
+        ]);
     }
+
+    private function fetchUnseenMessageCount()
+    {
+        return DB::table('ch_messages')
+            ->where('to_id', '=', Auth::user()->id)
+            ->where('seen', '=', '0')
+            ->count();
+    }
+
+
 
 
 public function businessPostList(Request $request)
@@ -55,13 +75,20 @@ public function businessPostList(Request $request)
     // Retrieve posts from the database
     $unseenCount = $this->fetchUnseenMessageCount();
 
+            // // Fetch notifications for the authenticated user
+            // $notifications = Auth::user()->notifications()->where('type', 'App\Notifications\NewCommentNotification')->paginate(10);
+
+            // // Count the unread notifications
+            // $notificationCount = Auth::user()->unreadNotifications->count();
     // Retrieve the 7 latest posts from the database along with their ratings
     $posts = Posts::with('ratings')->latest()->take(6)->get(['id','user_id', 'businessName', 'description', 'images', 'latitude', 'longitude', 'is_active','type','contactNumber']);
 
     // Pass category data and any other necessary data to the view
     return view('businessHome', [
         'posts' => $posts,
-        'unseenCount' => $unseenCount
+        'unseenCount' => $unseenCount,
+            // 'notifications' => $notifications,
+            // 'notificationCount' => $notificationCount,
     ]);
 }
 
@@ -82,13 +109,7 @@ public function businessPostListForUser(Request $request)
 
 
 
-    private function fetchUnseenMessageCount()
-    {
-        return DB::table('ch_messages')
-            ->where('to_id', '=', Auth::user()->id)
-            ->where('seen', '=', '0')
-            ->count();
-    }
+
 
     public function markAsRead()
     {

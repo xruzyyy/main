@@ -6,6 +6,8 @@ use App\Models\Posts;
 use Illuminate\Http\Request;
 use App\Models\Comment;
 use App\Models\Rating;
+use App\Notifications\NewCommentNotification;
+use App\Models\User;
 
 class CommentController extends Controller
 {
@@ -18,28 +20,34 @@ class CommentController extends Controller
      */
    // ManagePostController.php
 
-
+   // CommentController.php
 
    public function storeComment(Request $request, $id)
-   {
-       // Validate the request data
-       $request->validate([
-           'content' => 'required|string|max:255',
-       ]);
+{
+    $request->validate([
+        'content' => 'required|string|max:255',
+    ]);
 
-       // Find the category/post by its ID
-       $post = Posts::findOrFail($id);
+    $post = Posts::findOrFail($id);
 
-       // Create a new Comment instance
-       $comment = new Comment();
-       $comment->content = $request->content;
-       $comment->user_id = auth()->user()->id; // Assuming the user is authenticated
-       // Associate the comment with the category/post
-       $post->comments()->save($comment);
+    $comment = new Comment();
+    $comment->content = $request->content;
+    $comment->user_id = auth()->user()->id;
 
-       // Redirect back with a success message
-       return redirect()->back()->with('success', 'Comment added successfully!');
-   }
+    // Retrieve authenticated user's name and profile image from the User model
+    $commenterName = auth()->user()->name;
+    $commenterProfileImage = auth()->user()->profile_image; // Assuming profile_image is the field name
+
+    $post->comments()->save($comment);
+
+    // Notify post author about the new comment
+    // Pass both the comment and the commenter's name and profile image
+    $post->user->notify(new NewCommentNotification($comment, $commenterName, $commenterProfileImage));
+
+    return redirect()->back()->with('success', 'Comment added successfully!');
+}
+
+
 
 
    public static function generateStarsForUser($postId, $userId)

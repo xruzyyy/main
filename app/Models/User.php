@@ -10,6 +10,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Posts;
+use App\Models\Comment;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -110,6 +111,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function setRoleAsAttribute($value)
     {
         $this->attributes['role_as'] = $value;
+    }
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 
 

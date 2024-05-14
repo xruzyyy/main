@@ -394,6 +394,7 @@
             .btn {
                 padding: 0.45rem 1.2rem;
             }
+
         }
     </style>
     <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
@@ -457,11 +458,12 @@
                         Contact Us
                     </span>
 
-                    @if(Session::has('message'))
-                    <div class="alert alert-success">
-                        {{ Session('message') }}
-                    </div>
+                    @if (Session::has('success'))
+                        <div class="alert alert-success" style="color:#0fff13;">
+                            {{ Session('success') }}
+                        </div>
                     @endif
+
                     <div class="input-container">
                         <input class="input" type="text" name="name" data-validate="Name is required">
                         <label for="">Username</label>
