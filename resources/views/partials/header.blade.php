@@ -11,95 +11,7 @@
         integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
-        .navbar {
-            background-color: black !important;
-        }
 
-        .create-listing-btn {
-            margin-left: 1em;
-            margin-top: 0.3em;
-            border-radius: 10px;
-            color: #fff;
-            text-decoration: none;
-            border: 2px solid transparent;
-            padding: 6px 12px;
-            font-size: 14px;
-            background: linear-gradient(135deg, rgba(0, 174, 255, 0.993) 0%, rgb(33, 162, 221) 80%);
-            transition: all 0.3s ease;
-        }
-
-        .create-listing-btn:hover {
-            background: linear-gradient(135deg, rgba(7, 10, 7, 0.979) 0%, rgba(218, 221, 33, 0.904) 100%);
-            border-color: blanchedalmond;
-        }
-
-        .modal-backdrop {
-            background-color: rgba(0, 0, 0, 0.5);
-        }
-
-        .notification-list-container {
-            max-height: 400px;
-            overflow-y: auto;
-        }
-
-        .notification-item {
-            padding: 10px;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .notification-item.read {
-            background-color: #f0f0f0;
-        }
-
-        .commenter-profile-image {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            margin-right: 10px;
-        }
-
-        .red-dot {
-            width: 8px;
-            height: 8px;
-            background-color: red;
-            border-radius: 50%;
-            display: inline-block;
-            margin-right: 5px;
-        }
-
-        .notification-list-container {
-            max-height: 400px;
-            /* Adjust as needed */
-            overflow-y: auto;
-            scrollbar-width: thin;
-            /* Add thin scrollbar for Firefox */
-            scrollbar-color: rgba(0, 0, 0, 0.5) rgba(0, 0, 0, 0);
-            /* Change scrollbar color */
-        }
-
-        /* Customize scrollbar track and thumb */
-        .notification-list-container::-webkit-scrollbar {
-            width: 10px;
-            /* Set the width of the scrollbar */
-        }
-
-        .notification-list-container::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.1);
-            /* Set the background color of the scrollbar track */
-        }
-
-        .notification-list-container::-webkit-scrollbar-thumb {
-            background-color: rgba(0, 0, 0, 0.5);
-            /* Set the color of the scrollbar thumb */
-            border-radius: 5px;
-            /* Set the border radius of the scrollbar thumb */
-        }
-
-        /* Style for Firefox scrollbar */
-        .notification-list-container {
-            scrollbar-width: thin;
-            scrollbar-color: rgba(0, 0, 0, 0.5) rgba(0, 0, 0, 0);
-        }
     </style>
 </head>
 
@@ -168,6 +80,15 @@
                                         class="badge badge-danger">{{ auth()->user()->unreadNotifications->count() }}</span>
                                 @endif
                             </a>
+                            <li class="chatify mt-2">
+                                <a href="/chatify" style="text-decoration: none;color: #006ce7f1">
+                                    <i class="fa-brands fa-facebook-messenger">
+                                        <div class="unread_notification">
+                                            {{ $unseenCount }} <!-- Display the unseenCount here -->
+                                        </div>
+                                    </i>
+                                </a>
+                            </li>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link create-listing-btn" href="{{ route('listings.create') }}">Create Listings</a>
