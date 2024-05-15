@@ -34,6 +34,12 @@ Route::get('verify-email', function () {
 })->name('verify-email');
 
 
+Route::controller(MessagesController::class)->middleware(['auth', 'checkstatus', 'verified'])->group(function () {
+    Route::get('/chatify', 'index')->name('chatify');
+    Route::get('/chatify/{id}', 'index')->name('chatify.id');
+    Route::get('/chatify/user/{userId}', 'index')->name('chatify.user');
+});
+
 //Must be Auth for normal use in categories of business and for maps
 Route::controller(PostCategories::class)->middleware(['auth', 'verified', 'checkstatus'])->group(function () {
     Route::get('/categories/accounting', 'showAccountingCategories')->name('showAccountingCategories');
@@ -80,19 +86,14 @@ Route::controller(PostCategories::class)->middleware(['auth', 'verified', 'check
 
     Route::get('/business-post/{id}', 'show')->name('businessPost');
 
-    // // Route to display a single business post
-    // Route::get('/business/{id}', [ManagePostController::class, 'show'])->name('business.show');
-    // Route::post('/categories/{category}/comments', 'CommentController@store')->name('comments.store');
 
 
+    // Route to handle adding comments to a business post
+    Route::post('/posts/{id}/comments', [CommentController::class, 'storeComment'])->name('comments.store');
 
-        // Route to handle adding comments to a business post
-        Route::post('/posts/{id}/comments', [CommentController::class, 'storeComment'])->name('comments.store');
-
-        Route::post('/posts/{postId}/ratings', [RatingController::class, 'storeRating'])->name('ratings.store');
+    Route::post('/posts/{postId}/ratings', [RatingController::class, 'storeRating'])->name('ratings.store');
 
 
-        // Route::post('/ratings/{postId}', [RatingController::class, 'store'])->name('ratings.store');
 
     // Route to display the search business
     Route::get('/search-categories', [SearchController::class, 'searchCategories'])->name('searchPosts');
@@ -102,42 +103,16 @@ Route::controller(PostCategories::class)->middleware(['auth', 'verified', 'check
 
     Route::get('/contactIndex',  [contactController::class, 'index']);
 
-Route::get('contact', [contactController::class, 'showContactForm'])->name('contact.show');
-Route::post('contact', [contactController::class, 'submitContactForm'])->name('contact.submit');
+    Route::get('contact', [contactController::class, 'showContactForm'])->name('contact.show');
+    Route::post('contact', [contactController::class, 'submitContactForm'])->name('contact.submit');
 
 
 
 
-Route::get('/notifications', [NotificationController::class, 'getUserProfile'])->name('notifications.index');
-// Route to handle deleting a single notification
-// Route::delete('notifications/{id}', [NotificationController::class, 'deleteNotification'])->name('notifications.delete');
-
-// // Route to handle marking all notifications as read
-// Route::post('notifications/mark-as-read', [NotificationController::class, 'markAllAsRead'])->name('notifications.markAsRead');
-
-
-// Route for marking notifications as read
-// Route::post('/notifications/markAsRead', [NotificationController::class, 'markAsRead'])
-//     ->name('notifications.markAsRead');
-
-// // Route for deleting a single notification
-// Route::delete('/notifications/{id}/delete', [NotificationController::class, 'deleteNotification'])
-//     ->name('notifications.delete');
-
-// // Route for deleting all notifications
-// Route::delete('/notifications/deleteAll', [NotificationController::class, 'deleteAllNotifications'])
-//     ->name('notifications.deleteAll');
-
-
-
+    Route::get('/notifications', [NotificationController::class, 'getUserProfile'])->name('notifications.index');
 });
 
 
-Route::controller(MessagesController::class)->middleware(['auth', 'checkstatus', 'verified'])->group(function () {
-    Route::get('/chatify', 'index')->name('chatify');
-    Route::get('/chatify/{id}', 'index')->name('chatify.id');
-    Route::get('/chatify/user/{userId}', 'index')->name('chatify.user');
-});
 
 
 // Business Routes with Email Verification Middleware
@@ -161,7 +136,6 @@ Route::middleware(['auth', 'user-access:business', 'verified', 'checkstatus'])->
     Route::put('/notifications/markAsRead/{id}', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
     Route::delete('/notifications/delete/{id}', [NotificationController::class, 'delete'])->name('notifications.delete');
     Route::delete('/notifications/delete-all', [NotificationController::class, 'deleteAll'])->name('notifications.deleteAll');
-
 });
 
 
@@ -172,6 +146,8 @@ Route::middleware(['auth', 'user-access:user', 'verified'])->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
     Route::get('/home', [HomeController::class, 'businessPostListForUser'])->name('home');
 });
+
+
 
 
 // Admin Routes
@@ -191,10 +167,6 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
         Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
         Route::post('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-        // Route::delete('notifications/{id}', [HomeController::class, 'deleteNotification'])->name('notifications.delete');
-        // Route::get('/mark-as-read', [App\Http\Controllers\HomeController::class,'markAsRead'])->name('mark-as-read');
-        // Route::delete('/notifications', [HomeController::class, 'deleteAllNotifications'])->name('notifications.deleteAll');
-
 
         Route::delete('/admin/notifications/delete/{id}', [HomeController::class, 'deleteNotification'])->name('admin.notifications.delete');
         Route::get('/mark-as-read', [HomeController::class, 'markAsRead'])->name('mark-as-read');
@@ -211,8 +183,6 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
 
 
 
-        // Route::get('ManagePost/create',[App\Http\Controllers\ManagePostController::class, 'create']);
-        // Route::post('ManagePost/create', [App\Http\Controllers\ManagePostController::class, 'store']);
         Route::get('ManagePost/{id}/edit', [App\Http\Controllers\ManagePostController::class, 'edit']);
         Route::put('ManagePost/{id}/edit', [App\Http\Controllers\ManagePostController::class, 'update']);
         Route::delete('ManagePost/{id}/delete', [ManagePostController::class, 'destroy']);
@@ -248,8 +218,6 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
         Route::get('users/{userId}/toggle-status', [UserController::class, 'toggleStatus'])->name('users.toggleStatus');
         Route::get('users/sort', [UserController::class, 'sortTable'])->name('users.sortTable');
 
-        // Route::match(['get', 'post'], '/run-schedule', [ScheduleController::class, 'runSchedule']);
-        // Route::get('/run-schedule', [ScheduleController::class, 'showScheduleForm'])->name('run-schedule-form');
 
 
         Route::get('admin/ManageBusiness', [HomeController::class, 'adminManageBusiness'])->name('admin.ManageBusiness');

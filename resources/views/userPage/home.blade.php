@@ -1,7 +1,10 @@
 @extends('layouts.userHome')
 
-@section('content')
+@section('contentUserHome')
+@include('userPage.section1User')
 @include('business-section.business-section-category')
 @include('business-section.business-section-post')
-@include('about')
+@include('userPage.aboutUser')
+@include('userPage.servicesUser')
+@include('footer')
 @endsection

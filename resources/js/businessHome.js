@@ -8,7 +8,6 @@ function isInViewport(element) {
         rect.right <= (window.innerWidth || document.documentElement.clientWidth)
     );
 }
-
 // Function to handle scrolling
 function handleScroll() {
     const textContainer = document.querySelector('.text-container');

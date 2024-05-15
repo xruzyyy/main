@@ -24,7 +24,7 @@
             <ul>
                 <li><a href="#">My Account</a></li>
                 <li><a href="#">My Pages</a></li>
-                
+
             </ul>
         </div>
     </div>

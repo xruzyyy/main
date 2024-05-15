@@ -48,7 +48,7 @@
                         @elseif(Auth::user()->type == 'business')
                             <a href="{{ route('business.home') }}"><i class="fas fa-home" style="margin-top: 10px;"></i></a>
                         @else
-                            <a href="{{ route('home') }}"><i class="fas fa-home"></i></a>
+                            <a href="{{ route('home') }}"><i class="fas fa-home" style="margin-top: 10px;"></i></a>
                         @endif
                     @else
                         <a href="{{ route('home') }}"><i class="fas fa-home" style="margin-top: 10px;"></i></a>
@@ -56,10 +56,10 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#">About</a>
+                    <a class="nav-link" href="javascript:void(0);" onclick="scrollToAbout()">About</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">More</a>
+                    <a class="nav-link" href="javascript:void(0);" onclick="scrollToservicesUser()">Services</a>
                 </li>
             </ul>
 
@@ -119,6 +119,25 @@
         </div>
     </div>
 </nav>
+<script>
+    function scrollToAbout() {
+        const aboutSection = document.getElementById('aboutUser');
+        if (aboutSection) {
+            aboutSection.scrollIntoView({ behavior: 'smooth' });
+        } else {
+            window.location.href = '{{ route('home') }}#aboutUser';
+        }
+    }
+
+    function scrollToservicesUser() {
+        const servicesUserSection = document.getElementById('servicesUser');
+        if (servicesUserSection) {
+            servicesUserSection.scrollIntoView({ behavior: 'smooth' });
+        } else {
+            window.location.href = '{{ route('home') }}#servicesUser';
+        }
+    }
+</script>
 
 </body>
 </html>

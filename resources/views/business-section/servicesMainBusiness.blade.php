@@ -11,7 +11,7 @@
 </head>
 
 <body>
-    <section class="containerService" id="servicesMain">
+    <section class="containerService" id="servicesMainBusiness">
         <div class="services-header">
             <h1>Services Offered by Taytay Businesses</h1>
             <p>Explore our range of services tailored just for you.</p>
@@ -51,7 +51,7 @@
  <!-- Smooth Scroll Script -->
  <script>
      function scrollToservicesMain() {
-        var aboutSection = document.getElementById('servicesMain');
+        var aboutSection = document.getElementById('servicesMainBusiness');
         aboutSection.scrollIntoView({ behavior: 'smooth' });
     }
 </script>

@@ -31,7 +31,7 @@ class HomeController extends Controller
     public function index()
     {
         $unseenCount = $this->fetchUnseenMessageCount();
-        return view('home', ['unseenCount' => $unseenCount]);
+        return view('userPage.home', ['unseenCount' => $unseenCount]);
     }
 
     public function adminDashboard()
@@ -53,7 +53,7 @@ class HomeController extends Controller
 
 
 
-        return view('businessHome', [
+        return view('business-section.businessHome', [
             'unseenCount' => $unseenCount,
 
         ]);
@@ -84,7 +84,7 @@ public function businessPostList(Request $request)
     $posts = Posts::with('ratings')->latest()->take(6)->get(['id','user_id', 'businessName', 'description', 'images', 'latitude', 'longitude', 'is_active','type','contactNumber']);
 
     // Pass category data and any other necessary data to the view
-    return view('businessHome', [
+    return view('business-section.businessHome', [
         'posts' => $posts,
         'unseenCount' => $unseenCount,
             // 'notifications' => $notifications,
@@ -101,7 +101,7 @@ public function businessPostListForUser(Request $request)
     $posts = Posts::with('ratings')->latest()->take(6)->get(['id','user_id', 'businessName', 'description', 'images', 'latitude', 'longitude', 'is_active','type','contactNumber']);
 
     // Pass category data and any other necessary data to the view
-    return view('Home', [
+    return view('userPage.Home', [
         'posts' => $posts,
         'unseenCount' => $unseenCount
     ]);

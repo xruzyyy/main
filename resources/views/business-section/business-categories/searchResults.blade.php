@@ -1,11 +1,11 @@
-@extends('layouts.app')
+@extends(auth()->user()->type === 'business' ? 'layouts.businessHome' : 'layouts.app')
 
 @section('content')
 
 <!-- HTML -->
 <div id="section3">
     <div class="container section3-container">
-        <h2 >Searched Business Posts</h2>
+        <h2>Searched Business Posts</h2>
 
         <!-- Card Deck for Latest Business Posts -->
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 justify-content-between">
@@ -46,7 +46,7 @@
     </div>
        <!-- Pagination Links -->
        <div class="d-flex justify-content-center mt-4">
-        {{ $posts->links('pagination::bootstrap-4')   }}
+        {{ $posts->links('pagination::bootstrap-4') }}
     </div>
 </div>
 <!-- JavaScript -->

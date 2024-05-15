@@ -67,7 +67,7 @@
 <body>
     <div id="app">
         @if (!request()->is('login'))
-            @include('../partials.header')
+            @include('../partials.userHeader')
         @endif
 
 

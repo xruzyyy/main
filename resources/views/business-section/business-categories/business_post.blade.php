@@ -238,14 +238,16 @@
         @foreach ($post->comments as $comment)
             <li class="comment-item">
                 <div class="comment-content">
-                    <img class="comment-avatar" src="{{ asset($comment->user->profile_image) }}"
-                        alt="User Profile Image">
+                    @if ($comment->user)
+                    <img class="comment-avatar" src="{{ asset($comment->user->profile_image) }}" alt="User Profile Image">
                     <p class="postText"><strong>{{ $comment->user->name }}</strong>: {{ $comment->content }}</p>
 
                     <!-- Generate stars based on user's rating -->
                     <div class="star-rating">
                         {!! App\Http\Controllers\CommentController::generateStarsForUser($post->id, $comment->user_id) !!}
                     </div>
+                @endif
+
                 </div>
             </li>
         @endforeach
