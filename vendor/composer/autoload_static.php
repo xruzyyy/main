@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitd622d0de5ed3757eb6ca9ce358e79d18
+class ComposerStaticInita7dfa5531d7b167990c2f021be5c9148
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -376,8 +376,8 @@ class ComposerStaticInitd622d0de5ed3757eb6ca9ce358e79d18
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-factory/src',
-            1 => __DIR__ . '/..' . '/psr/http-message/src',
+            0 => __DIR__ . '/..' . '/psr/http-message/src',
+            1 => __DIR__ . '/..' . '/psr/http-factory/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -630,6 +630,7 @@ class ComposerStaticInitd622d0de5ed3757eb6ca9ce358e79d18
         'App\\Http\\Controllers\\Auth\\RegisterController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/RegisterController.php',
         'App\\Http\\Controllers\\Auth\\ResetPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ResetPasswordController.php',
         'App\\Http\\Controllers\\Auth\\VerificationController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/VerificationController.php',
+        'App\\Http\\Controllers\\Business\\BusinessProfileController' => __DIR__ . '/../..' . '/app/Http/Controllers/Business/BusinessProfileController.php',
         'App\\Http\\Controllers\\ChartController' => __DIR__ . '/../..' . '/app/Http/Controllers/ChartController.php',
         'App\\Http\\Controllers\\CommentController' => __DIR__ . '/../..' . '/app/Http/Controllers/CommentController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
@@ -639,6 +640,7 @@ class ComposerStaticInitd622d0de5ed3757eb6ca9ce358e79d18
         'App\\Http\\Controllers\\ManageBusinessController' => __DIR__ . '/../..' . '/app/Http/Controllers/ManageBusinessController.php',
         'App\\Http\\Controllers\\ManagePostController' => __DIR__ . '/../..' . '/app/Http/Controllers/ManagePostController.php',
         'App\\Http\\Controllers\\MessageController' => __DIR__ . '/../..' . '/app/Http/Controllers/MessageController.php',
+        'App\\Http\\Controllers\\NotificationController' => __DIR__ . '/../..' . '/app/Http/Controllers/NotificationController.php',
         'App\\Http\\Controllers\\PostCategories' => __DIR__ . '/../..' . '/app/Http/Controllers/PostCategories.php',
         'App\\Http\\Controllers\\PusherController' => __DIR__ . '/../..' . '/app/Http/Controllers/PusherController.php',
         'App\\Http\\Controllers\\RatingController' => __DIR__ . '/../..' . '/app/Http/Controllers/RatingController.php',
@@ -670,6 +672,7 @@ class ComposerStaticInitd622d0de5ed3757eb6ca9ce358e79d18
         'App\\Models\\Rating' => __DIR__ . '/../..' . '/app/Models/Rating.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
         'App\\Notifications\\BusinessListingNotification' => __DIR__ . '/../..' . '/app/Notifications/BusinessListingNotification.php',
+        'App\\Notifications\\NewCommentNotification' => __DIR__ . '/../..' . '/app/Notifications/NewCommentNotification.php',
         'App\\Notifications\\NewUserNotification' => __DIR__ . '/../..' . '/app/Notifications/NewUserNotification.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AuthServiceProvider.php',
@@ -7254,9 +7257,9 @@ class ComposerStaticInitd622d0de5ed3757eb6ca9ce358e79d18
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitd622d0de5ed3757eb6ca9ce358e79d18::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitd622d0de5ed3757eb6ca9ce358e79d18::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitd622d0de5ed3757eb6ca9ce358e79d18::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInita7dfa5531d7b167990c2f021be5c9148::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInita7dfa5531d7b167990c2f021be5c9148::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInita7dfa5531d7b167990c2f021be5c9148::$classMap;
 
         }, null, ClassLoader::class);
     }

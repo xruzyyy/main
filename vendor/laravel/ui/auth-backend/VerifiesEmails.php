@@ -6,8 +6,6 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 trait VerifiesEmails
 {
@@ -21,15 +19,9 @@ trait VerifiesEmails
      */
     public function show(Request $request)
     {
-        // Fetch unseen message count
-        $unseenCount = DB::table('ch_messages')
-            ->where('to_id', '=', Auth::user()->id)
-            ->where('seen', '=', '0')
-            ->count();
-
         return $request->user()->hasVerifiedEmail()
-            ? redirect($this->redirectPath())
-            : view('auth.verify', compact('unseenCount'));
+                        ? redirect($this->redirectPath())
+                        : view('auth.verify');
     }
 
     /**
