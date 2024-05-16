@@ -54,7 +54,8 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="javascript:void(0);" onclick="scrollToservicesMainBusiness()">Services</a>
+                        <a class="nav-link" href="javascript:void(0);"
+                            onclick="scrollToservicesMainBusiness()">Services</a>
                     </li>
                 </ul>
 
@@ -81,15 +82,15 @@
                                         class="badge badge-danger">{{ auth()->user()->unreadNotifications->count() }}</span>
                                 @endif
                             </a>
-                            <li class="chatify mt-2">
-                                <a href="/chatify" style="text-decoration: none;color: #006ce7f1">
-                                    <i class="fa-brands fa-facebook-messenger">
-                                        <div class="unread_notification">
-                                            {{ $unseenCount }} <!-- Display the unseenCount here -->
-                                        </div>
-                                    </i>
-                                </a>
-                            </li>
+                        <li class="chatify mt-2">
+                            <a href="/chatify" style="text-decoration: none;color: #006ce7f1">
+                                <i class="fa-brands fa-facebook-messenger">
+                                    <div class="unread_notification">
+                                        {{ $unseenCount }} <!-- Display the unseenCount here -->
+                                    </div>
+                                </i>
+                            </a>
+                        </li>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link create-listing-btn" href="{{ route('listings.create') }}">Create Listings</a>
@@ -100,13 +101,15 @@
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 {{ Auth::user()->name }}
                             </a>
-
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                <!-- Profile Link -->
+                                <a class="dropdown-item" href="{{ route('business.profile') }}">Profile</a>
+                                <!-- Logout Link -->
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     {{ __('Logout') }}
                                 </a>
-
+                                <!-- Logout Form -->
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                     @csrf
                                 </form>
@@ -222,28 +225,32 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"
         integrity="sha384-QJHtvGhmr9bBodhuEpMOmKgl14h9QT/60L7/pJ5lCrtHGLr5zEyhJHxtM5U7kCxZ" crossorigin="anonymous">
     </script>
-<script>
-    function scrollToAbout() {
-        const aboutSection = document.getElementById('about');
-        if (aboutSection) {
-            aboutSection.scrollIntoView({ behavior: 'smooth' });
-        } else {
-            window.location.href = '{{ route('business.home') }}#about';
+    <script>
+        function scrollToAbout() {
+            const aboutSection = document.getElementById('about');
+            if (aboutSection) {
+                aboutSection.scrollIntoView({
+                    behavior: 'smooth'
+                });
+            } else {
+                window.location.href = '{{ route('business.home') }}#about';
+            }
         }
-    }
 
-    function scrollToservicesMainBusiness() {
-        const servicesMainBusiness = document.getElementById('servicesMainBusiness');
-        if (servicesMainBusiness) {
-            servicesMainBusiness.scrollIntoView({ behavior: 'smooth' });
-        } else {
-            window.location.href = '{{ route('business.home') }}#servicesMainBusiness';
+        function scrollToservicesMainBusiness() {
+            const servicesMainBusiness = document.getElementById('servicesMainBusiness');
+            if (servicesMainBusiness) {
+                servicesMainBusiness.scrollIntoView({
+                    behavior: 'smooth'
+                });
+            } else {
+                window.location.href = '{{ route('business.home') }}#servicesMainBusiness';
+            }
         }
-    }
-</script>
+    </script>
 
 
-</script>
+    </script>
 </body>
 
 </html>

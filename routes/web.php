@@ -19,6 +19,9 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\contactController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\Business\BusinessProfileController;
+
+
 
 
 
@@ -117,6 +120,11 @@ Route::controller(PostCategories::class)->middleware(['auth', 'verified', 'check
 
 // Business Routes with Email Verification Middleware
 Route::middleware(['auth', 'user-access:business', 'verified', 'checkstatus'])->group(function () {
+
+    Route::get('/profile', [BusinessProfileController::class, 'show'])->name('business.profile');
+    Route::put('/business/{user}', [BusinessProfileController::class, 'update'])->name('businessUsers.update');
+
+
     Route::get('/business/home', [HomeController::class, 'businessHome'])->name('business.home');
     Route::get('/business/home', [HomeController::class, 'businessPostList'])->name('business.home');
 

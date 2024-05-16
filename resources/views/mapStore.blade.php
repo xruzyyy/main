@@ -119,8 +119,11 @@
       </head>
     </head>
     <body>
-        @include('../partials.userHeader')
-
+    @if (Auth::user()->type === 'business')
+        @include('partials.header')
+    @else
+        @include('partials.userHeader')
+    @endif
       <div id="map-container">
         <div id="map"></div>
 

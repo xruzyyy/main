@@ -18,8 +18,6 @@
                         <div class="card-body">
                             <p class="card-text"><strong>Type:</strong> {{ $post->type }}</p>
                             <h5 class="card-title">{{ $post->businessName }}</h5>
-                            <!-- Limit description to 30 characters -->
-                            <p class="card-text">{{ \Illuminate\Support\Str::limit($post->description, 60) }}</p>
                             <!-- Display the type -->
                             <p class="card-text"><strong>Contact Number:</strong> {{ $post->contactNumber }}</p>
                             <!-- Display average rating and ratings count -->

@@ -19,52 +19,24 @@ class PostsSeeder extends Seeder
         // Get all user ids
         $userIds = User::pluck('id')->toArray();
 
-        // Generate 10 posts with unique business names and different images
         // Define the array containing the list of posts
-$posts = [
-    "Accounting",
-    "Agriculture",
-    "Construction",
-    "Education",
-    "Finance",
-    "Retail",
-    "Fashion Photography Studios",
-    "Healthcare",
-    "Coffee Shops",
-    "Information Technology",
-    "Shopping Malls",
-    "Trading Goods",
-    "Consulting",
-    "Barbershop",
-    "Fashion Consultancy",
-    "Beauty Salon",
-    "Logistics",
-    "Sports",
-    "Pets",
-    "Entertainment",
-    "Pattern Making Services",
-    "Maintenance",
-    "Pharmaceuticals",
-    "Automotive",
-    "Environmental",
-    "Food & Beverage",
-    "Garment Manufacturing",
-    "Fashion Events Management",
-    "Retail Clothing Stores",
-    "Fashion Design Studios",
-    "Shoe Manufacturing",
-    "Tailoring and Alterations",
-    "Textile Printing and Embroidery",
-    "Fashion Accessories",
-    "Boutiques",
-    "Apparel Recycling and Upcycling",
-    "Apparel Exporters",
-];
+        $posts = [
+            "Accounting", "Agriculture", "Construction", "Education", "Finance", "Retail",
+            "Fashion Photography Studios", "Healthcare", "Coffee Shops", "Information Technology",
+            "Shopping Malls", "Trading Goods", "Consulting", "Barbershop", "Fashion Consultancy",
+            "Beauty Salon", "Logistics", "Sports", "Pets", "Entertainment", "Pattern Making Services",
+            "Maintenance", "Pharmaceuticals", "Automotive", "Environmental", "Food & Beverage",
+            "Garment Manufacturing", "Fashion Events Management", "Retail Clothing Stores",
+            "Fashion Design Studios", "Shoe Manufacturing", "Tailoring and Alterations",
+            "Textile Printing and Embroidery", "Fashion Accessories", "Boutiques",
+            "Apparel Recycling and Upcycling", "Apparel Exporters",
+        ];
+
         for ($i = 0; $i < 1000; $i++) {
             Posts::factory()->create([
                 'businessName' => $faker->unique()->company,
                 'description' => $faker->sentence(),
-                'image' => $this->getRandomImage(),
+                'images' => json_encode($this->getRandomImage()),
                 'type' => $posts[array_rand($posts)], // Randomly select a type from the $posts array
                 'is_active' => 0,
                 'contactNumber' => $faker->unique()->randomNumber(9, true), // Generate a random 9-digit contact number
@@ -76,7 +48,7 @@ $posts = [
     /**
      * Get a random image URL from a free image hosting service.
      *
-     * @return string
+     * @return array
      */
     private function getRandomImage()
     {
@@ -85,8 +57,13 @@ $posts = [
             // Add more free image hosting URLs here if needed
         ];
 
-        // Choose a random image URL from the array of hosts
-        $randomHost = array_rand($imageHosts);
-        return $imageHosts[$randomHost];
+        $images = [];
+        for ($i = 0; $i < 3; $i++) {
+            // Choose a random image URL from the array of hosts
+            $randomHost = array_rand($imageHosts);
+            $images[] = $imageHosts[$randomHost];
+        }
+
+        return $images;
     }
 }
