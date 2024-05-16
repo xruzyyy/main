@@ -1,0 +1,36 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,800");
+.navbar-toggler {
+  background-color: goldenrod !important;
+  border-color: goldenrod !important;
+}
+
+.py-4 {
+  background-color: rgb(195, 221, 236);
+}
+
+.nav-link {
+  color: wheat !important;
+  font-family: "Montserrat", sans-serif;
+}
+
+.navbar-toggler-icon {
+  color: aliceblue !important;
+}
+
+.navbar-toggler[aria-expanded=true] .navbar-toggler-icon {
+  color: aliceblue !important;
+}
+
+.unread_notification {
+  margin-top: 5px;
+  margin-left: -3px;
+  background-color: rgb(255, 51, 51);
+  display: inline-block;
+  color: whitesmoke;
+  width: 15px;
+  text-align: center;
+  font-size: 13px;
+  border-radius: 80%;
+}
+
+/*# sourceMappingURL=header.css.map */
