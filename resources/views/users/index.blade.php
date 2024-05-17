@@ -5,7 +5,7 @@
     <div class="text-center">
         <h1 class="">Manage All Accounts</h1>
     </div>
-    <a href="{{ route('users.create') }}" class="btn btn-md btn-primary">Add Business User</a>
+    <a href="{{ route('users.create') }}" class="btn btn-md btn-primary">Add Account</a>
 
     @include('partials.allUsersPagination')
     @include('partials.allUsersTbl')

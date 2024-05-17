@@ -9,6 +9,22 @@
                         Create User
                     </div>
                     <div class="card-body">
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+
+                        @if (session('success'))
+                            <div class="alert alert-success">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+
                         <form action="{{ route('users.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
 
@@ -34,39 +50,33 @@
 
                             <div class="form-group">
                                 <label for="type">Type</label>
-                                <select name="type" id="type" class="form-control" required>
+                                <select name="type" id="type" class="form-control" onchange="toggleBusinessPermitSection(this.value)" required>
                                     <option value="user">User</option>
                                     <option value="admin">Admin</option>
                                     <option value="business">Business</option>
                                 </select>
                             </div>
 
-                            <div class="form-group">
-                                <label for="status">Status</label>
-                                <select name="status" id="status" class="form-control" required>
-                                    <option value="1">Active</option>
-                                </select>
+                            <div id="business_permit_section" class="form-group" style="display: none;">
+                                <label for="image">Permit</label>
+                                <input type="file" name="image" id="image" class="form-control-file" >
                             </div>
 
-                            <div class="form-group">
-                                <label for="image">Permit</label>
-                                <input type="file" name="image" id="image" class="form-control-file" required>
-                            </div>
                             <!-- Add profile image field -->
-                        <div class="mb-3 row align-items-center">
-                            <label for="profile_image" class="col-md-4 col-form-label text-md-center label-custom"><b>Profile</b></label>
-                            <div class="col-md-6">
-                                <div class="input-group">
-                                    <input id="profile_image" type="file" class="form-control file-input @error('profile_image') is-invalid @enderror" name="profile_image" required>
-                                    <label class="input-group-text btn btn-primary" for="profile_image"><i class="fas fa-upload"></i> Choose File</label>
+                            <div class="mb-3 row align-items-center">
+                                <label for="profile_image" class="col-md-4 col-form-label text-md-center label-custom"><b>Profile</b></label>
+                                <div class="col-md-6">
+                                    <div class="input-group">
+                                        <input id="profile_image" type="file" class="form-control file-input @error('profile_image') is-invalid @enderror" name="profile_image" required>
+                                        <label class="input-group-text btn btn-primary" for="profile_image"><i class="fas fa-upload"></i> Choose File</label>
+                                    </div>
+                                    @error('profile_image')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
                                 </div>
-                                @error('profile_image')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
                             </div>
-                        </div>
                             <!-- Add a hidden input field for email_verified_at with current timestamp -->
                             <input type="hidden" name="email_verified_at" value="{{ now() }}">
 
@@ -77,4 +87,22 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('scripts')
+    <script>
+        // Function to handle toggle between user and business type and display image preview
+        function toggleBusinessPermitSection(userType) {
+            var businessPermitSection = document.getElementById('business_permit_section');
+            var imageInput = document.getElementById('image');
+
+            if (userType === 'user' || userType === 'admin') {
+                businessPermitSection.style.display = 'none';
+                imageInput.removeAttribute('required');
+            } else {
+                businessPermitSection.style.display = 'block';
+                imageInput.setAttribute('required', 'required');
+            }
+        }
+    </script>
 @endsection

@@ -2,64 +2,143 @@
 
 @section('content')
 <style>
-    .container {
-        margin-top: 2rem;
-    }
-    .card-body {
-        padding: 3rem;
-    }
+:root {
+  --primary-color: #070a0e;
+  --secondary-color: #f0f0f0;
+  --success-color: #1dbe4e;
+  --danger-color: #721c24;
+}
 
-    .form-group {
-        margin-bottom: 1.5rem;
-    }
+.container {
+  margin-top: 20px;
+}
 
-    .input {
-        height: 3.5rem;
-    }
+.map-button {
+  text-decoration: none; /* Remove default link styling */
+}
 
-    .file-input {
-        height: 3.5rem;
-    }
+.map-button:hover {
+background-color: var(--success-color);
+padding: 2px;
+border-radius: 8px;
+}
 
-    .button {
-        height: 3.5rem;
-    }
+.columns.is-centered {
+  display: flex;
+  justify-content: center;
+}
 
-    /* Styles for the map selection button */
-    .map-button {
-        background-color: #4CAF50; /* Green */
-        border: none;
-        color: white;
-        padding: 15px 32px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-        margin: 4px 2px;
-        transition-duration: 0.4s;
-        cursor: pointer;
-        border-radius: 8px;
-        display: flex;
-        align-items: center;
-    }
+.column.is-half {
+  flex: 0 0 50%;
+  max-width: 50%;
+}
 
-    .map-button-icon {
-        margin-right: 8px;
-    }
+.cardCreate {
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
 
-    .map-button:hover {
-        background-color: #45a049; /* Darker Green */
-    }
+.cardCreate-header {
+  background-color: #f0f0f0;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  padding: 10px;
+}
 
-    /* Styling for latitude and longitude input */
-    .readonly-input {
-        background-color: #f5f5f5;
-        border: none;
-        padding: 0.5rem 1rem;
-        font-size: 1rem;
-        border-radius: 0.5rem;
-        margin-top: 0.5rem;
-    }
+.cardCreate-header-title {
+  font-weight: bold;
+  margin: 0;
+}
+
+.cardCreate-content {
+  padding: 20px;
+}
+
+.field {
+  margin-bottom: 20px;
+}
+
+.label {
+  font-weight: bold;
+}
+
+.input,
+.textarea,
+.select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.input[type="file"] {
+  display: none;
+}
+
+.file-cta {
+  cursor: pointer;
+}
+
+.file-label {
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.file-icon {
+  margin-right: 5px;
+}
+
+
+.image-previews img {
+  margin-bottom: 10px;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+
+.image-previews img {
+  margin-bottom: 10px;
+}
+
+.readonly-input {
+  background-color: #f0f0f0;
+}
+
+.button.is-primary {
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.button.is-primary:hover {
+  background-color: #2769c5;
+}
+
+
+.alert {
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.alert-success {
+  border-color: #c3e6cb;
+  color: var(--success-color);
+}
+
+.alert-danger {
+  background-color: var(--danger-color);
+  border-color: #f5c6cb;
+  color: var(--danger-color);
+}
+
+
+.image-note {
+  font-style: italic;
+}
+
 </style>
 
 <div class="container2">
@@ -72,11 +151,11 @@
 @endif
     <div class="columns is-centered">
         <div class="column is-half">
-            <div class="card">
-                <div class="card-header">
-                    <p class="card-header-title">Create Listing</p>
+            <div class="cardCreate">
+                <div class="cardCreate-header">
+                    <p class="cardCreate-header-title">Create Listing</p>
                 </div>
-                <div class="card-content">
+                <div class="cardCreate-content">
 
                     <form action="{{ route('listings.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
@@ -86,9 +165,10 @@
                         </div>
                     @endif
 
-                        <a href="{{ route('map') }}" class="map-button" required title="Please provide your business location">
-                            <i class="fas fa-map-marked-alt map-button-icon"></i> Provide Location
-                        </a>
+                    <a href="{{ route('map') }}" class="map-button" required title="Please provide your business location">
+                        <i class="fas fa-map-marked-alt map-button-icon"></i> Provide Location
+                      </a>
+
 
 
                         <div class="field">
