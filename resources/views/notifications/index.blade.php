@@ -13,12 +13,9 @@
                             @foreach($notifications as $notification)
                                 <div class="notification-item {{ $notification->read_at ? 'read' : '' }}">
                                     @if ($notification->type === 'App\Notifications\NewCommentNotification' && isset($notification->data['comment_content']) && isset($notification->data['commenter_profile_image']))
-                                        @php
-                                            $commentData = $notification->data;
-                                        @endphp
                                         <div class="notification-message">
-                                            <img src="{{ $commentData['commenter_profile_image'] }}" alt="{{ $commentData['commenter_name'] }}'s profile image" class="commenter-profile-image">
-                                            New comment by {{ $commentData['commenter_name'] }} on your post: "{{ $commentData['comment_content'] }}"
+                                            <img src="{{ $notification->data['commenter_profile_image'] }}" alt="{{ $notification->data['commenter_name'] }}'s profile image" class="commenter-profile-image">
+                                            New comment by {{ $notification->data['commenter_name'] }} on your post: "{{ $notification->data['comment_content'] }}"
                                         </div>
                                         <span class="notification-time">{{ $notification->created_at->diffForHumans() }}</span>
                                     @endif
