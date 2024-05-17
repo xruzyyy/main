@@ -4,34 +4,32 @@ namespace App\Http\Controllers\Business;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Posts;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
+use App\Events\ProfileUpdated; // Correct event name
 
 class BusinessProfileController extends Controller
 {
     public function show($id = null)
-    {
-        // Fetch the authenticated user
-        $user = auth()->user();
-        // Check if $id is provided, if not, use the authenticated user's ID
-        if ($id === null) {
-            $id = $user->id;
-        }
-
-        // Fetch the post and unseen message count
-        $post = Posts::findOrFail($id);
-        $unseenCount = DB::table('ch_messages')
-            ->where('to_id', '=', $id)
-            ->where('seen', '=', '0')
-            ->count();
-
-        // Assuming you have a view named 'profile.blade.php' in 'resources/views/business-section'
-        return view('business-section.profile', compact('user', 'post', 'unseenCount'));
+{
+    $user = auth()->user();
+    if ($id === null) {
+        $id = $user->id;
     }
+
+    $post = Posts::where('user_id', $id)->first(); // Fetch the post associated with the user
+    $unseenCount = DB::table('ch_messages')
+        ->where('to_id', '=', $id)
+        ->where('seen', '=', '0')
+        ->count();
+
+    return view('business-section.profile', compact('user', 'post', 'unseenCount'));
+}
 
 
     public function update(Request $request, $id)
@@ -52,22 +50,16 @@ class BusinessProfileController extends Controller
 
             // Delete old profile image if exists
             if ($user->profile_image) {
-                // Extract the filename from the full path stored in the database
                 $filename = basename($user->profile_image);
-                // Construct the full server path
                 $fullPath = public_path($profileImagePath . $filename);
-                // Check if the file exists before attempting to delete it
                 if (file_exists($fullPath)) {
                     unlink($fullPath);
                 }
             }
 
-            // Update profile image path
             $user->profile_image = $profileImagePath . $profileImageName;
         }
 
-
-        // Update user details
         $user->email = $request->input('email');
         if ($request->filled('password')) {
             $user->password = Hash::make($request->input('password'));
@@ -75,6 +67,34 @@ class BusinessProfileController extends Controller
 
         $user->save();
 
+        // Fire the event after saving user details
+        event(new ProfileUpdated($user));
+
         return redirect()->back()->with('status', 'User profile updated successfully!');
     }
+
+
+    public function updatePost(Request $request, int $id)
+    {
+        $request->validate([
+            'description' => 'required|max:255|string',
+            'contact_number' => 'nullable|string|max:20', // Add validation for contact number
+        ]);
+
+        $post = Posts::findOrFail($id);
+
+        // Check if the logged-in user is the owner of the post
+        if (Auth::id() !== $post->user_id) {
+            return redirect()->back()->withErrors('You are not authorized to edit this post.');
+        }
+
+        // Update the post with the new description and contact number
+        $post->update([
+            'description' => $request->description,
+            'contactNumber' => $request->contact_number, // Update the contact number
+        ]);
+
+        return redirect()->back()->with('status', 'Post description and contact number updated successfully!');
+    }
+
 }

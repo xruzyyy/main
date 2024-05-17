@@ -124,6 +124,7 @@ Route::middleware(['auth', 'user-access:business', 'verified', 'checkstatus'])->
     Route::get('/profile', [BusinessProfileController::class, 'show'])->name('business.profile');
     Route::put('/business/{user}', [BusinessProfileController::class, 'update'])->name('businessUsers.update');
 
+    Route::put('/business-post/{id}/update', [BusinessProfileController::class, 'updatePost'])->name('businessPost.update');
 
     Route::get('/business/home', [HomeController::class, 'businessHome'])->name('business.home');
     Route::get('/business/home', [HomeController::class, 'businessPostList'])->name('business.home');

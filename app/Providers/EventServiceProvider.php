@@ -27,10 +27,14 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\MyEvent' => [
             'App\Listeners\MyEventListener',
         ],
+        'App\Events\ProfileUpdated' => [
+            'App\Listeners\UpdateNotificationProfile',
+        ],
     ];
-    
-    
-    
+
+
+
+
 
     /**
      * Register any events for your application.

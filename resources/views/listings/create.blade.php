@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends(auth()->user()->type === 'business' ? 'layouts.businessHome' : 'layouts.app')
 
 @section('content')
 <style>
@@ -183,7 +183,7 @@
                                 <div id="imagePreviews" class="image-previews"></div>
                             </div>
                         </div>
-                        
+
                         <div class="field">
                             <label class="labelLocated">Latitude</label>
                             <div class="labelLocated">

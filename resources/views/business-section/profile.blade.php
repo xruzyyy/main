@@ -33,7 +33,12 @@
                     <h4>Account Expiration Date:</h4>
                     <p>{{ $user->account_expiration_date ? \Carbon\Carbon::parse($user->account_expiration_date)->format('F j, Y, g:i a') : 'N/A' }}</p>
                     <p>Account Type:{{ $user->type }}</p>
-                </div>
+                    @if(isset($post))
+                    <a href="{{ route('businessPost', ['id' => $post->id]) }}">Your Post</a>
+                @else
+                    <p>No post found</p>
+                @endif
+                                </div>
             </div>
             <!-- Edit form column -->
             <div class="col-md-9 personal-info">
@@ -94,6 +99,23 @@
             </div>
         </div>
     </div>
+
+    <form action="{{ route('businessPost.update', $post->id) }}" method="POST">
+        @csrf
+        @method('PUT')
+
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea class="form-control" id="description" name="description" rows="3">{{ $post->description }}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="contact_number">Contact Number:</label>
+            <input type="text" class="form-control" id="contact_number" name="contact_number" value="{{ $post->contactNumber }}">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Update Post</button>
+    </form>
 
     <script>
         function previewImages(event) {
