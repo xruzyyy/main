@@ -91,9 +91,19 @@ class UserController extends Controller
 
 public function update(Request $request, $userId)
 {
+
+
     $user = User::findOrFail($userId);
 
-    // Validate request data as needed
+    // Validate request data
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|unique:users,email,' . $userId,
+        'type' => 'required|string|in:user,admin,business',
+        'status' => 'required|boolean',
+        'password' => 'nullable|string|min:8|confirmed',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+    ]);
 
     // Map user type string to integer value
     $typeMap = [
@@ -105,7 +115,7 @@ public function update(Request $request, $userId)
     // Update user details
     $user->name = $request->input('name');
     $user->email = $request->input('email');
-    $user->type = $typeMap[$request->input('type')]; // Map type value
+    $user->type = $typeMap[$request->input('type')];
     $user->status = $request->input('status');
 
     // Update password if provided
@@ -119,11 +129,11 @@ public function update(Request $request, $userId)
         $file = $request->file('image');
         $extension = $file->getClientOriginalExtension();
         $filename = time() . '.' . $extension;
-        $file->move($path, $filename);
+        $file->move(public_path($path), $filename);
 
         // Delete the old image file if it exists
-        if (File::exists($user->image)) {
-            File::delete($user->image);
+        if ($user->image && File::exists(public_path($user->image))) {
+            File::delete(public_path($user->image));
         }
 
         // Update the user's image path
@@ -141,8 +151,11 @@ public function update(Request $request, $userId)
     // Save changes
     $user->save();
 
+
+
     return redirect()->route('users')->with('message', 'User updated successfully!');
 }
+
 
 
 

@@ -18,11 +18,15 @@ class UpdateNotificationProfile implements ShouldQueue
         foreach ($notifications as $notification) {
             $data = $notification->data;
 
-            // Check if the notification corresponds to a comment made by the updated user
-            if ($notification->type === 'App\Notifications\NewCommentNotification' && $data['commenter_id'] === $updatedUser->id) {
+            // Check if the necessary keys are present in the notification data
+            if (isset($data['commenter_id']) && $data['commenter_id'] === $updatedUser->id) {
                 // Update profile image and name in notification data
-                $data['commenter_name'] = $updatedUser->name;
-                $data['commenter_profile_image'] = $updatedUser->profile_image; // Assuming 'profile_image' is the field name
+                if (isset($data['commenter_name'])) {
+                    $data['commenter_name'] = $updatedUser->name;
+                }
+                if (isset($data['commenter_profile_image'])) {
+                    $data['commenter_profile_image'] = $updatedUser->profile_image;
+                }
 
                 // Save updated data back to notification
                 $notification->data = $data;

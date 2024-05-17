@@ -136,7 +136,7 @@
                                                         $images = json_decode($item->images);
                                                         $firstImage = isset($images[0]) ? $images[0] : null;
                                                     @endphp
-                                                    <img src="{{ asset($firstImage) }}" class="card-img-top"
+                                                    <img src="{{ asset($firstImage) }}" style="height: 50px; width:50px;" class="card-img-top"
                                                         alt="Business Image"
                                                         onclick="openFullScreen('{{ route('businessPost', ['id' => $item->id]) }}')">
                                                 </a>

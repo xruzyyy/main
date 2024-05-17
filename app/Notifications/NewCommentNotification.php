@@ -31,6 +31,7 @@ class NewCommentNotification extends Notification
         return [
             'comment_id' => $this->comment->id,
             'comment_content' => $this->comment->content,
+            'commenter_id' => $this->comment->user_id, // Assuming the commenter ID is stored in the comment
             'commenter_name' => $this->commenterName,
             'commenter_profile_image' => $this->commenterProfileImage,
         ];

@@ -32,13 +32,13 @@
                     <hr>
                     <h4>Account Expiration Date:</h4>
                     <p>{{ $user->account_expiration_date ? \Carbon\Carbon::parse($user->account_expiration_date)->format('F j, Y, g:i a') : 'N/A' }}</p>
-                    <p>Account Type:{{ $user->type }}</p>
+                    <p>Account Type: {{ $user->type }}</p>
                     @if(isset($post))
-                    <a href="{{ route('businessPost', ['id' => $post->id]) }}">Your Post</a>
-                @else
-                    <p>No post found</p>
-                @endif
-                                </div>
+                        <a href="{{ route('businessPost', ['id' => $post->id]) }}">Your Post</a>
+                    @else
+                        <p>No post found</p>
+                    @endif
+                </div>
             </div>
             <!-- Edit form column -->
             <div class="col-md-9 personal-info">
@@ -46,8 +46,7 @@
                 <div class="alert alert-success alert-dismissable">
                     {{ session('status') }}
                 </div>
-            @endif
-
+                @endif
 
                 @if($errors->any())
                     <div class="alert alert-danger alert-dismissable">
@@ -59,47 +58,47 @@
                     </div>
                 @endif
 
-
-                    <div class="form-group">
-                        <label for="name" class="col-md-3 control-label">Name</label>
-                        <div class="col-md-8">
-                            <input type="text" name="name" id="name" class="form-control" value="{{ $user->name }}" required disabled>
-                            <small class="text-muted">You cannot edit your name.</small>
-                        </div>
+                <div class="form-group">
+                    <label for="name" class="col-md-3 control-label">Name</label>
+                    <div class="col-md-8">
+                        <input type="text" name="name" id="name" class="form-control" value="{{ $user->name }}" required disabled>
+                        <small class="text-muted">You cannot edit your name.</small>
                     </div>
+                </div>
 
-                    <div class="form-group">
-                        <label for="email" class="col-md-3 control-label">Email</label>
-                        <div class="col-md-8">
-                            <input type="email" name="email" id="email" class="form-control" value="{{ $user->email }}" required>
-                        </div>
+                <div class="form-group">
+                    <label for="email" class="col-md-3 control-label">Email</label>
+                    <div class="col-md-8">
+                        <input type="email" name="email" id="email" class="form-control" value="{{ $user->email }}" required>
                     </div>
+                </div>
 
-                    <div class="form-group">
-                        <label for="password" class="col-md-3 control-label">Password</label>
-                        <div class="col-md-8">
-                            <input type="password" name="password" id="password" class="form-control">
-                        </div>
+                <div class="form-group">
+                    <label for="password" class="col-md-3 control-label">Password</label>
+                    <div class="col-md-8">
+                        <input type="password" name="password" id="password" class="form-control">
                     </div>
+                </div>
 
-                    <div class="form-group">
-                        <label for="password_confirmation" class="col-md-3 control-label">Confirm Password</label>
-                        <div class="col-md-8">
-                            <input type="password" name="password_confirmation" id="password_confirmation" class="form-control">
-                        </div>
+                <div class="form-group">
+                    <label for="password_confirmation" class="col-md-3 control-label">Confirm Password</label>
+                    <div class="col-md-8">
+                        <input type="password" name="password_confirmation" id="password_confirmation" class="form-control">
                     </div>
+                </div>
 
-                    <div class="form-group">
-                        <div class="col-md-8 col-md-offset-3">
-                            <button type="submit" class="btn btn-primary">Update</button>
-                            <button type="reset" class="btn btn-default">Cancel</button>
-                        </div>
+                <div class="form-group">
+                    <div class="col-md-8 col-md-offset-3">
+                        <button type="submit" class="btn btn-primary">Update</button>
+                        <button type="reset" class="btn btn-default">Cancel</button>
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
     </div>
+</div>
 
+@if(isset($post))
     <form action="{{ route('businessPost.update', $post->id) }}" method="POST">
         @csrf
         @method('PUT')
@@ -116,18 +115,21 @@
 
         <button type="submit" class="btn btn-primary">Update Post</button>
     </form>
+@else
+    <p>No post to update.</p>
+@endif
 
-    <script>
-        function previewImages(event) {
-            var files = event.target.files;
-            var previewContainer = document.getElementById('imagePreviews');
-            previewContainer.src = URL.createObjectURL(files[0]);
-            previewContainer.onload = function() {
-                URL.revokeObjectURL(previewContainer.src);
-            }
+<script>
+    function previewImages(event) {
+        var files = event.target.files;
+        var previewContainer = document.getElementById('imagePreviews');
+        previewContainer.src = URL.createObjectURL(files[0]);
+        previewContainer.onload = function() {
+            URL.revokeObjectURL(previewContainer.src);
         }
-    </script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    }
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </body>
 </html>

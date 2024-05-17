@@ -198,7 +198,7 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
         Route::get('ManagePost/{id}/toggleStatus', [ManagePostController::class, 'toggleStatus'])->name('ManagePost.toggleStatus');
 
         Route::get('/usersList', [UserController::class, 'index'])->name('users');
-        Route::get('/user{id}', [UserController::class, 'update']);
+        Route::put('/ManagePost/{id}/edit', [UserController::class, 'update'])->name('users.update');
         Route::get('/users/{user}/toggleStatus', [UserController::class, 'toggleStatus'])->name('users.toggleStatus');
 
 
