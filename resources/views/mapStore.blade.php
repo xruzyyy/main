@@ -19,7 +19,9 @@
           min-height: 100vh;
           background-color: #f4f4f4;
         }
-
+        .leaflet-control-attribution{
+            display: none;
+        }
         #map-container {
           flex: 1;
           margin: 10px;
@@ -159,7 +161,6 @@ var map = L.map("map").setView([14.5695, 121.1126], 13);
 L.tileLayer("https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}", {
   maxZoom: 20,
   subdomains: ["mt0", "mt1", "mt2", "mt3"],
-  attribution: "&copy; Google Maps"
 }).addTo(map);
 
 function addCategoryMarkers() {

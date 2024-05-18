@@ -78,19 +78,11 @@
                                 data-bs-target="#notificationModal">
                                 <i class="fas fa-bell"></i>
                                 @if (auth()->user()->unreadNotifications->count() > 0)
-                                    <span
+                                    <span style="font-size:; color: rgba(255, 196, 0, 0.877); font-weight: 900; margin:0px;"
                                         class="badge badge-danger">{{ auth()->user()->unreadNotifications->count() }}</span>
                                 @endif
                             </a>
-                        <li class="chatify mt-2">
-                            <a href="/chatify" style="text-decoration: none;color: #006ce7f1">
-                                <i class="fa-brands fa-facebook-messenger">
-                                    <div class="unread_notification">
-                                        {{ $unseenCount }} <!-- Display the unseenCount here -->
-                                    </div>
-                                </i>
-                            </a>
-                        </li>
+
                         </li>
                         <li class="nav-item">
                             <a class="nav-link create-listing-btn" href="{{ route('listings.create') }}">Create Listings</a>
@@ -102,10 +94,17 @@
                                 {{ Auth::user()->name }}
                             </a>
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                <a href="/chatify" style="text-decoration: none;color: #e79e00f1; margin-left:15px;">
+                                    <i class="fa-solid fa-envelope"></i>
+                                    <div class="unread_notification">
+                                            {{ $unseenCount }} <!-- Display the unseenCount here -->
+                                        </div>
+                                    </i>
+                                </a>
                                 <!-- Profile Link -->
-                                <a class="dropdown-item" href="{{ route('business.profile') }}">Profile</a>
+                                <a style="font-family: Montserrat, sans-serif;" class="dropdown-item" href="{{ route('business.profile') }}"><i  class="fa-regular fa-user"></i>Profile</a>
                                 <!-- Logout Link -->
-                                <a class="dropdown-item" href="{{ route('logout') }}"
+                                <a class="dropdown-item" style="background-color: rgb(223, 26, 0); border-radius:12px; width:60%;" href="{{ route('logout') }}"
                                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     {{ __('Logout') }}
                                 </a>

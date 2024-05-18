@@ -143,9 +143,9 @@
             color: #333;
             line-height: 1.5;
         }
-        .comment-content{
-            overflow: overlay;
 
+        .comment-content {
+            overflow: overlay;
         }
     </style>
 </head>
@@ -177,7 +177,6 @@
                 <!-- Add Pagination -->
                 <div class="swiper-pagination"></div>
             </div>
-
         </div>
         <div class="business-info">
             <h1>{{ $post->businessName }}</h1>
@@ -234,24 +233,38 @@
     </form>
 
     <!-- Comment list -->
-    <ul class="comment-list">
-        @foreach ($post->comments as $comment)
-            <li class="comment-item">
-                <div class="comment-content">
-                    @if ($comment->user)
-                    <img class="comment-avatar" src="{{ asset($comment->user->profile_image) }}" alt="User Profile Image">
-                    <p class="postText"><strong>{{ $comment->user->name }}</strong>: {{ $comment->content }}</p>
+    <div class="swiper-container comment-list-container" style="overflow: hidden">
+        <div class="swiper-wrapper">
+            @php $commentsChunks = $post->comments->sortByDesc('created_at')->chunk(15); @endphp
+            @foreach ($commentsChunks as $chunk)
+                <div class="swiper-slide">
+                    <ul class="comment-list">
+                        @foreach ($chunk as $comment)
+                            <li class="comment-item">
+                                <div class="comment-content">
+                                    @if ($comment->user)
+                                        <img class="comment-avatar"
+                                            src="{{ asset($comment->user->profile_image) }}"
+                                            alt="User Profile Image">
+                                        <p class="postText"><strong>{{ $comment->user->name }}</strong>:
+                                            {{ $comment->content }}</p>
 
-                    <!-- Generate stars based on user's rating -->
-                    <div class="star-rating">
-                        {!! App\Http\Controllers\CommentController::generateStarsForUser($post->id, $comment->user_id) !!}
-                    </div>
-                @endif
-
+                                        <!-- Generate stars based on user's rating -->
+                                        <div class="star-rating">
+                                            {!! App\Http\Controllers\CommentController::generateStarsForUser($post->id, $comment->user_id) !!}
+                                        </div>
+                                    @endif
+                                </div>
+                            </li>
+                        @endforeach
+                    </ul>
                 </div>
-            </li>
-        @endforeach
-    </ul>
+            @endforeach
+        </div>
+        <!-- Add Pagination -->
+        <div class="swiper-pagination"></div>
+    </div>
+
 </div>
 
 <!-- Scripts -->

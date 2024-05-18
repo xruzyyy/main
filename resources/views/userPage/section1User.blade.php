@@ -8,13 +8,20 @@
       <h1 >SELL AND BUY NEAR YOU <br>
               Simple, Trusted and Efficient</h1>
               <form action="{{ route('searchPosts') }}" method="GET" class="row g-3 align-items-center">
-                  <div class="col">
-                      <input type="text" class="form-control" placeholder="Search Business Posts" name="search">
-                  </div>
-                  <div class="col-auto">
-                      <button class="btn" type="submit"><i class="fas fa-search"></i>Search</button>
-                  </div>
-              </form>
+                <div class="col">
+                    <input type="text" class="form-control" placeholder="Search Business Posts" name="search">
+                </div>
+                <div class="col-auto" >
+                    <select class="form-select" style="width:1em; margin-top:2.3em;" name="sort_by">
+                        <option value="">Sort by</option>
+                        <option value="highest_rating">Highest Rating</option>
+                    </select>
+                </div>
+                <div class="col-auto">
+                    <button class="btn" type="submit"><i class="fas fa-search"></i></button>
+                </div>
+            </form>
+            
+
       </div>
   </div>
-

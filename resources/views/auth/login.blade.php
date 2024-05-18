@@ -72,7 +72,6 @@
             * {
                 box-sizing: border-box;
             }
-
             .body {
                 background: #f6f5f7;
                 display: flex;
@@ -387,7 +386,7 @@
     @section('content')
         <div class="container" id="container">
             <div class="form-container sign-up-container">
-                <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
+                <form style="height: 100%;" method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
                     @csrf
                     <h1>Create Account</h1>
                     <div class="mb-3 row align-items-center">
@@ -459,18 +458,15 @@
 
                         </div>
                     </div>
-
                     <!-- Image Upload for Profile Image -->
                     <div class="mb-3 row align-items-center" id="profile_image_section">
-                        <label for="profile_image"
-                            class="col-md-4 col-form-label text-md-center label-custom"><b>Profile</b></label>
-                        <div class="col-md-6">
-                            <div class="input-group">
+                        <div class="profile_image col-md-6">
+                            <div class="input-group" >
                                 <input id="profile_image" type="file"
                                     class="form-control file-input @error('profile_image') is-invalid @enderror"
                                     name="profile_image" required>
-                                <label class="input-group-text btn btn-primary" for="profile_image"><i
-                                        class="fas fa-upload"></i> Choose File</label>
+                                <label class="input-group-text btn btn-primary "   for="profile_image"><i
+                                        class="fas fa-upload"></i> Choose a Profile</label>
                             </div>
                             @error('profile_image')
                                 <span class="invalid-feedback" role="alert">
@@ -548,8 +544,8 @@
                             info</p>
 
                          <div class="image-preview" style="display: none;">
-                            <img id="image_preview_business" src="#" style="max-width: 100%; height: 50%;">
-                                <img id="image_preview_profile" src="#" style="max-width: 100%; height: 50%;">
+                            <img id="image_preview_business" src="#" style="max-width: 100px; height: 200px;">
+                                <img id="image_preview_profile" src="#" style="max-width: 200px; height: 200px; border-radius:50%;">
                         </div>
 
                         <a class="nav-link" id="signInView" href="{{ route('login') }}">{{ __('Login') }}</a>

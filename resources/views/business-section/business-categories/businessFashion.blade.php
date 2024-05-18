@@ -31,8 +31,7 @@
                         <div class="card-body">
                             <p class="card-text"><strong>Type:</strong> {{ $post->type }}</p>
                             <h5 class="card-title">{{ $post->businessName }}</h5>
-                            <p class="card-text">{{ \Illuminate\Support\Str::limit($post->description, 60) }}</p>
-                            <!-- Display the type -->
+                                                        <!-- Display the type -->
                             <p class="card-text"><strong>Contact Number:</strong> {{ $post->contactNumber }}</p>
                             <p class="card-text">
                                 <i class="fas fa-map-marker-alt" style="color: #006ce7f1;"></i>

@@ -5,7 +5,7 @@
 <!-- HTML -->
 <section class="business-section-post-list" id="section3">
     <div class="container section3-container">
-        <h2 class="animate-on-scroll">Latest Business Posts</h2>
+        <h2 class="">Latest Business Posts</h2>
           <!-- Search Form -->
         <form action="{{ route('showLogisticsCategories') }}" method="GET">
             <div class="input-group mb-3">
@@ -29,9 +29,11 @@
                             onclick="openFullScreen('{{ route('businessPost', ['id' => $post->id]) }}')">
                         <div class="card-body">
                             <p class="card-text"><strong>Type:</strong> {{ $post->type }}</p>
-                            <h5 class="card-title">{{ $post->businessName }}</h5>
-                            <p class="card-text">{{ \Illuminate\Support\Str::limit($post->description, 60) }}</p>
+<h5 class="card-title">{{ $post->businessName }}</h5>
                             <!-- Display the type -->
+                            <p class="card-text">
+                                <strong>Ratings:</strong> {{ number_format($post->ratings()->avg('rating'), 2) ?? 'Not Rated' }} ({{ $post->ratings()->count() }} ratings)
+                            </p>                                                        <!-- Display the type -->
                             <p class="card-text"><strong>Contact Number:</strong> {{ $post->contactNumber }}</p>
                             <p class="card-text">
                                 <i class="fas fa-map-marker-alt" style="color: #006ce7f1;"></i>

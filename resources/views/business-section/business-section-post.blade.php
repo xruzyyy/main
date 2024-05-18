@@ -19,11 +19,13 @@
                             <p class="card-text"><strong>Type:</strong> {{ $post->type }}</p>
                             <h5 class="card-title">{{ $post->businessName }}</h5>
                             <!-- Display the type -->
-                            <p class="card-text"><strong>Contact Number:</strong> {{ $post->contactNumber }}</p>
-                            <!-- Display average rating and ratings count -->
                             <p class="card-text">
-                                <strong>Ratings:</strong> {{ number_format($post->ratings()->avg('rating'), 2) ?? 'Not Rated' }} ({{ $post->ratings()->count() }} ratings)
-                            </p>
+                                <strong>Ratings:</strong>
+                                {{ number_format($post->ratings()->avg('rating'), 2) ?? 'Not Rated' }}
+                                ({{ $post->ratings()->count() }} ratings)
+                            </p> <!-- Display the type -->
+                            <p class="card-text"><strong>Contact Number:</strong> {{ $post->contactNumber }}</p>
+                           
                             <p class="card-text">
                                 <i class="fas fa-map-marker-alt" style="color: #006ce7f1;"></i>
                                 <a href="{{ route('mapStore') }}" class="store-map-link" style="text-decoration: none;">
@@ -34,7 +36,7 @@
                             <a href="/chatify/{{ $post->user_id }}" class="message-link">
                                 <b style="color:black;">Message:</b>
                                 <i class="fa-brands fa-facebook-messenger"></i>
-                                {{ $post->businessName }}
+                                {{ \Illuminate\Support\Str::limit($post->businessName, 10) }}
                             </a>
                             <!-- Add any other relevant information here -->
                         </div>
