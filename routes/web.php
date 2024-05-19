@@ -20,6 +20,7 @@ use App\Http\Controllers\RatingController;
 use App\Http\Controllers\contactController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Business\BusinessProfileController;
+use App\Http\Controllers\Auth\RegisterController;
 
 
 
@@ -28,7 +29,7 @@ use App\Http\Controllers\Business\BusinessProfileController;
 
 
 Auth::routes(['verify' => true]);
-Route::get('/protected-route', 'RegisterController@create')->middleware(['auth', 'verified']);
+// Route::get('/protected-route', 'RegisterController@create')->middleware(['auth', 'verified']);
 
 
 // Using Laravel's built-in email verification feature
@@ -186,15 +187,17 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
 
         Route::get('/main', [App\Http\Controllers\HomeController::class, 'index'])->name('main');
         Route::get('ManagePost', [App\Http\Controllers\ManagePostController::class, 'index'])->name('ManagePost');
-        Route::get('ManagePost', [App\Http\Controllers\ManagePostController::class, 'sortTable'])->name('ManagePost');
+        Route::get('ManagePost/sort', [App\Http\Controllers\ManagePostController::class, 'sortTable'])->name('ManagePost.sort');
+
         Route::get('/ManagePost/create', [ManagePostController::class, 'create'])->name('managepost.create');
-        Route::post('/ManagePost', [ManagePostController::class, 'store'])->name('managepost.store');
+        Route::post('/ManagePost/store', [ManagePostController::class, 'store'])->name('managepost.store');
 
 
 
-        Route::get('ManagePost/{id}/edit', [App\Http\Controllers\ManagePostController::class, 'edit']);
-        Route::put('ManagePost/{id}/edit', [App\Http\Controllers\ManagePostController::class, 'update']);
-        Route::delete('ManagePost/{id}/delete', [ManagePostController::class, 'destroy']);
+
+        Route::get('ManagePost/{id}/edit', [ManagePostController::class, 'edit'])->name('ManagePost.edit');
+        Route::put('ManagePost/{id}/update', [ManagePostController::class, 'update'])->name('ManagePost.update');
+        Route::delete('ManagePost/{id}/delete', [ManagePostController::class, 'destroy'])->name('ManagePost.destroy');
         Route::get('ManagePost/{id}/toggleStatus', [ManagePostController::class, 'toggleStatus'])->name('ManagePost.toggleStatus');
 
         Route::get('/usersList', [UserController::class, 'index'])->name('users');

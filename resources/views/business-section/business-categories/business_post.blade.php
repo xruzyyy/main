@@ -184,8 +184,12 @@
             <div class="business-meta">
                 <p class="postText"><strong>Type:</strong> {{ $post->type }}</p>
                 <p class="postText"><strong>Contact Number:</strong> {{ $post->contactNumber }}</p>
-                <p class="postText"><strong>Ratings:</strong> {{ $post->average_rating }}
-                    ({{ $post->ratings_count }} ratings)</p>
+                <p class="card-text">
+                    <strong>Ratings:</strong>
+                    {{( $post->average_rating) ?? 'Not Rated' }}
+                    ({{ $post->ratings_count }} ratings),
+
+                </p>
             </div>
             <div class="business-actions">
                 <p class="postText">

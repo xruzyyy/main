@@ -158,17 +158,18 @@
                     </div>
 
                     <div class="field">
-                        <label class="label">Image</label>
+                        <label class="label">Images</label>
+                        <p class="image-note">Please upload high-resolution images. You can select multiple images.</p>
                         <div class="control">
                             <div class="file has-name is-boxed">
                                 <label class="file-label">
-                                    <input type="file" class="file-input" id="image" name="image" accept="image/*" required onchange="previewImage(event)">
+                                    <input type="file" class="file-input" id="images" name="images[]" accept="image/*" multiple required onchange="previewImages(event)">
                                     <span class="file-cta">
                                         <span class="file-icon">
                                             <i class="fas fa-upload"></i>
                                         </span>
                                         <span class="file-label">
-                                            Choose a file…
+                                            Choose files…
                                         </span>
                                     </span>
                                 </label>

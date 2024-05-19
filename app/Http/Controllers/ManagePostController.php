@@ -90,27 +90,29 @@ public function create(Request $request)
         $request->validate([
             'businessName' => 'required|max:255|string',
             'description' => 'required|max:255|string',
-            'image' => 'required|mimes:jpg,jpeg,webp,png,jfif',
+            'images.*' => 'required|mimes:jpg,jpeg,webp,png,jfif|max:2048', // Adjusted validation rule for multiple images
             'type' => 'required', // Validate the type field
             'contactNumber' => 'required|numeric|digits:11', // Ensure contact number is required, numeric, and exactly 11 digits long
             'is_active' => 'sometimes', // Ensure is_active is allowed to be nullable
         ]);
 
         // Process the image upload
-        $path = ''; // Define path variable
-        if ($request->has('image')) {
-            $file = $request->file('image');
-            $extension = $file->getClientOriginalExtension();
-            $filename = time() . '.' . $extension;
-            $path = 'uploads/category/';
-            $file->move($path, $filename);
+        $paths = []; // Define an array to store paths of uploaded images
+        if ($request->has('images')) {
+            foreach ($request->file('images') as $images) {
+                $extension = $images->getClientOriginalExtension();
+                $filename = time() . '_' . uniqid() . '.' . $extension;
+                $path = 'uploads/category/';
+                $images->move($path, $filename);
+                $paths[] = $path . $filename; // Store the path of each uploaded images
+            }
         }
 
         // Create the category with the user_id set to the currently authenticated user's ID
-        $category = Posts::create([
+        $posts = Posts::create([
             'businessName' => $request->businessName,
             'description' => $request->description,
-            'image' => $path . $filename,
+            'images' => json_encode($paths), // Store paths as JSON string
             'contactNumber' => $request->contactNumber, // Set the contactNumber field
             'is_active' => $request->has('is_active') ? $request->input('is_active') : 1, // Set is_active based on user input or default to 1
             'type' => $request->type, // Set the type field
@@ -118,7 +120,7 @@ public function create(Request $request)
         ]);
 
         // Dispatch the BusinessListingAdded event
-        event(new \App\Events\BusinessListingAdded($category, $request->businessName, auth()->user()->id));
+        event(new \App\Events\BusinessListingAdded($posts, $request->businessName, auth()->user()->id));
 
         // Check if the user's status is 0 and update the related category's is_active field to 0
         if ($request->has('is_active') && $request->input('is_active') == 0) {
@@ -155,7 +157,7 @@ protected function store(Request $request)
     $request->validate([
         'businessName' => 'required|max:255|string',
         'description' => 'required|max:255|string',
-        'image' => 'required|mimes:jpg,jpeg,webp,png,jfif',
+        'images.*' => 'required|mimes:jpg,jpeg,webp,png,jfif|max:2048', // Adjusted validation rule for multiple images
         'type' => 'required', // Validate the type field
         'latitude' => 'required|numeric',
         'longitude' => 'required|numeric',
@@ -164,20 +166,22 @@ protected function store(Request $request)
     ]);
 
     // Process the image upload
-    $path = ''; // Define path variable
-    if ($request->has('image')) {
-        $file = $request->file('image');
-        $extension = $file->getClientOriginalExtension();
-        $filename = time() . '.' . $extension;
-        $path = 'uploads/category/';
-        $file->move($path, $filename);
+    $paths = []; // Define an array to store paths of uploaded images
+    if ($request->has('images')) {
+        foreach ($request->file('images') as $images) {
+            $extension = $images->getClientOriginalExtension();
+            $filename = time() . '_' . uniqid() . '.' . $extension;
+            $path = 'uploads/category/';
+            $images->move($path, $filename);
+            $paths[] = $path . $filename; // Store the path of each uploaded images
+        }
     }
 
     // Create the category with the user_id set to the currently authenticated user's ID
-    $category = Posts::create([
+    $posts = Posts::create([
         'businessName' => $request->businessName,
         'description' => $request->description,
-        'image' => $path . $filename,
+        'images' => json_encode($paths), // Store paths as JSON string
         'latitude' => $request->latitude,
         'longitude' => $request->longitude,
         'contactNumber' => $request->contactNumber, // Set the contactNumber field
@@ -187,9 +191,9 @@ protected function store(Request $request)
     ]);
 
     // Dispatch the BusinessListingAdded event
-    event(new \App\Events\BusinessListingAdded($category, $request->businessName, auth()->user()->id));
+    event(new \App\Events\BusinessListingAdded($posts, $request->businessName, auth()->user()->id));
 
-    // Check if the user's status is 0 and update the related category's is_active field to 0
+    // Check if the user's status is 0 and update the related posts's is_active field to 0
     if ($request->has('is_active') && $request->input('is_active') == 0) {
         User::where('id', auth()->user()->id)
             ->update(['status' => 0]); // Update user's status to c
@@ -202,75 +206,73 @@ protected function store(Request $request)
 }
 
 
-    public function edit(int $id)
+public function edit(int $id)
+    {
+        $unseenCount = DB::table('ch_messages')
+            ->where('to_id', Auth::user()->id)
+            ->where('seen', '0')
+            ->count();
+
+        $posts = Posts::findOrFail($id);
+
+        return view('category.edit', compact('posts', 'unseenCount'));
+    }
+
+    public function update(Request $request, $id)
 {
-    // Fetch unseen message count
-    $unseenCount = DB::table('ch_messages')
-        ->where('to_id', '=', Auth::user()->id)
-        ->where('seen', '=', '0')
-        ->count();
+    // Retrieve the post
+    $post = Posts::findOrFail($id);
 
-    // Fetch the category by ID
-    $category = Posts::findOrFail($id);
+    // Validate the request data
+    $request->validate([
+        'businessName' => 'required|max:255|string',
+        'description' => 'required|max:255|string',
+        'images.*' => 'required|mimes:jpg,jpeg,webp,png,jfif|max:2048', // Adjusted validation rule for multiple images
+        'is_active' => 'sometimes', // Ensure is_active is allowed to be nullable
+    ]);
 
-    // Pass both variables to the view
-    return view('category.edit', compact('category', 'unseenCount'));
+    // Process the image upload
+    $paths = []; // Define an array to store paths of uploaded images
+    if ($request->has('images')) {
+        foreach ($request->file('images') as $image) {
+            $extension = $image->getClientOriginalExtension();
+            $filename = time() . '_' . uniqid() . '.' . $extension;
+            $path = 'uploads/category/';
+            $image->move($path, $filename);
+            $paths[] = $path . $filename; // Store the path of each uploaded image
+        }
+        // Replace existing images with new ones
+        $post->images = json_encode($paths);
+    }
+
+    // Update the post attributes
+    $post->businessName = $request->input('businessName');
+    $post->description = $request->input('description');
+    $post->is_active = $request->has('is_active');
+
+    // Save the changes
+    $post->save();
+
+    // Redirect back with a success message
+    return redirect()->route('ManagePost')->with('status', 'Post updated successfully!');
 }
 
 
-
-    public function update(Request $request, int $id)
-    {
-        $request->validate([
-            'businessName' => 'required|max:255|string',
-            'description' => 'required|max:255|string',
-            'image' => 'required|mimes:jpg,jpeg,webp,png,jfif',
-            // 'is_active' => 'boolean'
-        ]);
-
-        $category = Posts::findOrFail($id);
-        $path = ''; // Define path variable
-
-        if ($request->has('image')) {
-            $file = $request->file('image');
-            $extension = $file->getClientOriginalExtension();
-            $filename = time() . '.' . $extension;
-            $path = 'uploads/category/';
-            $file->move($path, $filename);
-
-            if (File::exists($category->image)) {
-                File::delete($category->image);
-            }
-        }
-
-        $is_active = $request->has('is_active') ? true : false;
-
-
-        $category->update([
-            'businessName' => $request->businessName,
-            'description' => $request->description,
-            'image' => $path . $filename,
-            'is_active' => $is_active,
-        ]);
-
-        return redirect()->back()->with('status', 'Business Listing Updated!');
-    }
-
     public function destroy(int $id)
     {
-        $category = Posts::findOrFail($id);
-        if (File::exists($category->image)) {
-            File::delete($category->image);
+        $posts = Posts::findOrFail($id);
+        if (File::exists($posts->images)) {
+            File::delete($posts->images);
         }
-        $category->delete();
+        $posts->delete();
 
         return redirect()->back()->with('status', 'Business Listing Successfully Deleted');
     }
 
     public function toggleStatus($id)
     {
-        $category = Posts::findOrFail($id);
-        $category->update(['is_active' => !$category->is_active]);
+        $posts = Posts::findOrFail($id);
+        $posts->update(['is_active' => !$posts->is_active]);
 
         return redirect()->back();
     }
@@ -314,18 +316,11 @@ protected function store(Request $request)
 
     return view('category.index', compact('ManagePost', 'unseenCount'));
 
+
+
+
+
+
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

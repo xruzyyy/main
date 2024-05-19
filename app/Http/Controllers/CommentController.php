@@ -34,18 +34,19 @@ class CommentController extends Controller
     $comment->content = $request->content;
     $comment->user_id = auth()->user()->id;
 
-    // Retrieve authenticated user's name and profile image from the User model
-    $commenterName = auth()->user()->name;
-    $commenterProfileImage = auth()->user()->profile_image; // Assuming profile_image is the field name
-
+    // Save the comment
     $post->comments()->save($comment);
 
+    // Increment the reviews count for the post
+    $post->increment('reviews');
+
     // Notify post author about the new comment
-    // Pass both the comment and the commenter's name and profile image
-    $post->user->notify(new NewCommentNotification($comment, $commenterName, $commenterProfileImage));
+    $post->user->notify(new NewCommentNotification($comment, auth()->user()->name, auth()->user()->profile_image));
 
     return redirect()->back()->with('success', 'Comment added successfully!');
 }
+
+
 
 
 

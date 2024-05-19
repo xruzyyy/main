@@ -29,16 +29,15 @@ class PostsSeeder extends Seeder
             "Garment Manufacturing", "Fashion Events Management", "Retail Clothing Stores",
             "Fashion Design Studios", "Shoe Manufacturing", "Tailoring and Alterations",
             "Textile Printing and Embroidery", "Fashion Accessories", "Boutiques",
-            "Apparel Recycling and Upcycling", "Apparel Exporters",
+            "Apparel Recycling and Upcycling", "Apparel Exporters"
         ];
-
-        for ($i = 0; $i < 1000; $i++) {
+        for ($i = 0; $i < 20; $i++) {
             Posts::factory()->create([
                 'businessName' => $faker->unique()->company,
                 'description' => $faker->sentence(),
                 'images' => json_encode($this->getRandomImage()),
-                'type' => $posts[array_rand($posts)], // Randomly select a type from the $posts array
-                'is_active' => 0,
+                'type' => ('Education'), // Randomly select a type from the $posts array
+                'is_active' => 1,
                 'contactNumber' => $faker->unique()->randomNumber(9, true), // Generate a random 9-digit contact number
                 'user_id' => $faker->randomElement($userIds), // Assign a random user_id
             ]);

@@ -7,9 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\Posts;
 
-
 class Comment extends Model
 {
+    protected $fillable = ['content']; // Only 'content' is fillable
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -19,9 +20,9 @@ class Comment extends Model
     {
         return $this->belongsTo(Posts::class);
     }
+
     public function category()
     {
         return $this->belongsTo(Posts::class, 'posts_id');
     }
-
 }

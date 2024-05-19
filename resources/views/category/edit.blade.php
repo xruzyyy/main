@@ -17,33 +17,46 @@
                 </div>
 
                 <div class="card-body">
-                    <form id="updateForm" action="{{ url('ManagePost/'.$category->id.'/edit') }}" method="POST" enctype="multipart/form-data">
+                    <form id="updateForm" action="{{ route('ManagePost.update', $posts->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
 
                         <div class="mb-3">
                             <label>Name:</label>
-                            <input type="text" name="businessName" value="{{ old('businessName',$category->businessName) }}">
+                            <input type="text" name="businessName" value="{{ old('businessName',$posts->businessName) }}">
                             @error('businessName') <span class="text-danger"> {{ $message }} </span> @enderror
                         </div>
 
                         <div class="mb-3">
                             <label>Description:</label>
-                            <textarea name="description" class="form-control" rows="3">{{ old('description', $category->description) }}</textarea>
+                            <textarea name="description" class="form-control" rows="3">{{ old('description', $posts->description) }}</textarea>
                             @error('description') <span class="text-danger"> {{ $message }} </span> @enderror
                         </div>
 
                         <div class="mb-3">
                             <label>Is Active</label>
-                            <input type="checkbox" name="is_active" {{ $category->is_active ? 'checked' : '' }} />
+                            <input type="checkbox" name="is_active" {{ $posts->is_active ? 'checked' : '' }} />
                             @error('is_active') <span class="text-danger"> {{ $message }} </span> @enderror
                         </div>
 
-                        <div class="mb-3">
-                            <label>Upload Business profile</label>
-                            <input type="file" name="image" class="form-control" value={{old('businessName')}}>
-                            @error('image') <span class="text-danger"> {{ $message }} </span>  @enderror
-
+                        <div class="field">
+                            <label class="label">Images</label>
+                            <p class="image-note">Please upload high-resolution images. You can select multiple images.</p>
+                            <div class="control">
+                                <div class="file has-name is-boxed">
+                                    <label class="file-label">
+                                        <input type="file" class="file-input" id="images" name="images[]" accept="image/*" multiple required onchange="previewImages(event)">
+                                        <span class="file-cta">
+                                            <span class="file-icon">
+                                                <i class="fas fa-upload"></i>
+                                            </span>
+                                            <span class="file-label">
+                                                Choose files…
+                                            </span>
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="mb-3">

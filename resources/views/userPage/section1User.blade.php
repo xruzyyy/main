@@ -11,17 +11,16 @@
                 <div class="col">
                     <input type="text" class="form-control" placeholder="Search Business Posts" name="search">
                 </div>
-                <div class="col-auto" >
+                <div class="col-auto">
                     <select class="form-select" style="width:1em; margin-top:2.3em;" name="sort_by">
                         <option value="">Sort by</option>
                         <option value="highest_rating">Highest Rating</option>
+                        <option value="highest_reviews">Highest Reviews</option>
                     </select>
                 </div>
                 <div class="col-auto">
                     <button class="btn" type="submit"><i class="fas fa-search"></i></button>
                 </div>
             </form>
-            
-
-      </div>
-  </div>
+    </div>
+</div>

@@ -58,10 +58,9 @@
 
 /* Updated CSS with opacity transition and right slide-in */
 .text-container {
-    overflow: hidden;
     display: flex;
     align-items: center;
-    overflow: hidden;
+    overflow: hidden !important;
     margin-top: 20px; /* Adjust spacing as needed */
     opacity: 0; /* Initially hide the text */
     transition:
@@ -72,7 +71,8 @@
 /* Class to reveal content */
 .revealed {
     opacity: 1;
-    transform: translateX(10%); /* Slide in from the right */
+    width: 90%; //Removes White Spaces
+    transform: translateX(15%); /* Slide in from the right */
 }
 
 .scroll-text {
@@ -187,14 +187,14 @@
 }
 
 .business-section-post {
-    background-color: #cce4ff !important; /* Adjust background color as needed */
+    background-color: #ffffff !important; /* Adjust background color as needed */
     color: #fff; /* Adjust text color as needed */
     padding: 10px; /* Adjust padding as needed */
     overflow: hidden; /* Hide overflow to prevent animation from revealing hidden content */
 }
 
 .business-section-post-list {
-    background-color: #41d3ff !important; /* Adjust background color as needed */
+    background-color: #ffffff !important; /* Adjust background color as needed */
     color: #fff; /* Adjust text color as needed */
     padding: 10px; /* Adjust padding as needed */
     overflow: auto; /* Hide overflow to prevent animation from revealing hidden content */
