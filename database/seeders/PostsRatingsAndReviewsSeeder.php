@@ -10,7 +10,7 @@ use App\Models\Comment;
 class PostsRatingsAndReviewsSeeder extends Seeder
 {
     /**
-     * Seed the application's database with ratings, reviews, and comments for posts.
+     * Seed the application's database with ratings, comments, and comments for posts.
      */
     public function run()
     {
@@ -37,40 +37,40 @@ class PostsRatingsAndReviewsSeeder extends Seeder
                 ]);
             }
 
-            // Generate a random number of new reviews
-            $newReviewsCount = rand(250, 500);
+            // // Generate a random number of new comments
+            // $newcommentsCount = rand(250, 500);
 
-            // Update the reviews count for the post
-            $post->reviews += $newReviewsCount;
+            // // Update the comments count for the post
+            // $post->comments += $newcommentsCount;
 
-            // Save the changes to the post
-            $post->save();
+            // // Save the changes to the post
+            // $post->save();
 
-            // Create new comments for the post
-            for ($i = 0; $i < $newReviewsCount; $i++) {
-                $post->comments()->create([
-                    'user_id' => $post->user_id, // Assuming user_id for the post owner
-                    'content' => $this->generateRandomComment(),
-                ]);
-            }
+            // // Create new comments for the post
+            // for ($i = 0; $i < $newcommentsCount; $i++) {
+            //     $post->comments()->create([
+            //         'user_id' => $post->user_id, // Assuming user_id for the post owner
+            //         'content' => $this->generateRandomComment(),
+            //     ]);
+            // }
         }
     }
 
     /**
      * Generate a random comment.
      */
-    private function generateRandomComment()
-    {
-        // Define an array of random comments
-        $randomComments = [
-            'Great post!',
-            'Amazing content!',
-            'Thanks for sharing!',
-            'Very informative!',
-            'How truly legit is this!',
-        ];
+    // private function generateRandomComment()
+    // {
+    //     // Define an array of random comments
+    //     $randomComments = [
+    //         'Great post!',
+    //         'Amazing content!',
+    //         'Thanks for sharing!',
+    //         'Very informative!',
+    //         'How truly legit is this!',
+    //     ];
 
-        // Select a random comment from the array
-        return $randomComments[array_rand($randomComments)];
-    }
+    //     // Select a random comment from the array
+    //     return $randomComments[array_rand($randomComments)];
+    // }
 }

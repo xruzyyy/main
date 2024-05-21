@@ -16,30 +16,38 @@
                         <img src="{{ asset($firstImage) }}" class="card-img-top" alt="Business Image"
                             onclick="openFullScreen('{{ route('businessPost', ['id' => $post->id]) }}')">
                         <div class="card-body">
-                            <p class="card-text"><strong>Type:</strong> {{ $post->type }}</p>
                             <h5 class="card-title">{{ $post->businessName }}</h5>
-                            <!-- Display the type -->
+                            <!-- Display the is_active status -->
+                            <p class="card-text">
+                                <strong>Status:</strong>
+                                @if ($post->is_active)
+                                    <span style="color: green"><b>Active</b></span>
+                                @else
+                                    <span style="color: red"><b>Expired Permit</b></span>
+                                @endif
+                            </p>
+                            <p class="card-text"><strong>Type:</strong> {{ $post->type }}</p>
                             <p class="card-text">
                                 <strong>Ratings:</strong>
-                                {{ number_format($post->ratings()->avg('rating'), 2) ?? 'Not Rated' }}
-                                ({{ $post->ratings()->count() }} ratings)
-                                <strong>Reviews:</strong> {{ $post->reviews }}
-                            </p> <!-- Display the type -->
+                                <span id="average-rating-{{ $post->id }}">{{ number_format($post->ratings()->avg('rating'), 2) ?? 'Not Rated' }}</span>
+                                (<span id="ratings-count-{{ $post->id }}">{{ $post->ratings()->count() }}</span> reviews)
+                                <!-- Display total comments count -->
+                                <br>
+                                <strong>Comments:</strong> <span id="comments-count-{{ $post->id }}">{{ $post->comments()->count() }}</span>
+                            </p>
+                            <!-- Display the type -->
                             <p class="card-text"><strong>Contact Number:</strong> {{ $post->contactNumber }}</p>
 
-                            <p class="card-text">
+                            <p class="card-text mb-10">
                                 <i class="fas fa-map-marker-alt" style="color: #006ce7f1;"></i>
                                 <a href="{{ route('mapStore') }}" class="store-map-link" style="text-decoration: none;">
                                     <b style="color: black;">Map</b>
                                 </a>
                                 <a href="/chatify/{{ $post->user_id }}" class="message-link">
-                                    <b style="color:black;">Message</b>
-                                    <i class="fa-brands fa-facebook-messenger"></i>
+                                    <b style="color:rgb(0, 0, 0);">Message</b>
                                 </a>
+                                <i class="fa-brands fa-facebook-messenger"  style="color: #006ce7f1; margin-right:40px;"></i>
                             </p>
-                            <!-- Updated HTML for the link -->
-
-                            <!-- Add any other relevant information here -->
                         </div>
                     </div>
                 </div>
@@ -50,9 +58,44 @@
 
 <!-- JavaScript -->
 <script>
-    // Function to open the business post in a new full-screen window
-    function openFullScreen(url) {
+  // Function to open the business post in a new full-screen window
+  function openFullScreen(url) {
         // Open a new window with the provided URL and make it full-screen
         window.open(url, '_blank', 'fullscreen=yes');
+    }
+
+    // Wait for the DOM content to be fully loaded
+    document.addEventListener("DOMContentLoaded", function() {
+        // Get elements containing raw numbers and format them
+        @foreach ($posts as $post)
+            formatNumbers('{{ $post->id }}');
+        @endforeach
+    });
+
+    // Function to format numbers with appropriate suffixes and style "k" with green color
+    function formatNumbers(postId) {
+        var averageRatingElement = document.getElementById("average-rating-" + postId);
+        var ratingsCountElement = document.getElementById("ratings-count-" + postId);
+        var commentsCountElement = document.getElementById("comments-count-" + postId);
+
+        if (averageRatingElement) {
+            averageRatingElement.innerHTML = formatNumber(averageRatingElement.innerHTML);
+        }
+        if (ratingsCountElement) {
+            ratingsCountElement.innerHTML = formatNumber(ratingsCountElement.innerHTML);
+        }
+        if (commentsCountElement) {
+            commentsCountElement.innerHTML = formatNumber(commentsCountElement.innerHTML);
+        }
+    }
+
+    // Function to format numbers with appropriate suffixes
+    function formatNumber(number) {
+        if (number >= 1000 && number < 1000000) {
+            return (number / 1000).toFixed(1) + "<span class='number-suffix'>k</span>";
+        } else if (number >= 1000000) {
+            return (number / 1000000).toFixed(1) + "<span class='number-suffix'>M</span>";
+        }
+        return number;
     }
 </script>

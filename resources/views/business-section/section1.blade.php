@@ -1,4 +1,5 @@
 <div class="section" id="section1">
+    <div class="video-overlay"></div>
     <video class="video-background" autoplay loop muted>
         <source src="{{ asset('videos/background.mp4') }}" type="video/mp4">
         Your browser does not support the video tag.
@@ -57,12 +58,64 @@
                 <select class="form-select" name="sort_by">
                     <option value="">Sort by</option>
                     <option value="highest_rating">Highest Rating</option>
-                    <option value="highest_reviews">Highest Reviews</option>
+                    <option value="comments">Most Comments</option>
                 </select>
             </div>
             <div class="col-lg-auto">
-                <button class="btn" type="submit"><i class="fas fa-search"></i></button>
+                <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
             </div>
         </form>
     </div>
 </div>
+
+<style>
+.section {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.video-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+}
+
+.video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 0;
+}
+
+.container {
+    position: relative;
+    z-index: 1;
+}
+
+.text-white {
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.form-control, .form-select {
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 1px solid #ccc;
+    color: #333;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+</style>

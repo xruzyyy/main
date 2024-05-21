@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->string('businessName');
-            $table->unsignedInteger('reviews')->default(0);
+            $table->unsignedInteger('comments')->default(0);
             $table->string('description');
             $table->json('images')->Notnullable(); // Change 'image' to 'images' and make it nullable
             $table->bigInteger('contactNumber')->unique();

@@ -45,12 +45,11 @@ class SearchController extends Controller
                     ->select(
                         'posts.*',
                         DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'),
-                        DB::raw('COUNT(ratings.id) as rating_count'),
-                        DB::raw('COALESCE(AVG(ratings.rating) * 0.7 + LEAST(COUNT(ratings.id), 100) * 0.3, 0) as weighted_score')
+                        DB::raw('COUNT(ratings.id) as rating_count')
                     )
                     ->groupBy('posts.id')
-                    ->orderByDesc('weighted_score')
-                    ->orderByDesc('rating_count');
+                    ->orderByRaw('COALESCE(AVG(ratings.rating), 0) DESC')
+                    ->orderByRaw('COUNT(ratings.id) DESC');
             } elseif ($request->input('sort_by') == 'comments') {
                 // Sorting logic for highest comments
                 $postsQuery->withCount('comments')
@@ -59,12 +58,36 @@ class SearchController extends Controller
         }
 
         // Paginate the results with 10 posts per page
-        $posts = $postsQuery->paginate(10)->appends(request()->query());
+        $posts = $postsQuery->paginate(100)->appends(request()->query());
+
+        // Calculate weighted score for each post and update the collection
+        $posts->getCollection()->transform(function ($post) {
+            $post->weighted_score = $this->calculateWeightedScore($post->avg_rating ?? 0, $post->rating_count ?? 0);
+            return $post;
+        });
+
+        // Sort posts based on weighted score if sorting by highest rating
+        if ($request->input('sort_by') == 'highest_rating') {
+            $posts->setCollection($posts->getCollection()->sortByDesc('weighted_score'));
+        }
 
         // Pass the retrieved posts to the view for display
         return view('business-section.business-categories.searchResults', [
             'posts' => $posts,
             'unseenCount' => $unseenCount,
         ]);
+    }
+
+    // Function to calculate weighted score
+    private function calculateWeightedScore($avgRating, $ratingCount)
+    {
+        // Define weights for average rating and rating count
+        $avgRatingWeight = 0.7; // Adjust as needed
+        $ratingCountWeight = 0.3; // Adjust as needed
+
+        // Calculate weighted score
+        $weightedScore = ($avgRating * $avgRatingWeight) + ($ratingCount * $ratingCountWeight);
+
+        return $weightedScore;
     }
 }

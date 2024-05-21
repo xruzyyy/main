@@ -37,8 +37,8 @@ class CommentController extends Controller
     // Save the comment
     $post->comments()->save($comment);
 
-    // Increment the reviews count for the post
-    $post->increment('reviews');
+    // Increment the comments count for the post
+    $post->increment('comments');
 
     // Notify post author about the new comment
     $post->user->notify(new NewCommentNotification($comment, auth()->user()->name, auth()->user()->profile_image));

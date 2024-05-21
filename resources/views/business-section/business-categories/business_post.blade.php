@@ -21,7 +21,9 @@
             margin: 0;
             padding: 0;
         }
-
+        .number-suffix{
+            color: #00E676;
+        }
         .container {
             max-width: 1200px;
             margin: 20px auto;
@@ -184,11 +186,14 @@
             <div class="business-meta">
                 <p class="postText"><strong>Type:</strong> {{ $post->type }}</p>
                 <p class="postText"><strong>Contact Number:</strong> {{ $post->contactNumber }}</p>
+                <!-- Display the ratings and comments count -->
                 <p class="card-text">
                     <strong>Ratings:</strong>
-                    {{( $post->average_rating) ?? 'Not Rated' }}
-                    ({{ $post->ratings_count }} ratings),
-
+                    <span id="average-rating-{{ $post->id }}">{{ number_format($post->ratings()->avg('rating'), 2) ?? 'Not Rated' }}</span>
+                    (<span id="ratings-count-{{ $post->id }}">{{ $post->ratings()->count() }}</span> reviews)
+                    <!-- Display total comments count -->
+                    <br>
+                    <strong>Comments:</strong> <span id="comments-count-{{ $post->id }}">{{ $post->comments()->count() }}</span>
                 </p>
             </div>
             <div class="business-actions">
@@ -227,19 +232,21 @@
     </form>
 
     <!-- Comment form -->
-    <form action="{{ route('comments.store', $post->id) }}" method="POST" class="comment-form">
-        @csrf
-        <div class="mb-3">
-            <label for="comment" class="form-label">Leave a Comment:</label>
-            <textarea class="form-control" id="comment" name="content" rows="3" placeholder="Add your comment here"></textarea>
-        </div>
-        <button type="submit" class="btn">Submit</button>
+    @csrf
+    <div class="mb-3">
+        <label for="comment" class="form-label">Leave a Comment:</label>
+        <textarea class="form-control" id="comment" name="content" rows="3" placeholder="Add your comment here"></textarea>
+    </div>
+    <button type="submit" class="btn">Submit</button>
     </form>
 
     <!-- Comment list -->
     <div class="swiper-container comment-list-container" style="overflow: hidden">
         <div class="swiper-wrapper">
-            @php $commentsChunks = $post->comments->sortByDesc('created_at')->chunk(15); @endphp
+            @php
+                $comments = $post->comments()->latest()->get();
+                $commentsChunks = $comments->chunk(15);
+            @endphp
             @foreach ($commentsChunks as $chunk)
                 <div class="swiper-slide">
                     <ul class="comment-list">
@@ -269,6 +276,7 @@
         <div class="swiper-pagination"></div>
     </div>
 
+
 </div>
 
 <!-- Scripts -->
@@ -282,6 +290,39 @@
             clickable: true,
         },
     });
+
+    // Wait for the DOM content to be fully loaded
+    document.addEventListener("DOMContentLoaded", function() {
+        // Get elements containing raw numbers and format them
+            formatNumbers('{{ $post->id }}');
+    });
+
+    // Function to format numbers with appropriate suffixes and style "k" with green color
+    function formatNumbers(postId) {
+        var averageRatingElement = document.getElementById("average-rating-" + postId);
+        var ratingsCountElement = document.getElementById("ratings-count-" + postId);
+        var commentsCountElement = document.getElementById("comments-count-" + postId);
+
+        if (averageRatingElement) {
+            averageRatingElement.innerHTML = formatNumber(averageRatingElement.innerHTML);
+        }
+        if (ratingsCountElement) {
+            ratingsCountElement.innerHTML = formatNumber(ratingsCountElement.innerHTML);
+        }
+        if (commentsCountElement) {
+            commentsCountElement.innerHTML = formatNumber(commentsCountElement.innerHTML);
+        }
+    }
+
+    // Function to format numbers with appropriate suffixes
+    function formatNumber(number) {
+        if (number >= 1000 && number < 1000000) {
+            return (number / 1000).toFixed(1) + "<span class='number-suffix'>k</span>";
+        } else if (number >= 1000000) {
+            return (number / 1000000).toFixed(1) + "<span class='number-suffix'>M</span>";
+        }
+        return number;
+    }
 </script>
 </body>
 
