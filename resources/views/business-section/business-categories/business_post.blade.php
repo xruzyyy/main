@@ -231,13 +231,14 @@
         <button type="submit" class="btn">Submit</button>
     </form>
 
-    <!-- Comment form -->
-    @csrf
-    <div class="mb-3">
-        <label for="comment" class="form-label">Leave a Comment:</label>
-        <textarea class="form-control" id="comment" name="content" rows="3" placeholder="Add your comment here"></textarea>
-    </div>
-    <button type="submit" class="btn">Submit</button>
+     <!-- Comment form -->
+     <form action="{{ route('comments.store', $post->id) }}" method="POST" class="comment-form">
+        @csrf
+        <div class="mb-3">
+            <label for="comment" class="form-label">Leave a Comment:</label>
+            <textarea class="form-control" id="comment" name="content" rows="3" placeholder="Add your comment here"></textarea>
+        </div>
+        <button type="submit" class="btn">Submit</button>
     </form>
 
     <!-- Comment list -->

@@ -6,6 +6,8 @@ use Illuminate\Database\Seeder;
 use App\Models\Posts; // Update model namespace
 use App\Models\Rating;
 use App\Models\Comment;
+use App\Models\User; // Update model namespace
+
 
 class PostsRatingsAndReviewsSeeder extends Seeder
 {
@@ -14,30 +16,30 @@ class PostsRatingsAndReviewsSeeder extends Seeder
      */
     public function run()
     {
-        // Get all posts
-        $posts = Posts::all(); // Update model reference to Post
+         // Get all posts
+         $posts = Posts::all(); // Update model reference to Post
 
-        // Loop through each post
-        foreach ($posts as $post) {
-            // Generate a random number of new ratings
-            $newRatingsCount = rand(250, 500);
+         // Get all user IDs
+         $userIds = User::pluck('id')->toArray();
 
-            // Update the ratings count for the post
-            $post->ratings_count += $newRatingsCount;
+         // Loop through each post
+         foreach ($posts as $post) {
+             // Generate a random number of new ratings
+             $newRatingsCount = rand(25, 50);
 
-            // Save the changes to the post
-            $post->save();
+             // Shuffle user IDs to ensure random and unique ratings
+             shuffle($userIds);
+             $selectedUserIds = array_slice($userIds, 0, $newRatingsCount);
 
-            // Create new ratings for the post
-            for ($i = 0; $i < $newRatingsCount; $i++) {
-                Rating::create([ // Update model reference to Rating
-                    'post_id' => $post->id,
-                    'user_id' => $post->user_id, // Assuming user_id for the post owner
-                    'rating' => rand(3, 5),
-                ]);
-            }
-
-            // // Generate a random number of new comments
+             // Create new ratings for the post
+             foreach ($selectedUserIds as $userId) {
+                 Rating::create([
+                     'post_id' => $post->id,
+                     'user_id' => $userId,
+                     'rating' => rand(3, 5),
+                 ]);
+             }
+            // Generate a random number of new comments
             // $newcommentsCount = rand(250, 500);
 
             // // Update the comments count for the post

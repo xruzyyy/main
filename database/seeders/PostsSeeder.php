@@ -20,7 +20,7 @@ class PostsSeeder extends Seeder
         $userIds = User::pluck('id')->toArray();
 
         // Define the array containing the list of posts
-        $posts = [
+        $postTypes = [
             "Accounting", "Agriculture", "Construction", "Education", "Finance", "Retail",
             "Fashion Photography Studios", "Healthcare", "Coffee Shops", "Information Technology",
             "Shopping Malls", "Trading Goods", "Consulting", "Barbershop", "Fashion Consultancy",
@@ -31,16 +31,19 @@ class PostsSeeder extends Seeder
             "Textile Printing and Embroidery", "Fashion Accessories", "Boutiques",
             "Apparel Recycling and Upcycling", "Apparel Exporters"
         ];
-        for ($i = 0; $i < 20; $i++) {
-            Posts::factory()->create([
-                'businessName' => $faker->unique()->company,
-                'description' => $faker->sentence(),
-                'images' => json_encode($this->getRandomImage()),
-                'type' => ('Education'), // Randomly select a type from the $posts array
-                'is_active' => 1,
-                'contactNumber' => $faker->unique()->randomNumber(9, true), // Generate a random 9-digit contact number
-                'user_id' => $faker->randomElement($userIds), // Assign a random user_id
-            ]);
+
+        foreach ($postTypes as $type) {
+            for ($i = 0; $i < 20; $i++) {
+                Posts::factory()->create([
+                    'businessName' => $faker->unique()->company,
+                    'description' => $faker->sentence(),
+                    'images' => json_encode($this->getRandomImage()),
+                    'type' => $type, // Assign the current type from the $postTypes array
+                    'is_active' => 1,
+                    'contactNumber' => $faker->unique()->randomNumber(9, true), // Generate a random 9-digit contact number
+                    'user_id' => $faker->randomElement($userIds), // Assign a random user_id
+                ]);
+            }
         }
     }
 

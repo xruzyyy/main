@@ -259,37 +259,35 @@ class UserController extends Controller
     }
 
     public function sortTable(Request $request)
-    {
-        // Initialize query builder for User model
-        $query = User::query();
+{
+    // Initialize query builder for User model
+    $query = User::query();
 
-        // Sorting
-        if ($request->has('sort')) {
-            if ($request->input('sort') == 'newest') {
-                $query->orderByDesc('id');
-            } elseif ($request->input('sort') == 'oldest') {
-                $query->orderBy('id');
-            }
+    // Filtering by status
+    if ($request->has('filter')) {
+        $filterValue = $request->input('filter');
+        if ($filterValue === '1' || $filterValue === '0') {
+            $query->where('is_active', $filterValue);
         }
+    }
 
-
-        // Filtering by status
-        if ($request->has('filter')) {
-            $filterValue = $request->input('filter');
-            if ($filterValue === '1' || $filterValue === '0') {
-                $query->where('status', $filterValue);
-            }
+    // Sorting
+    if ($request->has('sort')) {
+        if ($request->input('sort') == 'newest') {
+            $query->orderBy('created_at', 'desc');
+        } elseif ($request->input('sort') == 'oldest') {
+            $query->orderBy('created_at', 'asc');
         }
+    }
 
         // Pagination limit
         $limit = $request->input('limit', 10);
+
         if ($limit == 'all') {
             $users = $query->get();
         } else {
-            $users = $query->paginate($limit);
-            $users->appends(['limit' => $limit]); // Append the limit to the pagination links
+            $users = $query->paginate($limit)->withQueryString();
         }
-
 
         // Fetch unseen message count
         $unseenCount = DB::table('ch_messages')
@@ -297,8 +295,10 @@ class UserController extends Controller
             ->where('seen', '=', '0')
             ->count();
 
-
-        // Pass both variables to the view
+        // Pass all necessary variables to the view
         return view('users.index', compact('users', 'unseenCount'));
     }
+
+
+
 }
