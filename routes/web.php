@@ -112,6 +112,13 @@ Route::controller(PostCategories::class)->middleware(['auth', 'verified', 'check
 
 
 
+// Route for displaying all business posts
+Route::get('/business', [contactController::class, 'index'])->name('businessFeatured.index');
+
+// Route for displaying a specific business post
+Route::get('/businessFeatured/{id}', [contactController::class, 'show'])->name('businessFeatured.show');
+
+
 
     Route::get('/notifications', [NotificationController::class, 'getUserProfile'])->name('notifications.index');
 });
@@ -127,7 +134,7 @@ Route::middleware(['auth', 'user-access:business', 'verified', 'checkstatus'])->
 
     Route::put('/business-post/{id}/update', [BusinessProfileController::class, 'updatePost'])->name('businessPost.update');
 
-    Route::get('/business/home', [HomeController::class, 'businessHome'])->name('business.home');
+    Route::get('/business-home', [HomeController::class, 'businessHome'])->name('business.home');
     Route::get('/business/home', [HomeController::class, 'businessPostList'])->name('business.home');
 
     // Define routes for listing creation
@@ -233,7 +240,7 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
 
 
         Route::get('admin/ManageBusiness', [HomeController::class, 'adminManageBusiness'])->name('admin.ManageBusiness');
-
+        Route::get('admin/ManageUser', [HomeController::class, 'adminManageUser'])->name('admin.ManageUser');
 
         Route::get('/ManageBusiness', [ManageBusinessController::class, 'ManageBusinessForm'])->name('manageBusinessForm');
         Route::post('/ManageBusiness', [ManageBusinessController::class, 'ManageBusiness'])->name('manageBusiness');

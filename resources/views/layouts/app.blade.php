@@ -61,6 +61,14 @@
             box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1) !important;
             transform: scale(1.05) !important;
         }
+
+        .sectionCarousel{
+            margin-top: -20px !important;
+        }
+        .py-4 {
+    padding-top: 0rem !important;
+    padding-bottom: 0rem !important;
+}
     </style>
 </head>
 

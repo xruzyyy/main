@@ -45,19 +45,34 @@ class HomeController extends Controller
         $unseenCount = $this->fetchUnseenMessageCount();
         return view('admin.users.manageBusiness', ['unseenCount' => $unseenCount]);
     }
+    public function adminManageUser()
+    {
+        $unseenCount = $this->fetchUnseenMessageCount();
+
+        // Fetch users with type 0 (normal users)
+        $users = User::where('type', 'user')->get();
+
+        return view('admin.users.manageUser', [
+            'unseenCount' => $unseenCount,
+            'users' => $users
+        ]);
+    }
 
     public function businessHome()
     {
         // Fetch the count of unseen messages (replace with your actual method)
         $unseenCount = $this->fetchUnseenMessageCount();
 
-
+        $posts = Posts::orderBy('created_at', 'desc')->get();
 
         return view('business-section.businessHome', [
             'unseenCount' => $unseenCount,
+            'posts' => $posts,
 
         ]);
     }
+
+
 
     private function fetchUnseenMessageCount()
     {

@@ -109,13 +109,17 @@
 }
 
 .form-control, .form-select {
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(0, 0, 0, 0.8);
     border: 1px solid #ccc;
-    color: #333;
+    color: #fff;
 }
 
 .btn-primary {
-    background-color: #007bff;
-    border-color: #007bff;
+    background-color: #000000;
+    border-color: #ffffff;
+}
+.btn-primary:hover {
+    background-color: #000000;
+    border-color: #00b7ff;
 }
 </style>

@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
     {
         $faker = Faker::create();
 
-        for ($i = 0; $i < 10; $i++) { // Generating 10 users as an example, you can adjust the count as needed
+        for ($i = 0; $i < 1000; $i++) { // Generating 10 users as an example, you can adjust the count as needed
             $firstName = $faker->firstName;
             $lastName = $faker->lastName;
             $email = strtolower($firstName . '.' . $lastName . '@gmail.com');
@@ -31,13 +31,14 @@ class UserSeeder extends Seeder
                 'name' => $firstName . ' ' . $lastName,
                 'email' => $email,
                 'status' => 1,
-                'account_expiration_date' => now()->addYear(-1)->toDateTimeString(),
+                'is_active' => 1,
+                'account_expiration_date' => now()->addYear(1)->toDateTimeString(),
                 'image' => $faker->imageUrl(800, 800), // Generate a fake image URL with specific dimensions
                 'email_verified_at' => now(),
                 'password' => Hash::make('password'),
                 'role_as' => 'business',
                 'type' => 2,
-                'created_at' => '2024-03-26 12:10:00', // Set a specific created_at date and time
+                'created_at' =>  now() ,//  '2024-03-26 12:10:00', // Set a specific created_at date and time
                 'updated_at' => now(),
             ];
 

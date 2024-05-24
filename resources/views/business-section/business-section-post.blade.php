@@ -16,7 +16,7 @@
                         <img src="{{ asset($firstImage) }}" class="card-img-top" alt="Business Image"
                             onclick="openFullScreen('{{ route('businessPost', ['id' => $post->id]) }}')">
                         <div class="card-body">
-                            <h5 class="card-title">{{ $post->businessName }}</h5>
+                            <h5>{{ \Illuminate\Support\Str::limit($post->businessName, 22) }}</h5>
                             <!-- Display the is_active status -->
                             <p class="card-text">
                                 <strong>Status:</strong>

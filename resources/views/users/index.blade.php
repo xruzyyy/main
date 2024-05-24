@@ -37,52 +37,59 @@
 
 <script>
     $(document).ready(function() {
-        // Get the current limit parameter from the URL
-        var defaultLimit = {{ request()->input('limit', 10) }};
-        // Get the current sort parameter from the URL
-        var defaultSort = "{{ request()->input('sort', 'newest') }}";
+                // Get the current limit parameter from the URL
+                var defaultLimit = {{ request()->input('All', 10) }};
 
-        // DataTable initialization
-        var table = $('#example').DataTable({
-            "dom": '<"d-flex justify-content-between align-items-center"Bf><"clear">lirtp',
-            "paging": true,
-            "lengthMenu": [[5, 10, 20, 50, 100, -1], [5, 10, 20, 50, 100, "All"]],
-            "pageLength": defaultLimit, // Set the default page length
-            "autoWidth": true,
-            "language": {
-                "info": "Showing _START_ to _END_ of _TOTAL_ entries"
-            },
-            "order": [],
-            "buttons": [
-                {
-                    extend: 'colvis',
-                    text: 'Columns',
-                    className: 'btn btn-secondary dropdown-toggle',
-                    attr: {
-                        'aria-haspopup': true,
-                        'aria-expanded': false,
-                        'data-toggle': 'dropdown'
+                // DataTable initialization
+                var table = $('#example').DataTable({
+                    "dom": '<"d-flex justify-content-between align-items-center"Bf><"clear">lirtp',
+                    "paging": true,
+                    "lengthMenu": [
+                        [5, 10, 20, 50, 100, -1],
+                        [5, 10, 20, 50, 100, "All"]
+                    ],
+                    "pageLength": defaultLimit, // Set the default page length
+                    "autoWidth": true,
+                    "language": {
+                        "info": "Showing _START_ to _END_ of _TOTAL_ entries"
                     },
-                    dropdown: {
-                        className: 'dropdown-menu dropdown-menu-right'
-                    }
-                },
-                {
-                    extend: 'excelHtml5',
-                    className: 'btn btn-secondary'
-                },
-                {
-                    extend: 'pdfHtml5',
-                    className: 'btn btn-secondary'
-                },
-
-            ]
-        });
-
-        // Set the default sorting
-        table.order([0, defaultSort === 'newest' ? 'desc' : 'asc']).draw();
-
-    });
+                    "order": [],
+                    "buttons": [{
+                            extend: 'colvis',
+                            text: 'Columns',
+                            className: 'btn btn-secondary dropdown-toggle',
+                            attr: {
+                                'aria-haspopup': true,
+                                'aria-expanded': false,
+                                'data-toggle': 'dropdown'
+                            },
+                            dropdown: {
+                                className: 'dropdown-menu dropdown-menu-right'
+                            }
+                        },
+                        {
+                            extend: 'copyHtml5',
+                            className: 'btn btn-secondary'
+                        },
+                        {
+                            extend: 'csvHtml5',
+                            className: 'btn btn-secondary'
+                        },
+                        {
+                            extend: 'excelHtml5',
+                            className: 'btn btn-secondary'
+                        },
+                        {
+                            extend: 'pdfHtml5',
+                            className: 'btn btn-secondary'
+                        },
+                        {
+                            extend: 'print',
+                            className: 'btn btn-secondary'
+                        }
+                    ]
+                });
+            });
 
 
     // Back to Top Button Functionality

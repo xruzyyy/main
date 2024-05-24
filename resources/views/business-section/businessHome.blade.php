@@ -7,6 +7,4 @@
     @include('business-section.aboutBusiness')
     @include('business-section.servicesMainBusiness')
     @include('footer')
-    @endsection
-
-
+@endsection

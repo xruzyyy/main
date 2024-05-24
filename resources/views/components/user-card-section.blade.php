@@ -142,7 +142,7 @@
                     borderWidth: 1
                 },
                 {
-                    label: 'Normal Users Created',
+                    label: 'Client Users Created',
                     data: normalUserCounts,
                     backgroundColor: 'rgba(54, 162, 235, 0.2)',
                     borderColor: 'rgba(54, 162, 235, 1)',

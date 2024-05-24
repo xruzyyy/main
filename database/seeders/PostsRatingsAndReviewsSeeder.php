@@ -25,7 +25,7 @@ class PostsRatingsAndReviewsSeeder extends Seeder
          // Loop through each post
          foreach ($posts as $post) {
              // Generate a random number of new ratings
-             $newRatingsCount = rand(25, 50);
+             $newRatingsCount = rand(500, 1000);
 
              // Shuffle user IDs to ensure random and unique ratings
              shuffle($userIds);

@@ -1,4 +1,4 @@
-@extends('layouts.businessHome')
+@extends('layouts.app')
 
 @section('content')
 
@@ -107,7 +107,7 @@
                         <h5 class="card-title">{{ $post->businessName }}</h5>
                         <p class="card-text">{{ \Illuminate\Support\Str::limit($post->description, 100) }}</p>
                         <!-- Assuming there's a route named 'business.show' to view a specific business -->
-                        <a href="{{ route('businessFeatured.show', ['id' => $post->id]) }}" class="btn btn-primary btn-block">View Details</a>
+                        <a href="{{ route('business.show', ['id' => $post->id]) }}" class="btn btn-primary btn-block">View Details</a>
                     </div>
                 </div>
             </div>
@@ -125,7 +125,6 @@
 <script>
     // Make sure jQuery is ready
     $(document).ready(function() {
-        // Set the carousel interval to 5 seconds
         $('.carousel').carousel({
             interval: 900
         });

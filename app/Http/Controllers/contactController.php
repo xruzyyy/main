@@ -8,9 +8,11 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Posts;
 
 class contactController extends Controller
 {
+    // Method to display all business posts
     public function index()
     {
         // Fetch unseen message count
@@ -18,8 +20,27 @@ class contactController extends Controller
             ->where('to_id', '=', Auth::user()->id)
             ->where('seen', '=', '0')
             ->count();
-        return view('pages.index', ['unseenCount' => $unseenCount]);
+        // Fetch latest business posts
+        $latestPosts = Posts::orderBy('created_at', 'desc')->get();
+
+        // Pass the posts data to the view
+        return view('business-section.postsFeatured', [
+            'unseenCount' => $unseenCount,
+            'latestPosts' => $latestPosts
+        ]);
     }
+
+    // Method to display a specific business post
+    public function show($id)
+    {
+        // Fetch the business post by ID
+        $post = Posts::findOrFail($id);
+
+        // Pass the post data to the view
+        return view('business-section.postsFeatured', ['post' => $post]);
+    }
+
+
 
     public function showContactForm()
     {

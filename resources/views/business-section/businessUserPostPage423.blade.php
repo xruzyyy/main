@@ -179,7 +179,7 @@
 
         </div>
         <div class="business-info">
-            <h1>{{ $post->businessName }}</h1>
+            <h1>{{ \Illuminate\Support\Str::limit($post->businessName, 12) }}</h1>
             <p class="postText">{{ $post->description }}</p>
             <div class="business-meta">
                 <p class="postText"><strong>Type:</strong> {{ $post->type }}</p>
