@@ -3,7 +3,7 @@
 @section('manageUsers')
 <div class="container p-4">
     <div class="text-center">
-        <h1 class="">Manage All Accounts</h1>
+        <h1 class="">Manage All Business Accounts</h1>
     </div>
     <a href="{{ route('users.create') }}" class="btn btn-md btn-primary">Add Account</a>
 
@@ -52,6 +52,7 @@
             "language": {
                 "info": "Showing _START_ to _END_ of _TOTAL_ entries"
             },
+            "order": [],
             "buttons": [
                 {
                     extend: 'colvis',

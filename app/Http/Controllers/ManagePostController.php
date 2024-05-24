@@ -128,7 +128,7 @@ public function create(Request $request)
                 ->update(['status' => 0]); // Update user's status to 0
 
             Posts::where('user_id', auth()->user()->id)
-                ->update(['is_active' => 0]); // Update related categories' is_active to 0
+                ->update(['is_active' => 0]); // Update related ManagePost' is_active to 0
         }
 
         return redirect()->route('managepost.create')->with('success', 'Listing created successfully!');
@@ -199,7 +199,7 @@ protected function store(Request $request)
             ->update(['status' => 0]); // Update user's status to c
 
         Posts::where('user_id', auth()->user()->id)
-            ->update(['is_active' => 0]); // Update related categories' is_active to 0
+            ->update(['is_active' => 0]); // Update related ManagePost' is_active to 0
     }
 
     return redirect()->route('managepost.create')->with('success', 'Listing created successfully!');
@@ -278,49 +278,44 @@ public function edit(int $id)
     }
 
     public function sortTable(Request $request)
-{
-    $query = Posts::query();
+    {
+        $query = Posts::query();
 
-    // Sorting
-    if ($request->has('sort')) {
-        if ($request->input('sort') == 'newest') {
-            $query->orderBy('id', 'desc');
-        } elseif ($request->input('sort') == 'oldest') {
-            $query->orderBy('id', 'asc');
+        // Sorting
+        if ($request->has('sort')) {
+            if ($request->input('sort') == 'newest') {
+                $query->orderBy('id', 'desc');
+            } elseif ($request->input('sort') == 'oldest') {
+                $query->orderBy('id', 'asc');
+            }
         }
-    }
 
 
-    // Filtering by is_active
-    if ($request->has('filter')) {
-        if ($request->input('filter') == 'active') {
-            $query->where('is_active', 1);
-        } elseif ($request->input('filter') == 'not_active') {
-            $query->where('is_active', 0);
+        // Filtering by is_active
+        if ($request->has('filter')) {
+            if ($request->input('filter') == 'active') {
+                $query->where('is_active', 1);
+            } elseif ($request->input('filter') == 'not_active') {
+                $query->where('is_active', 0);
+            }
         }
+
+        // Pagination
+        $limit = $request->input('limit', 10);
+        if ($limit == 'all') {
+            $ManagePost = $query->get();
+        } else {
+            $ManagePost = $query->paginate($limit);
+        }
+
+        // Fetch unseen message count
+        $unseenCount = DB::table('ch_messages')
+            ->where('to_id', '=', Auth::user()->id)
+            ->where('seen', '=', '0')
+            ->count();
+
+        return view('category.index', compact('ManagePost', 'unseenCount'));
+
     }
 
-    // Pagination
-    $limit = $request->input('limit', 10);
-    if ($limit == 'all') {
-        $ManagePost = $query->get();
-    } else {
-        $ManagePost = $query->paginate($limit);
-    }
-
-    // Fetch unseen message count
-    $unseenCount = DB::table('ch_messages')
-        ->where('to_id', '=', Auth::user()->id)
-        ->where('seen', '=', '0')
-        ->count();
-
-    return view('category.index', compact('ManagePost', 'unseenCount'));
-
-
-
-
-
-
-
-}
 }
