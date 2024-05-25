@@ -11,6 +11,9 @@
             height: 150px;
             border-radius: 50%;
         }
+        .control-label {
+            text-align: left !important;
+        }
     </style>
 </head>
 <body>
@@ -58,7 +61,7 @@
                     </div>
                 @endif
 
-                <div class="form-group">
+                <div class="form-group row">
                     <label for="name" class="col-md-3 control-label">Name</label>
                     <div class="col-md-8">
                         <input type="text" name="name" id="name" class="form-control" value="{{ $user->name }}" required disabled>
@@ -66,28 +69,28 @@
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group row">
                     <label for="email" class="col-md-3 control-label">Email</label>
                     <div class="col-md-8">
                         <input type="email" name="email" id="email" class="form-control" value="{{ $user->email }}" required>
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group row">
                     <label for="password" class="col-md-3 control-label">Password</label>
                     <div class="col-md-8">
                         <input type="password" name="password" id="password" class="form-control">
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group row">
                     <label for="password_confirmation" class="col-md-3 control-label">Confirm Password</label>
                     <div class="col-md-8">
                         <input type="password" name="password_confirmation" id="password_confirmation" class="form-control">
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group row">
                     <div class="col-md-8 col-md-offset-3">
                         <button type="submit" class="btn btn-primary">Update</button>
                         <button type="reset" class="btn btn-default">Cancel</button>
@@ -103,17 +106,27 @@
         @csrf
         @method('PUT')
 
-        <div class="form-group">
-            <label for="description">Description:</label>
-            <textarea class="form-control" id="description" name="description" rows="3">{{ $post->description }}</textarea>
-        </div>
+        <div class="container">
+            <div class="form-group row">
+                <label for="description" class="col-md-3 control-label">Description:</label>
+                <div class="col-md-8">
+                    <textarea class="form-control" id="description" name="description" rows="3">{{ $post->description }}</textarea>
+                </div>
+            </div>
 
-        <div class="form-group">
-            <label for="contact_number">Contact Number:</label>
-            <input type="text" class="form-control" id="contact_number" name="contact_number" value="{{ $post->contactNumber }}">
-        </div>
+            <div class="form-group row">
+                <label for="contact_number" class="col-md-3 control-label">Contact Number:</label>
+                <div class="col-md-8">
+                    <input type="text" class="form-control" id="contact_number" name="contact_number" value="{{ $post->contactNumber }}">
+                </div>
+            </div>
 
-        <button type="submit" class="btn btn-primary">Update Post</button>
+            <div class="form-group row">
+                <div class="col-md-8 col-md-offset-3">
+                    <button type="submit" class="btn btn-primary">Update Post</button>
+                </div>
+            </div>
+        </div>
     </form>
 @else
     <p>No post to update.</p>

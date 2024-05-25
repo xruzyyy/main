@@ -59,7 +59,7 @@ class SearchController extends Controller
         }
 
         // Paginate the results with 10 posts per page
-        $posts = $postsQuery->paginate(10)->appends(request()->query());
+        $posts = $postsQuery->paginate(12)->appends(request()->query());
 
         // Pass the retrieved posts to the view for display
         return view('business-section.business-categories.searchResults', [

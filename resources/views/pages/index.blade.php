@@ -105,9 +105,33 @@
                     <img class="card-img-top" src="{{ $firstImage }}" alt="Card image cap">
                     <div class="card-body">
                         <h5 class="card-title">{{ $post->businessName }}</h5>
-                        <p class="card-text">{{ \Illuminate\Support\Str::limit($post->description, 100) }}</p>
-                        <!-- Assuming there's a route named 'business.show' to view a specific business -->
-                        <a href="{{ route('businessFeatured.show', ['id' => $post->id]) }}" class="btn btn-primary btn-block">View Details</a>
+                                <p class="card-text">
+                                    <strong>Status:</strong>
+                                    @if ($post->is_active)
+                                        <span style="color: green"><b>Active</b></span>
+                                    @else
+                                        <span style="color: red"><b>Expired Permit</b></span>
+                                    @endif
+                                </p>
+                                <p class="card-text"><strong>Type:</strong> {{ $post->type }}</p>
+                                <p class="card-text">
+                                    <strong>Ratings:</strong>
+                                    <span id="average-rating-{{ $post->id }}">{{ number_format($post->ratings()->avg('rating'), 2) ?? 'Not Rated' }}</span>
+                                    (<span id="ratings-count-{{ $post->id }}">{{ $post->ratings()->count() }}</span> reviews)
+                                    <br>
+                                    <strong>Comments:</strong> <span id="comments-count-{{ $post->id }}">{{ $post->comments()->count() }}</span>
+                                </p>
+                                <p class="card-text"><strong>Contact Number:</strong> {{ $post->contactNumber }}</p>
+                                <p class="card-text mb-10">
+                                    <i class="fas fa-map-marker-alt" style="color: #006ce7f1;"></i>
+                                    <a href="{{ route('mapStore') }}" class="store-map-link" style="text-decoration: none;">
+                                        <b style="color: black;">Map</b>
+                                    </a>
+                                    <a href="/chatify/{{ $post->user_id }}" class="message-link">
+                                        <b style="color: rgb(0, 0, 0);">Message</b>
+                                    </a>
+                                    <i class="fa-brands fa-facebook-messenger" style="color: #006ce7f1; margin-right: 40px;"></i>
+                                </p>
                     </div>
                 </div>
             </div>
@@ -127,7 +151,7 @@
     $(document).ready(function() {
         // Set the carousel interval to 5 seconds
         $('.carousel').carousel({
-            interval: 900
+            interval: 1000
         });
 
 

@@ -105,20 +105,9 @@ Route::controller(PostCategories::class)->middleware(['auth', 'verified', 'check
     Route::get('/mapStore', [ListingController::class, 'mapStore'])->name('mapStore');
 
 
-    Route::get('/contactIndex',  [contactController::class, 'index']);
 
     Route::get('contact', [contactController::class, 'showContactForm'])->name('contact.show');
     Route::post('contact', [contactController::class, 'submitContactForm'])->name('contact.submit');
-
-
-
-// Route for displaying all business posts
-Route::get('/business', [contactController::class, 'index'])->name('businessFeatured.index');
-
-// Route for displaying a specific business post
-Route::get('/businessFeatured/{id}', [contactController::class, 'show'])->name('businessFeatured.show');
-
-
 
     Route::get('/notifications', [NotificationController::class, 'getUserProfile'])->name('notifications.index');
 });
@@ -162,6 +151,12 @@ Route::middleware(['auth', 'user-access:business', 'verified', 'checkstatus'])->
 Route::middleware(['auth', 'user-access:user', 'verified'])->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
     Route::get('/home', [HomeController::class, 'businessPostListForUser'])->name('home');
+
+    // Route for displaying all business posts
+    Route::get('/businessFeatured', [PostCategories::class, 'indexFeatured'])->name('businessFeatured.index');
+
+    // Route for displaying a specific business post
+    Route::get('/businessFeatured/{id}', [PostCategories::class, 'showFeatured'])->name('businessFeatured.show');
 });
 
 

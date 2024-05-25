@@ -55,7 +55,7 @@ class PostCategories extends Controller
         }
 
         // Paginate the results with 10 posts per page
-        $posts = $postsQuery->paginate(10)->appends(request()->query());
+        $posts = $postsQuery->paginate(9)->appends(request()->query());
 
         // Pass the retrieved posts to the view for display
         return view('business-section.business-categories.businessAccounting', [
@@ -81,32 +81,37 @@ class PostCategories extends Controller
         $postsQuery = Posts::where('type', 'Retail');
 
         // Apply search query
-        if ($searchQuery) {
+       if ($searchQuery) {
             $postsQuery->where(function ($query) use ($searchQuery) {
                 $query->where('businessName', 'like', '%' . $searchQuery . '%')
                     ->orWhere('description', 'like', '%' . $searchQuery . '%');
             });
         }
 
+
         // Apply sorting if provided
         if ($request->has('sort_by')) {
             if ($request->input('sort_by') == 'highest_rating') {
                 // Sorting logic for highest rating
-                $postsQuery->with('ratings')
-                    ->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
-                    ->select('posts.*', DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'), DB::raw('COUNT(ratings.id) as rating_count'))
+                $postsQuery->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
+                    ->select(
+                        'posts.*',
+                        DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'),
+                        DB::raw('COUNT(ratings.id) as rating_count'),
+                        DB::raw('COALESCE(AVG(ratings.rating) * 0.7 + LEAST(COUNT(ratings.id), 100) * 0.3, 0) as weighted_score')
+                    )
                     ->groupBy('posts.id')
-                    ->orderBy('avg_rating', 'desc')
-                    ->orderBy('rating_count', 'desc');
-            } elseif ($request->input('sort_by') == 'highest_reviews') {
-                // Sorting logic for highest reviews
+                    ->orderByDesc('weighted_score')
+                    ->orderByDesc('rating_count');
+            } elseif ($request->input('sort_by') == 'comments') {
+                // Sorting logic for highest comments
                 $postsQuery->withCount('comments')
                     ->orderBy('comments_count', 'desc');
             }
         }
 
-        // Paginate the results with 10 businesses per page
-        $posts = $postsQuery->paginate(10);
+        // Paginate the results with 10 posts per page
+        $posts = $postsQuery->paginate(9)->appends(request()->query());
 
         return view('business-section.business-categories.businessRetail', [
             'posts' => $posts,
@@ -126,32 +131,37 @@ class PostCategories extends Controller
 
         // Query categories based on search query or retrieve all if no search query provided
         $postsQuery = Posts::where('type', 'Fashion Photography Studios');
-        if ($searchQuery) {
+       if ($searchQuery) {
             $postsQuery->where(function ($query) use ($searchQuery) {
                 $query->where('businessName', 'like', '%' . $searchQuery . '%')
                     ->orWhere('description', 'like', '%' . $searchQuery . '%');
             });
         }
 
+
         // Apply sorting if provided
         if ($request->has('sort_by')) {
             if ($request->input('sort_by') == 'highest_rating') {
                 // Sorting logic for highest rating
-                $postsQuery->with('ratings')
-                    ->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
-                    ->select('posts.*', DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'), DB::raw('COUNT(ratings.id) as rating_count'))
+                $postsQuery->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
+                    ->select(
+                        'posts.*',
+                        DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'),
+                        DB::raw('COUNT(ratings.id) as rating_count'),
+                        DB::raw('COALESCE(AVG(ratings.rating) * 0.7 + LEAST(COUNT(ratings.id), 100) * 0.3, 0) as weighted_score')
+                    )
                     ->groupBy('posts.id')
-                    ->orderBy('avg_rating', 'desc')
-                    ->orderBy('rating_count', 'desc');
-            } elseif ($request->input('sort_by') == 'highest_reviews') {
-                // Sorting logic for highest reviews
+                    ->orderByDesc('weighted_score')
+                    ->orderByDesc('rating_count');
+            } elseif ($request->input('sort_by') == 'comments') {
+                // Sorting logic for highest comments
                 $postsQuery->withCount('comments')
                     ->orderBy('comments_count', 'desc');
             }
         }
 
-        // Paginate the results with 10 businesses per page
-        $posts = $postsQuery->paginate(10);
+        // Paginate the results with 10 posts per page
+        $posts = $postsQuery->paginate(9)->appends(request()->query());
 
         return view('business-section.business-categories.businessFashion', [
             'posts' => $posts,
@@ -171,32 +181,37 @@ class PostCategories extends Controller
 
         // Query categories based on search query or retrieve all if no search query provided
         $postsQuery = Posts::where('type', 'Automotive');
-        if ($searchQuery) {
+       if ($searchQuery) {
             $postsQuery->where(function ($query) use ($searchQuery) {
                 $query->where('businessName', 'like', '%' . $searchQuery . '%')
                     ->orWhere('description', 'like', '%' . $searchQuery . '%');
             });
         }
 
+
         // Apply sorting if provided
         if ($request->has('sort_by')) {
             if ($request->input('sort_by') == 'highest_rating') {
                 // Sorting logic for highest rating
-                $postsQuery->with('ratings')
-                    ->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
-                    ->select('posts.*', DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'), DB::raw('COUNT(ratings.id) as rating_count'))
+                $postsQuery->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
+                    ->select(
+                        'posts.*',
+                        DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'),
+                        DB::raw('COUNT(ratings.id) as rating_count'),
+                        DB::raw('COALESCE(AVG(ratings.rating) * 0.7 + LEAST(COUNT(ratings.id), 100) * 0.3, 0) as weighted_score')
+                    )
                     ->groupBy('posts.id')
-                    ->orderBy('avg_rating', 'desc')
-                    ->orderBy('rating_count', 'desc');
-            } elseif ($request->input('sort_by') == 'highest_reviews') {
-                // Sorting logic for highest reviews
+                    ->orderByDesc('weighted_score')
+                    ->orderByDesc('rating_count');
+            } elseif ($request->input('sort_by') == 'comments') {
+                // Sorting logic for highest comments
                 $postsQuery->withCount('comments')
                     ->orderBy('comments_count', 'desc');
             }
         }
 
-        // Paginate the results with 10 businesses per page
-        $posts = $postsQuery->paginate(10);
+        // Paginate the results with 10 posts per page
+        $posts = $postsQuery->paginate(9)->appends(request()->query());
         // Pass the retrieved categories to the view for display
         return view('business-section.business-categories.businessAutomotive', [
             'posts' => $posts,
@@ -215,32 +230,37 @@ class PostCategories extends Controller
             ->count();
         // Query categories based on search query or retrieve all if no search query provided
         $postsQuery = Posts::where('type', 'Apparel Exporters');
-        if ($searchQuery) {
+       if ($searchQuery) {
             $postsQuery->where(function ($query) use ($searchQuery) {
                 $query->where('businessName', 'like', '%' . $searchQuery . '%')
                     ->orWhere('description', 'like', '%' . $searchQuery . '%');
             });
         }
 
+
         // Apply sorting if provided
         if ($request->has('sort_by')) {
             if ($request->input('sort_by') == 'highest_rating') {
                 // Sorting logic for highest rating
-                $postsQuery->with('ratings')
-                    ->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
-                    ->select('posts.*', DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'), DB::raw('COUNT(ratings.id) as rating_count'))
+                $postsQuery->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
+                    ->select(
+                        'posts.*',
+                        DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'),
+                        DB::raw('COUNT(ratings.id) as rating_count'),
+                        DB::raw('COALESCE(AVG(ratings.rating) * 0.7 + LEAST(COUNT(ratings.id), 100) * 0.3, 0) as weighted_score')
+                    )
                     ->groupBy('posts.id')
-                    ->orderBy('avg_rating', 'desc')
-                    ->orderBy('rating_count', 'desc');
-            } elseif ($request->input('sort_by') == 'highest_reviews') {
-                // Sorting logic for highest reviews
+                    ->orderByDesc('weighted_score')
+                    ->orderByDesc('rating_count');
+            } elseif ($request->input('sort_by') == 'comments') {
+                // Sorting logic for highest comments
                 $postsQuery->withCount('comments')
                     ->orderBy('comments_count', 'desc');
             }
         }
 
-        // Paginate the results with 10 businesses per page
-        $posts = $postsQuery->paginate(10);
+        // Paginate the results with 10 posts per page
+        $posts = $postsQuery->paginate(9)->appends(request()->query());
         // Pass the retrieved categories to the view for display
         return view('business-section.business-categories.businessApparelExporters', [
             'posts' => $posts,
@@ -259,32 +279,37 @@ class PostCategories extends Controller
             ->count();
         // Query categories based on search query or retrieve all if no search query provided
         $postsQuery = Posts::where('type', 'Fashion Photography Studios');
-        if ($searchQuery) {
+       if ($searchQuery) {
             $postsQuery->where(function ($query) use ($searchQuery) {
                 $query->where('businessName', 'like', '%' . $searchQuery . '%')
                     ->orWhere('description', 'like', '%' . $searchQuery . '%');
             });
         }
 
+
         // Apply sorting if provided
         if ($request->has('sort_by')) {
             if ($request->input('sort_by') == 'highest_rating') {
                 // Sorting logic for highest rating
-                $postsQuery->with('ratings')
-                    ->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
-                    ->select('posts.*', DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'), DB::raw('COUNT(ratings.id) as rating_count'))
+                $postsQuery->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
+                    ->select(
+                        'posts.*',
+                        DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'),
+                        DB::raw('COUNT(ratings.id) as rating_count'),
+                        DB::raw('COALESCE(AVG(ratings.rating) * 0.7 + LEAST(COUNT(ratings.id), 100) * 0.3, 0) as weighted_score')
+                    )
                     ->groupBy('posts.id')
-                    ->orderBy('avg_rating', 'desc')
-                    ->orderBy('rating_count', 'desc');
-            } elseif ($request->input('sort_by') == 'highest_reviews') {
-                // Sorting logic for highest reviews
+                    ->orderByDesc('weighted_score')
+                    ->orderByDesc('rating_count');
+            } elseif ($request->input('sort_by') == 'comments') {
+                // Sorting logic for highest comments
                 $postsQuery->withCount('comments')
                     ->orderBy('comments_count', 'desc');
             }
         }
 
-        // Paginate the results with 10 businesses per page
-        $posts = $postsQuery->paginate(10);
+        // Paginate the results with 10 posts per page
+        $posts = $postsQuery->paginate(9)->appends(request()->query());
         return view('business-section.business-categories.businessFashionPhotographyStudios', [
             'posts' => $posts,
             'unseenCount' => $unseenCount
@@ -302,32 +327,37 @@ class PostCategories extends Controller
             ->count();
         // Query categories based on search query or retrieve all if no search query provided
         $postsQuery = Posts::where('type', 'Healthcare');
-        if ($searchQuery) {
+       if ($searchQuery) {
             $postsQuery->where(function ($query) use ($searchQuery) {
                 $query->where('businessName', 'like', '%' . $searchQuery . '%')
                     ->orWhere('description', 'like', '%' . $searchQuery . '%');
             });
         }
 
+
         // Apply sorting if provided
         if ($request->has('sort_by')) {
             if ($request->input('sort_by') == 'highest_rating') {
                 // Sorting logic for highest rating
-                $postsQuery->with('ratings')
-                    ->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
-                    ->select('posts.*', DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'), DB::raw('COUNT(ratings.id) as rating_count'))
+                $postsQuery->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
+                    ->select(
+                        'posts.*',
+                        DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'),
+                        DB::raw('COUNT(ratings.id) as rating_count'),
+                        DB::raw('COALESCE(AVG(ratings.rating) * 0.7 + LEAST(COUNT(ratings.id), 100) * 0.3, 0) as weighted_score')
+                    )
                     ->groupBy('posts.id')
-                    ->orderBy('avg_rating', 'desc')
-                    ->orderBy('rating_count', 'desc');
-            } elseif ($request->input('sort_by') == 'highest_reviews') {
-                // Sorting logic for highest reviews
+                    ->orderByDesc('weighted_score')
+                    ->orderByDesc('rating_count');
+            } elseif ($request->input('sort_by') == 'comments') {
+                // Sorting logic for highest comments
                 $postsQuery->withCount('comments')
                     ->orderBy('comments_count', 'desc');
             }
         }
 
-        // Paginate the results with 10 businesses per page
-        $posts = $postsQuery->paginate(10);
+        // Paginate the results with 10 posts per page
+        $posts = $postsQuery->paginate(9)->appends(request()->query());
         return view('business-section.business-categories.businessHealthcare', [
             'posts' => $posts,
             'unseenCount' => $unseenCount
@@ -345,32 +375,37 @@ class PostCategories extends Controller
             ->count();
         // Query categories based on search query or retrieve all if no search query provided
         $postsQuery = Posts::where('type', 'Information Technology');
-        if ($searchQuery) {
+       if ($searchQuery) {
             $postsQuery->where(function ($query) use ($searchQuery) {
                 $query->where('businessName', 'like', '%' . $searchQuery . '%')
                     ->orWhere('description', 'like', '%' . $searchQuery . '%');
             });
         }
 
+
         // Apply sorting if provided
         if ($request->has('sort_by')) {
             if ($request->input('sort_by') == 'highest_rating') {
                 // Sorting logic for highest rating
-                $postsQuery->with('ratings')
-                    ->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
-                    ->select('posts.*', DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'), DB::raw('COUNT(ratings.id) as rating_count'))
+                $postsQuery->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
+                    ->select(
+                        'posts.*',
+                        DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'),
+                        DB::raw('COUNT(ratings.id) as rating_count'),
+                        DB::raw('COALESCE(AVG(ratings.rating) * 0.7 + LEAST(COUNT(ratings.id), 100) * 0.3, 0) as weighted_score')
+                    )
                     ->groupBy('posts.id')
-                    ->orderBy('avg_rating', 'desc')
-                    ->orderBy('rating_count', 'desc');
-            } elseif ($request->input('sort_by') == 'highest_reviews') {
-                // Sorting logic for highest reviews
+                    ->orderByDesc('weighted_score')
+                    ->orderByDesc('rating_count');
+            } elseif ($request->input('sort_by') == 'comments') {
+                // Sorting logic for highest comments
                 $postsQuery->withCount('comments')
                     ->orderBy('comments_count', 'desc');
             }
         }
 
-        // Paginate the results with 10 businesses per page
-        $posts = $postsQuery->paginate(10);
+        // Paginate the results with 10 posts per page
+        $posts = $postsQuery->paginate(9)->appends(request()->query());
         return view('business-section.business-categories.businessInformationTechnology', [
             'posts' => $posts,
             'unseenCount' => $unseenCount
@@ -387,32 +422,37 @@ class PostCategories extends Controller
             ->count();
         // Query categories based on search query or retrieve all if no search query provided
         $postsQuery = Posts::where('type', 'Shopping Malls');
-        if ($searchQuery) {
+       if ($searchQuery) {
             $postsQuery->where(function ($query) use ($searchQuery) {
                 $query->where('businessName', 'like', '%' . $searchQuery . '%')
                     ->orWhere('description', 'like', '%' . $searchQuery . '%');
             });
         }
 
+
         // Apply sorting if provided
         if ($request->has('sort_by')) {
             if ($request->input('sort_by') == 'highest_rating') {
                 // Sorting logic for highest rating
-                $postsQuery->with('ratings')
-                    ->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
-                    ->select('posts.*', DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'), DB::raw('COUNT(ratings.id) as rating_count'))
+                $postsQuery->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
+                    ->select(
+                        'posts.*',
+                        DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'),
+                        DB::raw('COUNT(ratings.id) as rating_count'),
+                        DB::raw('COALESCE(AVG(ratings.rating) * 0.7 + LEAST(COUNT(ratings.id), 100) * 0.3, 0) as weighted_score')
+                    )
                     ->groupBy('posts.id')
-                    ->orderBy('avg_rating', 'desc')
-                    ->orderBy('rating_count', 'desc');
-            } elseif ($request->input('sort_by') == 'highest_reviews') {
-                // Sorting logic for highest reviews
+                    ->orderByDesc('weighted_score')
+                    ->orderByDesc('rating_count');
+            } elseif ($request->input('sort_by') == 'comments') {
+                // Sorting logic for highest comments
                 $postsQuery->withCount('comments')
                     ->orderBy('comments_count', 'desc');
             }
         }
 
-        // Paginate the results with 10 businesses per page
-        $posts = $postsQuery->paginate(10);
+        // Paginate the results with 10 posts per page
+        $posts = $postsQuery->paginate(9)->appends(request()->query());
         return view('business-section.business-categories.businessShoppingMalls', [
             'posts' => $posts,
             'unseenCount' => $unseenCount
@@ -430,32 +470,37 @@ class PostCategories extends Controller
             ->count();
         // Query categories based on search query or retrieve all if no search query provided
         $postsQuery = Posts::where('type', 'Trading Goods');
-        if ($searchQuery) {
+       if ($searchQuery) {
             $postsQuery->where(function ($query) use ($searchQuery) {
                 $query->where('businessName', 'like', '%' . $searchQuery . '%')
                     ->orWhere('description', 'like', '%' . $searchQuery . '%');
             });
         }
 
+
         // Apply sorting if provided
         if ($request->has('sort_by')) {
             if ($request->input('sort_by') == 'highest_rating') {
                 // Sorting logic for highest rating
-                $postsQuery->with('ratings')
-                    ->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
-                    ->select('posts.*', DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'), DB::raw('COUNT(ratings.id) as rating_count'))
+                $postsQuery->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
+                    ->select(
+                        'posts.*',
+                        DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'),
+                        DB::raw('COUNT(ratings.id) as rating_count'),
+                        DB::raw('COALESCE(AVG(ratings.rating) * 0.7 + LEAST(COUNT(ratings.id), 100) * 0.3, 0) as weighted_score')
+                    )
                     ->groupBy('posts.id')
-                    ->orderBy('avg_rating', 'desc')
-                    ->orderBy('rating_count', 'desc');
-            } elseif ($request->input('sort_by') == 'highest_reviews') {
-                // Sorting logic for highest reviews
+                    ->orderByDesc('weighted_score')
+                    ->orderByDesc('rating_count');
+            } elseif ($request->input('sort_by') == 'comments') {
+                // Sorting logic for highest comments
                 $postsQuery->withCount('comments')
                     ->orderBy('comments_count', 'desc');
             }
         }
 
-        // Paginate the results with 10 businesses per page
-        $posts = $postsQuery->paginate(10);
+        // Paginate the results with 10 posts per page
+        $posts = $postsQuery->paginate(9)->appends(request()->query());
         return view('business-section.business-categories.businessTradingGoods', [
             'posts' => $posts,
             'unseenCount' => $unseenCount
@@ -473,32 +518,37 @@ class PostCategories extends Controller
             ->count();
         // Query categories based on search query or retrieve all if no search query provided
         $postsQuery = Posts::where('type', 'Consulting');
-        if ($searchQuery) {
+       if ($searchQuery) {
             $postsQuery->where(function ($query) use ($searchQuery) {
                 $query->where('businessName', 'like', '%' . $searchQuery . '%')
                     ->orWhere('description', 'like', '%' . $searchQuery . '%');
             });
         }
 
+
         // Apply sorting if provided
         if ($request->has('sort_by')) {
             if ($request->input('sort_by') == 'highest_rating') {
                 // Sorting logic for highest rating
-                $postsQuery->with('ratings')
-                    ->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
-                    ->select('posts.*', DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'), DB::raw('COUNT(ratings.id) as rating_count'))
+                $postsQuery->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
+                    ->select(
+                        'posts.*',
+                        DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'),
+                        DB::raw('COUNT(ratings.id) as rating_count'),
+                        DB::raw('COALESCE(AVG(ratings.rating) * 0.7 + LEAST(COUNT(ratings.id), 100) * 0.3, 0) as weighted_score')
+                    )
                     ->groupBy('posts.id')
-                    ->orderBy('avg_rating', 'desc')
-                    ->orderBy('rating_count', 'desc');
-            } elseif ($request->input('sort_by') == 'highest_reviews') {
-                // Sorting logic for highest reviews
+                    ->orderByDesc('weighted_score')
+                    ->orderByDesc('rating_count');
+            } elseif ($request->input('sort_by') == 'comments') {
+                // Sorting logic for highest comments
                 $postsQuery->withCount('comments')
                     ->orderBy('comments_count', 'desc');
             }
         }
 
-        // Paginate the results with 10 businesses per page
-        $posts = $postsQuery->paginate(10);
+        // Paginate the results with 10 posts per page
+        $posts = $postsQuery->paginate(9)->appends(request()->query());
         return view('business-section.business-categories.businessConsulting', [
             'posts' => $posts,
             'unseenCount' => $unseenCount
@@ -516,32 +566,37 @@ class PostCategories extends Controller
             ->count();
         // Query categories based on search query or retrieve all if no search query provided
         $postsQuery = Posts::where('type', 'Barbershop');
-        if ($searchQuery) {
+       if ($searchQuery) {
             $postsQuery->where(function ($query) use ($searchQuery) {
                 $query->where('businessName', 'like', '%' . $searchQuery . '%')
                     ->orWhere('description', 'like', '%' . $searchQuery . '%');
             });
         }
 
+
         // Apply sorting if provided
         if ($request->has('sort_by')) {
             if ($request->input('sort_by') == 'highest_rating') {
                 // Sorting logic for highest rating
-                $postsQuery->with('ratings')
-                    ->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
-                    ->select('posts.*', DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'), DB::raw('COUNT(ratings.id) as rating_count'))
+                $postsQuery->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
+                    ->select(
+                        'posts.*',
+                        DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'),
+                        DB::raw('COUNT(ratings.id) as rating_count'),
+                        DB::raw('COALESCE(AVG(ratings.rating) * 0.7 + LEAST(COUNT(ratings.id), 100) * 0.3, 0) as weighted_score')
+                    )
                     ->groupBy('posts.id')
-                    ->orderBy('avg_rating', 'desc')
-                    ->orderBy('rating_count', 'desc');
-            } elseif ($request->input('sort_by') == 'highest_reviews') {
-                // Sorting logic for highest reviews
+                    ->orderByDesc('weighted_score')
+                    ->orderByDesc('rating_count');
+            } elseif ($request->input('sort_by') == 'comments') {
+                // Sorting logic for highest comments
                 $postsQuery->withCount('comments')
                     ->orderBy('comments_count', 'desc');
             }
         }
 
-        // Paginate the results with 10 businesses per page
-        $posts = $postsQuery->paginate(10);
+        // Paginate the results with 10 posts per page
+        $posts = $postsQuery->paginate(9)->appends(request()->query());
         return view('business-section.business-categories.businessBarberShops', [
             'posts' => $posts,
             'unseenCount' => $unseenCount
@@ -559,32 +614,37 @@ class PostCategories extends Controller
             ->count();
         // Query categories based on search query or retrieve all if no search query provided
         $postsQuery = Posts::where('type', 'Construction');
-        if ($searchQuery) {
+       if ($searchQuery) {
             $postsQuery->where(function ($query) use ($searchQuery) {
                 $query->where('businessName', 'like', '%' . $searchQuery . '%')
                     ->orWhere('description', 'like', '%' . $searchQuery . '%');
             });
         }
 
+
         // Apply sorting if provided
         if ($request->has('sort_by')) {
             if ($request->input('sort_by') == 'highest_rating') {
                 // Sorting logic for highest rating
-                $postsQuery->with('ratings')
-                    ->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
-                    ->select('posts.*', DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'), DB::raw('COUNT(ratings.id) as rating_count'))
+                $postsQuery->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
+                    ->select(
+                        'posts.*',
+                        DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'),
+                        DB::raw('COUNT(ratings.id) as rating_count'),
+                        DB::raw('COALESCE(AVG(ratings.rating) * 0.7 + LEAST(COUNT(ratings.id), 100) * 0.3, 0) as weighted_score')
+                    )
                     ->groupBy('posts.id')
-                    ->orderBy('avg_rating', 'desc')
-                    ->orderBy('rating_count', 'desc');
-            } elseif ($request->input('sort_by') == 'highest_reviews') {
-                // Sorting logic for highest reviews
+                    ->orderByDesc('weighted_score')
+                    ->orderByDesc('rating_count');
+            } elseif ($request->input('sort_by') == 'comments') {
+                // Sorting logic for highest comments
                 $postsQuery->withCount('comments')
                     ->orderBy('comments_count', 'desc');
             }
         }
 
-        // Paginate the results with 10 businesses per page
-        $posts = $postsQuery->paginate(10);
+        // Paginate the results with 10 posts per page
+        $posts = $postsQuery->paginate(9)->appends(request()->query());
         return view('business-section.business-categories.businessConstruction', [
             'posts' => $posts,
             'unseenCount' => $unseenCount
@@ -602,32 +662,37 @@ class PostCategories extends Controller
             ->count();
         // Query categories based on search query or retrieve all if no search query provided
         $postsQuery = Posts::where('type', 'Fashion Consultancy');
-        if ($searchQuery) {
+       if ($searchQuery) {
             $postsQuery->where(function ($query) use ($searchQuery) {
                 $query->where('businessName', 'like', '%' . $searchQuery . '%')
                     ->orWhere('description', 'like', '%' . $searchQuery . '%');
             });
         }
 
+
         // Apply sorting if provided
         if ($request->has('sort_by')) {
             if ($request->input('sort_by') == 'highest_rating') {
                 // Sorting logic for highest rating
-                $postsQuery->with('ratings')
-                    ->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
-                    ->select('posts.*', DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'), DB::raw('COUNT(ratings.id) as rating_count'))
+                $postsQuery->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
+                    ->select(
+                        'posts.*',
+                        DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'),
+                        DB::raw('COUNT(ratings.id) as rating_count'),
+                        DB::raw('COALESCE(AVG(ratings.rating) * 0.7 + LEAST(COUNT(ratings.id), 100) * 0.3, 0) as weighted_score')
+                    )
                     ->groupBy('posts.id')
-                    ->orderBy('avg_rating', 'desc')
-                    ->orderBy('rating_count', 'desc');
-            } elseif ($request->input('sort_by') == 'highest_reviews') {
-                // Sorting logic for highest reviews
+                    ->orderByDesc('weighted_score')
+                    ->orderByDesc('rating_count');
+            } elseif ($request->input('sort_by') == 'comments') {
+                // Sorting logic for highest comments
                 $postsQuery->withCount('comments')
                     ->orderBy('comments_count', 'desc');
             }
         }
 
-        // Paginate the results with 10 businesses per page
-        $posts = $postsQuery->paginate(10);
+        // Paginate the results with 10 posts per page
+        $posts = $postsQuery->paginate(9)->appends(request()->query());
         return view('business-section.business-categories.businessFashionConsultancy', [
             'posts' => $posts,
             'unseenCount' => $unseenCount
@@ -645,32 +710,37 @@ class PostCategories extends Controller
             ->count();
         // Query categories based on search query or retrieve all if no search query provided
         $postsQuery = Posts::where('type', 'Beauty Salon');
-        if ($searchQuery) {
+       if ($searchQuery) {
             $postsQuery->where(function ($query) use ($searchQuery) {
                 $query->where('businessName', 'like', '%' . $searchQuery . '%')
                     ->orWhere('description', 'like', '%' . $searchQuery . '%');
             });
         }
 
+
         // Apply sorting if provided
         if ($request->has('sort_by')) {
             if ($request->input('sort_by') == 'highest_rating') {
                 // Sorting logic for highest rating
-                $postsQuery->with('ratings')
-                    ->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
-                    ->select('posts.*', DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'), DB::raw('COUNT(ratings.id) as rating_count'))
+                $postsQuery->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
+                    ->select(
+                        'posts.*',
+                        DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'),
+                        DB::raw('COUNT(ratings.id) as rating_count'),
+                        DB::raw('COALESCE(AVG(ratings.rating) * 0.7 + LEAST(COUNT(ratings.id), 100) * 0.3, 0) as weighted_score')
+                    )
                     ->groupBy('posts.id')
-                    ->orderBy('avg_rating', 'desc')
-                    ->orderBy('rating_count', 'desc');
-            } elseif ($request->input('sort_by') == 'highest_reviews') {
-                // Sorting logic for highest reviews
+                    ->orderByDesc('weighted_score')
+                    ->orderByDesc('rating_count');
+            } elseif ($request->input('sort_by') == 'comments') {
+                // Sorting logic for highest comments
                 $postsQuery->withCount('comments')
                     ->orderBy('comments_count', 'desc');
             }
         }
 
-        // Paginate the results with 10 businesses per page
-        $posts = $postsQuery->paginate(10);
+        // Paginate the results with 10 posts per page
+        $posts = $postsQuery->paginate(9)->appends(request()->query());
         return view('business-section.business-categories.businessBeautySalon', [
             'posts' => $posts,
             'unseenCount' => $unseenCount
@@ -688,32 +758,37 @@ class PostCategories extends Controller
             ->count();
         // Query categories based on search query or retrieve all if no search query provided
         $postsQuery = Posts::where('type', 'Logistics');
-        if ($searchQuery) {
+       if ($searchQuery) {
             $postsQuery->where(function ($query) use ($searchQuery) {
                 $query->where('businessName', 'like', '%' . $searchQuery . '%')
                     ->orWhere('description', 'like', '%' . $searchQuery . '%');
             });
         }
 
+
         // Apply sorting if provided
         if ($request->has('sort_by')) {
             if ($request->input('sort_by') == 'highest_rating') {
                 // Sorting logic for highest rating
-                $postsQuery->with('ratings')
-                    ->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
-                    ->select('posts.*', DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'), DB::raw('COUNT(ratings.id) as rating_count'))
+                $postsQuery->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
+                    ->select(
+                        'posts.*',
+                        DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'),
+                        DB::raw('COUNT(ratings.id) as rating_count'),
+                        DB::raw('COALESCE(AVG(ratings.rating) * 0.7 + LEAST(COUNT(ratings.id), 100) * 0.3, 0) as weighted_score')
+                    )
                     ->groupBy('posts.id')
-                    ->orderBy('avg_rating', 'desc')
-                    ->orderBy('rating_count', 'desc');
-            } elseif ($request->input('sort_by') == 'highest_reviews') {
-                // Sorting logic for highest reviews
+                    ->orderByDesc('weighted_score')
+                    ->orderByDesc('rating_count');
+            } elseif ($request->input('sort_by') == 'comments') {
+                // Sorting logic for highest comments
                 $postsQuery->withCount('comments')
                     ->orderBy('comments_count', 'desc');
             }
         }
 
-        // Paginate the results with 10 businesses per page
-        $posts = $postsQuery->paginate(10);
+        // Paginate the results with 10 posts per page
+        $posts = $postsQuery->paginate(9)->appends(request()->query());
         return view('business-section.business-categories.businessLogistics', [
             'posts' => $posts,
             'unseenCount' => $unseenCount
@@ -731,32 +806,37 @@ class PostCategories extends Controller
             ->count();
         // Query categories based on search query or retrieve all if no search query provided
         $postsQuery = Posts::where('type', 'Sports');
-        if ($searchQuery) {
+       if ($searchQuery) {
             $postsQuery->where(function ($query) use ($searchQuery) {
                 $query->where('businessName', 'like', '%' . $searchQuery . '%')
                     ->orWhere('description', 'like', '%' . $searchQuery . '%');
             });
         }
 
+
         // Apply sorting if provided
         if ($request->has('sort_by')) {
             if ($request->input('sort_by') == 'highest_rating') {
                 // Sorting logic for highest rating
-                $postsQuery->with('ratings')
-                    ->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
-                    ->select('posts.*', DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'), DB::raw('COUNT(ratings.id) as rating_count'))
+                $postsQuery->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
+                    ->select(
+                        'posts.*',
+                        DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'),
+                        DB::raw('COUNT(ratings.id) as rating_count'),
+                        DB::raw('COALESCE(AVG(ratings.rating) * 0.7 + LEAST(COUNT(ratings.id), 100) * 0.3, 0) as weighted_score')
+                    )
                     ->groupBy('posts.id')
-                    ->orderBy('avg_rating', 'desc')
-                    ->orderBy('rating_count', 'desc');
-            } elseif ($request->input('sort_by') == 'highest_reviews') {
-                // Sorting logic for highest reviews
+                    ->orderByDesc('weighted_score')
+                    ->orderByDesc('rating_count');
+            } elseif ($request->input('sort_by') == 'comments') {
+                // Sorting logic for highest comments
                 $postsQuery->withCount('comments')
                     ->orderBy('comments_count', 'desc');
             }
         }
 
-        // Paginate the results with 10 businesses per page
-        $posts = $postsQuery->paginate(10);
+        // Paginate the results with 10 posts per page
+        $posts = $postsQuery->paginate(9)->appends(request()->query());
         return view('business-section.business-categories.businessSports', [
             'posts' => $posts,
             'unseenCount' => $unseenCount
@@ -775,32 +855,37 @@ class PostCategories extends Controller
             ->count();
         // Query categories based on search query or retrieve all if no search query provided
         $postsQuery = Posts::where('type', 'Pharmaceuticals');
-        if ($searchQuery) {
+       if ($searchQuery) {
             $postsQuery->where(function ($query) use ($searchQuery) {
                 $query->where('businessName', 'like', '%' . $searchQuery . '%')
                     ->orWhere('description', 'like', '%' . $searchQuery . '%');
             });
         }
 
+
         // Apply sorting if provided
         if ($request->has('sort_by')) {
             if ($request->input('sort_by') == 'highest_rating') {
                 // Sorting logic for highest rating
-                $postsQuery->with('ratings')
-                    ->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
-                    ->select('posts.*', DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'), DB::raw('COUNT(ratings.id) as rating_count'))
+                $postsQuery->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
+                    ->select(
+                        'posts.*',
+                        DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'),
+                        DB::raw('COUNT(ratings.id) as rating_count'),
+                        DB::raw('COALESCE(AVG(ratings.rating) * 0.7 + LEAST(COUNT(ratings.id), 100) * 0.3, 0) as weighted_score')
+                    )
                     ->groupBy('posts.id')
-                    ->orderBy('avg_rating', 'desc')
-                    ->orderBy('rating_count', 'desc');
-            } elseif ($request->input('sort_by') == 'highest_reviews') {
-                // Sorting logic for highest reviews
+                    ->orderByDesc('weighted_score')
+                    ->orderByDesc('rating_count');
+            } elseif ($request->input('sort_by') == 'comments') {
+                // Sorting logic for highest comments
                 $postsQuery->withCount('comments')
                     ->orderBy('comments_count', 'desc');
             }
         }
 
-        // Paginate the results with 10 businesses per page
-        $posts = $postsQuery->paginate(10);
+        // Paginate the results with 10 posts per page
+        $posts = $postsQuery->paginate(9)->appends(request()->query());
         // Pass the retrieved categories to the view for display
         return view('business-section.business-categories.businessPharmaceuticals', [
             'posts' => $posts,
@@ -820,32 +905,37 @@ class PostCategories extends Controller
             ->count();
         // Query categories based on search query or retrieve all if no search query provided
         $postsQuery = Posts::where('type', 'Pets');
-        if ($searchQuery) {
+       if ($searchQuery) {
             $postsQuery->where(function ($query) use ($searchQuery) {
                 $query->where('businessName', 'like', '%' . $searchQuery . '%')
                     ->orWhere('description', 'like', '%' . $searchQuery . '%');
             });
         }
 
+
         // Apply sorting if provided
         if ($request->has('sort_by')) {
             if ($request->input('sort_by') == 'highest_rating') {
                 // Sorting logic for highest rating
-                $postsQuery->with('ratings')
-                    ->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
-                    ->select('posts.*', DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'), DB::raw('COUNT(ratings.id) as rating_count'))
+                $postsQuery->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
+                    ->select(
+                        'posts.*',
+                        DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'),
+                        DB::raw('COUNT(ratings.id) as rating_count'),
+                        DB::raw('COALESCE(AVG(ratings.rating) * 0.7 + LEAST(COUNT(ratings.id), 100) * 0.3, 0) as weighted_score')
+                    )
                     ->groupBy('posts.id')
-                    ->orderBy('avg_rating', 'desc')
-                    ->orderBy('rating_count', 'desc');
-            } elseif ($request->input('sort_by') == 'highest_reviews') {
-                // Sorting logic for highest reviews
+                    ->orderByDesc('weighted_score')
+                    ->orderByDesc('rating_count');
+            } elseif ($request->input('sort_by') == 'comments') {
+                // Sorting logic for highest comments
                 $postsQuery->withCount('comments')
                     ->orderBy('comments_count', 'desc');
             }
         }
 
-        // Paginate the results with 10 businesses per page
-        $posts = $postsQuery->paginate(10);
+        // Paginate the results with 10 posts per page
+        $posts = $postsQuery->paginate(9)->appends(request()->query());
         return view('business-section.business-categories.businessPets', [
             'posts' => $posts,
             'unseenCount' => $unseenCount
@@ -863,32 +953,37 @@ class PostCategories extends Controller
             ->count();
         // Query categories based on search query or retrieve all if no search query provided
         $postsQuery = Posts::where('type', 'Entertainment');
-        if ($searchQuery) {
+       if ($searchQuery) {
             $postsQuery->where(function ($query) use ($searchQuery) {
                 $query->where('businessName', 'like', '%' . $searchQuery . '%')
                     ->orWhere('description', 'like', '%' . $searchQuery . '%');
             });
         }
 
+
         // Apply sorting if provided
         if ($request->has('sort_by')) {
             if ($request->input('sort_by') == 'highest_rating') {
                 // Sorting logic for highest rating
-                $postsQuery->with('ratings')
-                    ->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
-                    ->select('posts.*', DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'), DB::raw('COUNT(ratings.id) as rating_count'))
+                $postsQuery->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
+                    ->select(
+                        'posts.*',
+                        DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'),
+                        DB::raw('COUNT(ratings.id) as rating_count'),
+                        DB::raw('COALESCE(AVG(ratings.rating) * 0.7 + LEAST(COUNT(ratings.id), 100) * 0.3, 0) as weighted_score')
+                    )
                     ->groupBy('posts.id')
-                    ->orderBy('avg_rating', 'desc')
-                    ->orderBy('rating_count', 'desc');
-            } elseif ($request->input('sort_by') == 'highest_reviews') {
-                // Sorting logic for highest reviews
+                    ->orderByDesc('weighted_score')
+                    ->orderByDesc('rating_count');
+            } elseif ($request->input('sort_by') == 'comments') {
+                // Sorting logic for highest comments
                 $postsQuery->withCount('comments')
                     ->orderBy('comments_count', 'desc');
             }
         }
 
-        // Paginate the results with 10 businesses per page
-        $posts = $postsQuery->paginate(10);
+        // Paginate the results with 10 posts per page
+        $posts = $postsQuery->paginate(9)->appends(request()->query());
         return view('business-section.business-categories.businessEntertainment', [
             'posts' => $posts,
             'unseenCount' => $unseenCount
@@ -907,32 +1002,37 @@ class PostCategories extends Controller
             ->count();
         // Query categories based on search query or retrieve all if no search query provided
         $postsQuery = Posts::where('type', 'Agriculture');
-        if ($searchQuery) {
+       if ($searchQuery) {
             $postsQuery->where(function ($query) use ($searchQuery) {
                 $query->where('businessName', 'like', '%' . $searchQuery . '%')
                     ->orWhere('description', 'like', '%' . $searchQuery . '%');
             });
         }
 
+
         // Apply sorting if provided
         if ($request->has('sort_by')) {
             if ($request->input('sort_by') == 'highest_rating') {
                 // Sorting logic for highest rating
-                $postsQuery->with('ratings')
-                    ->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
-                    ->select('posts.*', DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'), DB::raw('COUNT(ratings.id) as rating_count'))
+                $postsQuery->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
+                    ->select(
+                        'posts.*',
+                        DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'),
+                        DB::raw('COUNT(ratings.id) as rating_count'),
+                        DB::raw('COALESCE(AVG(ratings.rating) * 0.7 + LEAST(COUNT(ratings.id), 100) * 0.3, 0) as weighted_score')
+                    )
                     ->groupBy('posts.id')
-                    ->orderBy('avg_rating', 'desc')
-                    ->orderBy('rating_count', 'desc');
-            } elseif ($request->input('sort_by') == 'highest_reviews') {
-                // Sorting logic for highest reviews
+                    ->orderByDesc('weighted_score')
+                    ->orderByDesc('rating_count');
+            } elseif ($request->input('sort_by') == 'comments') {
+                // Sorting logic for highest comments
                 $postsQuery->withCount('comments')
                     ->orderBy('comments_count', 'desc');
             }
         }
 
-        // Paginate the results with 10 businesses per page
-        $posts = $postsQuery->paginate(10);
+        // Paginate the results with 10 posts per page
+        $posts = $postsQuery->paginate(9)->appends(request()->query());
         // Pass the retrieved categories to the view for display
         return view('business-section.business-categories.businessAgriculture', [
             'posts' => $posts,
@@ -952,32 +1052,37 @@ class PostCategories extends Controller
             ->count();
         // Query categories based on search query or retrieve all if no search query provided
         $postsQuery = Posts::where('type', 'Education');
-        if ($searchQuery) {
+       if ($searchQuery) {
             $postsQuery->where(function ($query) use ($searchQuery) {
                 $query->where('businessName', 'like', '%' . $searchQuery . '%')
                     ->orWhere('description', 'like', '%' . $searchQuery . '%');
             });
         }
 
+
         // Apply sorting if provided
         if ($request->has('sort_by')) {
             if ($request->input('sort_by') == 'highest_rating') {
                 // Sorting logic for highest rating
-                $postsQuery->with('ratings')
-                    ->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
-                    ->select('posts.*', DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'), DB::raw('COUNT(ratings.id) as rating_count'))
+                $postsQuery->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
+                    ->select(
+                        'posts.*',
+                        DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'),
+                        DB::raw('COUNT(ratings.id) as rating_count'),
+                        DB::raw('COALESCE(AVG(ratings.rating) * 0.7 + LEAST(COUNT(ratings.id), 100) * 0.3, 0) as weighted_score')
+                    )
                     ->groupBy('posts.id')
-                    ->orderBy('avg_rating', 'desc')
-                    ->orderBy('rating_count', 'desc');
-            } elseif ($request->input('sort_by') == 'highest_reviews') {
-                // Sorting logic for highest reviews
+                    ->orderByDesc('weighted_score')
+                    ->orderByDesc('rating_count');
+            } elseif ($request->input('sort_by') == 'comments') {
+                // Sorting logic for highest comments
                 $postsQuery->withCount('comments')
                     ->orderBy('comments_count', 'desc');
             }
         }
 
-        // Paginate the results with 10 businesses per page
-        $posts = $postsQuery->paginate(10);
+        // Paginate the results with 10 posts per page
+        $posts = $postsQuery->paginate(9)->appends(request()->query());
         // Pass the retrieved categories to the view for display
         return view('business-section.business-categories.businessEducation', [
             'posts' => $posts,
@@ -997,32 +1102,37 @@ class PostCategories extends Controller
             ->count();
         // Query categories based on search query or retrieve all if no search query provided
         $postsQuery = Posts::where('type', 'Finance');
-        if ($searchQuery) {
+       if ($searchQuery) {
             $postsQuery->where(function ($query) use ($searchQuery) {
                 $query->where('businessName', 'like', '%' . $searchQuery . '%')
                     ->orWhere('description', 'like', '%' . $searchQuery . '%');
             });
         }
 
+
         // Apply sorting if provided
         if ($request->has('sort_by')) {
             if ($request->input('sort_by') == 'highest_rating') {
                 // Sorting logic for highest rating
-                $postsQuery->with('ratings')
-                    ->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
-                    ->select('posts.*', DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'), DB::raw('COUNT(ratings.id) as rating_count'))
+                $postsQuery->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
+                    ->select(
+                        'posts.*',
+                        DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'),
+                        DB::raw('COUNT(ratings.id) as rating_count'),
+                        DB::raw('COALESCE(AVG(ratings.rating) * 0.7 + LEAST(COUNT(ratings.id), 100) * 0.3, 0) as weighted_score')
+                    )
                     ->groupBy('posts.id')
-                    ->orderBy('avg_rating', 'desc')
-                    ->orderBy('rating_count', 'desc');
-            } elseif ($request->input('sort_by') == 'highest_reviews') {
-                // Sorting logic for highest reviews
+                    ->orderByDesc('weighted_score')
+                    ->orderByDesc('rating_count');
+            } elseif ($request->input('sort_by') == 'comments') {
+                // Sorting logic for highest comments
                 $postsQuery->withCount('comments')
                     ->orderBy('comments_count', 'desc');
             }
         }
 
-        // Paginate the results with 10 businesses per page
-        $posts = $postsQuery->paginate(10);
+        // Paginate the results with 10 posts per page
+        $posts = $postsQuery->paginate(9)->appends(request()->query());
         // Pass the retrieved categories to the view for display
         return view('business-section.business-categories.businessFinance', [
             'posts' => $posts,
@@ -1043,32 +1153,37 @@ class PostCategories extends Controller
             ->count();
         // Query categories based on search query or retrieve all if no search query provided
         $postsQuery = Posts::where('type', 'Coffee Shops');
-        if ($searchQuery) {
+       if ($searchQuery) {
             $postsQuery->where(function ($query) use ($searchQuery) {
                 $query->where('businessName', 'like', '%' . $searchQuery . '%')
                     ->orWhere('description', 'like', '%' . $searchQuery . '%');
             });
         }
 
+
         // Apply sorting if provided
         if ($request->has('sort_by')) {
             if ($request->input('sort_by') == 'highest_rating') {
                 // Sorting logic for highest rating
-                $postsQuery->with('ratings')
-                    ->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
-                    ->select('posts.*', DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'), DB::raw('COUNT(ratings.id) as rating_count'))
+                $postsQuery->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
+                    ->select(
+                        'posts.*',
+                        DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'),
+                        DB::raw('COUNT(ratings.id) as rating_count'),
+                        DB::raw('COALESCE(AVG(ratings.rating) * 0.7 + LEAST(COUNT(ratings.id), 100) * 0.3, 0) as weighted_score')
+                    )
                     ->groupBy('posts.id')
-                    ->orderBy('avg_rating', 'desc')
-                    ->orderBy('rating_count', 'desc');
-            } elseif ($request->input('sort_by') == 'highest_reviews') {
-                // Sorting logic for highest reviews
+                    ->orderByDesc('weighted_score')
+                    ->orderByDesc('rating_count');
+            } elseif ($request->input('sort_by') == 'comments') {
+                // Sorting logic for highest comments
                 $postsQuery->withCount('comments')
                     ->orderBy('comments_count', 'desc');
             }
         }
 
-        // Paginate the results with 10 businesses per page
-        $posts = $postsQuery->paginate(10);
+        // Paginate the results with 10 posts per page
+        $posts = $postsQuery->paginate(9)->appends(request()->query());
         // Pass the retrieved categories to the view for display
         return view('business-section.business-categories.businessCoffeeShops', [
             'posts' => $posts,
@@ -1087,32 +1202,37 @@ class PostCategories extends Controller
             ->count();
         // Query categories based on search query or retrieve all if no search query provided
         $postsQuery = Posts::where('type', 'Pattern Making Services');
-        if ($searchQuery) {
+       if ($searchQuery) {
             $postsQuery->where(function ($query) use ($searchQuery) {
                 $query->where('businessName', 'like', '%' . $searchQuery . '%')
                     ->orWhere('description', 'like', '%' . $searchQuery . '%');
             });
         }
 
+
         // Apply sorting if provided
         if ($request->has('sort_by')) {
             if ($request->input('sort_by') == 'highest_rating') {
                 // Sorting logic for highest rating
-                $postsQuery->with('ratings')
-                    ->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
-                    ->select('posts.*', DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'), DB::raw('COUNT(ratings.id) as rating_count'))
+                $postsQuery->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
+                    ->select(
+                        'posts.*',
+                        DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'),
+                        DB::raw('COUNT(ratings.id) as rating_count'),
+                        DB::raw('COALESCE(AVG(ratings.rating) * 0.7 + LEAST(COUNT(ratings.id), 100) * 0.3, 0) as weighted_score')
+                    )
                     ->groupBy('posts.id')
-                    ->orderBy('avg_rating', 'desc')
-                    ->orderBy('rating_count', 'desc');
-            } elseif ($request->input('sort_by') == 'highest_reviews') {
-                // Sorting logic for highest reviews
+                    ->orderByDesc('weighted_score')
+                    ->orderByDesc('rating_count');
+            } elseif ($request->input('sort_by') == 'comments') {
+                // Sorting logic for highest comments
                 $postsQuery->withCount('comments')
                     ->orderBy('comments_count', 'desc');
             }
         }
 
-        // Paginate the results with 10 businesses per page
-        $posts = $postsQuery->paginate(10);
+        // Paginate the results with 10 posts per page
+        $posts = $postsQuery->paginate(9)->appends(request()->query());
         return view('business-section.business-categories.businessPatternMakingServices', [
             'posts' => $posts,
             'unseenCount' => $unseenCount
@@ -1130,32 +1250,37 @@ class PostCategories extends Controller
             ->count();
         // Query categories based on search query or retrieve all if no search query provided
         $postsQuery = Posts::where('type', 'Maintenance');
-        if ($searchQuery) {
+       if ($searchQuery) {
             $postsQuery->where(function ($query) use ($searchQuery) {
                 $query->where('businessName', 'like', '%' . $searchQuery . '%')
                     ->orWhere('description', 'like', '%' . $searchQuery . '%');
             });
         }
 
+
         // Apply sorting if provided
         if ($request->has('sort_by')) {
             if ($request->input('sort_by') == 'highest_rating') {
                 // Sorting logic for highest rating
-                $postsQuery->with('ratings')
-                    ->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
-                    ->select('posts.*', DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'), DB::raw('COUNT(ratings.id) as rating_count'))
+                $postsQuery->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
+                    ->select(
+                        'posts.*',
+                        DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'),
+                        DB::raw('COUNT(ratings.id) as rating_count'),
+                        DB::raw('COALESCE(AVG(ratings.rating) * 0.7 + LEAST(COUNT(ratings.id), 100) * 0.3, 0) as weighted_score')
+                    )
                     ->groupBy('posts.id')
-                    ->orderBy('avg_rating', 'desc')
-                    ->orderBy('rating_count', 'desc');
-            } elseif ($request->input('sort_by') == 'highest_reviews') {
-                // Sorting logic for highest reviews
+                    ->orderByDesc('weighted_score')
+                    ->orderByDesc('rating_count');
+            } elseif ($request->input('sort_by') == 'comments') {
+                // Sorting logic for highest comments
                 $postsQuery->withCount('comments')
                     ->orderBy('comments_count', 'desc');
             }
         }
 
-        // Paginate the results with 10 businesses per page
-        $posts = $postsQuery->paginate(10);
+        // Paginate the results with 10 posts per page
+        $posts = $postsQuery->paginate(9)->appends(request()->query());
         return view('business-section.business-categories.businessMaintenance', [
             'posts' => $posts,
             'unseenCount' => $unseenCount
@@ -1173,32 +1298,37 @@ class PostCategories extends Controller
             ->count();
         // Query categories based on search query or retrieve all if no search query provided
         $postsQuery = Posts::where('type', 'Automotive');
-        if ($searchQuery) {
+       if ($searchQuery) {
             $postsQuery->where(function ($query) use ($searchQuery) {
                 $query->where('businessName', 'like', '%' . $searchQuery . '%')
                     ->orWhere('description', 'like', '%' . $searchQuery . '%');
             });
         }
 
+
         // Apply sorting if provided
         if ($request->has('sort_by')) {
             if ($request->input('sort_by') == 'highest_rating') {
                 // Sorting logic for highest rating
-                $postsQuery->with('ratings')
-                    ->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
-                    ->select('posts.*', DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'), DB::raw('COUNT(ratings.id) as rating_count'))
+                $postsQuery->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
+                    ->select(
+                        'posts.*',
+                        DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'),
+                        DB::raw('COUNT(ratings.id) as rating_count'),
+                        DB::raw('COALESCE(AVG(ratings.rating) * 0.7 + LEAST(COUNT(ratings.id), 100) * 0.3, 0) as weighted_score')
+                    )
                     ->groupBy('posts.id')
-                    ->orderBy('avg_rating', 'desc')
-                    ->orderBy('rating_count', 'desc');
-            } elseif ($request->input('sort_by') == 'highest_reviews') {
-                // Sorting logic for highest reviews
+                    ->orderByDesc('weighted_score')
+                    ->orderByDesc('rating_count');
+            } elseif ($request->input('sort_by') == 'comments') {
+                // Sorting logic for highest comments
                 $postsQuery->withCount('comments')
                     ->orderBy('comments_count', 'desc');
             }
         }
 
-        // Paginate the results with 10 businesses per page
-        $posts = $postsQuery->paginate(10);
+        // Paginate the results with 10 posts per page
+        $posts = $postsQuery->paginate(9)->appends(request()->query());
         return view('business-section.business-categories.businessAutomative', [
             'posts' => $posts,
             'unseenCount' => $unseenCount
@@ -1216,32 +1346,37 @@ class PostCategories extends Controller
             ->count();
         // Query categories based on search query or retrieve all if no search query provided
         $postsQuery = Posts::where('type', 'Environmental');
-        if ($searchQuery) {
+       if ($searchQuery) {
             $postsQuery->where(function ($query) use ($searchQuery) {
                 $query->where('businessName', 'like', '%' . $searchQuery . '%')
                     ->orWhere('description', 'like', '%' . $searchQuery . '%');
             });
         }
 
+
         // Apply sorting if provided
         if ($request->has('sort_by')) {
             if ($request->input('sort_by') == 'highest_rating') {
                 // Sorting logic for highest rating
-                $postsQuery->with('ratings')
-                    ->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
-                    ->select('posts.*', DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'), DB::raw('COUNT(ratings.id) as rating_count'))
+                $postsQuery->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
+                    ->select(
+                        'posts.*',
+                        DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'),
+                        DB::raw('COUNT(ratings.id) as rating_count'),
+                        DB::raw('COALESCE(AVG(ratings.rating) * 0.7 + LEAST(COUNT(ratings.id), 100) * 0.3, 0) as weighted_score')
+                    )
                     ->groupBy('posts.id')
-                    ->orderBy('avg_rating', 'desc')
-                    ->orderBy('rating_count', 'desc');
-            } elseif ($request->input('sort_by') == 'highest_reviews') {
-                // Sorting logic for highest reviews
+                    ->orderByDesc('weighted_score')
+                    ->orderByDesc('rating_count');
+            } elseif ($request->input('sort_by') == 'comments') {
+                // Sorting logic for highest comments
                 $postsQuery->withCount('comments')
                     ->orderBy('comments_count', 'desc');
             }
         }
 
-        // Paginate the results with 10 businesses per page
-        $posts = $postsQuery->paginate(10);
+        // Paginate the results with 10 posts per page
+        $posts = $postsQuery->paginate(9)->appends(request()->query());
         return view('business-section.business-categories.businessEnvironmental', [
             'posts' => $posts,
             'unseenCount' => $unseenCount
@@ -1259,32 +1394,37 @@ class PostCategories extends Controller
             ->count();
         // Query categories based on search query or retrieve all if no search query provided
         $postsQuery = Posts::where('type', 'Food & Beverage');
-        if ($searchQuery) {
+       if ($searchQuery) {
             $postsQuery->where(function ($query) use ($searchQuery) {
                 $query->where('businessName', 'like', '%' . $searchQuery . '%')
                     ->orWhere('description', 'like', '%' . $searchQuery . '%');
             });
         }
 
+
         // Apply sorting if provided
         if ($request->has('sort_by')) {
             if ($request->input('sort_by') == 'highest_rating') {
                 // Sorting logic for highest rating
-                $postsQuery->with('ratings')
-                    ->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
-                    ->select('posts.*', DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'), DB::raw('COUNT(ratings.id) as rating_count'))
+                $postsQuery->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
+                    ->select(
+                        'posts.*',
+                        DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'),
+                        DB::raw('COUNT(ratings.id) as rating_count'),
+                        DB::raw('COALESCE(AVG(ratings.rating) * 0.7 + LEAST(COUNT(ratings.id), 100) * 0.3, 0) as weighted_score')
+                    )
                     ->groupBy('posts.id')
-                    ->orderBy('avg_rating', 'desc')
-                    ->orderBy('rating_count', 'desc');
-            } elseif ($request->input('sort_by') == 'highest_reviews') {
-                // Sorting logic for highest reviews
+                    ->orderByDesc('weighted_score')
+                    ->orderByDesc('rating_count');
+            } elseif ($request->input('sort_by') == 'comments') {
+                // Sorting logic for highest comments
                 $postsQuery->withCount('comments')
                     ->orderBy('comments_count', 'desc');
             }
         }
 
-        // Paginate the results with 10 businesses per page
-        $posts = $postsQuery->paginate(10);
+        // Paginate the results with 10 posts per page
+        $posts = $postsQuery->paginate(9)->appends(request()->query());
         return view('business-section.business-categories.businessFoodBeverages', [
             'posts' => $posts,
             'unseenCount' => $unseenCount
@@ -1302,32 +1442,37 @@ class PostCategories extends Controller
             ->count();
         // Query categories based on search query or retrieve all if no search query provided
         $postsQuery = Posts::where('type', 'Quick Service Restaurants');
-        if ($searchQuery) {
+       if ($searchQuery) {
             $postsQuery->where(function ($query) use ($searchQuery) {
                 $query->where('businessName', 'like', '%' . $searchQuery . '%')
                     ->orWhere('description', 'like', '%' . $searchQuery . '%');
             });
         }
 
+
         // Apply sorting if provided
         if ($request->has('sort_by')) {
             if ($request->input('sort_by') == 'highest_rating') {
                 // Sorting logic for highest rating
-                $postsQuery->with('ratings')
-                    ->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
-                    ->select('posts.*', DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'), DB::raw('COUNT(ratings.id) as rating_count'))
+                $postsQuery->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
+                    ->select(
+                        'posts.*',
+                        DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'),
+                        DB::raw('COUNT(ratings.id) as rating_count'),
+                        DB::raw('COALESCE(AVG(ratings.rating) * 0.7 + LEAST(COUNT(ratings.id), 100) * 0.3, 0) as weighted_score')
+                    )
                     ->groupBy('posts.id')
-                    ->orderBy('avg_rating', 'desc')
-                    ->orderBy('rating_count', 'desc');
-            } elseif ($request->input('sort_by') == 'highest_reviews') {
-                // Sorting logic for highest reviews
+                    ->orderByDesc('weighted_score')
+                    ->orderByDesc('rating_count');
+            } elseif ($request->input('sort_by') == 'comments') {
+                // Sorting logic for highest comments
                 $postsQuery->withCount('comments')
                     ->orderBy('comments_count', 'desc');
             }
         }
 
-        // Paginate the results with 10 businesses per page
-        $posts = $postsQuery->paginate(10);
+        // Paginate the results with 10 posts per page
+        $posts = $postsQuery->paginate(9)->appends(request()->query());
         return view('business-section.business-categories.businessQuickServiceRestaurants', [
             'posts' => $posts,
             'unseenCount' => $unseenCount
@@ -1345,32 +1490,37 @@ class PostCategories extends Controller
             ->count();
         // Query categories based on search query or retrieve all if no search query provided
         $postsQuery = Posts::where('type', 'Garment Manufacturing');
-        if ($searchQuery) {
+       if ($searchQuery) {
             $postsQuery->where(function ($query) use ($searchQuery) {
                 $query->where('businessName', 'like', '%' . $searchQuery . '%')
                     ->orWhere('description', 'like', '%' . $searchQuery . '%');
             });
         }
 
+
         // Apply sorting if provided
         if ($request->has('sort_by')) {
             if ($request->input('sort_by') == 'highest_rating') {
                 // Sorting logic for highest rating
-                $postsQuery->with('ratings')
-                    ->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
-                    ->select('posts.*', DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'), DB::raw('COUNT(ratings.id) as rating_count'))
+                $postsQuery->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
+                    ->select(
+                        'posts.*',
+                        DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'),
+                        DB::raw('COUNT(ratings.id) as rating_count'),
+                        DB::raw('COALESCE(AVG(ratings.rating) * 0.7 + LEAST(COUNT(ratings.id), 100) * 0.3, 0) as weighted_score')
+                    )
                     ->groupBy('posts.id')
-                    ->orderBy('avg_rating', 'desc')
-                    ->orderBy('rating_count', 'desc');
-            } elseif ($request->input('sort_by') == 'highest_reviews') {
-                // Sorting logic for highest reviews
+                    ->orderByDesc('weighted_score')
+                    ->orderByDesc('rating_count');
+            } elseif ($request->input('sort_by') == 'comments') {
+                // Sorting logic for highest comments
                 $postsQuery->withCount('comments')
                     ->orderBy('comments_count', 'desc');
             }
         }
 
-        // Paginate the results with 10 businesses per page
-        $posts = $postsQuery->paginate(10);
+        // Paginate the results with 10 posts per page
+        $posts = $postsQuery->paginate(9)->appends(request()->query());
         return view('business-section.business-categories.businessGarmentManufacturing', [
             'posts' => $posts,
             'unseenCount' => $unseenCount
@@ -1388,32 +1538,37 @@ class PostCategories extends Controller
             ->count();
         // Query categories based on search query or retrieve all if no search query provided
         $postsQuery = Posts::where('type', 'Fashion Events Management');
-        if ($searchQuery) {
+       if ($searchQuery) {
             $postsQuery->where(function ($query) use ($searchQuery) {
                 $query->where('businessName', 'like', '%' . $searchQuery . '%')
                     ->orWhere('description', 'like', '%' . $searchQuery . '%');
             });
         }
 
+
         // Apply sorting if provided
         if ($request->has('sort_by')) {
             if ($request->input('sort_by') == 'highest_rating') {
                 // Sorting logic for highest rating
-                $postsQuery->with('ratings')
-                    ->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
-                    ->select('posts.*', DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'), DB::raw('COUNT(ratings.id) as rating_count'))
+                $postsQuery->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
+                    ->select(
+                        'posts.*',
+                        DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'),
+                        DB::raw('COUNT(ratings.id) as rating_count'),
+                        DB::raw('COALESCE(AVG(ratings.rating) * 0.7 + LEAST(COUNT(ratings.id), 100) * 0.3, 0) as weighted_score')
+                    )
                     ->groupBy('posts.id')
-                    ->orderBy('avg_rating', 'desc')
-                    ->orderBy('rating_count', 'desc');
-            } elseif ($request->input('sort_by') == 'highest_reviews') {
-                // Sorting logic for highest reviews
+                    ->orderByDesc('weighted_score')
+                    ->orderByDesc('rating_count');
+            } elseif ($request->input('sort_by') == 'comments') {
+                // Sorting logic for highest comments
                 $postsQuery->withCount('comments')
                     ->orderBy('comments_count', 'desc');
             }
         }
 
-        // Paginate the results with 10 businesses per page
-        $posts = $postsQuery->paginate(10);
+        // Paginate the results with 10 posts per page
+        $posts = $postsQuery->paginate(9)->appends(request()->query());
         return view('business-section.business-categories.businessFashionEventsManagement', [
             'posts' => $posts,
             'unseenCount' => $unseenCount
@@ -1431,32 +1586,37 @@ class PostCategories extends Controller
             ->count();
         // Query categories based on search query or retrieve all if no search query provided
         $postsQuery = Posts::where('type', 'Retail Clothing Stores');
-        if ($searchQuery) {
+       if ($searchQuery) {
             $postsQuery->where(function ($query) use ($searchQuery) {
                 $query->where('businessName', 'like', '%' . $searchQuery . '%')
                     ->orWhere('description', 'like', '%' . $searchQuery . '%');
             });
         }
 
+
         // Apply sorting if provided
         if ($request->has('sort_by')) {
             if ($request->input('sort_by') == 'highest_rating') {
                 // Sorting logic for highest rating
-                $postsQuery->with('ratings')
-                    ->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
-                    ->select('posts.*', DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'), DB::raw('COUNT(ratings.id) as rating_count'))
+                $postsQuery->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
+                    ->select(
+                        'posts.*',
+                        DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'),
+                        DB::raw('COUNT(ratings.id) as rating_count'),
+                        DB::raw('COALESCE(AVG(ratings.rating) * 0.7 + LEAST(COUNT(ratings.id), 100) * 0.3, 0) as weighted_score')
+                    )
                     ->groupBy('posts.id')
-                    ->orderBy('avg_rating', 'desc')
-                    ->orderBy('rating_count', 'desc');
-            } elseif ($request->input('sort_by') == 'highest_reviews') {
-                // Sorting logic for highest reviews
+                    ->orderByDesc('weighted_score')
+                    ->orderByDesc('rating_count');
+            } elseif ($request->input('sort_by') == 'comments') {
+                // Sorting logic for highest comments
                 $postsQuery->withCount('comments')
                     ->orderBy('comments_count', 'desc');
             }
         }
 
-        // Paginate the results with 10 businesses per page
-        $posts = $postsQuery->paginate(10);
+        // Paginate the results with 10 posts per page
+        $posts = $postsQuery->paginate(9)->appends(request()->query());
         return view('business-section.business-categories.businessRetailClothingStores', [
             'posts' => $posts,
             'unseenCount' => $unseenCount
@@ -1474,32 +1634,37 @@ class PostCategories extends Controller
             ->count();
         // Query categories based on search query or retrieve all if no search query provided
         $postsQuery = Posts::where('type', 'Fashion Design Studios');
-        if ($searchQuery) {
+       if ($searchQuery) {
             $postsQuery->where(function ($query) use ($searchQuery) {
                 $query->where('businessName', 'like', '%' . $searchQuery . '%')
                     ->orWhere('description', 'like', '%' . $searchQuery . '%');
             });
         }
 
+
         // Apply sorting if provided
         if ($request->has('sort_by')) {
             if ($request->input('sort_by') == 'highest_rating') {
                 // Sorting logic for highest rating
-                $postsQuery->with('ratings')
-                    ->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
-                    ->select('posts.*', DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'), DB::raw('COUNT(ratings.id) as rating_count'))
+                $postsQuery->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
+                    ->select(
+                        'posts.*',
+                        DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'),
+                        DB::raw('COUNT(ratings.id) as rating_count'),
+                        DB::raw('COALESCE(AVG(ratings.rating) * 0.7 + LEAST(COUNT(ratings.id), 100) * 0.3, 0) as weighted_score')
+                    )
                     ->groupBy('posts.id')
-                    ->orderBy('avg_rating', 'desc')
-                    ->orderBy('rating_count', 'desc');
-            } elseif ($request->input('sort_by') == 'highest_reviews') {
-                // Sorting logic for highest reviews
+                    ->orderByDesc('weighted_score')
+                    ->orderByDesc('rating_count');
+            } elseif ($request->input('sort_by') == 'comments') {
+                // Sorting logic for highest comments
                 $postsQuery->withCount('comments')
                     ->orderBy('comments_count', 'desc');
             }
         }
 
-        // Paginate the results with 10 businesses per page
-        $posts = $postsQuery->paginate(10);
+        // Paginate the results with 10 posts per page
+        $posts = $postsQuery->paginate(9)->appends(request()->query());
         return view('business-section.business-categories.businessFashionDesignStudios', [
             'posts' => $posts,
             'unseenCount' => $unseenCount
@@ -1517,32 +1682,37 @@ class PostCategories extends Controller
             ->count();
         // Query categories based on search query or retrieve all if no search query provided
         $postsQuery = Posts::where('type', 'Shoe Manufacturing');
-        if ($searchQuery) {
+       if ($searchQuery) {
             $postsQuery->where(function ($query) use ($searchQuery) {
                 $query->where('businessName', 'like', '%' . $searchQuery . '%')
                     ->orWhere('description', 'like', '%' . $searchQuery . '%');
             });
         }
 
+
         // Apply sorting if provided
         if ($request->has('sort_by')) {
             if ($request->input('sort_by') == 'highest_rating') {
                 // Sorting logic for highest rating
-                $postsQuery->with('ratings')
-                    ->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
-                    ->select('posts.*', DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'), DB::raw('COUNT(ratings.id) as rating_count'))
+                $postsQuery->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
+                    ->select(
+                        'posts.*',
+                        DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'),
+                        DB::raw('COUNT(ratings.id) as rating_count'),
+                        DB::raw('COALESCE(AVG(ratings.rating) * 0.7 + LEAST(COUNT(ratings.id), 100) * 0.3, 0) as weighted_score')
+                    )
                     ->groupBy('posts.id')
-                    ->orderBy('avg_rating', 'desc')
-                    ->orderBy('rating_count', 'desc');
-            } elseif ($request->input('sort_by') == 'highest_reviews') {
-                // Sorting logic for highest reviews
+                    ->orderByDesc('weighted_score')
+                    ->orderByDesc('rating_count');
+            } elseif ($request->input('sort_by') == 'comments') {
+                // Sorting logic for highest comments
                 $postsQuery->withCount('comments')
                     ->orderBy('comments_count', 'desc');
             }
         }
 
-        // Paginate the results with 10 businesses per page
-        $posts = $postsQuery->paginate(10);
+        // Paginate the results with 10 posts per page
+        $posts = $postsQuery->paginate(9)->appends(request()->query());
         return view('business-section.business-categories.businessShoeManufacturing', [
             'posts' => $posts,
             'unseenCount' => $unseenCount
@@ -1560,32 +1730,37 @@ class PostCategories extends Controller
             ->count();
         // Query categories based on search query or retrieve all if no search query provided
         $postsQuery = Posts::where('type', 'Tailoring and Alterations');
-        if ($searchQuery) {
+       if ($searchQuery) {
             $postsQuery->where(function ($query) use ($searchQuery) {
                 $query->where('businessName', 'like', '%' . $searchQuery . '%')
                     ->orWhere('description', 'like', '%' . $searchQuery . '%');
             });
         }
 
+
         // Apply sorting if provided
         if ($request->has('sort_by')) {
             if ($request->input('sort_by') == 'highest_rating') {
                 // Sorting logic for highest rating
-                $postsQuery->with('ratings')
-                    ->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
-                    ->select('posts.*', DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'), DB::raw('COUNT(ratings.id) as rating_count'))
+                $postsQuery->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
+                    ->select(
+                        'posts.*',
+                        DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'),
+                        DB::raw('COUNT(ratings.id) as rating_count'),
+                        DB::raw('COALESCE(AVG(ratings.rating) * 0.7 + LEAST(COUNT(ratings.id), 100) * 0.3, 0) as weighted_score')
+                    )
                     ->groupBy('posts.id')
-                    ->orderBy('avg_rating', 'desc')
-                    ->orderBy('rating_count', 'desc');
-            } elseif ($request->input('sort_by') == 'highest_reviews') {
-                // Sorting logic for highest reviews
+                    ->orderByDesc('weighted_score')
+                    ->orderByDesc('rating_count');
+            } elseif ($request->input('sort_by') == 'comments') {
+                // Sorting logic for highest comments
                 $postsQuery->withCount('comments')
                     ->orderBy('comments_count', 'desc');
             }
         }
 
-        // Paginate the results with 10 businesses per page
-        $posts = $postsQuery->paginate(10);
+        // Paginate the results with 10 posts per page
+        $posts = $postsQuery->paginate(9)->appends(request()->query());
         return view('business-section.business-categories.businessTailoringAndAlterations', [
             'posts' => $posts,
             'unseenCount' => $unseenCount
@@ -1605,32 +1780,37 @@ class PostCategories extends Controller
             ->count();
         // Query categories based on search query or retrieve all if no search query provided
         $postsQuery = Posts::where('type', 'Fashion Accessories');
-        if ($searchQuery) {
+       if ($searchQuery) {
             $postsQuery->where(function ($query) use ($searchQuery) {
                 $query->where('businessName', 'like', '%' . $searchQuery . '%')
                     ->orWhere('description', 'like', '%' . $searchQuery . '%');
             });
         }
 
+
         // Apply sorting if provided
         if ($request->has('sort_by')) {
             if ($request->input('sort_by') == 'highest_rating') {
                 // Sorting logic for highest rating
-                $postsQuery->with('ratings')
-                    ->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
-                    ->select('posts.*', DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'), DB::raw('COUNT(ratings.id) as rating_count'))
+                $postsQuery->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
+                    ->select(
+                        'posts.*',
+                        DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'),
+                        DB::raw('COUNT(ratings.id) as rating_count'),
+                        DB::raw('COALESCE(AVG(ratings.rating) * 0.7 + LEAST(COUNT(ratings.id), 100) * 0.3, 0) as weighted_score')
+                    )
                     ->groupBy('posts.id')
-                    ->orderBy('avg_rating', 'desc')
-                    ->orderBy('rating_count', 'desc');
-            } elseif ($request->input('sort_by') == 'highest_reviews') {
-                // Sorting logic for highest reviews
+                    ->orderByDesc('weighted_score')
+                    ->orderByDesc('rating_count');
+            } elseif ($request->input('sort_by') == 'comments') {
+                // Sorting logic for highest comments
                 $postsQuery->withCount('comments')
                     ->orderBy('comments_count', 'desc');
             }
         }
 
-        // Paginate the results with 10 businesses per page
-        $posts = $postsQuery->paginate(10);
+        // Paginate the results with 10 posts per page
+        $posts = $postsQuery->paginate(9)->appends(request()->query());
         return view('business-section.business-categories.businessFashionAccessories', [
             'posts' => $posts,
             'unseenCount' => $unseenCount
@@ -1648,32 +1828,37 @@ class PostCategories extends Controller
             ->count();
         // Query categories based on search query or retrieve all if no search query provided
         $postsQuery = Posts::where('type', 'Boutiques');
-        if ($searchQuery) {
+       if ($searchQuery) {
             $postsQuery->where(function ($query) use ($searchQuery) {
                 $query->where('businessName', 'like', '%' . $searchQuery . '%')
                     ->orWhere('description', 'like', '%' . $searchQuery . '%');
             });
         }
 
+
         // Apply sorting if provided
         if ($request->has('sort_by')) {
             if ($request->input('sort_by') == 'highest_rating') {
                 // Sorting logic for highest rating
-                $postsQuery->with('ratings')
-                    ->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
-                    ->select('posts.*', DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'), DB::raw('COUNT(ratings.id) as rating_count'))
+                $postsQuery->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
+                    ->select(
+                        'posts.*',
+                        DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'),
+                        DB::raw('COUNT(ratings.id) as rating_count'),
+                        DB::raw('COALESCE(AVG(ratings.rating) * 0.7 + LEAST(COUNT(ratings.id), 100) * 0.3, 0) as weighted_score')
+                    )
                     ->groupBy('posts.id')
-                    ->orderBy('avg_rating', 'desc')
-                    ->orderBy('rating_count', 'desc');
-            } elseif ($request->input('sort_by') == 'highest_reviews') {
-                // Sorting logic for highest reviews
+                    ->orderByDesc('weighted_score')
+                    ->orderByDesc('rating_count');
+            } elseif ($request->input('sort_by') == 'comments') {
+                // Sorting logic for highest comments
                 $postsQuery->withCount('comments')
                     ->orderBy('comments_count', 'desc');
             }
         }
 
-        // Paginate the results with 10 businesses per page
-        $posts = $postsQuery->paginate(10);
+        // Paginate the results with 10 posts per page
+        $posts = $postsQuery->paginate(9)->appends(request()->query());
         return view('business-section.business-categories.businessBoutiques', [
             'posts' => $posts,
             'unseenCount' => $unseenCount
@@ -1691,32 +1876,37 @@ class PostCategories extends Controller
             ->count();
         // Query categories based on search query or retrieve all if no search query provided
         $postsQuery = Posts::where('type', 'Apparel Recycling and Upcycling');
-        if ($searchQuery) {
+       if ($searchQuery) {
             $postsQuery->where(function ($query) use ($searchQuery) {
                 $query->where('businessName', 'like', '%' . $searchQuery . '%')
                     ->orWhere('description', 'like', '%' . $searchQuery . '%');
             });
         }
 
+
         // Apply sorting if provided
         if ($request->has('sort_by')) {
             if ($request->input('sort_by') == 'highest_rating') {
                 // Sorting logic for highest rating
-                $postsQuery->with('ratings')
-                    ->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
-                    ->select('posts.*', DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'), DB::raw('COUNT(ratings.id) as rating_count'))
+                $postsQuery->leftJoin('ratings', 'posts.id', '=', 'ratings.post_id')
+                    ->select(
+                        'posts.*',
+                        DB::raw('COALESCE(AVG(ratings.rating), 0) as avg_rating'),
+                        DB::raw('COUNT(ratings.id) as rating_count'),
+                        DB::raw('COALESCE(AVG(ratings.rating) * 0.7 + LEAST(COUNT(ratings.id), 100) * 0.3, 0) as weighted_score')
+                    )
                     ->groupBy('posts.id')
-                    ->orderBy('avg_rating', 'desc')
-                    ->orderBy('rating_count', 'desc');
-            } elseif ($request->input('sort_by') == 'highest_reviews') {
-                // Sorting logic for highest reviews
+                    ->orderByDesc('weighted_score')
+                    ->orderByDesc('rating_count');
+            } elseif ($request->input('sort_by') == 'comments') {
+                // Sorting logic for highest comments
                 $postsQuery->withCount('comments')
                     ->orderBy('comments_count', 'desc');
             }
         }
 
-        // Paginate the results with 10 businesses per page
-        $posts = $postsQuery->paginate(10);
+        // Paginate the results with 10 posts per page
+        $posts = $postsQuery->paginate(9)->appends(request()->query());
         return view('business-section.business-categories.businessApparelRecyclingAndUpcycling', [
             'posts' => $posts,
             'unseenCount' => $unseenCount
@@ -1738,7 +1928,33 @@ class PostCategories extends Controller
     return view('business-section.business-categories.business_post', compact('post', 'unseenCount'));
 }
 
+// Method to display all business posts
+public function indexFeatured()
+{
+    // Fetch unseen message count
+    $unseenCount = DB::table('ch_messages')
+        ->where('to_id', '=', Auth::user()->id)
+        ->where('seen', '=', '0')
+        ->count();
+    // Fetch latest business posts
+    $latestPosts = Posts::orderBy('created_at', 'desc')->get();
 
+    // Pass the posts data to the view
+    return view('business-section.postsFeatured', [
+        'unseenCount' => $unseenCount,
+        'latestPosts' => $latestPosts
+    ]);
+}
+
+// Method to display a specific business post
+public function showFeatured($id)
+{
+    // Fetch the business post by ID
+    $post = Posts::findOrFail($id);
+
+    // Pass the post data to the view
+    return view('business-section.postsFeatured', ['post' => $post]);
+}
 
 
 }

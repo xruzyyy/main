@@ -90,20 +90,16 @@ public function businessPostList(Request $request)
     // Retrieve posts from the database
     $unseenCount = $this->fetchUnseenMessageCount();
 
-            // // Fetch notifications for the authenticated user
-            // $notifications = Auth::user()->notifications()->where('type', 'App\Notifications\NewCommentNotification')->paginate(10);
+    $latestPosts = Posts::orderBy('created_at', 'desc')->get();
 
-            // // Count the unread notifications
-            // $notificationCount = Auth::user()->unreadNotifications->count();
-    // Retrieve the 7 latest posts from the database along with their ratings
     $posts = Posts::with('ratings')->latest()->take(6)->get(['id','user_id', 'businessName', 'description', 'images', 'latitude', 'longitude', 'is_active','type','contactNumber']);
 
     // Pass category data and any other necessary data to the view
     return view('business-section.businessHome', [
         'posts' => $posts,
         'unseenCount' => $unseenCount,
-            // 'notifications' => $notifications,
-            // 'notificationCount' => $notificationCount,
+        'latestPosts' => $latestPosts,
+
     ]);
 }
 
@@ -111,6 +107,7 @@ public function businessPostListForUser(Request $request)
 {
     // Retrieve posts from the database
     $unseenCount = $this->fetchUnseenMessageCount();
+    $latestPosts = Posts::orderBy('created_at', 'desc')->get();
 
     // Retrieve the 7 latest posts from the database along with their ratings
     $posts = Posts::with('ratings')->latest()->take(6)->get(['id','user_id', 'businessName', 'description', 'images', 'latitude', 'longitude', 'is_active','type','contactNumber']);
@@ -118,7 +115,9 @@ public function businessPostListForUser(Request $request)
     // Pass category data and any other necessary data to the view
     return view('userPage.Home', [
         'posts' => $posts,
-        'unseenCount' => $unseenCount
+        'unseenCount' => $unseenCount,
+        'latestPosts' => $latestPosts,
+
     ]);
 }
 

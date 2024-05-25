@@ -43,7 +43,7 @@
                                 <a href="{{ route('mapStore') }}" class="store-map-link" style="text-decoration: none;">
                                     <b style="color: black;">Map</b>
                                 </a>
-                                <a href="/chatify/{{ $post->user_id }}" class="message-link">
+                                <a href="/chatify/{{ $post->user_id }}" >
                                     <b style="color:rgb(0, 0, 0);">Message</b>
                                 </a>
                                 <i class="fa-brands fa-facebook-messenger"  style="color: #006ce7f1; margin-right:40px;"></i>
