@@ -95,23 +95,23 @@ class ListingController extends Controller
      */
     public function store(Request $request)
     {
-        // Check if the user already has a listing
-        $existingListing = Posts::where('user_id', auth()->user()->id)->first();
+        // // Check if the user already has a listing
+        // $existingListing = Posts::where('user_id', auth()->user()->id)->first();
 
-        // If the user already has a listing, redirect back with an error message
-        if ($existingListing) {
-            return redirect()->route('listings.create')->with('error', 'You can only create one listing per user.');
-        }
+        // // If the user already has a listing, redirect back with an error message
+        // if ($existingListing) {
+        //     return redirect()->route('listings.create')->with('error', 'You can only create one listing per user.');
+        // }
 
         // Validate the request data
         $request->validate([
             'businessName' => 'required|max:255|string',
             'description' => 'required|max:200|string',
-            'images.*' => 'required|mimes:jpg,jpeg,webp,png,jfif|max:2048', // Adjusted validation rule for multiple images
+            'images.*' => 'required|mimes:jpg,jpeg,webp,png,jfif|max:3840', // Adjusted validation rule for multiple images
             'type' => 'required', // Validate the type field
             'latitude' => 'required|numeric',
             'longitude' => 'required|numeric',
-            'contactNumber' => 'required', // Validate the contactNumber field
+            'contactNumber' => 'required|numeric|digits:11|unique:posts,contactNumber', // Ensure contact number is unique
             'is_active' => 'sometimes', // Ensure is_active is allowed to be nullable
         ]);
 

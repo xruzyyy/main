@@ -33,7 +33,16 @@
     }
 </style>
 
-<!-- Smaller Carousel slider for products -->
+
+<!-- Card section for business posts -->
+<section id="card" style="background-color: black;">
+    <div class="container">
+        <div class="row justify-content-center mb-4 pb-2">
+            <div class="col-md-6 text-center">
+                <h1 class="headline load-hidden" style="color: antiquewhite;">Featured Posts</h1>
+            </div>
+        </div>
+        <!-- Smaller Carousel slider for products -->
 <div id="carousel" class="sectionCarousel">
     <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
@@ -73,58 +82,6 @@
     </div>
 </div>
 
-<!-- Card section for business posts -->
-<section id="card" style="background-color: black;">
-    <div class="container">
-        <div class="row justify-content-center mb-4 pb-2">
-            <div class="col-md-6 text-center">
-                <h1 class="headline load-hidden" style="color: antiquewhite;">Featured Posts</h1>
-            </div>
-        </div>
-        <div class="row">
-            @foreach ($latestPosts->take(6) as $post)
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div  style="border: 4px solid rgb(255, 252, 252) !important;" class="card h-100 shadow-sm">
-                    <!-- Assuming the 'images' field contains an array of image URLs -->
-                    @php
-                    $images = json_decode($post->images);
-                    $firstImage = isset($images[0]) ? $images[0] : '';
-                    @endphp
-                    <img class="card-img-top" src="{{ asset($firstImage) }}" alt="Card image cap">
-                    <div class="card-body">
-                        <h5>{{ \Illuminate\Support\Str::limit($post->businessName, 22) }}</h5>
-                        <p class="card-text">
-                                    <strong>Status:</strong>
-                                    @if ($post->is_active)
-                                        <span style="color: green"><b>Active</b></span>
-                                    @else
-                                        <span style="color: red"><b>Expired Permit</b></span>
-                                    @endif
-                                </p>
-                                <p class="card-text"><strong>Type:</strong> {{ $post->type }}</p>
-                                <p class="card-text">
-                                    <strong>Ratings:</strong>
-                                    <span id="average-rating-{{ $post->id }}">{{ number_format($post->ratings()->avg('rating'), 2) ?? 'Not Rated' }}</span>
-                                    (<span id="ratings-count-{{ $post->id }}">{{ $post->ratings()->count() }}</span> reviews)
-                                    <br>
-                                    <strong>Comments:</strong> <span id="comments-count-{{ $post->id }}">{{ $post->comments()->count() }}</span>
-                                </p>
-                                <p class="card-text"><strong>Contact Number:</strong> {{ $post->contactNumber }}</p>
-                                <p class="card-text mb-10">
-                                    <i class="fas fa-map-marker-alt" style="color: #006ce7f1;"></i>
-                                    <a href="{{ route('mapStore') }}" class="store-map-link" style="text-decoration: none;">
-                                        <b style="color: black;">Map</b>
-                                    </a>
-                                    <a href="/chatify/{{ $post->user_id }}" class="message-link">
-                                        <b style="color: rgb(0, 0, 0);">Message</b>
-                                    </a>
-                                    <i class="fa-brands fa-facebook-messenger" style="color: #006ce7f1; margin-right: 40px;"></i>
-                                </p>
-                    </div>
-                </div>
-            </div>
-            @endforeach
-        </div>
     </div>
 </section>
 

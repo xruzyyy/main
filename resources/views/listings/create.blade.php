@@ -131,7 +131,7 @@ border-radius: 8px;
 .alert-danger {
   background-color: var(--danger-color);
   border-color: #f5c6cb;
-  color: var(--danger-color);
+  color: var(--secondary-color);
 }
 
 
