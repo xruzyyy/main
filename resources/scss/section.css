@@ -1,0 +1,85 @@
+section {
+  width: 100%;
+  padding: 0 7%;
+  display: table;
+  margin: 0;
+  max-width: none;
+  background-color: #373B44;
+}
+
+section:nth-of-type(1) {
+  background-color: #000000;
+  height: 140vh;
+}
+
+section:nth-of-type(2) {
+  background-color: #fff7f7;
+  height: 100vh;
+}
+
+section:nth-of-type(3) {
+  background-image: url(../images/group.jpg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+}
+
+section:nth-of-type(4) {
+  background-image: url(../images/contact\ us.jpg);
+  background-size: cover;
+  background-position: center;
+  height: 40vh;
+}
+
+.contactUs {
+  margin-top: 15%;
+  text-align: center;
+  height: 40vh;
+}
+
+.intro {
+  height: 90vh;
+}
+
+.hidden-from-left {
+  opacity: 0;
+  transform: translateX(100%);
+  transition: opacity 0.5s, transform 1s;
+  display: inline-block; /* Ensures each word appears on its own line */
+  font-size: 96px;
+  color: mediumturquoise;
+}
+
+.show-from-left {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.black-div {
+  background-color: black;
+  color: white;
+  padding: 20px;
+  height: 400px;
+  margin-top: 80px;
+  max-width: 70%;
+}
+
+.black-div h2 {
+  margin: 20px;
+}
+
+.aboutUs .hidden-from-right {
+  opacity: 0;
+  transform: translateY(30px); /* Starting position slightly below */
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  font-size: 96px;
+  color: rgb(250, 253, 253);
+}
+
+.aboutUs .hidden-from-right.show {
+  opacity: 1;
+  transform: translateY(10); /* Move to the original position */
+}
+
+/*# sourceMappingURL=section.css.map */

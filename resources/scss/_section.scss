@@ -1,0 +1,97 @@
+.containerService {
+    width: 100%;
+    padding: 0 7%;
+    display: table;
+    margin: 0;
+    max-width: none;
+    background-color: #fff; /* Change background color as needed */
+    margin-top: 20px; /* Add margin to prevent overlap */
+}
+
+/* Rest of your CSS remains unchanged */
+.services-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.services-header h1 {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.services-header p {
+    font-size: 16px;
+}
+
+.services-grid {
+    margin-top: 10em;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(278px, 1fr)); /* Adjusted min-width of the cards */
+    gap: 20px;
+}
+
+.service-card {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 100%; /* Ensure cards take full width */
+}
+
+.service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.service-title {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.service-icon {
+    font-size: 36px;
+    margin-bottom: 15px;
+    color: #ff6b6b;
+}
+
+.service-description {
+    font-size: 14px;
+    color: #666;
+}
+
+@media (max-width: 768px) {
+    .containerService {
+        padding: 10px;
+    }
+
+    .services-header h1 {
+        font-size: 28px;
+    }
+
+    .services-header p {
+        font-size: 14px;
+    }
+
+    .services-grid {
+        grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
+    }
+
+    .service-card {
+        padding: 15px;
+    }
+
+    .service-title {
+        font-size: 18px;
+    }
+
+    .service-icon {
+        font-size: 32px;
+        margin-bottom: 10px;
+    }
+
+    .service-description {
+        font-size: 12px;
+    }
+}
