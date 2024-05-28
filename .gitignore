@@ -1,0 +1,44 @@
+# Exclude PHPUnit cache
+.phpunit.cache
+
+# Exclude Node.js modules
+/node_modules
+
+# Exclude compiled assets
+/public/build
+/public/hot
+/public/storage
+
+# Exclude Laravel storage directory keys
+/storage/*.key
+
+# Exclude PHP dependencies installed via Composer
+/vendor
+
+# Exclude environment files
+.env
+.env.backup
+.env.production
+
+# Exclude PHPUnit result cache
+.phpunit.result.cache
+
+# Exclude Laravel Homestead configuration files
+Homestead.json
+Homestead.yaml
+
+# Exclude authentication credentials file
+auth.json
+
+# Exclude npm and Yarn debug logs
+npm-debug.log
+yarn-error.log
+
+# Exclude Fleet configuration (if applicable)
+/.fleet
+
+# Exclude IDE and editor-specific files and directories
+/.idea
+/.vscode
+
+# Exclude large files (to be added)
