@@ -83,19 +83,18 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     // Define a mutator for the 'status' attribute
-    public function setStatusAttribute($value)
-    {
-        // Set the status attribute
-        $this->attributes['status'] = $value;
+public function setStatusAttribute($value)
+{
+    // Set the status attribute
+    $this->attributes['status'] = $value;
 
-        // If the user is of type 'business' and status is active, update the expiration date
-        if ($this->type == 'business' && $value == 1) {
-            $this->attributes['account_expiration_date'] = now()->addYear();
-        } else {
-            // Set the account expiration date to null for other types or when status is inactive
-            $this->attributes['account_expiration_date'] = null;
-        }
+    // If the user is of type 'business' and status is active, update the expiration date
+    if ($this->type == 'business' && $value == 1) {
+        $this->attributes['account_expiration_date'] = now()->addYear();
     }
+    // Else, do nothing with the expiration date
+}
+
 
     // Define an accessor for the 'role_as' attribute
     public function getRoleAsAttribute($value)
