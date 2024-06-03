@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
-use App\Events\ProfileUpdated; // Correct event name
+use App\Events\ProfileUpdated;
 
 class BusinessProfileController extends Controller
 {
@@ -22,7 +22,7 @@ class BusinessProfileController extends Controller
             $id = $user->id;
         }
 
-        $post = Posts::where('user_id', $id)->first(); // Fetch the post associated with the user
+        $post = Posts::where('user_id', $id)->first();
         $unseenCount = DB::table('ch_messages')
             ->where('to_id', '=', $id)
             ->where('seen', '=', '0')
@@ -31,21 +31,26 @@ class BusinessProfileController extends Controller
         return view('business-section.profile', compact('user', 'post', 'unseenCount'));
     }
 
-
     public function update(Request $request, $id)
     {
+        $user = User::findOrFail($id);
+
+        // Basic profile validation
         $request->validate([
-            'password' => ['nullable', 'min:8', 'confirmed'],
-            'current_password' => ['required', function ($attribute, $value, $fail) use ($id) {
-                if (!Hash::check($value, Auth::user()->password)) {
-                    $fail('The current password is incorrect.');
-                }
-            }],
             'profile_image' => ['nullable', 'image', 'max:2048'],
         ]);
 
-        $user = User::findOrFail($id);
-        $user->email = $request->input('email');
+        // Additional password validation if current_password is provided
+        if ($request->filled('current_password')) {
+            $request->validate([
+                'password' => ['nullable', 'min:8', 'confirmed'],
+                'current_password' => ['required', function ($attribute, $value, $fail) use ($user) {
+                    if (!Hash::check($value, $user->password)) {
+                        $fail('The current password is incorrect.');
+                    }
+                }],
+            ]);
+        }
 
         // Handle profile image upload
         if ($request->hasFile('profile_image')) {
@@ -65,6 +70,7 @@ class BusinessProfileController extends Controller
             $user->profile_image = $profileImagePath . $profileImageName;
         }
 
+        // Update password if new password is provided
         if ($request->filled('password')) {
             $user->password = Hash::make($request->input('password'));
         }
@@ -77,13 +83,11 @@ class BusinessProfileController extends Controller
         return redirect()->back()->with('status', 'User profile updated successfully!');
     }
 
-
-
     public function updatePost(Request $request, int $id)
     {
         $request->validate([
             'description' => 'required|max:255|string',
-            'contact_number' => 'nullable|string|max:20', // Add validation for contact number
+            'contact_number' => 'nullable|string|max:20',
         ]);
 
         $post = Posts::findOrFail($id);
@@ -96,7 +100,7 @@ class BusinessProfileController extends Controller
         // Update the post with the new description and contact number
         $post->update([
             'description' => $request->description,
-            'contactNumber' => $request->contact_number, // Update the contact number
+            'contactNumber' => $request->contact_number,
         ]);
 
         return redirect()->back()->with('status', 'Post description and contact number updated successfully!');

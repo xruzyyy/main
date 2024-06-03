@@ -62,7 +62,7 @@
                         </div>
                     @endif
 
-                    <p>{{ __('Before proceeding, please check your email for a verification link.') }}</p>
+                    <p>{{ __('Before proceeding, please check your email for a verification link,open the link at the same browser') }}</p>
                     <p>{{ __('If you did not receive the email') }},</p>
                     <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
                         @csrf

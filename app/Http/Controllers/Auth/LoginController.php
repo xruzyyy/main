@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Http\Request;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
@@ -51,8 +52,10 @@ class LoginController extends Controller
         if (Auth::user()->type == 'admin') {
             return redirect()->route('admin.dashboard');
         } elseif (Auth::user()->type == 'business') {
+            Artisan::call('accounts:disable');
             return redirect()->route('business.home');
         } else {
+            Artisan::call('accounts:disable');
             return redirect()->route('home');
         }
     }

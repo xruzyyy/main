@@ -4,10 +4,8 @@
 <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
     <h1>Business User Management</h1>
 
-
-     <!-- Buttons for actions -->
-     <div class="mb-3">
-
+    <!-- Buttons for actions -->
+    <div class="mb-3">
         <form action="{{ route('manageBusiness') }}" method="post" class="d-inline">
             @csrf
             <input type="hidden" name="action" value="show-not-expired">
@@ -20,26 +18,22 @@
             <button type="submit" class="btn btn-primary">Pending To Disable</button>
         </form>
 
-
-
-
         <form action="{{ route('manageBusiness') }}" method="post" class="d-inline">
             @csrf
             <input type="hidden" name="action" value="show-inactive-list">
             <button type="submit" class="btn btn-primary">Show Inactive Users</button>
         </form>
-
     </div>
+
     <thead class="thead-dark">
         <tr>
             <th>User ID</th>
             <th>Name</th>
             <th>Email</th>
             <th>Status</th>
-            <th>Expiration Date</th> <!-- New column for expiration date -->
+            <th>Expiration Date</th>
         </tr>
     </thead>
-
 
     <tbody>
         @if(isset($activeUsersData))
@@ -48,9 +42,8 @@
                     <td>{{ $userData->id }}</td>
                     <td>{{ $userData->name }}</td>
                     <td>{{ $userData->email }}</td>
-                    <td>{{ $userData->status }}</td>
+                    <td>{{ $userData->status == 1 ? 'Active' : 'Inactive' }}</td>
                     <td>{{ $userData->account_expiration_date }}</td>
-
                 </tr>
             @endforeach
         @elseif(isset($expiredUsersData))
@@ -59,18 +52,18 @@
                     <td>{{ $userData->id }}</td>
                     <td>{{ $userData->name }}</td>
                     <td>{{ $userData->email }}</td>
-                    <td>{{ $userData->status }}</td>
-                    <td>{{ $userData->account_expiration_date }}</td> <!-- Display expiration date -->
+                    <td>{{ $userData->status == 1 ? 'Active' : 'Inactive' }}</td>
+                    <td>{{ $userData->account_expiration_date }}</td>
                 </tr>
             @endforeach
-            @elseif(isset($inactiveUsersData))
+        @elseif(isset($inactiveUsersData))
             @foreach($inactiveUsersData as $userData)
                 <tr>
                     <td>{{ $userData->id }}</td>
                     <td>{{ $userData->name }}</td>
                     <td>{{ $userData->email }}</td>
-                    <td>{{ $userData->status }}</td>
-                    <td>{{ $userData->account_expiration_date }}</td> <!-- Display expiration date -->
+                    <td>{{ $userData->status == 1 ? 'Active' : 'Inactive' }}</td>
+                    <td>{{ $userData->account_expiration_date }}</td>
                 </tr>
             @endforeach
         @endif
@@ -130,30 +123,6 @@
         });
     });
 </script>
-{{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script>
-            // Listen for form submission
-            $('#manageBusinessForm').submit(function(event) {
-                event.preventDefault(); // Prevent the default form submission
-
-                var formData = $(this).serialize(); // Serialize form data
-                var userId = {{ auth()->user()->id }}; // Get the current user's ID
-
-                // Send an AJAX request to update categories
-                $.ajax({
-                    url: '/update-categories',
-                    method: 'POST',
-                    data: formData + '&user_id=' + userId, // Include the user ID in the data
-                    success: function(response) {
-                        console.log('Categories updated successfully');
-                        // Optionally, you can redirect or perform other actions after the update
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Error updating categories:', error);
-                    }
-                });
-            });
-        </script> --}}
 @endsection
 
 @section('styles')
@@ -224,31 +193,27 @@
         box-shadow: 0 0 0 0.2rem rgba(108, 117, 125, 0.5);
     }
 
-/* Custom CSS for the buttons-columnVisibility */
-.buttons-columnVisibility {
-    background-color: #dc3545;
-    border-color: #dc3545;
-    color: #fff;
-    border-radius: 8px;
-    padding: 10px 20px;
-    font-size: 14px;
-    margin-right: 10px;
-    margin-bottom: 10px; /* Added margin */
-}
+    /* Custom CSS for the buttons-columnVisibility */
+    .buttons-columnVisibility {
+        background-color: #dc3545;
+        border-color: #dc3545;
+        color: #fff;
+        border-radius: 8px;
+        padding: 10px 20px;
+        font-size: 14px;
+        margin-right: 10px;
+        margin-bottom: 10px; /* Added margin */
+    }
 
-.buttons-columnVisibility.active {
-    background-color: #2333c8;
-    border-color: #3121bd;
-    box-shadow: 0 0 0 0.2rem rgba(220, 53, 70, 0);
-}
+    .buttons-columnVisibility.active {
+        background-color: #2333c8;
+        border-color: #3121bd;
+        box-shadow: 0 0 0 0.2rem rgba(220, 53, 70, 0);
+    }
 
-/* Custom CSS for the DataTables links */
-.dataTables_wrapper .dt-buttons {
-    margin-bottom: 10px; /* Added margin */
-}
-
-
-
-
+    /* Custom CSS for the DataTables links */
+    .dataTables_wrapper .dt-buttons {
+        margin-bottom: 10px; /* Added margin */
+    }
 </style>
 @endsection

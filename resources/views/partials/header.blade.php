@@ -82,6 +82,16 @@
                             </a>
 
                         </li>
+
+                        <li class="nav-item" style="margin-top: 7px;">
+                        <a href="/chatify" style="text-decoration: none;color: #e79e00f1; margin-left:15px;">
+                                    <i class="fa-solid fa-envelope"></i>
+                                    <div class="unread_notification">
+                                            {{ $unseenCount }} <!-- Display the unseenCount here -->
+                                        </div>
+                                    </i>
+                                </a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link create-listing-btn" href="{{ route('listings.create') }}">Create Listings</a>
                         </li>
@@ -92,13 +102,7 @@
                                 {{ Auth::user()->name }}
                             </a>
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                <a href="/chatify" style="text-decoration: none;color: #e79e00f1; margin-left:15px;">
-                                    <i class="fa-solid fa-envelope"></i>
-                                    <div class="unread_notification">
-                                            {{ $unseenCount }} <!-- Display the unseenCount here -->
-                                        </div>
-                                    </i>
-                                </a>
+                               
                                 <!-- Profile Link -->
                                 <a style="font-family: Montserrat, sans-serif;" class="dropdown-item" href="{{ route('business.profile') }}"><i  class="fa-regular fa-user"></i>Profile</a>
                                 <!-- Logout Link -->

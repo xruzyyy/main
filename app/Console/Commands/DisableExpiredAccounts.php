@@ -21,6 +21,7 @@ class DisableExpiredAccounts extends Command
             // Disable expired users and update is_active field
             foreach ($expiredUsers as $user) {
                 $user->status = false;
+                $user->is_active = false;
                 $user->save();
                 $this->info('Disabled user with ID: ' . $user->id);
             }

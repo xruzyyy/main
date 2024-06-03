@@ -443,15 +443,15 @@
                     <!-- Image Upload for Business Permit -->
                     <div class="mb-3 row align-items-center" id="business_permit_section"
                         style="display: {{ old('type') == 'user' ? 'none' : 'block' }}">
-                        <label for="image" class="col-md-4 col-form-label text-md-center label-custom"
-                            style="margin-right: 1.5em;"><b>Permit <span style="color: red;">Required</span></b></label>
+                        <!-- <label for="image" class="col-md-4 col-form-label text-md-center label-custom"
+                            style="margin-right: 1.5em;"><b>Permit <span style="color: red;">Required</span></b></label> -->
                         <div class="col-md-6">
                             <div class="input-group">
                                 <input id="image" type="file"
                                     class="form-control file-input @error('image') is-invalid @enderror" name="image"
                                     value="{{ old('image') }}" required>
                                 <label class="input-group-text btn btn-primary" for="image"><i class="fas fa-upload"></i>
-                                    Choose File</label>
+                                    Upload A Permite <span style="color: red;">Required</span> </label>
                             </div>
                             @error('image')
                                 <span class="invalid-feedback" role="alert">
@@ -469,7 +469,7 @@
                                     class="form-control file-input @error('profile_image') is-invalid @enderror"
                                     name="profile_image" required>
                                 <label class="input-group-text btn btn-primary " for="profile_image"><i
-                                        class="fas fa-upload"></i> Choose a Profile</label>
+                                        class="fas fa-upload"></i> Choose a Profile<span style="color: red;">Required</span></label>
                             </div>
                             @error('profile_image')
                                 <span class="invalid-feedback" role="alert">

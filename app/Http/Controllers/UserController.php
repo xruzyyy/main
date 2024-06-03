@@ -21,6 +21,7 @@ class UserController extends Controller
         $unseenCount = DB::table('ch_messages')->where('to_id', '=', Auth::user()->id)->where('seen', '=', '0')->count();
         return view('users.index', compact('users', 'unseenCount'));
     }
+
     public function create(Request $request)
     {
         if ($request->isMethod('post')) {
@@ -84,18 +85,11 @@ class UserController extends Controller
         }
     }
 
-
-
-
-
-
-
     public function edit($userId)
     {
         $user = User::find($userId);
         return view('users.edit', compact('user'));
     }
-
 
     public function store(Request $request)
     {
@@ -151,16 +145,11 @@ class UserController extends Controller
             ->notify(new NewUserNotification($user));
 
         // Redirect to a relevant page after successful creation
-        return redirect()->route('users.index')->with('success', 'User created successfully');
+        return redirect ()->route('users.index')->with('success', 'User created successfully');
     }
-
-
-
 
     public function update(Request $request, $userId)
     {
-
-
         $user = User::findOrFail($userId);
 
         // Validate request data
@@ -211,6 +200,9 @@ class UserController extends Controller
         // Set account expiration date to null for 'user' and 'admin' types
         if (in_array($request->input('type'), ['user', 'admin'])) {
             $user->account_expiration_date = null;
+        } elseif ($request->input('type') === 'business') {
+            // Update account expiration date for 'business' type
+            $user->account_expiration_date = now()->addYear();
         }
 
         // Update the is_active field based on the status field
@@ -219,34 +211,36 @@ class UserController extends Controller
         // Save changes
         $user->save();
 
-
-
         return redirect()->route('users')->with('message', 'User updated successfully!');
     }
-
-
-
 
     public function toggleStatus($userId)
     {
         $user = User::find($userId);
-
+    
         if (!$user) {
             return redirect()->back()->with('error', 'User not found.');
         }
-
+    
         // Toggle the status field between 0 and 1
         $user->status = $user->status == 1 ? 0 : 1;
-
+    
         // Update the is_active field based on the updated status
         $user->is_active = $user->status;
-
+    
+        // Update account expiration date for 'business' type if status is toggled
+        if ($user->type === 2 && $user->status === 1) {
+            $user->account_expiration_date = now()->addYear();
+        } elseif ($user->type === 2 && $user->status === 0) {
+            $user->account_expiration_date = null; // Reset expiration date if status is toggled to inactive
+        }
+    
         // Save the changes
         $user->save();
-
+    
         return redirect()->back()->with('success', 'User status toggled successfully.');
     }
-
+    
 
 
     public function destroy($userId)
@@ -259,26 +253,26 @@ class UserController extends Controller
     }
 
     public function sortTable(Request $request)
-{
-    // Initialize query builder for User model
-    $query = User::query();
+    {
+        // Initialize query builder for User model
+        $query = User::query();
 
-    // Filtering by status
-    if ($request->has('filter')) {
-        $filterValue = $request->input('filter');
-        if ($filterValue === '1' || $filterValue === '0') {
-            $query->where('is_active', $filterValue);
+        // Filtering by status
+        if ($request->has('filter')) {
+            $filterValue = $request->input('filter');
+            if ($filterValue === '1' || $filterValue === '0') {
+                $query->where('is_active', $filterValue);
+            }
         }
-    }
 
-    // Sorting
-    if ($request->has('sort')) {
-        if ($request->input('sort') == 'newest') {
-            $query->orderBy('created_at', 'desc');
-        } elseif ($request->input('sort') == 'oldest') {
-            $query->orderBy('created_at', 'asc');
+        // Sorting
+        if ($request->has('sort')) {
+            if ($request->input('sort') == 'newest') {
+                $query->orderBy('created_at', 'desc');
+            } elseif ($request->input('sort') == 'oldest') {
+                $query->orderBy('created_at', 'asc');
+            }
         }
-    }
 
         // Pagination limit
         $limit = $request->input('limit', 10);
@@ -298,7 +292,6 @@ class UserController extends Controller
         // Pass all necessary variables to the view
         return view('users.index', compact('users', 'unseenCount'));
     }
-
-
-
 }
+
+

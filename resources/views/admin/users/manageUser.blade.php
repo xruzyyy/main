@@ -12,7 +12,6 @@
             <th>Name</th>
             <th>Email</th>
             <th>Status</th>
-            <th>Expiration Date</th>
         </tr>
     </thead>
 
@@ -22,8 +21,7 @@
                 <td>{{ $user->id }}</td>
                 <td>{{ $user->name }}</td>
                 <td>{{ $user->email }}</td>
-                <td>{{ $user->status }}</td>
-                <td>{{ $user->account_expiration_date }}</td>
+                <td>{{ $user->status == 1 ? 'Active' : 'Inactive' }}</td>
             </tr>
         @endforeach
     </tbody>
