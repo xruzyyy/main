@@ -12,6 +12,7 @@ use App\Notifications\NewUserNotification;
 use App\Events\NewUserRegistered;
 use Illuminate\Support\Facades\Notification;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -148,54 +149,49 @@ class UserController extends Controller
         return redirect ()->route('users.index')->with('success', 'User created successfully');
     }
 
-    public function update(Request $request, $userId)
+    public function update(Request $request, $id)
 {
-    $user = User::findOrFail($userId);
+    $user = User::findOrFail($id);
 
-    // Validate request data
-    $request->validate([
+    // Validate the request data
+    $validatedData = $request->validate([
         'name' => 'required|string|max:255',
-        'email' => 'required|email|unique:users,email,' . $userId,
-        'type' => 'required|string|in:user,admin,business',
-        'status' => 'required|string|in:1_1,0_0',
+        'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
         'password' => 'nullable|string|min:8|confirmed',
+        'type' => 'required|string|in:user,admin,business',
         'account_expiration_date' => 'nullable|date',
+        'status' => 'required|string',
+        'image' => 'nullable|mimes:jpg,jpeg,webp,png,jfif,heic',
     ]);
 
-    // Map user type string to integer value
-    $typeMap = [
-        'user' => 0,
-        'admin' => 1,
-        'business' => 2,
-    ];
+    // Handle image upload if provided
+    if ($request->hasFile('image')) {
+        // Store the uploaded image
+        $imagePath = $request->file('image')->store('permit_images', 'public');
 
-    // Split status into status and is_active
-    list($status, $is_active) = explode('_', $request->input('status'));
+        // Delete the old image if exists
+        if ($user->image) {
+            Storage::disk('public')->delete($user->image);
+        }
 
-    // Update user details
-    $user->name = $request->input('name');
-    $user->email = $request->input('email');
-    $user->type = $typeMap[$request->input('type')];
-    $user->status = $status;
-    $user->is_active = $is_active;
+        // Update the user image path
+        $user->image = $imagePath;
+    }
 
-    // Update password if provided
+    // Update other user details
+    $user->name = $validatedData['name'];
+    $user->email = $validatedData['email'];
     if ($request->filled('password')) {
-        $user->password = Hash::make($request->input('password'));
+        $user->password = Hash::make($request->password);
     }
-
-    // Update account expiration date if provided and user is a business
-    if ($request->filled('account_expiration_date') && $request->input('type') === 'business') {
-        $user->account_expiration_date = Carbon::parse($request->input('account_expiration_date'));
-    } else {
-        $user->account_expiration_date = $request->input('account_expiration_date');
-    }
-
-    // Save changes
+    $user->type = $validatedData['type'];
+    $user->account_expiration_date = $validatedData['account_expiration_date'];
+    list($user->status, $user->is_active) = explode('_', $validatedData['status']);
     $user->save();
 
-    return redirect()->route('users')->with('message', 'User updated successfully!');
+    return redirect()->route('users.index')->with('success', 'User updated successfully');
 }
+
 
 
 
@@ -205,6 +201,7 @@ public function toggleStatus(Request $request, $userId)
 
     // Toggle user status
     $user->is_active = !$user->is_active;
+    $user->status = !$user->status;
 
     // Update account expiration date if provided
     if ($request->has('account_expiration_date')) {
@@ -215,6 +212,7 @@ public function toggleStatus(Request $request, $userId)
 
     return redirect()->route('users.index')->with('success', 'User status updated successfully.');
 }
+
 
 
 

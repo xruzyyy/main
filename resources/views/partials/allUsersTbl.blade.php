@@ -5,7 +5,7 @@
             <th scope="col">ID</th>
             <th scope="col">Name</th>
             <th scope="col">Business Email</th>
-            <th scope="col">Image</th>
+            <th scope="col">Permit</th>
             <th scope="col">Account Action</th>
             <th scope="col">Active Status</th> <!-- Updated column header -->
             <th scope="col">Role As</th>
@@ -25,15 +25,15 @@
                         <!-- Add a link around the image to trigger the modal -->
                         <a href="#" class="image-preview" data-bs-toggle="modal"
                             data-bs-target="#imageModal{{ $user->id }}">
-                            <img src="{{ asset($user->image) }}" style="width: 70px; height: 70px;" alt="">
+                            <img src="{{ $user->image ? asset('storage/' . $user->image) : 'path/to/default/image.jpg' }}" style="width: 70px; height: 70px;" alt="Profile Image">
                         </a>
                     </td>
                     <td>
                         <!-- Edit Button -->
                         <a href="#" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#editModal{{ $user->id }}">Edit</a>
                         <!-- Button to toggle user status -->
-                        <a href="#" class="btn btn-sm {{ $user->is_active ? 'btn btn-outline-danger' : 'btn btn-outline-success' }}" data-bs-toggle="modal" data-bs-target="#confirmationModal{{ $user->id }}">
-                            {{ $user->is_active ? 'Deactivate' : 'Activate' }}
+                        <a href="#" class="btn btn-sm {{ $user->is_active && $user->status ? 'btn-outline-danger' : 'btn-outline-success' }}" data-bs-toggle="modal" data-bs-target="#confirmationModal{{ $user->id }}">
+                            {{ $user->is_active && $user->status ? 'Deactivate' : 'Activate' }}
                         </a>
 
                         <!-- Modal Toggle for Action Activate/Deactivate -->
@@ -44,7 +44,7 @@
                                         <h5 class="modal-title" id="confirmationModalLabel{{ $user->id }}">Confirmation</h5>
                                     </div>
                                     <div class="modal-body">
-                                        Are you sure you want to <span>{{ $user->is_active ? 'deactivate' : 'activate' }}</span> the user "<span>{{ $user->name }}</span>"?
+                                        Are you sure you want to <span>{{ $user->is_active && $user->status ? 'deactivate' : 'activate' }}</span> the user "<span>{{ $user->name }}</span>"?
                                         <!-- Date picker for account expiration date -->
                                         <form id="toggleStatusForm{{ $user->id }}" action="{{ route('users.toggleStatus', $user->id) }}" method="POST">
                                             @csrf
@@ -63,6 +63,24 @@
                         </div>
                     </td>
 
+
+                     <!-- Modal for image preview -->
+                <div class="modal fade" id="imageModal{{ $user->id }}" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true" style="z-index: 9999;">
+                    <div class="modal-dialog modal-dialog-centered modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="imageModalLabel">Image Preview</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="image-container">
+                                    <img src="{{ asset('storage/' . $user->image) }}" class="card-img-top" alt="Business Image">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                     <td>
                         <!-- Display Active or Inactive based on user's is_active status -->
                         <span style="color: {{ $user->is_active ? 'green' : 'red' }}">
@@ -80,6 +98,8 @@
         @endforeach
     </tbody>
 </table>
+
+
 
 <!-- Edit Modal -->
 @foreach ($users as $user)
@@ -152,6 +172,15 @@
                                 </select>
                             </div>
 
+                            <!-- Image upload field -->
+                            <div class="form-group">
+                                <label for="image">Permit Image</label>
+                                <input type="file" name="image" id="image" class="form-control">
+                                @if($user->image)
+                                    <img src="{{ asset('storage/' . $user->image) }}" alt="Profile Image" style="width: 100px; height: 100px; margin-top: 10px;">
+                                @endif
+                            </div>
+
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary"
                                     data-bs-dismiss="modal">Close</button>
@@ -165,6 +194,8 @@
         </div>
     </div>
 @endforeach
+
+
 
 @foreach ($users as $user)
     <div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog"
