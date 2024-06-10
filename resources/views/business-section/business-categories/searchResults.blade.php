@@ -37,7 +37,7 @@
                                     @if ($post->is_active)
                                         <span style="color: green"><b>Active</b></span>
                                     @else
-                                        <span style="color: red"><b>Expired Permit</b></span>
+                                        <span style="color: red"><b>Permit Not Active</b></span>
                                     @endif
                                 </p>
                                 <p class="card-text"><strong>Type:</strong> {{ $post->type }}</p>

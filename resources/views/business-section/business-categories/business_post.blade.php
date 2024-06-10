@@ -341,16 +341,43 @@
 
 
     <!-- Comment list -->
-    <div class="swiper-container comment-list-container" style="overflow: hidden">
-        <div class="swiper-wrapper">
-            @php
-                $comments = $post->comments()->latest()->get();
-                $commentsChunks = $comments->chunk(15);
-            @endphp
-            @foreach ($commentsChunks as $chunk)
-                <div class="swiper-slide">
-                    <ul class="comment-list">
-                        @foreach ($chunk as $comment)
+<div class="swiper-container comment-list-container" style="overflow: hidden">
+    <div class="swiper-wrapper">
+        @php
+            $comments = $post->comments()->latest()->get(); // Retrieve comments in reverse order
+            $commentsChunks = $comments->chunk(15);
+            $modifiedComment = null;
+        @endphp
+        @foreach ($commentsChunks as $chunk)
+            <div class="swiper-slide">
+                <ul class="comment-list">
+                    @foreach ($chunk as $comment)
+                        @if ($comment->is_modified && is_null($modifiedComment))
+                            @php
+                                $modifiedComment = $comment;
+                            @endphp
+                            <!-- Display modified comment -->
+                            <li class="comment-item">
+                                <div class="comment-content">
+                                    @if ($modifiedComment->user)
+                                        <img class="comment-avatar"
+                                            src="{{ asset($modifiedComment->user->profile_image) }}"
+                                            alt="User Profile Image">
+                                        <p class="postText"><strong>{{ $modifiedComment->user->name }}</strong>:
+                                            {{ $modifiedComment->content }}</p>
+
+                                        <!-- Generate stars based on user's rating -->
+                                        <div class="star-rating">
+                                            {!! App\Http\Controllers\CommentController::generateStarsForUser($post->id, $modifiedComment->user_id) !!}
+                                        </div>
+                                    @endif
+                                </div>
+                            </li>
+                        @endif
+                    @endforeach
+                    <!-- Display new comments -->
+                    @foreach ($chunk as $comment)
+                        @if (!$comment->is_modified || $comment->id !== $modifiedComment->id)
                             <li class="comment-item">
                                 <div class="comment-content">
                                     @if ($comment->user)
@@ -367,14 +394,16 @@
                                     @endif
                                 </div>
                             </li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endforeach
-        </div>
-        <!-- Add Pagination -->
-        <div class="swiper-pagination"></div>
+                        @endif
+                    @endforeach
+                </ul>
+            </div>
+        @endforeach
     </div>
+    <!-- Add Pagination -->
+    <div class="swiper-pagination"></div>
+</div>
+
 
 
 </div>

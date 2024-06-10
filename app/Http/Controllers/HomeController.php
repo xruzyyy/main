@@ -92,41 +92,54 @@ class HomeController extends Controller
 
 
 
-public function businessPostList(Request $request)
-{
-    // Retrieve posts from the database
-    $unseenCount = $this->fetchUnseenMessageCount();
-
-    $latestPosts = Posts::orderBy('created_at', 'desc')->get();
-
-    $posts = Posts::with('ratings')->latest()->take(6)->get(['id','user_id', 'businessName', 'description', 'images', 'latitude', 'longitude', 'is_active','type','contactNumber']);
-
-    // Pass category data and any other necessary data to the view
-    return view('business-section.businessHome', [
-        'posts' => $posts,
-        'unseenCount' => $unseenCount,
-        'latestPosts' => $latestPosts,
-
-    ]);
-}
-
-public function businessPostListForUser(Request $request)
-{
-    // Retrieve posts from the database
-    $unseenCount = $this->fetchUnseenMessageCount();
-    $latestPosts = Posts::orderBy('created_at', 'desc')->get();
-
-    // Retrieve the 7 latest posts from the database along with their ratings
-    $posts = Posts::with('ratings')->latest()->take(6)->get(['id','user_id', 'businessName', 'description', 'images', 'latitude', 'longitude', 'is_active','type','contactNumber']);
-
-    // Pass category data and any other necessary data to the view
-    return view('userPage.Home', [
-        'posts' => $posts,
-        'unseenCount' => $unseenCount,
-        'latestPosts' => $latestPosts,
-
-    ]);
-}
+    public function businessPostList(Request $request)
+    {
+        // Retrieve the latest active posts and the latest posts overall
+        $latestActivePosts = Posts::where('is_active', 1)->orderBy('created_at', 'desc')->take(6)->get();
+        $latestPosts = Posts::orderBy('created_at', 'desc')->get();
+    
+        // If the latest active posts are less than 6, fetch the additional active posts to fill up to 6
+        if ($latestActivePosts->count() < 6) {
+            $additionalActivePosts = Posts::where('is_active', 1)
+                                          ->whereNotIn('id', $latestActivePosts->pluck('id'))
+                                          ->orderBy('created_at', 'desc')
+                                          ->take(6 - $latestActivePosts->count())
+                                          ->get();
+            $latestActivePosts = $latestActivePosts->merge($additionalActivePosts);
+        }
+    
+        // Pass post data and any other necessary data to the view
+        return view('business-section.businessHome', [
+            'posts' => $latestActivePosts,
+            'unseenCount' => $this->fetchUnseenMessageCount(),
+            'latestPosts' => $latestPosts,
+        ]);
+    }
+    
+    public function businessPostListForUser(Request $request)
+    {
+        // Retrieve the latest active posts and the latest posts overall
+        $latestActivePosts = Posts::where('is_active', 1)->orderBy('created_at', 'desc')->take(6)->get();
+        $latestPosts = Posts::orderBy('created_at', 'desc')->get();
+    
+        // If the latest active posts are less than 6, fetch the additional active posts to fill up to 6
+        if ($latestActivePosts->count() < 6) {
+            $additionalActivePosts = Posts::where('is_active', 1)
+                                          ->whereNotIn('id', $latestActivePosts->pluck('id'))
+                                          ->orderBy('created_at', 'desc')
+                                          ->take(6 - $latestActivePosts->count())
+                                          ->get();
+            $latestActivePosts = $latestActivePosts->merge($additionalActivePosts);
+        }
+    
+        // Pass post data and any other necessary data to the view
+        return view('userPage.Home', [
+            'posts' => $latestActivePosts,
+            'unseenCount' => $this->fetchUnseenMessageCount(),
+            'latestPosts' => $latestPosts,
+        ]);
+    }
+    
 
 
 

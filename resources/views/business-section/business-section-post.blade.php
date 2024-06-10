@@ -1,4 +1,3 @@
-<!-- HTML -->
 <section class="business-section-post" id="section3">
     <div class="container section3-container">
         <h2 class="animate-on-scroll">Latest Business Posts</h2>
@@ -8,7 +7,6 @@
             @foreach ($posts as $post)
                 <div class="col mb-4">
                     <div class="card h-100 animate-on-scroll">
-                        <!-- Display only the first image from the array -->
                         @php
                             $images = json_decode($post->images);
                             $firstImage = isset($images[0]) ? $images[0] : null;
@@ -17,25 +15,18 @@
                             onclick="openFullScreen('{{ route('businessPost', ['id' => $post->id]) }}')">
                         <div class="card-body">
                             <h5>{{ \Illuminate\Support\Str::limit($post->businessName, 22) }}</h5>
-                            <!-- Display the is_active status -->
                             <p class="card-text">
                                 <strong>Status:</strong>
-                                @if ($post->is_active)
-                                    <span style="color: green"><b>Active</b></span>
-                                @else
-                                    <span style="color: red"><b>Expired Permit</b></span>
-                                @endif
+                                <span style="color: {{ $post->is_active ? 'green' : 'red' }}"><b>{{ $post->is_active ? 'Active' : 'Expired Permit' }}</b></span>
                             </p>
                             <h5>{{ \Illuminate\Support\Str::limit($post->type, 22) }}</h5>
                             <p class="card-text">
                                 <strong>Ratings:</strong>
                                 <span id="average-rating-{{ $post->id }}">{{ number_format($post->ratings()->avg('rating'), 2) ?? 'Not Rated' }}</span>
                                 (<span id="ratings-count-{{ $post->id }}">{{ $post->ratings()->count() }}</span> reviews)
-                                <!-- Display total comments count -->
                                 <br>
                                 <strong>Comments:</strong> <span id="comments-count-{{ $post->id }}">{{ $post->comments()->count() }}</span>
                             </p>
-                            <!-- Display the type -->
                             <p class="card-text"><strong>Contact Number:</strong> {{ $post->contactNumber }}</p>
 
                             <p class="card-text mb-10">
@@ -58,21 +49,16 @@
 
 <!-- JavaScript -->
 <script>
-  // Function to open the business post in a new full-screen window
-  function openFullScreen(url) {
-        // Open a new window with the provided URL and make it full-screen
+    function openFullScreen(url) {
         window.open(url, '_blank', 'fullscreen=yes');
     }
 
-    // Wait for the DOM content to be fully loaded
     document.addEventListener("DOMContentLoaded", function() {
-        // Get elements containing raw numbers and format them
         @foreach ($posts as $post)
             formatNumbers('{{ $post->id }}');
         @endforeach
     });
 
-    // Function to format numbers with appropriate suffixes and style "k" with green color
     function formatNumbers(postId) {
         var averageRatingElement = document.getElementById("average-rating-" + postId);
         var ratingsCountElement = document.getElementById("ratings-count-" + postId);
@@ -89,7 +75,6 @@
         }
     }
 
-    // Function to format numbers with appropriate suffixes
     function formatNumber(number) {
         if (number >= 1000 && number < 1000000) {
             return (number / 1000).toFixed(1) + "<span class='number-suffix'>k</span>";
