@@ -74,9 +74,7 @@
 
 <body>
     <div id="app">
-        @if (!request()->is('login'))
-            @include('../partials.userHeader')
-        @endif
+
 
 
         <main class="py-4">

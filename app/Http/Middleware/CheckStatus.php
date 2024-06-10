@@ -22,6 +22,8 @@ class CheckStatus
             return redirect()->route('verify-email');
         }
 
+
+
         // If the status is not approved, log out the user and redirect to login
         if (Auth::check() && Auth::user()->status != 1) {
             Auth::logout();

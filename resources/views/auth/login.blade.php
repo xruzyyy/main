@@ -451,7 +451,7 @@
                                     class="form-control file-input @error('image') is-invalid @enderror" name="image"
                                     value="{{ old('image') }}" required>
                                 <label class="input-group-text btn btn-primary" for="image"><i class="fas fa-upload"></i>
-                                    Upload A Permite <span style="color: red;">Required</span> </label>
+                                    Upload A Permit <span style="color: red;">Required</span> </label>
                             </div>
                             @error('image')
                                 <span class="invalid-feedback" role="alert">
@@ -534,7 +534,13 @@
                         <a class="btn btn-link" href="{{ route('password.request') }}">
                             {{ __('Forgot Your Password?') }}
                         </a>
+
                     @endif
+
+                    <a href="{{ route('update_account_details') }}" class="btn btn-primary">
+                        Update Account Details
+                    </a>
+
 
 
                     @if ($errors->any())

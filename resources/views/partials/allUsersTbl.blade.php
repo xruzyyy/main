@@ -23,9 +23,8 @@
                     <td>{{ $user->email }}</td>
                     <td>
                         <!-- Add a link around the image to trigger the modal -->
-                        <a href="#" class="image-preview" data-bs-toggle="modal"
-                            data-bs-target="#imageModal{{ $user->id }}">
-                            <img src="{{ $user->image ? asset('storage/' . $user->image) : 'path/to/default/image.jpg' }}" style="width: 70px; height: 70px;" alt="Profile Image">
+                        <a href="#" class="image-preview" data-bs-toggle="modal" data-bs-target="#imageModal{{ $user->id }}">
+                            <img src="{{ asset($user->image) }}" style="width: 70px; height: 70px;" alt="">
                         </a>
                     </td>
                     <td>
@@ -81,18 +80,71 @@
                     </div>
                 </div>
 
-                    <td>
-                        <!-- Display Active or Inactive based on user's is_active status -->
-                        <span style="color: {{ $user->is_active ? 'green' : 'red' }}">
-                            {{ $user->is_active ? 'Active' : 'Inactive' }}
-                        </span>
-                    </td>
+                <td>
+                    <!-- Display Active, Inactive, or Rejected based on user's status -->
+                    @if ($user->status == 1 && $user->is_active == 1)
+                        <span style="color: green">Active</span>
+                    @elseif ($user->status == 0 && $user->is_active == 0)
+                        <span style="color: red">Inactive</span>
+                    @else
+                        <span style="color: red">Rejected</span>
+                    @endif
+                </td>
+
 
                     <td style="font-family: 'Bebas Neue', sans-serif; text-transform: uppercase;">{{ $user->role_as }}
                     </td>
-                    {{-- <td>
+                    <!-- Rejection Modal -->
+<div class="modal fade" id="rejectConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="rejectConfirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="rejectConfirmationModalLabel">Reject User</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Form to submit rejection reason -->
+                <form id="rejectForm" action="" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <div class="form-group">
+                        <label for="rejectionReason">Reason for Rejection</label>
+                        <textarea class="form-control" id="rejectionReason" name="rejection_reason" rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="submitRejectionForm()">Reject</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-            </td> --}}
+<!-- Update your table markup to include a button that triggers the rejection modal -->
+<td>
+    <!-- Button to trigger the rejection modal -->
+    <button type="button" class="btn btn-outline-danger" onclick="showRejectionConfirmation('{{ route('users.reject', $user->id) }}', '{{ $user->name }}')">Reject</button>
+</td>
+
+<script>
+    function showRejectionConfirmation(route, userName) {
+        // Set the user name in the modal
+        document.getElementById('rejectConfirmationModalLabel').innerText = 'Reject ' + userName;
+
+        // Set the route for the form action
+        document.getElementById('rejectForm').setAttribute('action', route);
+
+        // Show the modal
+        $('#rejectConfirmationModal').modal('show');
+    }
+
+    function submitRejectionForm() {
+        // Submit the rejection form
+        document.getElementById('rejectForm').submit();
+    }
+</script>
+
                 </tr>
             @endif
         @endforeach

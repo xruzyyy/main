@@ -44,19 +44,31 @@ class LoginController extends Controller
             return redirect()->route('login')->withErrors(['email_verification' => 'Please verify your email.']);
         }
 
-        if (Auth::user()->status != 1) {
+         // If the status is not approved, log out the user and redirect to login
+         if (Auth::user()->type  = 2 && Auth::user()->status = 3) {
+            return redirect('update_account_details')->withErrors('Your Account Is Rejected, Please Update the details!');
+        }
+
+       elseif (Auth::user()->status != 1) {
             Auth::logout();
             return redirect('/login')->withErrors('Your Account Is Under Checking Status!');
         }
 
-        if (Auth::user()->type == 'admin') {
-            return redirect()->route('admin.dashboard');
-        } elseif (Auth::user()->type == 'business') {
-            Artisan::call('accounts:disable');
-            return redirect()->route('business.home');
-        } else {
-            Artisan::call('accounts:disable');
-            return redirect()->route('home');
+        // Check user type and redirect accordingly
+        switch (Auth::user()->type) {
+            case 'admin':
+                return redirect()->route('admin.dashboard');
+            case 'business':
+                if (Auth::user()->type == 3) {
+                    return redirect()->route('update_account_details');
+                }
+                elseif(Auth::user()->type == 2){
+                Artisan::call('accounts:disable');
+                return redirect()->route('business.home');
+            }
+            default:
+                Artisan::call('accounts:disable');
+                return redirect()->route('home');
         }
     }
 

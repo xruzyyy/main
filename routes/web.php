@@ -22,6 +22,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Business\BusinessProfileController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\VerificationController;
+use App\Http\Controllers\UpdateAccountController;
 
 
 
@@ -35,6 +36,10 @@ Auth::routes(['verify' => true]);
 
 Route::post('/email/resend', [VerificationController::class, 'resend'])->name('verification.resend');
 
+Route::middleware(['auth'])->group(function () {
+    Route::get('/update_account_details', [UpdateAccountController::class, 'showUpdateForm'])->name('update_account_details');
+    Route::post('/update_account_details', [UpdateAccountController::class, 'storeAccountUpdate'])->name('post_update_account_details');
+});
 
 // Using Laravel's built-in email verification feature
 Route::get('verify-email', function () {
@@ -136,6 +141,7 @@ Route::middleware(['auth', 'user-access:business', 'verified', 'checkstatus'])->
 
 
 
+
     // Route to add a maps
     Route::get('/map', [ListingController::class, 'map'])->name('map');
     // Route to add a maps
@@ -225,6 +231,7 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
 
         // Route for deleting an existing user
         Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+        Route::put('/users/{id}/reject', [UserController::class, 'rejectUser'])->name('users.reject');
 
 
         Route::get('users', [UserController::class, 'index'])->name('users.index');

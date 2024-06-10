@@ -13,9 +13,39 @@ use App\Events\NewUserRegistered;
 use Illuminate\Support\Facades\Notification;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\UserRejected;
 
 class UserController extends Controller
 {
+
+
+    public function rejectUser(Request $request, $userId)
+    {
+        // Find the user
+        $user = User::findOrFail($userId);
+
+        // Validate the request
+        $request->validate([
+            'rejection_reason' => 'required|string',
+        ]);
+
+        // Update the user's rejection details
+        $user->rejection_details = $request->input('rejection_reason');
+        $user->status = 3; // Set status to indicate rejection
+        $user->is_active = 3; // Set is_active to inactive
+        $user->type = 2;
+
+
+        // Save the user
+        $user->save();
+
+        // Send email notification to user's Gmail account
+        Mail::to($user->email)->send(new UserRejected($user));
+
+        return redirect()->route('users.index')->with('success', 'User created successfully.');
+    }
+
     public function index()
     {
         $users = User::all();
@@ -146,72 +176,72 @@ class UserController extends Controller
             ->notify(new NewUserNotification($user));
 
         // Redirect to a relevant page after successful creation
-        return redirect ()->route('users.index')->with('success', 'User created successfully');
+        return redirect()->route('users.index')->with('success', 'User created successfully');
     }
 
     public function update(Request $request, $id)
-{
-    $user = User::findOrFail($id);
+    {
+        $user = User::findOrFail($id);
 
-    // Validate the request data
-    $validatedData = $request->validate([
-        'name' => 'required|string|max:255',
-        'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
-        'password' => 'nullable|string|min:8|confirmed',
-        'type' => 'required|string|in:user,admin,business',
-        'account_expiration_date' => 'nullable|date',
-        'status' => 'required|string',
-        'image' => 'nullable|mimes:jpg,jpeg,webp,png,jfif,heic',
-    ]);
+        // Validate the request data
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+            'password' => 'nullable|string|min:8|confirmed',
+            'type' => 'required|string|in:user,admin,business',
+            'account_expiration_date' => 'nullable|date',
+            'status' => 'required|string',
+            'image' => 'nullable|mimes:jpg,jpeg,webp,png,jfif,heic',
+        ]);
 
-    // Handle image upload if provided
-    if ($request->hasFile('image')) {
-        // Store the uploaded image
-        $imagePath = $request->file('image')->store('permit_images', 'public');
+        // Handle image upload if provided
+        if ($request->hasFile('image')) {
+            // Store the uploaded image
+            $imagePath = $request->file('image')->store('permit_images', 'public');
 
-        // Delete the old image if exists
-        if ($user->image) {
-            Storage::disk('public')->delete($user->image);
+            // Delete the old image if exists
+            if ($user->image) {
+                Storage::disk('public')->delete($user->image);
+            }
+
+            // Update the user image path
+            $user->image = $imagePath;
         }
 
-        // Update the user image path
-        $user->image = $imagePath;
+        // Update other user details
+        $user->name = $validatedData['name'];
+        $user->email = $validatedData['email'];
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->password);
+        }
+        $user->type = $validatedData['type'];
+        $user->account_expiration_date = $validatedData['account_expiration_date'];
+        list($user->status, $user->is_active) = explode('_', $validatedData['status']);
+        $user->save();
+
+        return redirect()->route('users.index')->with('success', 'User updated successfully');
     }
 
-    // Update other user details
-    $user->name = $validatedData['name'];
-    $user->email = $validatedData['email'];
-    if ($request->filled('password')) {
-        $user->password = Hash::make($request->password);
+
+
+
+    public function toggleStatus(Request $request, $userId)
+    {
+        $user = User::findOrFail($userId);
+
+        // Toggle user status
+        $user->is_active = !$user->is_active;
+        $user->status = !$user->status;
+
+        // Update account expiration date if provided
+        if ($request->has('account_expiration_date')) {
+            $user->account_expiration_date = Carbon::parse($request->account_expiration_date);
+        }
+
+        $user->save();
+
+        return redirect()->route('users.index')->with('success', 'User status updated successfully.');
     }
-    $user->type = $validatedData['type'];
-    $user->account_expiration_date = $validatedData['account_expiration_date'];
-    list($user->status, $user->is_active) = explode('_', $validatedData['status']);
-    $user->save();
-
-    return redirect()->route('users.index')->with('success', 'User updated successfully');
-}
-
-
-
-
-public function toggleStatus(Request $request, $userId)
-{
-    $user = User::findOrFail($userId);
-
-    // Toggle user status
-    $user->is_active = !$user->is_active;
-    $user->status = !$user->status;
-
-    // Update account expiration date if provided
-    if ($request->has('account_expiration_date')) {
-        $user->account_expiration_date = Carbon::parse($request->account_expiration_date);
-    }
-
-    $user->save();
-
-    return redirect()->route('users.index')->with('success', 'User status updated successfully.');
-}
 
 
 
@@ -267,5 +297,3 @@ public function toggleStatus(Request $request, $userId)
         return view('users.index', compact('users', 'unseenCount'));
     }
 }
-
-
