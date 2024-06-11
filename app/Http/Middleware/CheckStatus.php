@@ -23,12 +23,18 @@ class CheckStatus
         }
 
 
+        // If the status is not approved, log out the user and redirect to login
+        if (Auth::check() && Auth::user()->status == 3) {
+            Auth::logout();
+            return redirect('login')->withErrors('Your Account Is Currently Rejected, Kindly Update The Details');
+        }
 
         // If the status is not approved, log out the user and redirect to login
-        if (Auth::check() && Auth::user()->status != 1) {
+        if (Auth::user()->status != 1 && Auth::user()->status != 3) {
             Auth::logout();
-            return redirect('login')->withErrors('Your Account Is Under Checking Status!');
+            return redirect('/login')->withErrors('Your Account Is Under Checking Status!');
         }
+
 
         return $next($request);
     }

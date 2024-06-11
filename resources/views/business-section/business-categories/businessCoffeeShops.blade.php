@@ -5,11 +5,11 @@
 <!-- HTML -->
 <section id="section3">
     <div class="container section3-container">
-        <h2 class="animate-on-scroll">Latest Business Posts</h2>
+        <h2 >Latest Business Posts</h2>
           <!-- Search Form -->
         <form action="{{ route('showCoffeeShopsCategories') }}" method="GET" class="row g-3 align-items-center">
             <div class="col">
-                <input type="text" class="form-control" placeholder="Search Business Posts" name="search">
+                <input style="margin-bottom: 2.5em;" type="text" class="form-control" placeholder="Search Business Posts" name="search">
             </div>
             <div class="col-auto">
                 <select style="margin-bottom:0.1em;" class="form-select" style="width:1em; margin-top:2.3em;" name="sort_by">
@@ -21,7 +21,7 @@
                 </select>
             </div>
             <div class="col-auto">
-                <button class="btn" type="submit"><i class="fas fa-search"></i></button>
+                <button style="margin-bottom: 1.5em;" class="btn" type="submit"><i class="fas fa-search"></i></button>
             </div>
         </form>
         <!-- Card Deck for Latest Business Posts -->

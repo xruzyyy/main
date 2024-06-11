@@ -17,7 +17,7 @@
 
     <nav class="navbar navbar-expand-lg bg-dark">
         <div class="container-fluid">
-            @auth
+            {{-- @auth
                 @php
                     $user = auth()->user();
                     $userType = $user->type;
@@ -32,7 +32,7 @@
                     <img src="{{ asset('images/Taytay.png') }}" style="width: 100px; height:auto;" class="img-fluid"
                         alt="Taytay Logo">
                 </a>
-            @endauth
+            @endauth --}}
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -102,7 +102,7 @@
                                 {{ Auth::user()->name }}
                             </a>
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                               
+
                                 <!-- Profile Link -->
                                 <a style="font-family: Montserrat, sans-serif;" class="dropdown-item" href="{{ route('business.profile') }}"><i  class="fa-regular fa-user"></i>Profile</a>
                                 <!-- Logout Link -->

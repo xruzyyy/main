@@ -74,6 +74,7 @@
 
 <body>
     <div id="app">
+        @include('../partials.userHeader')
 
 
 

@@ -25,22 +25,28 @@ class RegisterController extends Controller
     }
 
     protected function validator(array $data)
-    {
-        $rules = [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'type' => ['required', 'string', 'in:user,admin,business'],
-            'profile_image' => ['required', 'mimes:jpg,jpeg,webp,png,jfif,heic'],
-        ];
+{
+    $messages = [
+        'image.dimensions' => 'The permit image dimensions must be at least 480x480 pixels.',
+    ];
 
-        // If the selected type is not 'user', require the permit image
-        if ($data['type'] !== 'user') {
-            $rules['image'] = ['required', 'mimes:jpg,jpeg,webp,png,jfif'];
-        }
+    $rules = [
+        'name' => ['required', 'string', 'max:255'],
+        'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+        'password' => ['required', 'string', 'min:8', 'confirmed'],
+        'type' => ['required', 'string', 'in:user,admin,business'],
+        'profile_image' => ['required', 'mimes:jpg,jpeg,webp,png,jfif,heic'],
+    ];
 
-        return Validator::make($data, $rules);
+    // If the selected type is not 'user', require the permit image
+    if ($data['type'] !== 'user') {
+        $rules['image'] = ['required', 'mimes:jpg,jpeg,webp,png,jfif', 'dimensions:min_width=480,min_height=480'];
     }
+
+    return Validator::make($data, $rules, $messages);
+}
+
+
 
     protected function create(array $data)
     {

@@ -1,6 +1,30 @@
     @extends('layouts.app')
     @section('scripts')
         <script>
+            function displayImagePreview(input, preview) {
+                var imageFile = input.files[0];
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.parentNode.style.display = 'block'; // Show image preview container
+
+                    // Check image dimensions
+                    var img = new Image();
+                    img.onload = function() {
+                        if (img.width < 480 || img.height < 480) {
+                            document.getElementById('imageValidatorMessage').innerText =
+                                'Image dimensions must be at least 480x480 pixels.';
+                        } else {
+                            document.getElementById('imageValidatorMessage').innerText = ''; // Clear validator message
+                        }
+                    };
+                    img.src = e.target.result;
+                };
+
+                reader.readAsDataURL(imageFile);
+            }
+
             document.addEventListener('DOMContentLoaded', function() {
                 const signUpButton = document.getElementById('signUp');
                 const signInButton = document.getElementById('signIn');
@@ -444,7 +468,7 @@
                     <div class="mb-3 row align-items-center" id="business_permit_section"
                         style="display: {{ old('type') == 'user' ? 'none' : 'block' }}">
                         <!-- <label for="image" class="col-md-4 col-form-label text-md-center label-custom"
-                            style="margin-right: 1.5em;"><b>Permit <span style="color: red;">Required</span></b></label> -->
+                                style="margin-right: 1.5em;"><b>Permit <span style="color: red;">Required</span></b></label> -->
                         <div class="col-md-6">
                             <div class="input-group">
                                 <input id="image" type="file"
@@ -469,7 +493,8 @@
                                     class="form-control file-input @error('profile_image') is-invalid @enderror"
                                     name="profile_image" required>
                                 <label class="input-group-text btn btn-primary " for="profile_image"><i
-                                        class="fas fa-upload"></i> Choose a Profile<span style="color: red;">Required</span></label>
+                                        class="fas fa-upload"></i> Choose a Profile<span
+                                        style="color: red;">Required</span></label>
                             </div>
                             @error('profile_image')
                                 <span class="invalid-feedback" role="alert">
@@ -502,100 +527,98 @@
                         </ul>
                     </div>
                 @else
-                <form method="POST" action="{{ route('login') }}" enctype="multipart/form-data">
-                    @csrf
-                    <h1>Sign in</h1>
+                    <form method="POST" action="{{ route('login') }}" enctype="multipart/form-data">
+                        @csrf
+                        <h1>Sign in</h1>
 
-                    <input placeholder="Email" id="email" type="email"
-                        class="form-control @error('email') is-invalid @enderror" name="email" autofocus>
-
-
-
-
-                    <input placeholder="Password" id="password" type="password"
-                        class="form-control @error('password') is-invalid @enderror" name="password" required
-                        autocomplete="current-password">
-
-                    @error('password')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-
-                    <label class="form-check-label" for="remember">
-                        {{ __('Remember Me') }}
-                        <input class="form-check-input" type="checkbox" name="remember" id="remember"
-                            {{ old('remember') ? 'checked' : '' }}>
-                    </label>
-                    <button type="submit" class="btn btn-primary">
-                        {{ __('Login') }}
-                    </button>
-                    @if (Route::has('password.request'))
-                        <a class="btn btn-link" href="{{ route('password.request') }}">
-                            {{ __('Forgot Your Password?') }}
-                        </a>
-
-                    @endif
-
-                    <a href="{{ route('update_account_details') }}" class="btn btn-primary">
-                        Update Account Details
-                    </a>
+                        <input placeholder="Email" id="email" type="email"
+                            class="form-control @error('email') is-invalid @enderror" name="email" autofocus>
 
 
 
-                    @if ($errors->any())
-                        <div class="alert alert-danger mt-4">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    @unless ($error == $errors->first('email_verification'))
-                                        <li>{{ $error }}</li>
-                                    @endunless
-                                @endforeach
-                                @error('email_verification')
-                                    <li>
-                                        {{-- <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
+
+                        <input placeholder="Password" id="password" type="password"
+                            class="form-control @error('password') is-invalid @enderror" name="password" required
+                            autocomplete="current-password">
+
+                        @error('password')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+
+                        <label class="form-check-label" for="remember">
+                            {{ __('Remember Me') }}
+                            <input class="form-check-input" type="checkbox" name="remember" id="remember"
+                                {{ old('remember') ? 'checked' : '' }}>
+                        </label>
+                        <button type="submit" class="btn btn-primary">
+                            {{ __('Login') }}
+                        </button>
+                        @if (Route::has('password.request'))
+                            <a class="btn btn-link" href="{{ route('password.request') }}">
+                                {{ __('Forgot Your Password?') }}
+                            </a>
+                        @endif
+
+
+
+                        @if ($errors->any())
+                            <div class="alert alert-danger mt-4">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        @unless ($error == $errors->first('email_verification'))
+                                            <li>{{ $error }}</li>
+                                        @endunless
+                                    @endforeach
+                                    @error('email_verification')
+                                        <li>
+                                            {{-- <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
                                             @csrf
                                             <button type="submit"
                                                 class="btn btn-link">{{ __('Request another one') }}</button>
                                         </form> --}}
-                                        <a {{ route('verification.notice') }}>{{ $message }}</a>
-                                    </li>
-                                @enderror
-                            </ul>
-                        </div>
-                    @endif
+                                            <a {{ route('verification.notice') }}>{{ $message }}</a>
+                                        </li>
+                                    @enderror
+                                </ul>
+                            </div>
+                        @endif
 
             </div>
             </form>
-                @endif
+            @endif
 
 
-                <div class="overlay-container">
-                    <div class="overlay">
-                        <div class="overlay-panel overlay-left">
-                            <h1>Welcome Back!</h1>
-                            <p style="font-family: Arial, sans-serif;">To keep connected with us please login with your
-                                personal
-                                info</p>
+            <div class="overlay-container">
+                <div class="overlay">
+                    <div class="overlay-panel overlay-left">
+                        <h1>Welcome Back!</h1>
+                        <p style="font-family: Arial, sans-serif;">To keep connected with us please login with your
+                            personal
+                            info</p>
 
-                            <div class="image-preview" style="display: none;">
-                                <img id="image_preview_business" src="#" style="max-width: 100px; height: 200px;">
-                                <img id="image_preview_profile" src="#"
-                                    style="max-width: 200px; height: 200px; border-radius:50%;">
-                            </div>
-
-                            <a class="nav-link" id="signInView" href="{{ route('login') }}">{{ __('Login') }}</a>
+                        <div class="image-preview" style="display: none;">
+                            <img id="image_preview_business" src="#" style="max-width: 100px; height: 200px;">
+                            <img id="image_preview_profile" src="#"
+                                style="max-width: 200px; height: 200px; border-radius:50%;">
                         </div>
-                        <div class="overlay-panel overlay-right">
-                            <h1>Hello, There!</h1>
-                            <p style="font-family: Arial, sans-serif;">Enter your personal details and explore legit
-                                businesses
-                            </p>
-                            <a class="nav-link" id="signUpView" href="{{ route('login') }}">{{ __('Register') }}</a>
-                        </div>
+
+                        <!-- Add a container for the validator message -->
+                        <div id="imageValidatorMessage" style="color: red; margin-top: 5px;"></div>
+
+                        <a class="nav-link" id="signInView" href="{{ route('login') }}">{{ __('Login') }}</a>
+                    </div>
+                    <div class="overlay-panel overlay-right">
+                        <h1>Hello, There!</h1>
+                        <p style="font-family: Arial, sans-serif;">Enter your personal details and explore legit
+                            businesses
+                        </p>
+                        <a class="nav-link" id="signUpView" href="{{ route('login') }}">{{ __('Register') }}</a>
                     </div>
                 </div>
-
-
             </div>
-        @endsection
+
+
+        </div>
+    @endsection

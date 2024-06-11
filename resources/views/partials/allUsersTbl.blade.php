@@ -21,129 +21,171 @@
                     <td>{{ $user->id }}</td>
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->email }}</td>
-                    <td>
-                        <!-- Add a link around the image to trigger the modal -->
-                        <a href="#" class="image-preview" data-bs-toggle="modal" data-bs-target="#imageModal{{ $user->id }}">
-                            <img src="{{ asset($user->image) }}" style="width: 70px; height: 70px;" alt="">
-                        </a>
-                    </td>
-                    <td>
-                        <!-- Edit Button -->
-                        <a href="#" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#editModal{{ $user->id }}">Edit</a>
-                        <!-- Button to toggle user status -->
-                        <a href="#" class="btn btn-sm {{ $user->is_active && $user->status ? 'btn-outline-danger' : 'btn-outline-success' }}" data-bs-toggle="modal" data-bs-target="#confirmationModal{{ $user->id }}">
-                            {{ $user->is_active && $user->status ? 'Deactivate' : 'Activate' }}
-                        </a>
-
-                        <!-- Modal Toggle for Action Activate/Deactivate -->
-                        <div class="modal fade" id="confirmationModal{{ $user->id }}" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel{{ $user->id }}" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="confirmationModalLabel{{ $user->id }}">Confirmation</h5>
-                                    </div>
-                                    <div class="modal-body">
-                                        Are you sure you want to <span>{{ $user->is_active && $user->status ? 'deactivate' : 'activate' }}</span> the user "<span>{{ $user->name }}</span>"?
-                                        <!-- Date picker for account expiration date -->
-                                        <form id="toggleStatusForm{{ $user->id }}" action="{{ route('users.toggleStatus', $user->id) }}" method="POST">
-                                            @csrf
-                                            <div class="form-group">
-                                                <label for="account_expiration_date{{ $user->id }}">Account Expiration Date</label>
-                                                <input type="date" name="account_expiration_date" id="account_expiration_date{{ $user->id }}" class="form-control" value="{{ $user->account_expiration_date ? \Carbon\Carbon::parse($user->account_expiration_date)->format('Y-m-d') : '' }}">
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                        <button type="button" class="btn btn-primary" onclick="document.getElementById('toggleStatusForm{{ $user->id }}').submit();">Confirm</button>
-                                    </div>
+                    <!-- Define the modal structure with modal-lg class -->
+                    <div class="modal fade" id="imageModal{{ $user->id }}" tabindex="-1"
+                        aria-labelledby="imageModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-xl">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="imageModalLabel">Image Preview</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
                                 </div>
-                            </div>
-                        </div>
-                    </td>
-
-
-                     <!-- Modal for image preview -->
-                <div class="modal fade" id="imageModal{{ $user->id }}" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true" style="z-index: 9999;">
-                    <div class="modal-dialog modal-dialog-centered modal-xl">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="imageModalLabel">Image Preview</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="image-container">
-                                    <img src="{{ asset('storage/' . $user->image) }}" class="card-img-top" alt="Business Image">
+                                <div class="modal-body">
+                                    <!-- Display the larger version of the image -->
+                                    <img src="{{ asset($user->image) }}" class="img-fluid" alt="Image Preview">
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <td>
-                    <!-- Display Active, Inactive, or Rejected based on user's status -->
-                    @if ($user->status == 1 && $user->is_active == 1)
-                        <span style="color: green">Active</span>
-                    @elseif ($user->status == 0 && $user->is_active == 0)
-                        <span style="color: red">Inactive</span>
-                    @else
-                        <span style="color: red">Rejected</span>
-                    @endif
-                </td>
+                    <!-- Link to trigger the modal -->
+                    <td>
+                        <a href="#" class="image-preview" data-bs-toggle="modal"
+                            data-bs-target="#imageModal{{ $user->id }}">
+                            <img src="{{ asset($user->image) }}" style="width: 70px; height: 70px;" alt="Thumbnail">
+                        </a>
+                    </td>
+
+                    <td>
+                        <!-- Edit Button -->
+                        <a href="#" class="btn btn-outline-warning" data-bs-toggle="modal"
+                            data-bs-target="#editModal{{ $user->id }}">Edit</a>
+                        <!-- Button to toggle user status -->
+                        <a href="#"
+                            class="btn btn-sm {{ $user->is_active && $user->status ? 'btn-outline-danger' : 'btn-outline-success' }}"
+                            data-bs-toggle="modal" data-bs-target="#confirmationModal{{ $user->id }}">
+                            {{ $user->is_active && $user->status ? 'Deactivate' : 'Activate' }}
+                        </a>
+
+                        <!-- Modal Toggle for Action Activate/Deactivate -->
+                        <div class="modal fade" id="confirmationModal{{ $user->id }}" tabindex="-1" role="dialog"
+                            aria-labelledby="confirmationModalLabel{{ $user->id }}" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="confirmationModalLabel{{ $user->id }}">
+                                            Confirmation</h5>
+                                    </div>
+                                    <div class="modal-body">
+                                        Are you sure you want to
+                                        <span>{{ $user->is_active && $user->status ? 'deactivate' : 'activate' }}</span>
+                                        the user "<span>{{ $user->name }}</span>"?
+                                        <!-- Date picker for account expiration date -->
+                                        <form id="toggleStatusForm{{ $user->id }}"
+                                            action="{{ route('users.toggleStatus', $user->id) }}" method="POST">
+                                            @csrf
+                                            <div class="form-group">
+                                                <label for="account_expiration_date{{ $user->id }}">Account
+                                                    Expiration Date</label>
+                                                <input type="date" name="account_expiration_date"
+                                                    id="account_expiration_date{{ $user->id }}"
+                                                    class="form-control"
+                                                    value="{{ $user->account_expiration_date ? \Carbon\Carbon::parse($user->account_expiration_date)->format('Y-m-d') : '' }}">
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Cancel</button>
+                                        <button type="button" class="btn btn-primary"
+                                            onclick="document.getElementById('toggleStatusForm{{ $user->id }}').submit();">Confirm</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+
+
+                    <!-- Modal for image preview -->
+                    <div class="modal fade" id="imageModal{{ $user->id }}" tabindex="-1"
+                        aria-labelledby="imageModalLabel" aria-hidden="true" style="z-index: 9999;">
+                        <div class="modal-dialog modal-dialog-centered modal-xl">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="imageModalLabel">Image Preview</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="image-container">
+                                        <img src="{{ asset('storage/' . $user->image) }}" class="card-img-top"
+                                            alt="Business Image">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <td>
+                        <!-- Display Active, Inactive, or Rejected based on user's status -->
+                        @if ($user->status == 1 && $user->is_active == 1)
+                            <span style="color: green">Active</span>
+                        @elseif ($user->status == 0 && $user->is_active == 0)
+                            <span style="color: red">Inactive</span>
+                        @else
+                            <span style="color: red">Rejected</span>
+                        @endif
+                    </td>
 
 
                     <td style="font-family: 'Bebas Neue', sans-serif; text-transform: uppercase;">{{ $user->role_as }}
                     </td>
                     <!-- Rejection Modal -->
-<div class="modal fade" id="rejectConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="rejectConfirmationModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="rejectConfirmationModalLabel">Reject User</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <!-- Form to submit rejection reason -->
-                <form id="rejectForm" action="" method="POST">
-                    @csrf
-                    @method('PUT')
-                    <div class="form-group">
-                        <label for="rejectionReason">Reason for Rejection</label>
-                        <textarea class="form-control" id="rejectionReason" name="rejection_reason" rows="3"></textarea>
+                    <div class="modal fade" id="rejectConfirmationModal" tabindex="-1" role="dialog"
+                        aria-labelledby="rejectConfirmationModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="rejectConfirmationModalLabel">Reject User</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <!-- Form to submit rejection reason -->
+                                    <form id="rejectForm" action="" method="POST">
+                                        @csrf
+                                        @method('PUT')
+                                        <div class="form-group">
+                                            <label for="rejectionReason">Reason for Rejection</label>
+                                            <textarea class="form-control" id="rejectionReason" name="rejection_reason" rows="3"></textarea>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Cancel</button>
+                                    <button type="button" class="btn btn-primary"
+                                        onclick="submitRejectionForm()">Reject</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" onclick="submitRejectionForm()">Reject</button>
-            </div>
-        </div>
-    </div>
-</div>
 
-<!-- Update your table markup to include a button that triggers the rejection modal -->
-<td>
-    <!-- Button to trigger the rejection modal -->
-    <button type="button" class="btn btn-outline-danger" onclick="showRejectionConfirmation('{{ route('users.reject', $user->id) }}', '{{ $user->name }}')">Reject</button>
-</td>
+                    <!-- Update your table markup to include a button that triggers the rejection modal -->
+                    <td>
+                        <!-- Button to trigger the rejection modal -->
+                        <button type="button" class="btn btn-outline-danger"
+                            onclick="showRejectionConfirmation('{{ route('users.reject', $user->id) }}', '{{ $user->name }}')">Reject</button>
+                    </td>
 
-<script>
-    function showRejectionConfirmation(route, userName) {
-        // Set the user name in the modal
-        document.getElementById('rejectConfirmationModalLabel').innerText = 'Reject ' + userName;
+                    <script>
+                        function showRejectionConfirmation(route, userName) {
+                            // Set the user name in the modal
+                            document.getElementById('rejectConfirmationModalLabel').innerText = 'Reject ' + userName;
 
-        // Set the route for the form action
-        document.getElementById('rejectForm').setAttribute('action', route);
+                            // Set the route for the form action
+                            document.getElementById('rejectForm').setAttribute('action', route);
 
-        // Show the modal
-        $('#rejectConfirmationModal').modal('show');
-    }
+                            // Show the modal
+                            $('#rejectConfirmationModal').modal('show');
+                        }
 
-    function submitRejectionForm() {
-        // Submit the rejection form
-        document.getElementById('rejectForm').submit();
-    }
-</script>
+                        function submitRejectionForm() {
+                            // Submit the rejection form
+                            document.getElementById('rejectForm').submit();
+                        }
+                    </script>
 
                 </tr>
             @endif
@@ -228,8 +270,9 @@
                             <div class="form-group">
                                 <label for="image">Permit Image</label>
                                 <input type="file" name="image" id="image" class="form-control">
-                                @if($user->image)
-                                    <img src="{{ asset('storage/' . $user->image) }}" alt="Profile Image" style="width: 100px; height: 100px; margin-top: 10px;">
+                                @if ($user->image)
+                                    <img src="{{ asset('storage/' . $user->image) }}" alt="Profile Image"
+                                        style="width: 100px; height: 100px; margin-top: 10px;">
                                 @endif
                             </div>
 

@@ -5,7 +5,7 @@
     <!-- HTML -->
     <section class="business-section-post-list" id="section3">
         <div class="container section3-container">
-            <h2 class="animate-on-scroll">Latest Business Posts</h2>
+            <h2 >Latest Business Posts</h2>
             <!-- Search Form -->
             <form action="{{ route('showTradingGoodsCategories') }}" method="GET" class="row g-3 align-items-center">
                 <div class="col">
