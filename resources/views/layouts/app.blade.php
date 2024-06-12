@@ -10,7 +10,7 @@
     <title>{{ config(
         'app.name',
         'TaytayOnline
-                    ',
+                        ',
     ) }}</title>
 
     @if (!request()->is('login'))
@@ -62,19 +62,26 @@
             transform: scale(1.05) !important;
         }
 
-        .sectionCarousel{
+        .sectionCarousel {
             margin-top: -20px !important;
         }
+
         .py-4 {
-    padding-top: 0rem !important;
-    padding-bottom: 0rem !important;
-}
+            padding-top: 0rem !important;
+            padding-bottom: 0rem !important;
+        }
     </style>
 </head>
 
 <body>
     <div id="app">
-        @include('../partials.userHeader')
+        @if (request()->is('login') || request()->routeIs('verification.notice'))
+    {{-- Don't include the user header --}}
+@else
+    @include('partials.userHeader')
+@endif
+
+
 
 
 

@@ -106,18 +106,32 @@
     }
 }
 
+
 //search
 
 .fa-search {
     margin-top: 1.7em !important;
 }
+
+
 .form-control {
     margin-top: 2.5em !important;
     height: 38px !important; /* Adjust the height as needed */
     color: white !important;
 }
+.form-control:focus {
+    color: rgb(0, 255, 255) !important;
+    background-color: #212121 !important;
+    outline-color: rgb(0, 255, 255) !important;
+    box-shadow: -3px -3px 15px rgb(0, 255, 255) !important;
+    transition: .1s !important;
+    transition-property: box-shadow !important;
+  }
+  .form-control::placeholder {
+    color: rgb(255, 187, 0) !important;
+}
 .btn {
-    color: rgb(214, 114, 0) !important;
+    color: rgb(253, 253, 253) !important;
     font-weight: bold !important;
     font-style: italic !important;
 }

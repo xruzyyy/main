@@ -1,7 +1,7 @@
 <!-- HTML -->
 <section class="business-section-post" id="section3">
     <div class="container section3-container">
-        <h2 class="animate-on-scroll">Latest Business Posts</h2>
+        <h2 class="animate-on-scroll" style="color: goldenrod; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">Latest Business Posts</h2>
 
         <!-- Card Deck for Latest Business Posts -->
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 justify-content-between">
@@ -23,7 +23,7 @@
                                 @if ($post->is_active)
                                     <span style="color: green"><b>Active</b></span>
                                 @else
-                                    <span style="color: red"><b>Expired Permit</b></span>
+                                    <span style="color: red"><b>Permit Not Active</b></span>
                                 @endif
                             </p>
                             <h5>{{ \Illuminate\Support\Str::limit($post->type, 22) }}</h5>

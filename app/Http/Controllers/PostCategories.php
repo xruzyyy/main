@@ -1928,33 +1928,9 @@ class PostCategories extends Controller
     return view('business-section.business-categories.business_post', compact('post', 'unseenCount'));
 }
 
-// Method to display all business posts
-public function indexFeatured()
-{
-    // Fetch unseen message count
-    $unseenCount = DB::table('ch_messages')
-        ->where('to_id', '=', Auth::user()->id)
-        ->where('seen', '=', '0')
-        ->count();
-    // Fetch latest business posts
-    $latestPosts = Posts::orderBy('created_at', 'desc')->get();
 
-    // Pass the posts data to the view
-    return view('business-section.postsFeatured', [
-        'unseenCount' => $unseenCount,
-        'latestPosts' => $latestPosts
-    ]);
-}
 
-// Method to display a specific business post
-public function showFeatured($id)
-{
-    // Fetch the business post by ID
-    $post = Posts::findOrFail($id);
 
-    // Pass the post data to the view
-    return view('business-section.postsFeatured', ['post' => $post]);
-}
 
 
 }

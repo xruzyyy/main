@@ -17,7 +17,7 @@
                 </select>
             </div>
             <div class="col-auto">
-                <button style="margin-bottom: 1.5em;" class="btn" type="submit"><i class="fas fa-search"></i></button>
+                <button style="margin-bottom: 1.5em;" class="btn" type="submit"><i style="color: black" class="fas fa-search"></i></button>
             </div>
         </form>
 
@@ -37,7 +37,7 @@
                                     @if ($post->is_active)
                                         <span style="color: green"><b>Active</b></span>
                                     @else
-                                        <span style="color: red"><b>Expired Permit</b></span>
+                                        <span style="color: red"><b>Permit Not Active</b></span>
                                     @endif
                                 </p>
                                 <p class="card-text"><strong>Type:</strong> {{ $post->type }}</p>

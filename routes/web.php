@@ -36,7 +36,7 @@ Auth::routes(['verify' => true]);
 
 Route::post('/email/resend', [VerificationController::class, 'resend'])->name('verification.resend');
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth','user-access:business'])->group(function () {
     Route::get('/update_account_details', [UpdateAccountController::class, 'showUpdateForm'])->name('update_account_details');
     Route::post('/update_account_details', [UpdateAccountController::class, 'storeAccountUpdate'])->name('post_update_account_details');
 });
@@ -163,10 +163,10 @@ Route::middleware(['auth', 'user-access:user', 'verified'])->group(function () {
     Route::get('/home', [HomeController::class, 'businessPostListForUser'])->name('home');
 
     // Route for displaying all business posts
-    Route::get('/businessFeatured', [PostCategories::class, 'indexFeatured'])->name('businessFeatured.index');
+    Route::get('/businessFeatured', [HomeController::class, 'indexFeatured'])->name('businessFeatured.index');
 
     // Route for displaying a specific business post
-    Route::get('/businessFeatured/{id}', [PostCategories::class, 'showFeatured'])->name('businessFeatured.show');
+    Route::get('/businessFeatured/{id}', [HomeController::class, 'showFeatured'])->name('businessFeatured.show');
 });
 
 

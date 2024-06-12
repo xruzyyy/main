@@ -28,6 +28,11 @@ class RatingController extends Controller
     // Find the post
     $post = Posts::findOrFail($postId);
 
+    // Check if the authenticated user is the owner of the post
+    if ($post->user_id === auth()->id()) {
+        return redirect()->back()->with('error', 'You cannot rate your own post.');
+    }
+
     // Find the rating for the current user and post
     $rating = Rating::where('post_id', $postId)
                     ->where('user_id', auth()->id())
@@ -53,5 +58,6 @@ class RatingController extends Controller
     // Redirect back to the post page
     return redirect()->back()->with('success', 'Rating submitted successfully.');
 }
+
 
 }

@@ -17,7 +17,7 @@
 
     <nav class="navbar navbar-expand-lg bg-dark">
         <div class="container-fluid">
-            {{-- @auth
+            @auth
                 @php
                     $user = auth()->user();
                     $userType = $user->type;
@@ -32,7 +32,7 @@
                     <img src="{{ asset('images/Taytay.png') }}" style="width: 100px; height:auto;" class="img-fluid"
                         alt="Taytay Logo">
                 </a>
-            @endauth --}}
+            @endauth
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -83,7 +83,7 @@
 
                         </li>
 
-                        <li class="nav-item" style="margin-top: 7px;">
+                        {{-- <li class="nav-item" style="margin-top: 7px;">
                         <a href="/chatify" style="text-decoration: none;color: #e79e00f1; margin-left:15px;">
                                     <i class="fa-solid fa-envelope"></i>
                                     <div class="unread_notification">
@@ -91,11 +91,26 @@
                                         </div>
                                     </i>
                                 </a>
-                        </li>
-                        <li class="nav-item">
+                        </li> --}}
+                        {{-- <li class="nav-item">
                             <a class="nav-link create-listing-btn" href="{{ route('listings.create') }}">Create Listings</a>
-                        </li>
-
+                        </li> --}}
+                        
+                        <button class="Listing" onclick="window.location.href='{{ route('listings.create') }}'">
+                            <div class="sign">+</div>
+                            <div class="text">Listing</div>
+                        </button>
+                      
+                        <button class="inbox-btn">
+                            <svg viewBox="0 0 512 512" height="16" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48H48zM0 176V384c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V176L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z"
+                                ></path>
+                            </svg>
+                            <a href="/chatify" class="msg-count"> {{ $unseenCount }}</a>
+                        </button>
+                          
+                          
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -106,14 +121,30 @@
                                 <!-- Profile Link -->
                                 <a style="font-family: Montserrat, sans-serif;" class="dropdown-item" href="{{ route('business.profile') }}"><i  class="fa-regular fa-user"></i>Profile</a>
                                 <!-- Logout Link -->
-                                <a class="dropdown-item" style="background-color: rgb(223, 26, 0); border-radius:12px; width:60%;" href="{{ route('logout') }}"
+                                {{-- <a class="dropdown-item" style="background-color: rgb(223, 26, 0); border-radius:12px; width:60%;" href="{{ route('logout') }}"
                                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     {{ __('Logout') }}
                                 </a>
                                 <!-- Logout Form -->
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                     @csrf
+                                </form> --}}
+
+                                <button class="Btn" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    <div class="sign">
+                                        <svg viewBox="0 0 512 512">
+                                            <path d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"></path>
+                                        </svg>
+                                    </div>
+                                    <span class="text">Logout</span>
+                                </button>
+                                
+                                <!-- Logout Form -->
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    @csrf
                                 </form>
+                                
+                                  
                             </div>
                         </li>
                     @endguest

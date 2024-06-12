@@ -65,7 +65,7 @@ class LoginController extends Controller
             case 'admin':
                 return redirect()->route('admin.dashboard');
             case 'business':
-               if(Auth::user()->type == 2 && Auth::user()->status == 1){
+               if(Auth::user()->type == 'business' && Auth::user()->status == 1){
                 Artisan::call('accounts:disable');
                 return redirect()->route('business.home');
             }

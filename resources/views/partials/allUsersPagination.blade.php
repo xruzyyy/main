@@ -1,4 +1,3 @@
-
 <div class="dropdown float-end mx-2">
     <button class="btn btn-sm btn-primary dropdown-toggle" type="button" id="combinedSortFilterButton2" data-bs-toggle="dropdown" aria-expanded="false">
         Sort by:
@@ -15,6 +14,8 @@
             Active
         @elseif(request()->input('filter') == 0)
             Not Active
+        @elseif(request()->input('filter') == 3)
+            Rejected <!-- Add Rejected option -->
         @else
             All <!-- Add a default option -->
         @endif
@@ -35,6 +36,9 @@
         </li>
         <li>
             <a class="dropdown-item {{ request()->input('filter') == 0 ? 'active' : '' }}" href="{{ route('users.sortTable', ['sort' => request()->input('sort', 'newest'), 'filter' => 0, 'limit' => request()->input('limit', 10)]) }}">Not Active</a>
+        </li>
+        <li>
+            <a class="dropdown-item {{ request()->input('filter') == 3 ? 'active' : '' }}" href="{{ route('users.sortTable', ['sort' => request()->input('sort', 'newest'), 'filter' => 3, 'limit' => request()->input('limit', 10)]) }}">Rejected</a>
         </li>
         <li>
             <a class="dropdown-item {{ request()->input('filter') == 'all' ? 'active' : '' }}" href="{{ route('users.sortTable', ['sort' => request()->input('sort', 'newest'), 'limit' => request()->input('limit', 10)]) }}">All</a>

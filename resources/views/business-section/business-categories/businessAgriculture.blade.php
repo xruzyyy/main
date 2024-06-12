@@ -5,7 +5,7 @@
     <div class="container section3-container">
         <h2 >Latest Business Posts</h2>
         <!-- Search Form -->
-        <form action="{{ route('showAgricultureCategories') }}" method="GET">
+        <form action="{{ route('showAgricultureCategories') }}" method="GET" class="row g-3 align-items-center">
             <div class="col">
                 <input style="margin-bottom: 2.5em;"  type="text" class="form-control" placeholder="Search Business Posts" name="search">
             </div>
@@ -17,7 +17,7 @@
                 </select>
             </div>
             <div class="col-auto">
-                <button style="margin-bottom: 1.5em;" class="btn" type="submit"><i class="fas fa-search"></i></button>
+                <button style="margin-bottom: 1.5em;" class="btn" type="submit"><i style="color: black" class="fas fa-search"></i></button>
             </div>
         </form>
 

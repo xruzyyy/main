@@ -1,7 +1,4 @@
-
-
 <style>
-
     /* Custom styles for the carousel */
     #carouselExampleControls {
         max-height: 500px; /* Adjust the max-height as needed */
@@ -33,7 +30,6 @@
     }
 </style>
 
-
 <!-- Card section for business posts -->
 <section id="card" style="background-color: black;">
     <div class="container">
@@ -47,8 +43,8 @@
         <div id="carousel" class="sectionCarousel">
             <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
-                    @if(count($latestPosts) > 0)
-                        @foreach ($latestPosts->take(6) as $key => $post)
+                    @if(count($posts) > 0)
+                        @foreach ($posts as $key => $post)
                             <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
                                 @php
                                     $images = json_decode($post->images);
@@ -83,13 +79,10 @@
     </div>
 </section>
 
-
-
-
 <!-- Custom script for carousel controls -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Initialize the carousel with an interval of 1 second (1000 milliseconds)
+        // Initialize the carousel with an interval of 3 seconds (3000 milliseconds)
         var carousel = document.querySelector('#carouselExampleControls');
         var carouselInstance = new bootstrap.Carousel(carousel, {
             interval: 3000
@@ -97,7 +90,7 @@
 
         // Handle the 'slid.bs.carousel' event to verify slide transition
         carousel.addEventListener('slid.bs.carousel', function() {
+            // Custom logic after each slide transition (if needed)
         });
     });
 </script>
-

@@ -45,7 +45,7 @@ class AccountUpdatedNotification extends Notification
     {
         return (new MailMessage)
                     ->subject('Account Updated: ' . $this->user->email)
-                    ->line('The account with the email address ' . $this->user->email . ' has been updated from Rejection Status Details.')
+                    ->line('The account with the email address ' . $this->user->email . ' has updated the their Rejected details.')
                     ->line('Name: ' . $this->user->name)
                     ->line('You can view the user\'s profile by logging in to the admin panel.');
     }

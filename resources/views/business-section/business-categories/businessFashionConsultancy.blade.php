@@ -19,7 +19,7 @@
                 </select>
             </div>
             <div class="col-auto">
-                <button style="margin-bottom: 1.5em;" class="btn" type="submit"><i class="fas fa-search"></i></button>
+                <button style="margin-bottom: 1.5em;" class="btn" type="submit"><i style="color: black" class="fas fa-search"></i></button>
             </div>
         </form>
 

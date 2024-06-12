@@ -171,7 +171,7 @@
         <input type="text" id="end" placeholder="Enter end location">
         <button onclick="useCurrentLocation('start')">Use Current Location</button>
         <!-- Updated the button id to "search-button" -->
-        <button id="search-button" onclick="getDirections()">Get Directions</button>
+        {{-- <button id="search-button" onclick="getDirections()">Get Directions</button> --}}
         <button id="start-navigation" onclick="startNavigation()">Start Navigation</button>
 
         </div>

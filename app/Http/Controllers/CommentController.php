@@ -30,25 +30,29 @@ class CommentController extends Controller
 
     $post = Posts::findOrFail($id);
 
-    // Check if the user has already left a comment on this post
-    $existingComment = Comment::where('posts_id', $post->id)
-                              ->where('user_id', auth()->user()->id)
-                              ->exists();
+    // Find the latest comment by the authenticated user
+    $latestComment = Comment::where('posts_id', $post->id)
+                            ->where('user_id', auth()->user()->id)
+                            ->latest()
+                            ->first();
 
-    // If the user has already left a comment, return with an error message
-    if ($existingComment) {
-        return redirect()->back()->with('error', 'You have already left a comment on this post.');
+    // If there's a latest comment, check if it's the same as the new one
+    if ($latestComment && $latestComment->content === $request->content) {
+        return redirect()->back()->with('error', 'You have already left the same comment.');
     }
 
-    // If the user hasn't left a comment, proceed to save the new comment
+    // If the latest comment exists and is different, update it
+    if ($latestComment) {
+        $latestComment->content = $request->content;
+        $latestComment->save();
+        return redirect()->back()->with('success', 'Comment updated successfully!');
+    }
+
+    // If there's no latest comment or it's different, create a new one
     $comment = new Comment();
     $comment->content = $request->content;
     $comment->user_id = auth()->user()->id;
-
-    // Save the comment
     $post->comments()->save($comment);
-
-    // Increment the comments count for the post
     $post->increment('comments');
 
     // Notify post author about the new comment
@@ -56,6 +60,8 @@ class CommentController extends Controller
 
     return redirect()->back()->with('success', 'Comment added successfully!');
 }
+
+
 
 
 

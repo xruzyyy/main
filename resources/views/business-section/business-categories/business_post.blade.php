@@ -341,40 +341,41 @@
 
 
     <!-- Comment list -->
-    <div class="swiper-container comment-list-container" style="overflow: hidden">
-        <div class="swiper-wrapper">
-            @php
-                $comments = $post->comments()->latest()->get();
-                $commentsChunks = $comments->chunk(15);
-            @endphp
-            @foreach ($commentsChunks as $chunk)
-                <div class="swiper-slide">
-                    <ul class="comment-list">
-                        @foreach ($chunk as $comment)
-                            <li class="comment-item">
-                                <div class="comment-content">
-                                    @if ($comment->user)
-                                        <img class="comment-avatar"
-                                            src="{{ asset($comment->user->profile_image) }}"
-                                            alt="User Profile Image">
-                                        <p class="postText"><strong>{{ $comment->user->name }}</strong>:
-                                            {{ $comment->content }}</p>
+<div class="swiper-container comment-list-container" style="overflow: hidden">
+    <div class="swiper-wrapper">
+        @php
+            $comments = $post->comments()->latest()->get(); // Retrieve comments in reverse order
+            $commentsChunks = $comments->chunk(15);
+        @endphp
+        @foreach ($commentsChunks as $chunk)
+            <div class="swiper-slide">
+                <ul class="comment-list">
+                    @foreach ($chunk as $comment)
+                        <li class="comment-item">
+                            <div class="comment-content">
+                                @if ($comment->user)
+                                    <img class="comment-avatar"
+                                        src="{{ asset($comment->user->profile_image) }}"
+                                        alt="User Profile Image">
+                                    <p class="postText"><strong>{{ $comment->user->name }}</strong>:
+                                        {{ $comment->content }}</p>
 
-                                        <!-- Generate stars based on user's rating -->
-                                        <div class="star-rating">
-                                            {!! App\Http\Controllers\CommentController::generateStarsForUser($post->id, $comment->user_id) !!}
-                                        </div>
-                                    @endif
-                                </div>
-                            </li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endforeach
-        </div>
-        <!-- Add Pagination -->
-        <div class="swiper-pagination"></div>
+                                    <!-- Generate stars based on user's rating -->
+                                    <div class="star-rating">
+                                        {!! App\Http\Controllers\CommentController::generateStarsForUser($post->id, $comment->user_id) !!}
+                                    </div>
+                                @endif
+                            </div>
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+        @endforeach
     </div>
+    <!-- Add Pagination -->
+    <div class="swiper-pagination"></div>
+</div>
+
 
 
 </div>

@@ -12,6 +12,9 @@ class UpdateAccountController extends Controller
 {
     public function showUpdateForm()
     {
+        if (Auth::user()->status == 1 && Auth::user()->type == 'business') {
+            return redirect('/business/home')->withErrors('There is Nothing To Update In Your Account!');
+        }
         // Fetch rejection details
         $user = Auth::user();
         $rejectionDetails = $user->rejection_details; // Assuming 'rejection_details' is the column name in your users table
