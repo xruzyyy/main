@@ -1,0 +1,345 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,800");
+
+.navbar {
+    background-color: transparent !important; // Set navbar background to transparent
+}
+
+.navbar-brand {
+    color: goldenrod !important;
+    min-height: 0px !important;
+}
+.navbar-brand:hover {
+    color: rgb(255, 255, 255) !important;
+}
+
+.navbar-nav .nav-link {
+    color: rgba(255, 255, 255, 0.986) !important; // Set color of nav links to white
+}
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,800");
+.navbar-toggler {
+    background-color: rgb(32, 153, 218) !important;
+    border-color: rgb(32, 190, 218) !important;
+}
+.navbar {
+    background-color: black !important;
+}
+@media (max-height: 990px) {
+    .nav-link {
+        display: inline-block !important;
+    }
+}
+
+.nav-link {
+    color: wheat !important;
+    font-family: "Montserrat", sans-serif;
+}
+.navbar-toggler-icon {
+    color: aliceblue !important;
+}
+.navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
+    color: aliceblue !important;
+}
+.unread_notification {
+    margin-top: 5px;
+    margin-left: -3px;
+    background-color: rgb(255, 51, 51);
+    display: inline-block;
+    color: whitesmoke;
+    width: 15px;
+    text-align: center;
+    font-size: 13px;
+    border-radius: 80%;
+}
+
+.listingCreate {
+    padding: 8px 6px; /* Add padding */
+    border-radius: 4px; /* Add border-radius */
+    transition:
+        background-color 0.3s ease,
+        color 0.3s ease; /* Add transition */
+}
+
+.btn-red {
+    background-color: rgb(14, 13, 13); /* Set background color to red */
+    color: white; /* Set text color to white */
+    border: 1px solid rgb(0, 0, 0); /* Add border with the same color as background */
+}
+
+.btn-red:hover {
+    color: rgb(255, 77, 71); /* Change text color on hover to red */
+    background-color: white; /* Change background color on hover to white */
+}
+
+.navbar {
+    background-color: black !important;
+}
+
+// .create-listing-btn {
+//     margin-left: 1em;
+//     margin-top: 0.3em;
+//     border-radius: 10px;
+//     color: #fff;
+//     text-decoration: none;
+//     border: 2px solid transparent;
+//     padding: 6px 12px;
+//     font-size: 14px;
+//     background: rgba(255, 255, 255, 0.2); /* Translucent background */
+//     backdrop-filter: blur(10px); /* Blur effect */
+//     -webkit-backdrop-filter: blur(10px); /* For Safari */
+//     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+//     transition: all 0.3s ease;
+// }
+
+// .create-listing-btn:hover {
+//     background: rgba(255, 255, 255, 0.4); /* Slightly more opaque on hover */
+//     border-color: blanchedalmond;
+//     color: goldenrod !important;
+//     font-size: 12px !important;
+// }
+
+.Listing {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 45px;
+    height: 45px;
+    border: none;
+    border-radius: 0;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition-duration: .3s;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.199);
+    background-color: rgb(255, 255, 255);
+    border-radius: 50%;
+}
+
+/* plus sign */
+.sign {
+    width: 100%;
+    font-size: 2em;
+    color: rgb(0, 0, 0);
+    transition-duration: .3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* text */
+.text {
+    position: absolute;
+    right: 0;
+    width: 0;
+    opacity: 0;
+    color: black;
+    font-size: 1.2em;
+    font-weight: 500;
+    transition-duration: .3s;
+}
+
+/* hover effect on button width */
+.Listing:hover {
+    width: 80px;
+    border-radius: 9px;
+    transition-duration: .3s;
+    background-color: goldenrod;
+}
+
+.Listing:hover .sign {
+    width: 25px; /* Keep this fixed */
+    transition-duration: .3s;
+    padding-left: 2px; /* Adjust padding to position the sign */
+}
+
+/* hover effect button's text */
+.Listing:hover .text {
+    opacity: 1;
+    width: auto; /* Allow text to take its natural width */
+    transition-duration: .3s;
+    padding-left: 2px; /* Ensure text starts after the sign */
+    color: black;
+}
+
+/* button click effect */
+.Listing:active {
+    transform: translate(2px, 2px);
+}
+
+.inbox-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: none;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.082);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background-color: #00283fa9;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .inbox-btn svg path {
+    fill: rgb(255, 194, 39);
+  }
+  .inbox-btn svg {
+    height: 17px;
+    transition: all 0.3s;
+  }
+  .msg-count {
+    position: absolute;
+    top: 4px;
+    right: 5px;
+    background-color: rgb(245, 4, 4);
+    border-radius: 50%;
+    font-size: bold;
+    color: rgb(248, 248, 248);
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none; /* Remove underline */
+
+  }
+  .inbox-btn:hover {
+    transform: scale(1.1);
+  }
+
+
+  .Btn {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 45px;
+    height: 45px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition-duration: 0.3s;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.199);
+    background-color: red;
+  }
+
+  /* plus sign */
+  .sign {
+    width: 100%;
+    transition-duration: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .sign svg {
+    width: 18px;
+  }
+
+  .sign svg path {
+    fill: black;
+  }
+  /* text */
+  .text {
+    position: absolute;
+    right: 0%;
+    width: 0%;
+    opacity: 0;
+    color: rgb(255, 255, 255);
+    font-size: 1.2em;
+    font-weight: 600;
+    transition-duration: 0.3s;
+  }
+  /* hover effect on button width */
+  .Btn:hover {
+    width: 125px;
+    border-radius: 40px;
+    transition-duration: 0.3s;
+  }
+
+  .Btn:hover .sign {
+    width: 30%;
+    transition-duration: 0.3s;
+    padding-left: 20px;
+  }
+  /* hover effect button's text */
+  .Btn:hover .text {
+    opacity: 1;
+    width: 70%;
+    transition-duration: 0.3s;
+    padding-right: 10px;
+  }
+  /* button click effect*/
+  .Btn:active {
+    transform: translate(2px, 2px);
+  }
+
+
+
+.modal-backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.notification-list-container {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.notification-item {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.notification-item.read {
+    background-color: #f0f0f0;
+}
+
+.commenter-profile-image {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.red-dot {
+    width: 8px;
+    height: 8px;
+    background-color: red;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.notification-list-container {
+    max-height: 400px;
+    /* Adjust as needed */
+    overflow-y: auto;
+    scrollbar-width: thin;
+    /* Add thin scrollbar for Firefox */
+    scrollbar-color: rgba(0, 0, 0, 0.5) rgba(0, 0, 0, 0);
+    /* Change scrollbar color */
+}
+
+/* Customize scrollbar track and thumb */
+.notification-list-container::-webkit-scrollbar {
+    width: 10px;
+    /* Set the width of the scrollbar */
+}
+
+.notification-list-container::-webkit-scrollbar-track {
+    background: skyblue;
+    /* Set the background color of the scrollbar track */
+}
+
+.notification-list-container::-webkit-scrollbar-thumb {
+    background-color: skyblue;
+    /* Set the color of the scrollbar thumb */
+    border-radius: 5px;
+    /* Set the border radius of the scrollbar thumb */
+}
+
+/* Style for Firefox scrollbar */
+.notification-list-container {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.5) rgba(0, 0, 0, 0);
+}
