@@ -30,14 +30,7 @@
     }
 </style>
 
-<!-- Card section for business posts -->
-<section id="card" style="background-color: black;">
-    <div class="container">
-        <div class="row justify-content-center mb-4 pb-2">
-            <div class="col-md-6 text-center">
-                <h1 class="headline load-hidden" style="color: antiquewhite;">Featured Posts</h1>
-            </div>
-        </div>
+
 
         <!-- Smaller Carousel slider for products -->
         <div id="carousel" class="sectionCarousel">
@@ -77,7 +70,6 @@
             </div>
         </div>
     </div>
-</section>
 
 <!-- Custom script for carousel controls -->
 <script>

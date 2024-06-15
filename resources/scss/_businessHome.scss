@@ -22,9 +22,152 @@
 }
 
 .business-section {
-    background-color: #080808 !important; /* Adjust background color as needed */
+    background-color: #0050c98e !important; /* Adjust background color as needed */
     color: #fff; /* Adjust text color as needed */
     padding: 80px 0; /* Adjust padding as needed */
+}
+/* Wave animation CSS */
+.wave-container {
+    position: relative;
+    width: 100%;
+    height: 150px;
+    overflow: hidden;
+    background: #0050c98e;
+}
+
+.wave-container .waves {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.wave-container .waves .parallax > use {
+    animation: move-forever 25s cubic-bezier(.55,.5,.45,.5) infinite;
+}
+
+.wave-container .waves .parallax > use:nth-child(1) {
+    animation-delay: -2s;
+    animation-duration: 7s;
+}
+
+.wave-container .waves .parallax > use:nth-child(2) {
+    animation-delay: -3s;
+    animation-duration: 10s;
+}
+
+.wave-container .waves .parallax > use:nth-child(3) {
+    animation-delay: -4s;
+    animation-duration: 13s;
+}
+
+.wave-container .waves .parallax > use:nth-child(4) {
+    animation-delay: -5s;
+    animation-duration: 20s;
+}
+
+@keyframes move-forever {
+    0% { transform: translate3d(-90px, 0, 0); }
+    100% { transform: translate3d(85px, 0, 0); }
+}
+
+/* General styles for the section */
+.business-section {
+    font-family: Arial, sans-serif;
+    color: #fff;
+    background-color: #02021f; /* Dark background */
+    padding: 80px 0; /* Adjust padding as needed */
+}
+
+.section-title {
+    font-size: 2.5em; /* Default font size for large screens */
+    margin-bottom: 40px;
+    white-space: nowrap;
+    font-weight: bold;
+    font-family: "Arial", sans-serif;
+    color: goldenrod;
+    position: relative; /* Positioning for the image */
+    text-shadow:
+        1px 1px 0 #000,
+        2px 2px 0 #000,
+        3px 3px 0 #000,
+        4px 4px 0 #000,
+        5px 5px 0 #000; /* Adding multiple shadows for depth */
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    .section-title {
+        font-size: 2.2em;
+    }
+}
+
+@media (max-width: 992px) {
+    .section-title {
+        font-size: 2em;
+    }
+}
+
+@media (max-width: 768px) {
+    .section-title {
+        font-size: 1.8em;
+    }
+}
+
+@media (max-width: 576px) {
+    .section-title {
+        font-size: 1.5em;
+    }
+}
+
+@media (max-width: 400px) {
+    .section-title {
+        font-size: 1.3em;
+    }
+}
+
+
+.business-list {
+    list-style: none;
+    padding: 0;
+}
+
+.business-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.business-icon {
+    font-size: 1.5em;
+    margin-right: 10px;
+    color: #fff;
+}
+
+.business-name {
+    color: #fff;
+    text-decoration: none;
+}
+
+.business-name:hover {
+    text-decoration: underline;
+}
+
+.reveal-container .text-container {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1s ease-out, transform 1s ease-out;
+}
+
+.reveal-container .text-container.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.scroll-text {
+    font-size: 2em;
+    margin: 0;
 }
 
 .section-title {
@@ -82,8 +225,13 @@
     font-size: 6vw; /* Responsive font size */
     color: goldenrod;
     position: relative; /* Positioning for the image */
+    text-shadow:
+        1px 1px 0 #000,
+        2px 2px 0 #000,
+        3px 3px 0 #000,
+        4px 4px 0 #000,
+        5px 5px 0 #000; /* Adding multiple shadows for depth */
 }
-
 .business-section {
     position: relative; /* Ensure the container is relative */
 }
@@ -320,3 +468,5 @@
     color: #6c757d;
     margin-bottom: 5px;
 }
+
+
