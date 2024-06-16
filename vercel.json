@@ -2,5 +2,6 @@
   "version": 2,
   "routes": [
     { "src": "/login", "dest": "/resources/views/auth/login.blade.php" },
+    { "src": "/(.*)", "dest": "/index.php" }
   ]
 }
