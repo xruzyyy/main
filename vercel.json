@@ -1,7 +1,6 @@
 {
-    "version": 2,
-    "routes": [
-      { "src": "/login", "dest": "/index.php" },
-      { "src": "/(.*)", "dest": "/index.php" }
-    ]
-  }
+  "version": 2,
+  "routes": [
+    { "src": "/(.*)", "dest": "/index.php" }
+  ]
+}
