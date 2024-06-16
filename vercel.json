@@ -1,7 +1,14 @@
 {
-  "version": 2,
-  "routes": [
+    "version": 2,
+    "builds": [
+      {
+        "src": "vite.config.ts",
+        "use": "@vercel/static-build"
+      }
+    ],
+   "routes": [
     { "src": "/login", "dest": "/resources/views/auth/login.blade.php" },
     { "src": "/(.*)", "dest": "/index.php" }
-  ]
-}
+    ],
+    "outputDirectory": "public/build"
+  }
