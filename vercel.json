@@ -1,10 +1,20 @@
 {
     "version": 2,
     "builds": [
-      { "src": "vite.config.ts", "use": "@vercel/static-build" }
+      {
+        "src": "vite.config.ts",
+        "use": "@vercel/static-build"
+      }
     ],
     "routes": [
-      { "src": "/(.*)", "dest": "/index.html" }
+      {
+        "src": "/build/assets/(.*)",
+        "dest": "/public/build/assets/$1"
+      },
+      {
+        "src": "/(.*)",
+        "dest": "/index.html"
+      }
     ],
     "outputDirectory": "public/build"
   }
