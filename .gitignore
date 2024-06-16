@@ -42,5 +42,3 @@ yarn-error.log
 /.vscode
 
 # Exclude large files (to be added)
-
-.vercel

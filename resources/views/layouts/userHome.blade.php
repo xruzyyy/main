@@ -12,8 +12,6 @@
   @vite(['resources/scripts/script.js'])
   @vite(['resources/js/app.js'])
   @vite(['resources/scss/servicesMain.scss'])
-  <link rel="stylesheet" href="{{ asset('build/assets/app-pmJoiQs-.css') }}">
-  <script src="{{ asset('build/assets/app-Y_MuImAH.js') }}"></script>
 
   {{-- <link rel="stylesheet" href="../scss/custom.css"> --}}
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
