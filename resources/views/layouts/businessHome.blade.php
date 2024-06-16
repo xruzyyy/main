@@ -14,6 +14,8 @@
 
   @vite(['resources/scss/servicesMain.scss'])
 
+  <link rel="stylesheet" href="{{ asset('build/assets/app-pmJoiQs-.css') }}">
+  <script src="{{ asset('build/assets/app-Y_MuImAH.js') }}"></script>
 
 
   {{-- <link rel="stylesheet" href="../scss/custom.css"> --}}
