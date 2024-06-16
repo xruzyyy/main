@@ -103,12 +103,12 @@ class ListingController extends Controller
     public function store(Request $request)
     {
         // // Check if the user already has a listing
-        // $existingListing = Posts::where('user_id', auth()->user()->id)->first();
+        $existingListing = Posts::where('user_id', auth()->user()->id)->first();
 
-        // // If the user already has a listing, redirect back with an error message
-        // if ($existingListing) {
-        //     return redirect()->route('listings.create')->with('error', 'You can only create one listing per user.');
-        // }
+        // If the user already has a listing, redirect back with an error message
+        if ($existingListing) {
+            return redirect()->route('listings.create')->with('error', 'You can only create one listing per user.');
+        }
 
         // Validate the request data
         $request->validate([
