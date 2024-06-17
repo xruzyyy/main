@@ -1,0 +1,47 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+.featured-container {
+  margin-top: 35%; /* Adjusted to 2em for better proportion */
+  background-color: rgba(246, 246, 246, 0); /* Light gray background */
+  padding: 20px; /* Increased padding for better spacing */
+  border: 1px solid #ddd; /* Light gray border */
+  border-radius: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.business {
+  width: calc(33.33% - 20px); /* Adjusted width to 33.33% and reduced margin */
+  margin-bottom: 20px; /* Increased margin-bottom for better separation */
+  background-color: #94d8dd; /* White background */
+  border-radius: 8px; /* Slightly reduced border radius */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  padding: 20px; /* Increased padding for better spacing */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.business img {
+  margin-bottom: 10px; /* Increased margin-bottom for better separation */
+}
+
+.business p {
+  text-align: center;
+  margin-bottom: 10px; /* Increased margin-bottom for better separation */
+  color: #555; /* Slightly darker text color */
+  font-size: 14px; /* Reduced font size for better readability */
+  line-height: 1.4; /* Improved line height for better spacing */
+}
+
+@media only screen and (max-width: 768px) {
+  .featured-container {
+    margin-top: 1em; /* Adjusted margin-top for smaller screens */
+    padding: 10px; /* Reduced padding for smaller screens */
+  }
+  .business {
+    width: calc(50% - 20px); /* Adjusted width to 50% for smaller screens */
+    margin-bottom: 15px; /* Reduced margin-bottom for smaller screens */
+    padding: 15px; /* Reduced padding for smaller screens */
+  }
+}/*# sourceMappingURL=category.css.map */
