@@ -321,20 +321,17 @@
                                 </div>
                             </div>
 
-                            <div class="field">
-                                <label class="labelLocated">Latitude</label>
-                                <div class="labelLocated">
-                                    <input type="text" class="input readonly-input" id="latitude" name="latitude"
-                                        value="{{ $listing->latitude }}" readonly required>
-                                </div>
-                            </div>
-                            <div class="field">
-                                <label class="labelLocated">Longitude</label>
-                                <div class="labelLocated">
-                                    <input type="text" class="input readonly-input" id="longitude" name="longitude"
-                                        value="{{ $listing->longitude }}" readonly required>
-                                </div>
-                            </div>
+                            <!-- Latitude and Longitude fields -->
+    <div class="form-group">
+        <label for="latitude">Latitude</label>
+        <input type="text" id="latitude" name="latitude" value="{{ old('latitude', request()->input('latitude', $listing->latitude)) }}" required>
+      </div>
+
+      <div class="form-group">
+        <label for="longitude">Longitude</label>
+        <input type="text" id="longitude" name="longitude" value="{{ old('longitude', request()->input('longitude', $listing->longitude)) }}" required>
+      </div>
+
 
                             <div class="field">
                                 <div class="control">

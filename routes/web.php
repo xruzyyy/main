@@ -145,7 +145,7 @@ Route::controller(PostCategories::class)->middleware(['auth', 'verified', 'check
     // Route to display the search business
     Route::get('/search-categories', [SearchController::class, 'searchCategories'])->name('searchPosts');
     // Route to display the map page
-    Route::get('/mapStore', [ListingController::class, 'mapStore'])->name('mapStore');
+    Route::get('/mapStore', [HomeController::class, 'mapStoreUpdate'])->name('mapStore');
 
 
 
