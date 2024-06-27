@@ -17,7 +17,6 @@ return new class extends Migration
             $table->unsignedInteger('comments')->default(0);
             $table->string('description');
             $table->json('images')->Notnullable(); // Change 'image' to 'images' and make it nullable
-            $table->bigInteger('contactNumber')->unique();
             $table->boolean('is_active')->default(0);
             $table->decimal('latitude', 10, 6);
             $table->decimal('longitude', 10, 6);

@@ -97,10 +97,15 @@
                             <a class="nav-link create-listing-btn" href="{{ route('listings.create') }}">Create Listings</a>
                         </li> --}}
 
-                        <button class="Listing" onclick="window.location.href='{{ route('listings.create', ['id' => auth()->user()->id]) }}'">
-                            <div class="sign">+</div>
-                            <div class="text">Listing</div>
-                        </button>
+                        @php
+                        $updateListing = \App\Models\Posts::where('user_id', auth()->user()->id)->exists();
+                    @endphp
+
+                    <button class="Listing" onclick="window.location.href='{{ $updateListing ? route('listings.update', ['id' => auth()->user()->id]) : route('listings.create', ['id' => auth()->user()->id]) }}'">
+                        <div class="sign">+</div>
+                        <div class="text">Listing</div>
+                    </button>
+
 
                         <button class="inbox-btn">
                             <svg viewBox="0 0 512 512" height="16" xmlns="http://www.w3.org/2000/svg">

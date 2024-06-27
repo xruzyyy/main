@@ -56,7 +56,7 @@
       var confirmation = window.confirm("Are you sure you want to select this location?");
       if (confirmation) {
         // Redirect back to the form page with selected latitude and longitude
-        window.location.href = "{{ route('listings.create', ['id' => auth()->user()->id]) }}?latitude=" + position.lat.toFixed(6) + "&longitude=" + position.lng.toFixed(6);
+        window.location.href = "{{ route('listings.update', ['id' => auth()->user()->id]) }}?latitude=" + position.lat.toFixed(6) + "&longitude=" + position.lng.toFixed(6);
     }
     });
   </script>

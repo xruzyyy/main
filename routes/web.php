@@ -173,6 +173,8 @@ Route::middleware(['auth', 'user-access:business', 'verified', 'checkstatus'])->
     Route::get('/listings/create/{id}', [ListingController::class, 'create'])->name('listings.create');
     Route::post('/listings', [ListingController::class, 'store'])->name('listings.store');
 
+    Route::get('/listings/latest/update/{id}', [HomeController::class, 'edit'])->name('listings.update');
+    Route::put('/listings/latest/update/{id}', [HomeController::class, 'update'])->name('listings.update.put');
 
 
 

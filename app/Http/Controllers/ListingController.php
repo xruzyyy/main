@@ -174,13 +174,13 @@ public function store(Request $request)
         'sundayClose' => 'nullable|required_with:sundayOpen|date_format:H:i|after:sundayOpen',
     ]);
 
-    // Check if the user already has a listing
-    $existingListing = Posts::where('user_id', auth()->user()->id)->exists();
+    // // Check if the user already has a listing
+    // $existingListing = Posts::where('user_id', auth()->user()->id)->exists();
 
-    // If the user already has a listing, redirect back with an error message
-    if ($existingListing) {
-        return redirect()->route('listings.create', ['id' => auth()->user()->id])->with('error', 'You can only create one listing per user.');
-    }
+    // // If the user already has a listing, redirect back with an error message
+    // if ($existingListing) {
+    //     return redirect()->route('listings.create', ['id' => auth()->user()->id])->with('error', 'You can only create one listing per user.');
+    // }
 
     // Process images uploads
     $paths = [];
