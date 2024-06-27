@@ -174,13 +174,13 @@ public function store(Request $request)
         'sundayClose' => 'nullable|required_with:sundayOpen|date_format:H:i|after:sundayOpen',
     ]);
 
-    // Check if the user already has a listing
-    $existingListing = Posts::where('user_id', auth()->user()->id)->exists();
+    // // Check if the user already has a listing
+    // $existingListing = Posts::where('user_id', auth()->user()->id)->exists();
 
-    // If the user already has a listing, redirect back with an error message
-    if ($existingListing) {
-        return redirect()->route('listings.create', ['id' => auth()->user()->id])->with('error', 'You can only create one listing per user.');
-    }
+    // // If the user already has a listing, redirect back with an error message
+    // if ($existingListing) {
+    //     return redirect()->route('listings.create', ['id' => auth()->user()->id])->with('error', 'You can only create one listing per user.');
+    // }
 
     // Process images uploads
     $paths = [];
@@ -291,19 +291,23 @@ public function store(Request $request)
 
         return view('listings.createForm', ['unseenCount' => $unseenCount]);
     }
+// Display the map page with user-specific posts
+public function map()
+{
+    // Fetch unseen message count
+    $unseenCount = DB::table('ch_messages')
+        ->where('to_id', '=', Auth::user()->id)
+        ->where('seen', '=', '0')
+        ->count();
 
-    // Display the map page
-    public function map()
-    {
-        // Fetch unseen message count
-        $unseenCount = DB::table('ch_messages')
-            ->where('to_id', '=', Auth::user()->id)
-            ->where('seen', '=', '0')
-            ->count();
+    // Fetch posts associated with the authenticated user
+    $userPosts = Posts::where('user_id', Auth::user()->id)->get();
 
-        return view('map', ['unseenCount' => $unseenCount]);
-    }
-
+    return view('map', [
+        'unseenCount' => $unseenCount,
+        'userPosts' => $userPosts, // Pass user-specific posts to the view
+    ]);
+}
     public function mapStore(Request $request)
     {
         // Fetch unseen message count

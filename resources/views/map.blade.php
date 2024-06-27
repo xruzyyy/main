@@ -55,8 +55,13 @@
       // Ask for confirmation before redirecting
       var confirmation = window.confirm("Are you sure you want to select this location?");
       if (confirmation) {
-        // Redirect back to the form page with selected latitude and longitude
-        window.location.href = "{{ route('listings.update', ['id' => auth()->user()->id]) }}?latitude=" + position.lat.toFixed(6) + "&longitude=" + position.lng.toFixed(6);
+        // Redirect to create or update route based on user's posts
+        @if(auth()->user()->posts->isEmpty())
+            window.location.href = "{{ route('listings.create', ['id' => auth()->user()->id]) }}?latitude=" + position.lat.toFixed(6) + "&longitude=" + position.lng.toFixed(6);
+        @else
+            // Assuming you want to update the first post, you may need to adjust this logic based on your requirements
+            window.location.href = "{{ route('listings.update', ['id' => auth()->user()->posts->first()->id]) }}?latitude=" + position.lat.toFixed(6) + "&longitude=" + position.lng.toFixed(6);
+        @endif
     }
     });
   </script>

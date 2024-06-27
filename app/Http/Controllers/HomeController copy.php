@@ -104,7 +104,7 @@ class HomeController extends Controller
     }
 
 
-public function mapStore(Request $request)
+public function mapStoreUpdate(Request $request)
     {
         // Fetch unseen message count
         $unseenCount = DB::table('ch_messages')

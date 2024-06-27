@@ -147,7 +147,7 @@
                         <p class="cardCreate-header-title">Edit Listing</p>
                     </div>
                     <div class="cardCreate-content">
-                        <form action="{{ route('listings.update', ['id' => $listing->id]) }}" method="POST"
+                        <form action="{{ route('listings.update.put', ['id' => $listing->id]) }}" method="POST"
                             enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
@@ -281,14 +281,46 @@
                                 <div class="control">
                                     <select id="type" name="type" class="input" required>
                                         <option value="" disabled>Please select</option>
-                                        <option value="Accounting"
-                                            {{ old('type', $listing->type) == 'Accounting' ? 'selected' : '' }}>Accounting
-                                        </option>
-                                        <option value="Agriculture"
-                                            {{ old('type', $listing->type) == 'Agriculture' ? 'selected' : '' }}>
-                                            Agriculture</option>
-                                        <!-- Add other options here, ensure to compare with $listing->type -->
+                                        <option value="Accounting" {{ old('type', $listing->type) == 'Accounting' ? 'selected' : '' }}>Accounting</option>
+                                        <option value="Agriculture" {{ old('type', $listing->type) == 'Agriculture' ? 'selected' : '' }}>Agriculture</option>
+                                        <option value="Construction" {{ old('type', $listing->type) == 'Construction' ? 'selected' : '' }}>Construction</option>
+                                        <option value="Education" {{ old('type', $listing->type) == 'Education' ? 'selected' : '' }}>Education</option>
+                                        <option value="Finance" {{ old('type', $listing->type) == 'Finance' ? 'selected' : '' }}>Finance</option>
+                                        <option value="Retail" {{ old('type', $listing->type) == 'Retail' ? 'selected' : '' }}>Retail</option>
+                                        <option value="Fashion Photography Studios" {{ old('type', $listing->type) == 'Fashion Photography Studios' ? 'selected' : '' }}>Fashion Photography Studios</option>
+                                        <option value="Healthcare" {{ old('type', $listing->type) == 'Healthcare' ? 'selected' : '' }}>Healthcare</option>
+                                        <option value="Coffee Shops" {{ old('type', $listing->type) == 'Coffee Shops' ? 'selected' : '' }}>Coffee Shops</option>
+                                        <option value="Information Technology" {{ old('type', $listing->type) == 'Information Technology' ? 'selected' : '' }}>Information Technology</option>
+                                        <option value="Shopping Malls" {{ old('type', $listing->type) == 'Shopping Malls' ? 'selected' : '' }}>Shopping Malls</option>
+                                        <option value="Trading Goods" {{ old('type', $listing->type) == 'Trading Goods' ? 'selected' : '' }}>Trading Goods</option>
+                                        <option value="Consulting" {{ old('type', $listing->type) == 'Consulting' ? 'selected' : '' }}>Consulting</option>
+                                        <option value="Barbershop" {{ old('type', $listing->type) == 'Barbershop' ? 'selected' : '' }}>Barbershop</option>
+                                        <option value="Fashion Consultancy" {{ old('type', $listing->type) == 'Fashion Consultancy' ? 'selected' : '' }}>Fashion Consultancy</option>
+                                        <option value="Beauty Salon" {{ old('type', $listing->type) == 'Beauty Salon' ? 'selected' : '' }}>Beauty Salon</option>
+                                        <option value="Logistics" {{ old('type', $listing->type) == 'Logistics' ? 'selected' : '' }}>Logistics</option>
+                                        <option value="Sports" {{ old('type', $listing->type) == 'Sports' ? 'selected' : '' }}>Sports</option>
+                                        <option value="Pets" {{ old('type', $listing->type) == 'Pets' ? 'selected' : '' }}>Pets</option>
+                                        <option value="Entertainment" {{ old('type', $listing->type) == 'Entertainment' ? 'selected' : '' }}>Entertainment</option>
+                                        <option value="Pattern Making Services" {{ old('type', $listing->type) == 'Pattern Making Services' ? 'selected' : '' }}>Pattern Making Services</option>
+                                        <option value="Maintenance" {{ old('type', $listing->type) == 'Maintenance' ? 'selected' : '' }}>Maintenance</option>
+                                        <option value="Pharmaceuticals" {{ old('type', $listing->type) == 'Pharmaceuticals' ? 'selected' : '' }}>Pharmaceuticals</option>
+                                        <option value="Automotive" {{ old('type', $listing->type) == 'Automotive' ? 'selected' : '' }}>Automotive</option>
+                                        <option value="Environmental" {{ old('type', $listing->type) == 'Environmental' ? 'selected' : '' }}>Environmental</option>
+                                        <option value="Quick Service Restaurants" {{ old('type', $listing->type) == 'Quick Service Restaurants' ? 'selected' : '' }}>Quick Service Restaurants</option>
+                                        <option value="Food & Beverage" {{ old('type', $listing->type) == 'Food & Beverage' ? 'selected' : '' }}>Food & Beverage</option>
+                                        <option value="Garment Manufacturing" {{ old('type', $listing->type) == 'Garment Manufacturing' ? 'selected' : '' }}>Garment Manufacturing</option>
+                                        <option value="Fashion Events Management" {{ old('type', $listing->type) == 'Fashion Events Management' ? 'selected' : '' }}>Fashion Events Management</option>
+                                        <option value="Retail Clothing Stores" {{ old('type', $listing->type) == 'Retail Clothing Stores' ? 'selected' : '' }}>Retail Clothing Stores</option>
+                                        <option value="Fashion Design Studios" {{ old('type', $listing->type) == 'Fashion Design Studios' ? 'selected' : '' }}>Fashion Design Studios</option>
+                                        <option value="Shoe Manufacturing" {{ old('type', $listing->type) == 'Shoe Manufacturing' ? 'selected' : '' }}>Shoe Manufacturing</option>
+                                        <option value="Tailoring and Alterations" {{ old('type', $listing->type) == 'Tailoring and Alterations' ? 'selected' : '' }}>Tailoring and Alterations</option>
+                                        <option value="Textile Printing and Embroidery" {{ old('type', $listing->type) == 'Textile Printing and Embroidery' ? 'selected' : '' }}>Textile Printing and Embroidery</option>
+                                        <option value="Fashion Accessories" {{ old('type', $listing->type) == 'Fashion Accessories' ? 'selected' : '' }}>Fashion Accessories</option>
+                                        <option value="Boutiques" {{ old('type', $listing->type) == 'Boutiques' ? 'selected' : '' }}>Boutiques</option>
+                                        <option value="Apparel Recycling and Upcycling" {{ old('type', $listing->type) == 'Apparel Recycling and Upcycling' ? 'selected' : '' }}>Apparel Recycling and Upcycling</option>
+                                        <option value="Apparel Exporters" {{ old('type', $listing->type) == 'Apparel Exporters' ? 'selected' : '' }}>Apparel Exporters</option>
                                     </select>
+
                                 </div>
                             </div>
 

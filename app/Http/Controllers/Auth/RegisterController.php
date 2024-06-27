@@ -113,9 +113,9 @@ class RegisterController extends Controller
         return $user;
     }
 
-    protected function registered(Request $request, $user)
-    {
-        event(new Registered($user));
-        return redirect()->route('verification.notice');
-    }
+    // protected function registered(Request $request, $user)
+    // {
+    //     event(new Registered($user));
+    //     return redirect()->route('verification.notice');
+    // }
 }

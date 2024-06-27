@@ -95,13 +95,15 @@
             background-color: #0056b3;
         }
 
-                #directions-container {
-            display: none; /* Hide the directions container by default */
+        #directions-container {
+            display: none;
+            /* Hide the directions container by default */
             margin: 10px;
             position: relative;
             top: 0;
             left: 0;
-            width: 100%; /* Make it take full width */
+            width: 100%;
+            /* Make it take full width */
         }
 
 
@@ -122,11 +124,10 @@
             }
         }
 
-        .leaflet-routing-alt{
+        .leaflet-routing-alt {
             font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
             color: rgb(15, 3, 3);
         }
-
     </style>
     @vite(['resources/scss/category.scss'])
     @vite(['resources/scss/_section.scss'])
@@ -152,7 +153,7 @@
     <div id="map-container">
         <div id="map"></div>
 
-        <div id="directions-container" >
+        <div id="directions-container">
             <button id="stop-navigation" onclick="stopNavigation()">Stop Navigation</button>
 
             <div class="leaflet-routing-container leaflet-bar leaflet-control">
@@ -172,7 +173,7 @@
         {{-- <button id="search-button" onclick="getDirections()">Get Directions</button> --}}
         <button id="start-navigation" onclick="startNavigation()">Start Navigation</button>
 
-        </div>
+    </div>
 
 
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
@@ -214,7 +215,7 @@
                     // If no image is available, display a default message
                     marker.bindPopup("<b>" + post.businessName + "</b><br>" + post.description +
                         "<br>No image available" + (post.is_active ? "" : "<br><strong>Expired Permit</strong>")
-                        );
+                    );
                 }
             });
         }
@@ -284,122 +285,134 @@
         }
 
         var routingControl = L.Routing.control({
-    routeWhileDragging: true,
-    waypoints: [],
-    createMarker: function (i, waypoint, n) {
-        if (i === 0) {
-            var marker = L.marker(waypoint.latLng);
-            map.addLayer(marker);
-            return marker;
-        }
-        return null;
-    },
-    addWaypoints: true,
-    draggableWaypoints: false,
-    fitSelectedRoutes: false, // Prevent the map from adjusting its view to fit the route
-    show: true// Hide the routing control directions panel
-}).addTo(map);
-
-var intervalId; // Variable to store interval ID
-var routingContainer = document.querySelector('.leaflet-routing-container');
-
-// Hide the routing container initially
-routingContainer.style.display = 'none';
-
-function startNavigation() {
-    var startName = document.getElementById("start").value;
-    var endName = document.getElementById("end").value;
-
-    if (startName && endName) { // Check if both fields are filled
-        // Hide the search form
-        document.getElementById("search-form").style.display = "none";
-
-        document.getElementById("directions-container").style.display = 'block'; // Show the directions container
-        routingContainer.style.display = 'block'; // Show the routing container
-        intervalId = setInterval(() => {
-            getDirections();
-            console.log("Directions updated");
-        }, 2000);
-    } else {
-        alert("Please fill both the start and end locations.");
-    }
-}
-
-function stopNavigation() {
-    clearInterval(intervalId); // Clear the interval to stop updating directions
-    routingContainer.style.display = 'none'; // Hide the routing container
-    console.log("Navigation stopped");
-
-    // Display the search form again
-    document.getElementById("search-form").style.display = "block";
-
-    // Hide the directions container
-    document.getElementById("directions-container").style.display = 'none';
-}
-
-
-
-function getDirections() {
-    var startName = document.getElementById("start").value;
-    var endName = document.getElementById("end").value;
-    var waypoints = [];
-
-    if (startName.toLowerCase().includes("current")) {
-        navigator.geolocation.getCurrentPosition(
-            function (position) {
-                var userLatLng = [position.coords.latitude, position.coords.longitude];
-                waypoints.push(L.latLng(userLatLng[0], userLatLng[1]));
-                var endLocation = findLocationByName(endName);
-                if (endLocation !== null) {
-                    waypoints.push(L.latLng(endLocation.lat, endLocation.lng));
-                    routingControl.setWaypoints(waypoints);
-                } else {
-                    alert("Unable to find end location.");
+            routeWhileDragging: true,
+            waypoints: [],
+            createMarker: function(i, waypoint, n) {
+                if (i === 0) {
+                    var marker = L.marker(waypoint.latLng);
+                    map.addLayer(marker);
+                    return marker;
                 }
+                return null;
             },
-            function (error) {
-                console.error("Error getting user location:", error.message);
-            }
-        );
-    } else {
-        var startLocation = findLocationByName(startName);
-        if (startLocation !== null) {
-            waypoints.push(L.latLng(startLocation.lat, startLocation.lng));
-            var endLocation = findLocationByName(endName);
-            if (endLocation !== null) {
-                waypoints.push(L.latLng(endLocation.lat, endLocation.lng));
-                routingControl.setWaypoints(waypoints);
+            addWaypoints: true,
+            draggableWaypoints: false,
+            fitSelectedRoutes: false, // Prevent the map from adjusting its view to fit the route
+            show: true // Hide the routing control directions panel
+        }).addTo(map);
+
+        var intervalId; // Variable to store interval ID
+        var routingContainer = document.querySelector('.leaflet-routing-container');
+
+        // Hide the routing container initially
+        routingContainer.style.display = 'none';
+
+        function startNavigation() {
+            var startName = document.getElementById("start").value;
+            var endName = document.getElementById("end").value;
+
+            if (startName && endName) { // Check if both fields are filled
+                // Hide the search form
+                document.getElementById("search-form").style.display = "none";
+
+                document.getElementById("directions-container").style.display = 'block'; // Show the directions container
+                routingContainer.style.display = 'block'; // Show the routing container
+                intervalId = setInterval(() => {
+                    getDirections();
+                    console.log("Directions updated");
+                }, 2000);
             } else {
-                alert("Unable to find end location.");
+                alert("Please fill both the start and end locations.");
             }
-        } else {
-            alert("Unable to find start location.");
         }
-    }
-}
 
-function findLocationByName(name) {
-    for (var i = 0; i < posts.length; i++) {
-        if (posts[i].businessName.toLowerCase() === name.toLowerCase()) {
-            return { lat: posts[i].latitude, lng: posts[i].longitude };
+        function stopNavigation() {
+            clearInterval(intervalId); // Clear the interval to stop updating directions
+            routingContainer.style.display = 'none'; // Hide the routing container
+            console.log("Navigation stopped");
+
+            // Display the search form again
+            document.getElementById("search-form").style.display = "block";
+
+            // Hide the directions container
+            document.getElementById("directions-container").style.display = 'none';
         }
-    }
-    return null;
-}
 
-function clearMarkers() {
-    routingControl.getPlan().setWaypoints([]);
-}
 
-// Append Leaflet Routing Machine control to #directions-container
-function appendRoutingControl() {
-    var directionsContainer = document.getElementById("directions-container");
-    var control = routingControl.onAdd(map);
-    directionsContainer.appendChild(control);
-}
 
-// Call the function to append the control
-appendRoutingControl();
+        function getDirections() {
+            var startName = document.getElementById("start").value;
+            var endName = document.getElementById("end").value;
+            var waypoints = [];
+
+            if (startName.toLowerCase().includes("current")) {
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        var userLatLng = [position.coords.latitude, position.coords.longitude];
+                        waypoints.push(L.latLng(userLatLng[0], userLatLng[1]));
+                        var endLocation = findLocationByName(endName);
+                        let alertShown = false;
+
+                        if (endLocation !== null) {
+                            waypoints.push(L.latLng(endLocation.lat, endLocation.lng));
+                            routingControl.setWaypoints(waypoints);
+                        } else {
+                            if (!alertShown) {
+                                alert("Unable to find end location.");
+                                alertShown = true; // Set flag to true after showing the alert
+                                setTimeout(function() {
+                                    window.history.back(); // Navigate back in history after 1 second
+                                }, 1000); // 1000 milliseconds = 1 second
+                            }
+                        }
+
+                    },
+                    function(error) {
+                        console.error("Error getting user location:", error.message);
+                    }
+                );
+            } else {
+                var startLocation = findLocationByName(startName);
+                if (startLocation !== null) {
+                    waypoints.push(L.latLng(startLocation.lat, startLocation.lng));
+                    var endLocation = findLocationByName(endName);
+                    if (endLocation !== null) {
+                        waypoints.push(L.latLng(endLocation.lat, endLocation.lng));
+                        routingControl.setWaypoints(waypoints);
+                    } else {
+                        alert("Unable to find end location.");
+                    }
+                } else {
+                    alert("Unable to find start location.");
+                }
+            }
+        }
+
+        function findLocationByName(name) {
+            for (var i = 0; i < posts.length; i++) {
+                if (posts[i].businessName.toLowerCase() === name.toLowerCase()) {
+                    return {
+                        lat: posts[i].latitude,
+                        lng: posts[i].longitude
+                    };
+                }
+            }
+            return null;
+        }
+
+        function clearMarkers() {
+            routingControl.getPlan().setWaypoints([]);
+        }
+
+        // Append Leaflet Routing Machine control to #directions-container
+        function appendRoutingControl() {
+            var directionsContainer = document.getElementById("directions-container");
+            var control = routingControl.onAdd(map);
+            directionsContainer.appendChild(control);
+        }
+
+        // Call the function to append the control
+        appendRoutingControl();
 
 
 
