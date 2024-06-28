@@ -215,64 +215,50 @@
                             <div class="field">
                                 <label class="label">Monday</label>
                                 <div class="control">
-                                    <input type="time" id="mondayOpen" name="monday_open"
-                                        value="{{ old('monday_open', $listing->monday_open) }}">
-                                    <input type="time" id="mondayClose" name="monday_close"
-                                        value="{{ old('monday_close', $listing->monday_close) }}">
+                                    <input type="time" id="mondayOpen" name="mondayOpen" >
+                                    <input type="time" id="mondayClose" name="mondayClose" >
                                 </div>
                             </div>
                             <div class="field">
                                 <label class="label">Tuesday</label>
                                 <div class="control">
-                                    <input type="time" id="tuesdayOpen" name="tuesday_open"
-                                        value="{{ old('tuesday_open', $listing->tuesday_open) }}">
-                                    <input type="time" id="tuesdayClose" name="tuesday_close"
-                                        value="{{ old('tuesday_close', $listing->tuesday_close) }}">
+                                    <input type="time" id="tuesdayOpen" name="tuesdayOpen" >
+                                    <input type="time" id="tuesdayClose" name="tuesdayClose" >
                                 </div>
                             </div>
                             <div class="field">
                                 <label class="label">Wednesday</label>
                                 <div class="control">
-                                    <input type="time" id="wednesdayOpen" name="wednesday_open"
-                                        value="{{ old('wednesday_open', $listing->wednesday_open) }}">
-                                    <input type="time" id="wednesdayClose" name="wednesday_close"
-                                        value="{{ old('wednesday_close', $listing->wednesday_close) }}">
+                                    <input type="time" id="wednesdayOpen" name="wednesdayOpen" >
+                                    <input type="time" id="wednesdayClose" name="wednesdayClose" >
                                 </div>
                             </div>
                             <div class="field">
                                 <label class="label">Thursday</label>
                                 <div class="control">
-                                    <input type="time" id="thursdayOpen" name="thursday_open"
-                                        value="{{ old('thursday_open', $listing->thursday_open) }}">
-                                    <input type="time" id="thursdayClose" name="thursday_close"
-                                        value="{{ old('thursday_close', $listing->thursday_close) }}">
+                                    <input type="time" id="thursdayOpen" name="thursdayOpen" >
+                                    <input type="time" id="thursdayClose" name="thursdayClose" >
                                 </div>
                             </div>
                             <div class="field">
                                 <label class="label">Friday</label>
                                 <div class="control">
-                                    <input type="time" id="fridayOpen" name="friday_open"
-                                        value="{{ old('friday_open', $listing->friday_open) }}">
-                                    <input type="time" id="fridayClose" name="friday_close"
-                                        value="{{ old('friday_close', $listing->friday_close) }}">
+                                    <input type="time" id="fridayOpen" name="fridayOpen" >
+                                    <input type="time" id="fridayClose" name="fridayClose" >
                                 </div>
                             </div>
                             <div class="field">
                                 <label class="label">Saturday</label>
                                 <div class="control">
-                                    <input type="time" id="saturdayOpen" name="saturday_open"
-                                        value="{{ old('saturday_open', $listing->saturday_open) }}">
-                                    <input type="time" id="saturdayClose" name="saturday_close"
-                                        value="{{ old('saturday_close', $listing->saturday_close) }}">
+                                    <input type="time" id="saturdayOpen" name="saturdayOpen" >
+                                    <input type="time" id="saturdayClose" name="saturdayClose" >
                                 </div>
                             </div>
                             <div class="field">
                                 <label class="label">Sunday</label>
                                 <div class="control">
-                                    <input type="time" id="sundayOpen" name="sunday_open"
-                                        value="{{ old('sunday_open', $listing->sunday_open) }}">
-                                    <input type="time" id="sundayClose" name="sunday_close"
-                                        value="{{ old('sunday_close', $listing->sunday_close) }}">
+                                    <input type="time" id="sundayOpen" name="sundayOpen" >
+                                    <input type="time" id="sundayClose" name="sundayClose" >
                                 </div>
                             </div>
 
