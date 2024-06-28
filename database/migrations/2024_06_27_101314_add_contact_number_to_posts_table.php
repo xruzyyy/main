@@ -14,7 +14,7 @@ class AddContactNumberToPostsTable extends Migration
     public function up()
     {
         Schema::table('posts', function (Blueprint $table) {
-            $table->bigInteger('contactNumber')->nullable();
+            $table->string('contactNumber', 20)->nullable();
         });
     }
 

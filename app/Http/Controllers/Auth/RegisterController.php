@@ -31,11 +31,12 @@ class RegisterController extends Controller
         'image.dimensions' => 'The permit image dimensions must be at least 480x480 pixels.',
         'password.regex' => 'The password must contain at least one lowercase letter, one uppercase letter, and one numeric digit.',
         'password.confirmed' => 'The passwords do not match.',
+        'email.gmail' => 'The email must be a Gmail address.',
     ];
 
     $rules = [
         'name' => ['required', 'string', 'max:255'],
-        'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+        'email' => ['required', 'string', 'email', 'max:255', 'unique:users', 'regex:/^[a-zA-Z0-9._%+-]+@gmail\.com$/'],
         'password' => ['required', 'string', 'min:8', 'confirmed', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/'],
         'type' => ['required', 'string', 'in:user,admin,business'],
         'profile_image' => ['required', 'mimes:jpg,jpeg,webp,png,jfif,heic'],

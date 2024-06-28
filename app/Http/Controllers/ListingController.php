@@ -155,7 +155,7 @@ public function store(Request $request)
         'type' => 'required',
         'latitude' => 'required|numeric',
         'longitude' => 'required|numeric',
-        'contactNumber' => 'required|numeric|digits:11|unique:posts,contactNumber',
+        'contactNumber' => 'required|string|digits_between:10,15',
         'is_active' => 'sometimes',
         // Store hours fields validation with nullable
         'mondayOpen' => 'nullable|date_format:H:i',

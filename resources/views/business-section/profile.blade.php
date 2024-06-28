@@ -129,32 +129,7 @@
     </div>
 
     @if(isset($post))
-    <form action="{{ route('businessPost.update', $post->id) }}" method="POST">
-        @csrf
-        @method('PUT')
 
-        <div class="container">
-            <div class="form-group row">
-                <label for="description" class="col-md-3 control-label">Description:</label>
-                <div class="col-md-8">
-                    <textarea class="form-control" id="description" name="description" rows="3">{{ $post->description }}</textarea>
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label for="contact_number" class="col-md-3 control-label">Contact Number:</label>
-                <div class="col-md-8">
-                    <input type="text" class="form-control" id="contact_number" name="contact_number" value="{{ $post->contactNumber }}">
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <div class="col-md-8 col-md-offset-3">
-                    <button type="submit" class="btn btn-primary">Update Post</button>
-                </div>
-            </div>
-        </div>
-    </form>
     @else
     <p>No post to update.</p>
     @endif

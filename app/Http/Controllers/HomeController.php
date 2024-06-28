@@ -30,20 +30,24 @@ class HomeController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index()
-    {
-        $unseenCount = $this->fetchUnseenMessageCount();
-        $latestPosts = Posts::orderBy('created_at', 'desc')->get();
-        $posts = Posts::with('ratings')->latest()->take(6)->get(['id', 'user_id', 'businessName', 'description', 'images', 'latitude', 'longitude', 'is_active', 'type', 'contactNumber']);
+{
+    $unseenCount = $this->fetchUnseenMessageCount();
+    $latestPosts = Posts::orderBy('created_at', 'desc')->get();
+    $posts = Posts::with('ratings')->latest()->take(6)->get(['id', 'user_id', 'businessName', 'description', 'images', 'latitude', 'longitude', 'is_active', 'type', 'contactNumber', 'monday_open', 'monday_close', 'tuesday_open', 'tuesday_close', 'wednesday_open', 'wednesday_close', 'thursday_open', 'thursday_close', 'friday_open', 'friday_close', 'saturday_open', 'saturday_close', 'sunday_open', 'sunday_close']);
 
-        return view(
-            'userPage.home',
-            [
-                'unseenCount' => $unseenCount,
-                'latestPosts' => $latestPosts,
-                'posts' => $posts
-            ],
-        );
-    }
+    $current_time = \Carbon\Carbon::now()->setTimezone(config('app.timezone'));
+
+    return view(
+        'userPage.home',
+        [
+            'unseenCount' => $unseenCount,
+            'latestPosts' => $latestPosts,
+            'posts' => $posts,
+            'current_time' => $current_time
+        ]
+    );
+}
+
 
     public function adminDashboard()
     {
@@ -174,7 +178,7 @@ public function mapStore(Request $request)
         $request->validate([
             'businessName' => 'required|max:255|string',
             'description' => 'required|max:200|string',
-            'contactNumber' => 'required|string',
+            'contactNumber' => 'required|string|digits_between:10,15',
             'type' => [
                 'required',
                 Rule::in($allowedTypes),
