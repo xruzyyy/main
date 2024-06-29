@@ -1,0 +1,472 @@
+.section {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.video-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+}
+
+.container {
+    position: relative;
+    z-index: 1;
+}
+
+.business-section {
+    background-color: #0050c98e !important; /* Adjust background color as needed */
+    color: #fff; /* Adjust text color as needed */
+    padding: 80px 0; /* Adjust padding as needed */
+}
+/* Wave animation CSS */
+.wave-container {
+    position: relative;
+    width: 100%;
+    height: 150px;
+    overflow: hidden;
+    background: #0050c98e;
+}
+
+.wave-container .waves {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.wave-container .waves .parallax > use {
+    animation: move-forever 25s cubic-bezier(.55,.5,.45,.5) infinite;
+}
+
+.wave-container .waves .parallax > use:nth-child(1) {
+    animation-delay: -2s;
+    animation-duration: 7s;
+}
+
+.wave-container .waves .parallax > use:nth-child(2) {
+    animation-delay: -3s;
+    animation-duration: 10s;
+}
+
+.wave-container .waves .parallax > use:nth-child(3) {
+    animation-delay: -4s;
+    animation-duration: 13s;
+}
+
+.wave-container .waves .parallax > use:nth-child(4) {
+    animation-delay: -5s;
+    animation-duration: 20s;
+}
+
+@keyframes move-forever {
+    0% { transform: translate3d(-90px, 0, 0); }
+    100% { transform: translate3d(85px, 0, 0); }
+}
+
+/* General styles for the section */
+.business-section {
+    font-family: Arial, sans-serif;
+    color: #fff;
+    background-color: #02021f; /* Dark background */
+    padding: 80px 0; /* Adjust padding as needed */
+}
+
+.section-title {
+    font-size: 2.5em; /* Default font size for large screens */
+    margin-bottom: 40px;
+    white-space: nowrap;
+    font-weight: bold;
+    font-family: "Arial", sans-serif;
+    color: whitesmoke;
+    position: relative; /* Positioning for the image */
+    // text-shadow:
+    //     1px 1px 0 #000,
+    //     2px 2px 0 #000,
+    //     3px 3px 0 #000,
+    //     4px 4px 0 #000,
+    //     5px 5px 0 #000; /* Adding multiple shadows for depth */
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    .section-title {
+        font-size: 2.2em;
+    }
+}
+
+@media (max-width: 992px) {
+    .section-title {
+        font-size: 2em;
+    }
+}
+
+@media (max-width: 768px) {
+    .section-title {
+        font-size: 1.8em;
+    }
+}
+
+@media (max-width: 576px) {
+    .section-title {
+        font-size: 1.5em;
+    }
+}
+
+@media (max-width: 400px) {
+    .section-title {
+        font-size: 1.3em;
+    }
+}
+
+
+.business-list {
+    list-style: none;
+    padding: 0;
+}
+
+.business-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.business-icon {
+    font-size: 1.5em;
+    margin-right: 10px;
+    color: #fff;
+}
+
+.business-name {
+    color: #fff;
+    text-decoration: none;
+}
+
+.business-name:hover {
+    text-decoration: underline;
+}
+
+.reveal-container .text-container {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1s ease-out, transform 1s ease-out;
+}
+
+.reveal-container .text-container.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.scroll-text {
+    font-size: clamp(2em, 3vw + 1em, 7em);
+    margin: 0;
+}
+
+.section-title {
+    margin-bottom: 40px;
+}
+
+.business-list {
+    list-style: none;
+    padding: 0;
+}
+
+.business-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    cursor: pointer;
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.business-item:hover {
+    transform: translateY(-15px);
+    box-shadow: 0 5px 15px rgba(255, 254, 254, 0.5);
+}
+
+.business-icon {
+    font-size: 24px;
+    margin-right: 15px;
+}
+
+/* Updated CSS with opacity transition and right slide-in */
+.text-container {
+    display: flex;
+    align-items: center;
+    overflow: hidden !important;
+    margin-top: 20px; /* Adjust spacing as needed */
+    opacity: 0; /* Initially hide the text */
+    transition:
+        opacity 1.15s,
+        transform 2.5s; /* Add a smooth transition for opacity and transform */
+}
+
+/* Class to reveal content */
+.revealed {
+    opacity: 1;
+    width: 90%; //Removes White Spaces
+    transform: translateX(15%); /* Slide in from the right */
+}
+
+.scroll-text {
+    white-space: nowrap;
+    font-weight: bold;
+    font-family: "Arial", sans-serif;
+    font-size: 6vw; /* Responsive font size */
+    color: whitesmoke;
+    position: relative; /* Positioning for the image */
+    // text-shadow:
+    //     1px 1px 0 #000,
+    //     2px 2px 0 #000,
+    //     3px 3px 0 #000,
+    //     4px 4px 0 #000,
+    //     5px 5px 0 #000; /* Adding multiple shadows for depth */
+}
+.business-section {
+    position: relative; /* Ensure the container is relative */
+}
+
+@media (min-width: 400px) and (min-height: 900px) {
+    .business-person {
+        top: 87%;
+    }
+    .scroll-text {
+        font-size: 2.1em;
+    }
+}
+
+@media (max-width: 400px) and (max-height: 900px) {
+    .business-person {
+        top: 55.5%;
+    }
+    .scroll-text {
+        font-size: 2.1em;
+    }
+}
+
+
+//search
+
+.fa-search {
+    margin-top: 1.7em !important;
+}
+
+
+.form-control {
+    margin-top: 2.5em !important;
+    height: 38px !important; /* Adjust the height as needed */
+    color: white !important;
+}
+.form-control:focus {
+    color: rgb(0, 255, 255) !important;
+    background-color: #212121 !important;
+    outline-color: rgb(0, 255, 255) !important;
+    box-shadow: -3px -3px 15px rgb(0, 255, 255) !important;
+    transition: .1s !important;
+    transition-property: box-shadow !important;
+  }
+  .form-control::placeholder {
+    color: rgb(255, 187, 0) !important;
+}
+.btn {
+    color: rgb(253, 253, 253) !important;
+    font-weight: bold !important;
+    font-style: italic !important;
+}
+.btn:hover {
+    color: goldenrod !important;
+}
+.transparent-form {
+    overflow: hidden; /* Hide overflow content */
+    padding: 0.3125rem; /* Add padding */
+    width: 80vw; /* Set a fixed width */
+}
+
+.transparent-form.transparent {
+    background-color: transparent;
+}
+.transparent-form .form-control::placeholder {
+    color: rgb(255, 255, 255); /* Placeholder text color */
+    font-weight: bold !important;
+    font-style: italic !important;
+}
+.form-control {
+    background-color: #00000000 !important;
+}
+
+//POST LIST
+
+// .section3-container {
+//     max-width: 100%; /* Ensure the container fills the width of its parent */
+//     padding: 0 15px; /* Adjust padding as needed */
+// }
+
+// .card {
+//     width: 10%; /* 10% of container's width */
+//     height: 10%; /* 10% of container's height */
+//     max-width: 100%; /* Limit card width to prevent overflow */
+//     margin: 10px auto; /* Center-align the cards and add spacing */
+// }
+
+/* Ensure cards stay within section 3 */
+/* Custom CSS for Latest Business Posts section */
+.number-suffix {
+    color: green;
+}
+
+.message-link {
+    text-decoration: none;
+    color: #0066ff; /* Set the base text color */
+    display: inline;
+    background: linear-gradient(90deg, #3e443f, #0000009f, #000000);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    // text-fill-color: transparent;
+    padding: 5px 0px;
+    border-radius: 5px;
+    position: relative;
+    overflow: hidden;
+    // transition: background-color 0.3s ease;
+}
+
+// .message-link::before {
+//     content: '';
+//     position: absolute;
+//     overflow: hidden;
+//     top: 0;
+//     left: -100%;
+//     width: 100%;
+//     height: 90%;
+//     background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.432), transparent);
+//     animation: shimmer 4s infinite;
+// }
+
+@keyframes shimmer {
+    0% {
+        left: -50%;
+    }
+    50% {
+        left: 60%;
+    }
+    100% {
+        left: -85%;
+    }
+}
+
+.message-link:hover {
+    background-color: #48ff00; /* Optional: Change background color on hover */
+}
+
+.message-link i {
+    margin-right: 5px;
+}
+
+.business-section-about {
+    background-color: #ffffff !important; /* Adjust background color as needed */
+    color: #000000; /* Adjust text color as needed */
+}
+
+.py-4 {
+    background-color: #f7f7e8 !important;
+}
+
+.business-section-post {
+    background-color: #ffffff !important; /* Adjust background color as needed */
+    color: #fff; /* Adjust text color as needed */
+    padding: 10px; /* Adjust padding as needed */
+    overflow: hidden; /* Hide overflow to prevent animation from revealing hidden content */
+}
+
+.business-section-post-list {
+    background-color: #ffffff !important; /* Adjust background color as needed */
+    color: #fff; /* Adjust text color as needed */
+    padding: 10px; /* Adjust padding as needed */
+    overflow: auto; /* Hide overflow to prevent animation from revealing hidden content */
+}
+
+.business-section-post h2 {
+    margin-bottom: 30px;
+    white-space: nowrap;
+    font-weight: bold;
+    font-family: "Arial", sans-serif;
+    font-weight: bold;
+    font-family: "Arial", sans-serif;
+    font-size: 5vw; /* Responsive font size */
+    color: rgb(0, 0, 0);
+    animation: slideInFromTop 0.5s ease-out; /* Apply animation to each card */
+}
+/* CSS */
+/* Add a class to trigger animation when scrolled into view */
+.animate-on-scroll {
+    opacity: 0;
+    transform: translateX(110px); /* Initial position off the viewport */
+    transition:
+        opacity 1.8s,
+        transform 1.8s;
+}
+
+.animate-on-scroll.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+/* Keyframes for animation */
+@keyframes slideInFromTop {
+    0% {
+        opacity: 0;
+        transform: translateY(-100%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Card styling */
+.card {
+    max-width: 18em;
+    flex: 1 1 calc(33.33% - 1.25em); /* Adjust the width as per your requirement */
+    margin-bottom: 20px;
+    // animation: slideInFromTop 0.5s ease-out; /* Apply animation to each card */
+    border: 4px solid rgb(0, 0, 0) !important; /* Add black border */
+    border-radius: 9px !important;
+}
+
+.card-body {
+    background-color: #ffffff;
+    height: 12.4em;
+    border-top: 2px solid black !important; /* Add black border */
+}
+
+.card img {
+    max-width: 100%;
+    height: 12em;
+}
+.personImg {
+    max-width: 35%;
+    height: auto;
+}
+
+.card-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.card-text {
+    font-size: 1rem;
+    color: #6c757d;
+    margin-bottom: 5px;
+}
+
+
