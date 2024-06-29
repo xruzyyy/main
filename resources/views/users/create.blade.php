@@ -1,27 +1,27 @@
 @extends('layouts.master')
 
 @section('manageUsersCreate')
-<style>
-     #togglePassword,
-#toggleConfirmPassword {
-    cursor: pointer;
-    margin-right: 10px;
-    margin-top: -30px;
-    margin-bottom: 40px;
-    position: relative;
-    float: right;
-}
+    <style>
+        #togglePassword,
+        #toggleConfirmPassword {
+            cursor: pointer;
+            margin-right: 10px;
+            margin-top: -30px;
+            margin-bottom: 40px;
+            position: relative;
+            float: right;
+        }
 
-#togglePassword:hover,
-#toggleConfirmPassword:hover {
-    color: #0056b3;
-}
+        #togglePassword:hover,
+        #toggleConfirmPassword:hover {
+            color: #0056b3;
+        }
 
-input::-ms-reveal,
-      input::-ms-clear {
-        display: none;
-      }
-</style>
+        input::-ms-reveal,
+        input::-ms-clear {
+            display: none;
+        }
+    </style>
     <div class="container">
         <div class="row">
             <div class="col-md-8 offset-md-2">
@@ -38,20 +38,6 @@ input::-ms-reveal,
                                     @endforeach
                                 </ul>
                             </div>
-                            <script>
-                                // JavaScript to automatically go back to previous page on validation error, with a 1-second delay
-                                if (window.history && window.history.length > 1) {
-                                    // Check if sessionStorage flag is set
-                                    if (!sessionStorage.getItem('backNavigated')) {
-                                        // Set sessionStorage flag to prevent subsequent back navigations
-                                        sessionStorage.setItem('backNavigated', true);
-                                        setTimeout(function() {
-                                            window.history.back();
-                                        }, 1000); // 1000 milliseconds = 1 second
-                                    }
-                                }
-                            </script>
-
                         @endif
 
                         @if (session('success'))
@@ -65,38 +51,48 @@ input::-ms-reveal,
 
                             <div class="form-group">
                                 <label for="name">Name</label>
-                                <input type="text" name="name" id="name" class="form-control" required>
+                                <input type="text" name="name" id="name" class="form-control" required
+                                    value="{{ old('name') }}">
                             </div>
 
                             <div class="form-group">
                                 <label for="email">Email</label>
-                                <input type="email" name="email" id="email" class="form-control" required>
+                                <input type="email" name="email" id="email" class="form-control" required
+                                    value="{{ old('email') }}">
                             </div>
 
                             <div class="form-group">
                                 <label for="password">Password</label>
-                                <input placeholder="Password" id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" value="{{ old('password') }}" required autocomplete="new-password">
+                                <input placeholder="Password" id="password" type="password"
+                                    class="form-control @error('password') is-invalid @enderror" name="password"
+                                    value="{{ old('password') }}" required autocomplete="new-password">
                                 <i id="togglePassword" class="fas fa-eye"></i>
                             </div>
 
                             <div class="form-group">
                                 <label for="password_confirmation">Confirm Password</label>
-                                <input placeholder="Confirm Password" id="password_confirm" type="password" class="form-control" name="password_confirmation" value="{{ old('password_confirmation') }}" required autocomplete="new-password">
+                                <input placeholder="Confirm Password" id="password_confirm" type="password"
+                                    class="form-control" name="password_confirmation"
+                                    value="{{ old('password_confirmation') }}" required autocomplete="new-password">
                                 <i id="toggleConfirmPassword" class="fas fa-eye"></i>
                             </div>
 
                             <div class="form-group">
                                 <label for="type">Type</label>
-                                <select name="type" id="type" class="form-control" onchange="toggleBusinessPermitSection(this.value)" required>
-                                    <option value="user">User</option>
-                                    <option value="admin">Admin</option>
-                                    <option value="business">Business</option>
+                                <select name="type" id="type" class="form-control"
+                                    onchange="toggleBusinessPermitSection(this.value)" required>
+                                    <option value="user" {{ old('type') == 'user' ? 'selected' : '' }}>User</option>
+                                    <option value="admin" {{ old('type') == 'admin' ? 'selected' : '' }}>Admin</option>
+                                    <option value="business" {{ old('type') == 'business' ? 'selected' : '' }}>Business</option>
                                 </select>
                             </div>
 
                             <div id="business_permit_section" class="form-group" style="display: {{ old('type') == 'business' ? 'block' : 'none' }};">
                                 <label for="image">Permit</label>
-                                <input type="file" name="image" id="image" class="form-control-file" {{ old('type') == 'business' ? 'required' : '' }}>
+                                <input type="file" name="image" id="image" class="form-control-file">
+                                @if (old('type') == 'business' && old('image'))
+                                    <img src="{{ asset(old('image')) }}" alt="Business Permit Image" class="img-thumbnail mt-2" width="100">
+                                @endif
                             </div>
 
                             <!-- Add profile image field -->
@@ -104,19 +100,20 @@ input::-ms-reveal,
                                 <label for="profile_image" class="col-md-4 col-form-label text-md-center label-custom"><b>Profile</b></label>
                                 <div class="col-md-6">
                                     <div class="input-group">
-                                        <input id="profile_image" type="file" class="form-control file-input @error('profile_image') is-invalid @enderror" name="profile_image" {{ old('profile_image') ? '' : 'required' }}>
+                                        <input id="profile_image" type="file" class="form-control file-input @error('profile_image') is-invalid @enderror" name="profile_image">
                                         <label class="input-group-text btn btn-primary" for="profile_image"><i class="fas fa-upload"></i> Choose File</label>
                                     </div>
                                     @if (old('profile_image'))
-                                        <img src="{{ old('profile_image') }}" alt="Profile Image" class="img-thumbnail mt-2" width="100">
+                                        <img src="{{ asset(old('profile_image')) }}" alt="Profile Image" class="img-thumbnail mt-2" width="100">
                                     @endif
                                     @error('profile_image')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
                                     @enderror
                                 </div>
                             </div>
+
                             <!-- Add a hidden input field for email_verified_at with current timestamp -->
                             <input type="hidden" name="email_verified_at" value="{{ now() }}">
 
@@ -146,21 +143,20 @@ input::-ms-reveal,
         }
 
         const togglePassword = document.querySelector('#togglePassword');
-    const toggleConfirmPassword = document.querySelector('#toggleConfirmPassword');
-    const password = document.querySelector('#password');
-    const confirmPassword = document.querySelector('#password_confirm');
+        const toggleConfirmPassword = document.querySelector('#toggleConfirmPassword');
+        const password = document.querySelector('#password');
+        const confirmPassword = document.querySelector('#password_confirm');
 
-    togglePassword.addEventListener('click', function() {
-        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-        password.setAttribute('type', type);
-        this.classList.toggle('fa-eye-slash');
-    });
+        togglePassword.addEventListener('click', function() {
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+            this.classList.toggle('fa-eye-slash');
+        });
 
-    toggleConfirmPassword.addEventListener('click', function() {
-        const type = confirmPassword.getAttribute('type') === 'password' ? 'text' : 'password';
-        confirmPassword.setAttribute('type', type);
-        this.classList.toggle('fa-eye-slash');
-    });
-
+        toggleConfirmPassword.addEventListener('click', function() {
+            const type = confirmPassword.getAttribute('type') === 'password' ? 'text' : 'password';
+            confirmPassword.setAttribute('type', type);
+            this.classList.toggle('fa-eye-slash');
+        });
     </script>
 @endsection

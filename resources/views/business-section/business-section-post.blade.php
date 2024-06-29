@@ -33,7 +33,7 @@
                                 <b style="color:rgb(0, 0, 0);">Message</b>
                             </a>
                             <i class="fa-brands fa-facebook-messenger" style="color: #006ce7f1; margin-right:40px;"></i>
-                            <p style="margin: 0;"><strong>Type:</strong> {{ $post->type }}</p>
+                            <a style="margin: 0; font-weight:bolder;"><strong>Type:</strong> {{ $post->type }}</a>
 
                             <!-- Display the is_active status -->
                             <p style="margin: 0" class="card-text">
@@ -114,6 +114,13 @@
 </script>
 
 
+<style>
+    p {
+    font-size: 16px !important;
+    font-weight: 500 !important;
+    color: #c3cad9
+}
+</style>
 <!-- JavaScript -->
 <script>
     // Function to open the business post in a new full-screen window

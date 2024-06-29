@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\UserRejected;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Auth\Events\Registered;
 
 class UserController extends Controller
 {
@@ -65,7 +66,7 @@ class UserController extends Controller
                 'email' => 'required|email|unique:users',
                 'password' => ['required', 'string', 'min:8', 'confirmed', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/'],
                 'type' => 'required|in:user,admin,business',
-                'profile_image' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'profile_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
                 'image' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
             ];
 
@@ -105,18 +106,19 @@ class UserController extends Controller
                 'email' => $request->input('email'),
                 'password' => Hash::make($request->input('password')),
                 'image' => $permitImageName ? 'uploads/permit_images/' . $permitImageName : null, // Use permit image if available
-                'email_verified_at' => now(), // Set email_verified_at to current timestamp
                 'profile_image' => $profileImageName ? 'uploads/profile_images/' . $profileImageName : null, // Use profile image if available
-                'status' => in_array($request->input('type'), ['user', 'admin', 'business']) ? 1 : 0,
-                'is_active' => in_array($request->input('type'), ['user', 'admin', 'business']) ? 1 : 0,
-                'type' => in_array($request->input('type'), ['user', 'admin']) ? 0 : 2, // Map user type string to integer value
-                'account_expiration_date' => $request['type'] === 'business' ? $expirationDate : null,
+                'status' => in_array($request->input('type'), ['user', 'admin']) ? 1 : 0, // Set status to 1 for user and admin, 0 for business
+                'is_active' => in_array($request->input('type'), ['user', 'admin']) ? 1 : 0, // Set is_active to 1 for user and admin, 0 for business
+                'type' => $request->input('type') === 'admin' ? 1 : ($request->input('type') === 'user' ? 0 : 2), // Map user type string to integer value
+                'account_expiration_date' => $request->input('type') === 'business' ? $expirationDate : null,
             ]);
 
-            // Trigger events and notifications
+
+            // Send the email verification notification
+            $user->sendEmailVerificationNotification();
 
             // Redirect the user to the index page of users
-            return redirect()->route('users.index')->with('success', 'User created successfully.');
+            return redirect()->route('users.index')->with('success', 'User created successfully and verification email sent.');
         } else {
             // Show the form to create a new user
             $users = User::all();
@@ -124,6 +126,8 @@ class UserController extends Controller
             return view('users.create', compact('users', 'unseenCount'));
         }
     }
+
+
 
 
     public function edit($userId)
@@ -140,7 +144,8 @@ class UserController extends Controller
             'email' => 'required|email|unique:users',
             'password' => ['required', 'string', 'min:8', 'confirmed', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/'],
             'type' => 'required|in:user,admin,business',
-            // Add more validation rules as needed
+            'profile_image' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         // Define expiration date for business type
@@ -148,6 +153,7 @@ class UserController extends Controller
         if ($request['type'] === 'business') {
             $expirationDate = now()->addYear();
         }
+
         // Handle profile image upload
         $profileImageName = null;
         if ($request->hasFile('profile_image')) {
@@ -171,23 +177,28 @@ class UserController extends Controller
             'password' => Hash::make($request->input('password')),
             'image' => $permitImageName ? 'uploads/permit_images/' . $permitImageName : null, // Use permit image if available
             'profile_image' => $profileImageName ? 'uploads/profile_images/' . $profileImageName : null, // Use profile image if available
-            'email_verified_at' => now(), // Set email_verified_at to current timestamp
-            'status' => in_array($request->input('type'), ['user', 'admin', 'business']) ? 1 : 0,
-            'is_active' => in_array($request->input('type'), ['user', 'admin', 'business']) ? 1 : 0,
-            'type' => in_array($request->input('type'), ['user', 'admin']) ? 0 : 2, // Map user type string to integer value
-            'account_expiration_date' => $request['type'] === 'business' ? $expirationDate : null,
+            'status' => in_array($request->input('type'), ['user', 'admin']) ? 1 : 0, // Set status to 1 for user and admin, 0 for business
+            'is_active' => in_array($request->input('type'), ['user', 'admin']) ? 1 : 0, // Set is_active to 1 for user and admin, 0 for business
+            'type' => $request->input('type') === 'admin' ? 1 : ($request->input('type') === 'user' ? 0 : 2), // Map user type string to integer value
+            'account_expiration_date' => $request->input('type') === 'business' ? $expirationDate : null,
         ]);
+
+
+        // Send the email verification notification
+        $user->sendEmailVerificationNotification();
 
         // Trigger the NewUserRegistered event
         event(new NewUserRegistered($user, $user->type));
+        // Send notification to the specific email
 
-        // Send notification to the specific email address
-        Notification::route('mail', 'misoutcompany@gmail.com')
-            ->notify(new NewUserNotification($user));
+        // Notification::route('mail', 'misoutcompany@gmail.com')
+        //     ->notify(new NewUserNotification($user));
 
         // Redirect to a relevant page after successful creation
-        return redirect()->route('users.index')->with('success', 'User created successfully');
+        return redirect()->route('users.index')->with('success', 'User created successfully and verification email sent.');
     }
+
+
 
     public function update(Request $request, $id)
     {

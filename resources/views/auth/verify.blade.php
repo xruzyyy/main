@@ -56,7 +56,9 @@
             margin-bottom: 10px;
         }
 
-        .btn-secondary {
+        .btn-secondar
+
+        y {
             background-color: #ff6b6b;
             color: #fff;
             border-radius: 5px;
@@ -65,6 +67,7 @@
             border: none;
             cursor: pointer;
             transition: background-color 0.3s;
+            margin: 5px;
         }
 
         .btn-secondary:hover {
@@ -80,13 +83,13 @@
     <div class="verification-card">
         <div class="card-header">Email Verification In Progress</div>
 
+
         <div class="card-body">
-            <p>Please wait while we verify your email address. This process may take a few minutes.</p>
-            <p>Once verification is complete, you will be able to proceed.</p>
-            <p>If you haven't received the verification email after a few minutes, you can request another.</p>
-            <form method="POST" action="{{ route('verification.resend') }}">
+            <h3 style="color: tomato;">After proceed please make surr to update your profile</h3>
+            <p>Please click the button below to verify your email address and proceed.</p>
+            <form method="POST" action="{{ route('verification.verify-manually') }}">
                 @csrf
-                <button type="submit" class="btn-secondary">Resend Verification Email</button>
+                <button type="submit" class="btn-secondary">Verify Now</button>
             </form>
         </div>
     </div>
