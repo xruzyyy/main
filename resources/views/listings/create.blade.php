@@ -204,7 +204,7 @@
         // JavaScript redirect after success message display
         setTimeout(function() {
             window.location.href = "{{ route('business.home') }}";
-        }, 3000); // Redirect after 3 seconds (adjust as needed)
+        }, 2000); // Redirect after 3 seconds (adjust as needed)
     </script>
 @endif
 
@@ -250,19 +250,12 @@
                         </div>
                     </div>
 
-                    <div class="field">
-                        <label class="label">Business Name</label>
-                        <div class="control">
-                            @if ($isBusiness)
-                                <input type="hidden" name="businessName" value="{{ $user->name }}">
-                                <p>{{ $user->name }}</p> <!-- Display the business name as plain text -->
-                            @else
-                                <input type="text" class="input" id="businessName" name="businessName" required
-                                    title="Please provide the name of your business"
-                                    value="{{ old('businessName') }}">
-                            @endif
-                        </div>
+                    <div class="form-group">
+                        <label for="businessName">Business Name</label>
+                        <input type="text" id="businessName" name="businessName" class="form-control" value="{{ Auth::user()->name }}" readonly>
                     </div>
+
+
                     <div class="field">
                         <label class="label">Description</label>
                         <div class="control">
@@ -346,7 +339,7 @@
                         </div>
                     </div>
 
-                    <div class="field">
+                    <div class="field" style="display: none;">
                         <label class="labelLocated">Latitude</label>
                         <div class="labelLocated">
                             <input type="text" class="input readonly-input" id="latitude" name="latitude"
@@ -354,7 +347,7 @@
                         </div>
                     </div>
 
-                    <div class="field">
+                    <div class="field" style="display: none;">
                         <label class="labelLocated">Longitude</label>
                         <div class="labelLocated">
                             <input type="text" class="input readonly-input" id="longitude" name="longitude"

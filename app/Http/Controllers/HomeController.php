@@ -184,20 +184,20 @@ public function mapStoreUpdate(Request $request)
             'images.*' => ['required', 'mimes:jpg,jpeg,webp,png,jfif', new ImageDimensions()],
             'latitude' => 'required|numeric',
             'longitude' => 'required|numeric',
-            'mondayOpen' => 'nullable|date_format:H:i',
-            'mondayClose' => 'nullable|date_format:H:i|after:mondayOpen',
-            'tuesdayOpen' => 'nullable|date_format:H:i',
-            'tuesdayClose' => 'nullable|date_format:H:i|after:tuesdayOpen',
-            'wednesdayOpen' => 'nullable|date_format:H:i',
-            'wednesdayClose' => 'nullable|date_format:H:i|after:wednesdayOpen',
-            'thursdayOpen' => 'nullable|date_format:H:i',
-            'thursdayClose' => 'nullable|date_format:H:i|after:thursdayOpen',
-            'fridayOpen' => 'nullable|date_format:H:i',
-            'fridayClose' => 'nullable|date_format:H:i|after:fridayOpen',
-            'saturdayOpen' => 'nullable|date_format:H:i',
-            'saturdayClose' => 'nullable|date_format:H:i|after:saturdayOpen',
-            'sundayOpen' => 'nullable|date_format:H:i',
-            'sundayClose' => 'nullable|date_format:H:i|after:sundayOpen',
+            'mondayOpen' => 'nullable',
+            'mondayClose' => 'nullable|after:mondayOpen',
+            'tuesdayOpen' => 'nullable',
+            'tuesdayClose' => 'nullable|after:tuesdayOpen',
+            'wednesdayOpen' => 'nullable',
+            'wednesdayClose' => 'nullable|after:wednesdayOpen',
+            'thursdayOpen' => 'nullable',
+            'thursdayClose' => 'nullable|after:thursdayOpen',
+            'fridayOpen' => 'nullable',
+            'fridayClose' => 'nullable|after:fridayOpen',
+            'saturdayOpen' => 'nullable',
+            'saturdayClose' => 'nullable|after:saturdayOpen',
+            'sundayOpen' => 'nullable',
+            'sundayClose' => 'nullable|after:sundayOpen',
         ]);
 
         // Update the listing with the new data
@@ -246,11 +246,10 @@ public function mapStoreUpdate(Request $request)
         // Save the updated listing
         $listing->save();
 
-        // Redirect back to the edit form with a success message and flash current input data to session
-        return redirect()
-            ->route('listings.update', ['id' => $listing->id])
-            ->with('success', 'Listing updated successfully!')
-            ->withInput();
+    // Redirect back to business.home with a success message
+    return redirect()
+        ->route('business.home')
+        ->with('success', 'Successfully Updated!');
     }
 
 

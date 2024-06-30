@@ -78,6 +78,14 @@
         Your browser does not support the video tag.
     </video>
     <div class="container text-white">
+        @if (session('success'))
+            <div id="successAlert" class="custom-alert">
+                <div class="custom-alert-content">
+                    <span class="custom-alert-text">{{ session('success') }}</span>
+                    <span class="custom-alert-close" onclick="closeSuccessAlert()">&times;</span>
+                </div>
+            </div>
+        @endif
         @if ($errors->any())
             <div class="alert alert-danger">
                 <ul>
@@ -212,4 +220,47 @@
         background-color: #000000;
         border-color: #00b7ff;
     }
+        /* Custom Alert Styles */
+        .custom-alert {
+        position: fixed;
+        top: 50px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #70ff6b;
+        color: #000;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+        width: 80%; /* Adjust width as needed */
+        max-width: 500px; /* Maximum width of the alert */
+    }
+
+    .custom-alert-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .custom-alert-text {
+        flex: 1;
+        font-size: 18px;
+        font-weight: 500;
+    }
+
+    .custom-alert-close {
+        cursor: pointer;
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .custom-alert-close:hover {
+        color: red;
+    }
 </style>
+<script>
+     function closeSuccessAlert() {
+        var alert = document.getElementById('successAlert');
+        alert.style.display = 'none';
+    }
+</script>

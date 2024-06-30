@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -125,18 +124,18 @@
 <body>
 
     @if (session('success'))
-    <div class="container mt-3">
-        <div class="alert alert-success">
-            {{ session('success') }}
+        <div class="container mt-3">
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
         </div>
-    </div>
-    <script>
-        // JavaScript redirect after success message display
-        setTimeout(function() {
-            window.location.href = "{{ route('business.home') }}";
-        }, 3000); // Redirect after 3 seconds (adjust as needed)
-    </script>
-@endif
+        <script>
+            // JavaScript redirect after success message display
+            setTimeout(function() {
+                window.location.href = "{{ route('business.home') }}";
+            }, 2000); // Redirect after 3 seconds (adjust as needed)
+        </script>
+    @endif
 
     <div class="form-holder">
         <div class="form-content">
@@ -417,7 +416,7 @@
                             <div class="file has-name is-boxed">
                                 <label class="file-label">
                                     <input type="file" class="file-input" id="images" name="images[]"
-                                        accept="image/*" multiple>
+                                        accept="image/*" multiple required>
                                     <span class="file-cta">
                                         <span class="file-icon">
                                             <i class="fas fa-upload"></i>
@@ -439,20 +438,18 @@
                     </div>
 
                     <!-- Latitude and Longitude fields -->
-                    <div class="form-group">
+                    <div class="form-group" style="display: none;">
                         <label for="latitude">Latitude</label>
                         <input type="text" id="latitude" name="latitude"
                             value="{{ old('latitude', request()->input('latitude', $listing->latitude)) }}" required>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group" style="display: none;">
                         <label for="longitude">Longitude</label>
                         <input type="text" id="longitude" name="longitude"
                             value="{{ old('longitude', request()->input('longitude', $listing->longitude)) }}"
                             required>
                     </div>
-
-
                     <div class="field">
                         <div class="control">
                             <button type="submit" class="button is-primary">Update Listing</button>

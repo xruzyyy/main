@@ -134,100 +134,102 @@ class ListingController extends Controller
         ]);
     }
 
- /**
- * Store a newly created listing in storage.
- *
- * @param  \Illuminate\Http\Request  $request
- * @return \Illuminate\Http\Response
- */
-public function store(Request $request)
-{
-    // Validate the request data, including store hours
-    $request->validate([
-        'businessName' => 'required|max:255|string',
-        'description' => 'required|max:200|string',
-        'images.*' => ['required', 'mimes:jpg,jpeg,webp,png,jfif', new ImageDimensions()],
-        'type' => 'required',
-        'latitude' => 'required|numeric',
-        'longitude' => 'required|numeric',
-        'contactNumber' => 'required|string|digits_between:10,15',
-        'is_active' => 'sometimes',
-        // Store hours fields validation with nullable
-        'mondayOpen' => 'nullable|date_format:H:i',
-        'mondayClose' => 'nullable|required_with:mondayOpen|date_format:H:i|after:mondayOpen',
-        'tuesdayOpen' => 'nullable|date_format:H:i',
-        'tuesdayClose' => 'nullable|required_with:tuesdayOpen|date_format:H:i|after:tuesdayOpen',
-        'wednesdayOpen' => 'nullable|date_format:H:i',
-        'wednesdayClose' => 'nullable|required_with:wednesdayOpen|date_format:H:i|after:wednesdayOpen',
-        'thursdayOpen' => 'nullable|date_format:H:i',
-        'thursdayClose' => 'nullable|required_with:thursdayOpen|date_format:H:i|after:thursdayOpen',
-        'fridayOpen' => 'nullable|date_format:H:i',
-        'fridayClose' => 'nullable|required_with:fridayOpen|date_format:H:i|after:fridayOpen',
-        'saturdayOpen' => 'nullable|date_format:H:i',
-        'saturdayClose' => 'nullable|required_with:saturdayOpen|date_format:H:i|after:saturdayOpen',
-        'sundayOpen' => 'nullable|date_format:H:i',
-        'sundayClose' => 'nullable|required_with:sundayOpen|date_format:H:i|after:sundayOpen',
-    ]);
+    /**
+     * Store a newly created listing in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        // Validate the request data, including store hours
+        $request->validate([
+            'businessName' => 'required|max:255|string',
+            'description' => 'required|max:200|string',
+            'images.*' => ['required', 'mimes:jpg,jpeg,webp,png,jfif', new ImageDimensions()],
+            'type' => 'required',
+            'latitude' => 'required|numeric',
+            'longitude' => 'required|numeric',
+            'contactNumber' => 'required|string|digits_between:10,15',
+            'is_active' => 'sometimes',
+            // Store hours fields validation with nullable
+            'mondayOpen' => 'nullable|date_format:H:i',
+            'mondayClose' => 'nullable|required_with:mondayOpen|date_format:H:i|after:mondayOpen',
+            'tuesdayOpen' => 'nullable|date_format:H:i',
+            'tuesdayClose' => 'nullable|required_with:tuesdayOpen|date_format:H:i|after:tuesdayOpen',
+            'wednesdayOpen' => 'nullable|date_format:H:i',
+            'wednesdayClose' => 'nullable|required_with:wednesdayOpen|date_format:H:i|after:wednesdayOpen',
+            'thursdayOpen' => 'nullable|date_format:H:i',
+            'thursdayClose' => 'nullable|required_with:thursdayOpen|date_format:H:i|after:thursdayOpen',
+            'fridayOpen' => 'nullable|date_format:H:i',
+            'fridayClose' => 'nullable|required_with:fridayOpen|date_format:H:i|after:fridayOpen',
+            'saturdayOpen' => 'nullable|date_format:H:i',
+            'saturdayClose' => 'nullable|required_with:saturdayOpen|date_format:H:i|after:saturdayOpen',
+            'sundayOpen' => 'nullable|date_format:H:i',
+            'sundayClose' => 'nullable|required_with:sundayOpen|date_format:H:i|after:sundayOpen',
+        ]);
 
-    // Check if the user already has a listing
-    $existingListing = Posts::where('user_id', auth()->user()->id)->exists();
+        // Check if the user already has a listing
+        $existingListing = Posts::where('user_id', auth()->user()->id)->exists();
 
-    // If the user already has a listing, redirect back with an error message
-    if ($existingListing) {
-        return redirect()->route('listings.create', ['id' => auth()->user()->id])->with('error', 'You can only create one listing per user.');
-    }
-
-    // Process images uploads
-    $paths = [];
-    if ($request->has('images')) {
-        foreach ($request->file('images') as $image) {
-            $extension = $image->getClientOriginalExtension();
-            $filename = time() . '_' . uniqid() . '.' . $extension;
-            $path = 'uploads/category/';
-
-
-            $image->move($path, $filename);
-            $paths[] = $path . $filename;
+        // If the user already has a listing, redirect back with an error message
+        if ($existingListing) {
+            return redirect()->route('listings.create', ['id' => auth()->user()->id])->with('error', 'You can only create one listing per user.');
         }
+
+        // Process images uploads
+        $paths = [];
+        if ($request->has('images')) {
+            foreach ($request->file('images') as $image) {
+                $extension = $image->getClientOriginalExtension();
+                $filename = time() . '_' . uniqid() . '.' . $extension;
+                $path = 'uploads/category/';
+
+
+                $image->move($path, $filename);
+                $paths[] = $path . $filename;
+            }
+        }
+
+        // Store the image paths as a JSON string
+        $imagesJson = json_encode($paths);
+
+        // Create the listing with store hours and other fields
+        $post = Posts::create([
+            'businessName' => $request->businessName,
+            'description' => $request->description,
+            'images' => $imagesJson,
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
+            'contactNumber' => $request->contactNumber,
+            'is_active' => $request->has('is_active') ? $request->input('is_active') : 1,
+            'type' => $request->type,
+            'user_id' => auth()->user()->id,
+            // Store store hours fields
+            'monday_open' => $request->input('mondayOpen'),
+            'monday_close' => $request->input('mondayClose'),
+            'tuesday_open' => $request->input('tuesdayOpen'),
+            'tuesday_close' => $request->input('tuesdayClose'),
+            'wednesday_open' => $request->input('wednesdayOpen'),
+            'wednesday_close' => $request->input('wednesdayClose'),
+            'thursday_open' => $request->input('thursdayOpen'),
+            'thursday_close' => $request->input('thursdayClose'),
+            'friday_open' => $request->input('fridayOpen'),
+            'friday_close' => $request->input('fridayClose'),
+            'saturday_open' => $request->input('saturdayOpen'),
+            'saturday_close' => $request->input('saturdayClose'),
+            'sunday_open' => $request->input('sundayOpen'),
+            'sunday_close' => $request->input('sundayClose'),
+        ]);
+
+        // Dispatch the BusinessListingAdded event if needed
+        event(new \App\Events\BusinessListingAdded($post, $request->businessName, auth()->user()->id));
+
+        // Redirect back to business.home with a success message
+        return redirect()
+            ->route('business.home')
+            ->with('success', 'Successfully Created!');
     }
-
-    // Store the image paths as a JSON string
-    $imagesJson = json_encode($paths);
-
-    // Create the listing with store hours and other fields
-    $post = Posts::create([
-        'businessName' => $request->businessName,
-        'description' => $request->description,
-        'images' => $imagesJson,
-        'latitude' => $request->latitude,
-        'longitude' => $request->longitude,
-        'contactNumber' => $request->contactNumber,
-        'is_active' => $request->has('is_active') ? $request->input('is_active') : 1,
-        'type' => $request->type,
-        'user_id' => auth()->user()->id,
-        // Store store hours fields
-        'monday_open' => $request->input('mondayOpen'),
-        'monday_close' => $request->input('mondayClose'),
-        'tuesday_open' => $request->input('tuesdayOpen'),
-        'tuesday_close' => $request->input('tuesdayClose'),
-        'wednesday_open' => $request->input('wednesdayOpen'),
-        'wednesday_close' => $request->input('wednesdayClose'),
-        'thursday_open' => $request->input('thursdayOpen'),
-        'thursday_close' => $request->input('thursdayClose'),
-        'friday_open' => $request->input('fridayOpen'),
-        'friday_close' => $request->input('fridayClose'),
-        'saturday_open' => $request->input('saturdayOpen'),
-        'saturday_close' => $request->input('saturdayClose'),
-        'sunday_open' => $request->input('sundayOpen'),
-        'sunday_close' => $request->input('sundayClose'),
-    ]);
-
-    // Dispatch the BusinessListingAdded event if needed
-    event(new \App\Events\BusinessListingAdded($post, $request->businessName, auth()->user()->id));
-
-    // Redirect to the appropriate route with success message
-    return redirect()->route('listings.create', ['id' => auth()->user()->id])->with('success', 'Listing created successfully!');
-}
 
     public function edit($id)
     {
