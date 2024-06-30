@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -124,12 +125,19 @@
 <body>
 
     @if (session('success'))
-        <div class="container mt-3">
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
+    <div class="container mt-3">
+        <div class="alert alert-success">
+            {{ session('success') }}
         </div>
-    @endif
+    </div>
+    <script>
+        // JavaScript redirect after success message display
+        setTimeout(function() {
+            window.location.href = "{{ route('business.home') }}";
+        }, 3000); // Redirect after 3 seconds (adjust as needed)
+    </script>
+@endif
+
     <div class="form-holder">
         <div class="form-content">
             <div class="form-items">
@@ -409,7 +417,7 @@
                             <div class="file has-name is-boxed">
                                 <label class="file-label">
                                     <input type="file" class="file-input" id="images" name="images[]"
-                                        accept="image/*" multiple re>
+                                        accept="image/*" multiple>
                                     <span class="file-cta">
                                         <span class="file-icon">
                                             <i class="fas fa-upload"></i>

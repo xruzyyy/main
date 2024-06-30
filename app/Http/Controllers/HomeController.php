@@ -11,6 +11,8 @@ use App\Notifications\NewCommentNotification;
 use Illuminate\Support\Facades\DB;
 use App\Models\Notification;
 use Illuminate\Validation\Rule; // Import Rule class for validation rules
+use App\Rules\ImageDimensions;
+
 
 class HomeController extends Controller
 {
@@ -30,24 +32,20 @@ class HomeController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index()
-{
-    $unseenCount = $this->fetchUnseenMessageCount();
-    $latestPosts = Posts::orderBy('created_at', 'desc')->get();
-    $posts = Posts::with('ratings')->latest()->take(6)->get(['id', 'user_id', 'businessName', 'description', 'images', 'latitude', 'longitude', 'is_active', 'type', 'contactNumber', 'monday_open', 'monday_close', 'tuesday_open', 'tuesday_close', 'wednesday_open', 'wednesday_close', 'thursday_open', 'thursday_close', 'friday_open', 'friday_close', 'saturday_open', 'saturday_close', 'sunday_open', 'sunday_close']);
+    {
+        $unseenCount = $this->fetchUnseenMessageCount();
+        $latestPosts = Posts::orderBy('created_at', 'desc')->get();
+        $posts = Posts::with('ratings')->latest()->take(6)->get(['id', 'user_id', 'businessName', 'description', 'images', 'latitude', 'longitude', 'is_active', 'type', 'contactNumber']);
 
-    $current_time = \Carbon\Carbon::now()->setTimezone(config('app.timezone'));
-
-    return view(
-        'userPage.home',
-        [
-            'unseenCount' => $unseenCount,
-            'latestPosts' => $latestPosts,
-            'posts' => $posts,
-            'current_time' => $current_time
-        ]
-    );
-}
-
+        return view(
+            'userPage.home',
+            [
+                'unseenCount' => $unseenCount,
+                'latestPosts' => $latestPosts,
+                'posts' => $posts
+            ],
+        );
+    }
 
     public function adminDashboard()
     {
@@ -108,7 +106,7 @@ class HomeController extends Controller
     }
 
 
-public function mapStore(Request $request)
+public function mapStoreUpdate(Request $request)
     {
         // Fetch unseen message count
         $unseenCount = DB::table('ch_messages')
@@ -178,28 +176,28 @@ public function mapStore(Request $request)
         $request->validate([
             'businessName' => 'required|max:255|string',
             'description' => 'required|max:200|string',
-            'contactNumber' => 'required|string|digits_between:10,15',
+            'contactNumber' => 'required|string',
             'type' => [
                 'required',
                 Rule::in($allowedTypes),
             ],
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg',
+            'images.*' => ['required', 'mimes:jpg,jpeg,webp,png,jfif', new ImageDimensions()],
             'latitude' => 'required|numeric',
             'longitude' => 'required|numeric',
-            'mondayOpen' => 'nullable',
-            'mondayClose' => 'nullable|after:mondayOpen',
-            'tuesdayOpen' => 'nullable',
-            'tuesdayClose' => 'nullable|after:tuesdayOpen',
-            'wednesdayOpen' => 'nullable',
-            'wednesdayClose' => 'nullable|after:wednesdayOpen',
-            'thursdayOpen' => 'nullable',
-            'thursdayClose' => 'nullable|after:thursdayOpen',
-            'fridayOpen' => 'nullable',
-            'fridayClose' => 'nullable|after:fridayOpen',
-            'saturdayOpen' => 'nullable',
-            'saturdayClose' => 'nullable|after:saturdayOpen',
-            'sundayOpen' => 'nullable',
-            'sundayClose' => 'nullable|after:sundayOpen',
+            'mondayOpen' => 'nullable|date_format:H:i',
+            'mondayClose' => 'nullable|date_format:H:i|after:mondayOpen',
+            'tuesdayOpen' => 'nullable|date_format:H:i',
+            'tuesdayClose' => 'nullable|date_format:H:i|after:tuesdayOpen',
+            'wednesdayOpen' => 'nullable|date_format:H:i',
+            'wednesdayClose' => 'nullable|date_format:H:i|after:wednesdayOpen',
+            'thursdayOpen' => 'nullable|date_format:H:i',
+            'thursdayClose' => 'nullable|date_format:H:i|after:thursdayOpen',
+            'fridayOpen' => 'nullable|date_format:H:i',
+            'fridayClose' => 'nullable|date_format:H:i|after:fridayOpen',
+            'saturdayOpen' => 'nullable|date_format:H:i',
+            'saturdayClose' => 'nullable|date_format:H:i|after:saturdayOpen',
+            'sundayOpen' => 'nullable|date_format:H:i',
+            'sundayClose' => 'nullable|date_format:H:i|after:sundayOpen',
         ]);
 
         // Update the listing with the new data
@@ -233,12 +231,6 @@ public function mapStore(Request $request)
                 $extension = $image->getClientOriginalExtension();
                 $filename = time() . '_' . uniqid() . '.' . $extension;
                 $path = 'uploads/category'; // Adjust path as needed
-
-                // Validate image dimensions
-                list($width, $height) = getimagesize($image->getRealPath());
-                if ($width < 480 || $height < 480) {
-                    return redirect()->back()->withErrors(['images' => 'Each image must be at least 480p resolution.']);
-                }
 
                 // Move image to storage
                 $image->move($path, $filename);

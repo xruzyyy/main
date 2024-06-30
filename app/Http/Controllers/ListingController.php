@@ -7,6 +7,7 @@ use App\Models\Posts;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Rules\ImageDimensions;
 
 class ListingController extends Controller
 {
@@ -66,12 +67,6 @@ class ListingController extends Controller
                     $extension = $image->getClientOriginalExtension();
                     $filename = time() . '_' . uniqid() . '.' . $extension;
                     $path = 'uploads/category/';
-
-                    // Validate image dimensions
-                    list($width, $height) = getimagesize($image->getRealPath());
-                    if ($width < 480 || $height < 480) {
-                        return redirect()->back()->withErrors(['images' => 'Each image must be at least 480p resolution.']);
-                    }
 
                     $image->move($path, $filename);
                     $paths[] = $path . $filename;
@@ -151,7 +146,7 @@ public function store(Request $request)
     $request->validate([
         'businessName' => 'required|max:255|string',
         'description' => 'required|max:200|string',
-        'images.*' => 'required|mimes:jpg,jpeg,webp,png,jfif',
+        'images.*' => ['required', 'mimes:jpg,jpeg,webp,png,jfif', new ImageDimensions()],
         'type' => 'required',
         'latitude' => 'required|numeric',
         'longitude' => 'required|numeric',
@@ -190,11 +185,6 @@ public function store(Request $request)
             $filename = time() . '_' . uniqid() . '.' . $extension;
             $path = 'uploads/category/';
 
-            // Validate image dimensions
-            list($width, $height) = getimagesize($image->getRealPath());
-            if ($width < 480 || $height < 480) {
-                return redirect()->back()->withErrors(['images' => 'Each image must be at least 480p resolution.']);
-            }
 
             $image->move($path, $filename);
             $paths[] = $path . $filename;

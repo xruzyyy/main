@@ -195,12 +195,19 @@
 <body>
 
     @if (session('success'))
-        <div class="container mt-3">
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
+    <div class="container mt-3">
+        <div class="alert alert-success">
+            {{ session('success') }}
         </div>
-    @endif
+    </div>
+    <script>
+        // JavaScript redirect after success message display
+        setTimeout(function() {
+            window.location.href = "{{ route('business.home') }}";
+        }, 3000); // Redirect after 3 seconds (adjust as needed)
+    </script>
+@endif
+
 
     <div class="form-holder">
         <div class="form-content">
@@ -215,9 +222,13 @@
                 <form action="{{ route('listings.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
 
-                    @if (session('error'))
+                    @if ($errors->any())
                         <div class="alert alert-danger">
-                            {{ session('error') }}
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
                         </div>
                     @endif
 
@@ -302,9 +313,7 @@
                                         {{ $type }}</option>
                                 @endforeach
                             </select>
-                            @error('type')
-                                <p class="invalid-feedback">{{ $message }}</p>
-                            @enderror
+
                         </div>
                     </div>
 
@@ -325,9 +334,7 @@
                                         </span>
                                     </span>
                                 </label>
-                                @error('images')
-                                    <p class="invalid-feedback">{{ $message }}</p>
-                                @enderror
+
                             </div>
                         </div>
                     </div>
