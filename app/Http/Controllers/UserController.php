@@ -289,7 +289,7 @@ class UserController extends Controller
     public function sortTable(Request $request)
     {
         // Initialize query builder for User model
-        $query = User::query();
+        $query = User::query()->where('type', 2); // Adjust 'type' field based on your actual database column name
 
         // Filtering by status
         if ($request->has('filter')) {

@@ -160,23 +160,19 @@
                             </ul>
                         </div>
                     @endif
-                    <!-- Location indicator -->
-                    <div class="field">
-                        <label class="label">Location</label>
-                        <div class="control">
-                            <a href="{{ route('map') }}" class="map-button" required
-                                title="Please provide your business location">
-                                <i class="fas fa-map-marked-alt map-button-icon"></i> Provide Location
-                                <!-- Indicator icon -->
-                                @if ($listing->latitude && $listing->longitude)
-                                    <i class="fas fa-check" style="color: green;"></i>
-                                @else
-                                    <i class="fas fa-times" style="color: red;"></i>
-                                @endif
-                            </a>
-                        </div>
-                    </div>
-
+                    <!-- Icon for location button -->
+                    <img src="{{ asset('images/map.png') }}" alt="Store Icon"
+                        style="background-color: #007bff; height: 40px; width: 40px; border-radius: 50%; margin-right: 5px;">
+                    Provide Location
+                    <!-- Indicator icon -->
+                    @if ($latitude && $longitude)
+                        <i class="fas fa-check"
+                            style="background-color: green; height:20px; width:20px; border-radius:5px;"></i>
+                    @else
+                        <i class="fas fa-times"
+                            style="background-color: red; height:20px; width:20px; border-radius:5px;"></i>
+                    @endif
+                    </a>
                     <div class="field">
                         <label class="label">Business Name</label>
                         <div class="control">

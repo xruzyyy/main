@@ -535,7 +535,6 @@ input::-ms-reveal,
                     <div class="col-md-6">
                         <div class="input-group">
                             <select style="width: 12em;" id="type" class="form-select select-custom @error('type') is-invalid @enderror" name="type" required onchange="toggleBusinessPermitSection(this.value)">
-                                <option value="business" {{ old('type') == 'business' ? 'selected' : '' }}>Business</option>
                                 <option value="user" {{ old('type') == 'user' ? 'selected' : '' }}>User</option>
                             </select>
                         </div>
