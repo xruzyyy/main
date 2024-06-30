@@ -335,53 +335,61 @@
                                 @endforeach
                             </ul>
                         </div>
-                    @endif
-
-
-                    <!-- Bootstrap Modal for Instructions -->
-                    <div class="modal fade custom-modal" id="instructionModal" tabindex="-1"
-                        aria-labelledby="instructionModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 style="background-color: #007bff;" class="modal-title"
-                                        id="instructionModalLabel">Provide A Location</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close">x</button>
-                                </div>
-                                <div class="modal-body">
-                                    <!-- Location indicator -->
-                                    <div class="field" style="background-color:white;">
-                                        <label class="label" style="background-color: white;">Location</label>
-                                        <div class="control" style="background-color: white;">
-                                            <!-- Example integration link in your form -->
-                                            <a href="{{ route('map') }}" class="map-button"
-                                                title="Provide your business location">
-                                                <!-- Icon for location button -->
-                                                <img src="{{ asset('images/map.png') }}" alt="Store Icon" style="background-color: #007bff; height: 40px; width: 40px; border-radius: 50%; margin-right: 5px;"> Provide Location
-                                                 <!-- Indicator icon -->
-                                                @if ($latitude && $longitude)
-                                                    <i class="fas fa-check"
-                                                        style="background-color: green; height:20px; width:20px; border-radius:5px;"></i>
-                                                @else
-                                                    <i class="fas fa-times"
-                                                        style="background-color: red; height:20px; width:20px; border-radius:5px;"></i>
-                                                @endif
-                                            </a>
+                    @else
+                        <!-- Bootstrap Modal for Instructions -->
+                        <div class="modal fade custom-modal" id="instructionModal" tabindex="-1"
+                            aria-labelledby="instructionModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 style="background-color: #007bff;" class="modal-title"
+                                            id="instructionModalLabel">Provide A Location</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close">x</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <!-- Location indicator -->
+                                        <div class="field" style="background-color:white;">
+                                            <label class="label" style="background-color: white;">Location</label>
+                                            <div class="control" style="background-color: white;">
+                                                <!-- Example integration link in your form -->
+                                                <a href="{{ route('map') }}" class="map-button"
+                                                    title="Provide your business location">
+                                                    <!-- Icon for location button -->
+                                                    <img src="{{ asset('images/map.png') }}" alt="Store Icon"
+                                                        style="background-color: #007bff; height: 40px; width: 40px; border-radius: 50%; margin-right: 5px;">
+                                                    Provide Location
+                                                    <!-- Indicator icon -->
+                                                    @if ($latitude && $longitude)
+                                                        <i class="fas fa-check"
+                                                            style="background-color: green; height:20px; width:20px; border-radius:5px;"></i>
+                                                    @else
+                                                        <i class="fas fa-times"
+                                                            style="background-color: red; height:20px; width:20px; border-radius:5px;"></i>
+                                                    @endif
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <!-- Example: -->
+                                        <p style="background-color: white; margin-top:2em;">Click and drag the marker to
+                                            adjust the location.</p>
+                                        <!-- Add your GIF here -->
+                                        <div class="gif-container" style="text-align: center; margin-top: 2em;">
+                                            <img src="{{ asset('images/instruction.gif') }}"
+                                                alt="Location Instructions" style="width: 100%; max-width: 400px;">
                                         </div>
                                     </div>
-                                    <!-- Example: -->
-                                    <p style="background-color: white; margin-top:2em;">Click and drag the marker to
-                                        adjust the location.</p>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-lg btn-primary"
-                                        data-bs-dismiss="modal">Done</button>
-                                    <a href="{{ route('map') }}" class="btn btn-lg btn-success">Proceed</a>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-lg btn-primary"
+                                            data-bs-dismiss="modal">Done</button>
+                                        <a href="{{ route('map') }}" class="btn btn-lg btn-success">Proceed</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    @endif
+
+
 
 
                     <div class="form-group">
