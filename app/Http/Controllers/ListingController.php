@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Rules\ImageDimensions;
+use App\Rules\LocationRequired;
 
 class ListingController extends Controller
 {
@@ -148,8 +149,7 @@ class ListingController extends Controller
             'description' => 'required|max:200|string',
             'images.*' => ['required', 'mimes:jpg,jpeg,webp,png,jfif', new ImageDimensions()],
             'type' => 'required',
-            'latitude' => 'required|numeric',
-            'longitude' => 'required|numeric',
+            'location' => ['required', new LocationRequired()],
             'contactNumber' => 'required|string|digits_between:10,15',
             'is_active' => 'sometimes',
             // Store hours fields validation with nullable
