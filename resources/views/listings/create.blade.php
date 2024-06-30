@@ -139,9 +139,6 @@
             transition: background-color 0.3s ease;
         }
 
-        .file-cta:hover {
-            background-color: #f0f0f0;
-        }
 
         .file-label {
             display: flex;
@@ -190,23 +187,131 @@
             background-color: rgba(0, 0, 0, 0.8);
         }
     </style>
+
+    <style>
+        /* Custom Modal Styles */
+        .custom-modal .modal-content {
+            background-color: #ffffff;
+            /* White background */
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .custom-modal .modal-header {
+            background-color: #007bff;
+            /* Blue background */
+            color: #ffffff;
+            /* White text */
+            border-radius: 10px 10px 0 0;
+            padding: 15px;
+        }
+
+        .custom-modal .modal-title {
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: #ffffff;
+            /* White text */
+        }
+
+        .custom-modal .modal-body {
+            padding: 20px;
+            background-color: #f8f9fa;
+            /* Light gray background */
+        }
+
+        .custom-modal .modal-footer {
+            background-color: #f8f9fa;
+            /* Light gray background */
+            border-radius: 0 0 10px 10px;
+            padding: 15px;
+        }
+
+        .custom-modal .btn-primary {
+            background-color: #007bff;
+            /* Blue button */
+            border-color: #007bff;
+            color: #ffffff;
+            /* White text */
+        }
+
+        .custom-modal .btn-primary:hover {
+            background-color: #0056b3;
+            /* Darker blue on hover */
+            border-color: #0056b3;
+        }
+
+        .custom-modal .btn-close {
+            color: #ffffff;
+            /* White close button */
+            font-size: 1.5rem;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+        }
+
+        .custom-modal .btn-close:hover {
+            color: #ffffff;
+            /* White close button on hover */
+        }
+
+        .custom-modal .field label {
+            font-weight: bold;
+            color: #495057;
+            /* Dark gray label text */
+        }
+
+        .custom-modal .modal-body p {
+            color: #495057;
+            /* Dark gray paragraph text */
+        }
+
+        .custom-modal .control {
+            margin-top: 10px;
+        }
+
+        .custom-modal .map-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            /* Blue button */
+            color: #ffffff;
+            /* White text */
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .custom-modal .map-button:hover {
+            background-color: #0056b3;
+            /* Darker blue on hover */
+        }
+
+        .custom-modal .map-button-icon {
+            margin-right: 10px;
+        }
+    </style>
+
 </head>
 
 <body>
 
     @if (session('success'))
-    <div class="container mt-3">
-        <div class="alert alert-success">
-            {{ session('success') }}
+        <div class="container mt-3">
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
         </div>
-    </div>
-    <script>
-        // JavaScript redirect after success message display
-        setTimeout(function() {
-            window.location.href = "{{ route('business.home') }}";
-        }, 2000); // Redirect after 3 seconds (adjust as needed)
-    </script>
-@endif
+        <script>
+            // JavaScript redirect after success message display
+            setTimeout(function() {
+                window.location.href = "{{ route('business.home') }}";
+            }, 2000); // Redirect after 3 seconds (adjust as needed)
+        </script>
+    @endif
 
 
     <div class="form-holder">
@@ -232,27 +337,57 @@
                         </div>
                     @endif
 
-                    <!-- Location indicator -->
-                    <div class="field">
-                        <label class="label">Location</label>
-                        <div class="control">
-                            <!-- Example integration link in your form -->
-                            <a href="{{ route('map') }}" class="map-button" title="Provide your business location">
-                                <i class="fas fa-map-marked-alt map-button-icon"></i> Provide Location
-                                <!-- Indicator icon -->
-                                @if ($latitude && $longitude)
-                                    <i class="fas fa-check" style="color: green;"></i>
-                                @else
-                                    <i class="fas fa-times" style="color: red;"></i>
-                                @endif
-                            </a>
 
+                    <!-- Bootstrap Modal for Instructions -->
+                    <div class="modal fade custom-modal" id="instructionModal" tabindex="-1"
+                        aria-labelledby="instructionModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 style="background-color: #007bff;" class="modal-title"
+                                        id="instructionModalLabel">Provide A Location</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close">x</button>
+                                </div>
+                                <div class="modal-body">
+                                    <!-- Location indicator -->
+                                    <div class="field" style="background-color:white;">
+                                        <label class="label" style="background-color: white;">Location</label>
+                                        <div class="control" style="background-color: white;">
+                                            <!-- Example integration link in your form -->
+                                            <a href="{{ route('map') }}" class="map-button"
+                                                title="Provide your business location">
+                                                <!-- Icon for location button -->
+                                                <img src="{{ asset('images/map.png') }}" alt="Store Icon" style="background-color: #007bff; height: 40px; width: 40px; border-radius: 50%; margin-right: 5px;"> Provide Location
+                                                 <!-- Indicator icon -->
+                                                @if ($latitude && $longitude)
+                                                    <i class="fas fa-check"
+                                                        style="background-color: green; height:20px; width:20px; border-radius:5px;"></i>
+                                                @else
+                                                    <i class="fas fa-times"
+                                                        style="background-color: red; height:20px; width:20px; border-radius:5px;"></i>
+                                                @endif
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <!-- Example: -->
+                                    <p style="background-color: white; margin-top:2em;">Click and drag the marker to
+                                        adjust the location.</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-lg btn-primary"
+                                        data-bs-dismiss="modal">Done</button>
+                                    <a href="{{ route('map') }}" class="btn btn-lg btn-success">Proceed</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
+
                     <div class="form-group">
                         <label for="businessName">Business Name</label>
-                        <input type="text" id="businessName" name="businessName" class="form-control" value="{{ Auth::user()->name }}" readonly>
+                        <input type="text" id="businessName" name="businessName" class="form-control"
+                            value="{{ Auth::user()->name }}" readonly>
                     </div>
 
 
@@ -291,7 +426,8 @@
                                 <input type="time" id="{{ strtolower($day) }}Open"
                                     name="{{ strtolower($day) }}Open" value="{{ old(strtolower($day) . 'Open') }}">
                                 <input type="time" id="{{ strtolower($day) }}Close"
-                                    name="{{ strtolower($day) }}Close" value="{{ old(strtolower($day) . 'Close') }}">
+                                    name="{{ strtolower($day) }}Close"
+                                    value="{{ old(strtolower($day) . 'Close') }}">
                             </div>
                         </div>
                     @endforeach
@@ -299,10 +435,12 @@
                     <div class="field">
                         <label class="label" for="type">Type</label>
                         <div class="control">
-                            <select id="type" name="type" class="input" title="Please Choose a type" required>
+                            <select id="type" name="type" class="input" title="Please Choose a type"
+                                required>
                                 <option value="" disabled selected>Please select</option>
                                 @foreach (['Accounting', 'Agriculture', 'Construction', 'Education', 'Finance', 'Retail', 'Fashion Photography Studios', 'Healthcare', 'Coffee Shops', 'Information Technology', 'Shopping Malls', 'Trading Goods', 'Consulting', 'Barbershop', 'Fashion Consultancy', 'Beauty Salon', 'Logistics', 'Sports', 'Pets', 'Entertainment', 'Pattern Making Services', 'Maintenance', 'Pharmaceuticals', 'Automotive', 'Environmental', 'Quick Service Restaurants', 'Food & Beverage', 'Garment Manufacturing', 'Fashion Events Management', 'Retail Clothing Stores', 'Fashion Design Studios', 'Shoe Manufacturing', 'Tailoring and Alterations', 'Textile Printing and Embroidery', 'Fashion Accessories', 'Boutiques', 'Apparel Recycling and Upcycling', 'Apparel Exporters'] as $type)
-                                    <option value="{{ $type }}" {{ old('type') === $type ? 'selected' : '' }}>
+                                    <option value="{{ $type }}"
+                                        {{ old('type') === $type ? 'selected' : '' }}>
                                         {{ $type }}</option>
                                 @endforeach
                             </select>
@@ -365,6 +503,8 @@
         </div>
     </div>
 
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
     <script>
         function previewImages(event) {
@@ -401,6 +541,15 @@
                 reader.readAsDataURL(file);
             }
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Show the modal on page load
+            var myModal = new bootstrap.Modal(document.getElementById('instructionModal'), {
+                backdrop: 'static', // Prevent closing on backdrop click
+                keyboard: false // Prevent closing with ESC key
+            });
+            myModal.show();
+        });
     </script>
 </body>
 
