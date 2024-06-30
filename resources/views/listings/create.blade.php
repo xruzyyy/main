@@ -15,7 +15,6 @@
 
         .map-button {
             text-decoration: none;
-            /* Remove default link styling */
         }
 
         .map-button:hover {
@@ -134,18 +133,31 @@
     </style>
 
     <div class="container2">
-        @if (session('success'))
-            <div class="container mt-3">
-                <div class="alert alert-success">
-                    {{ session('success') }}
-                </div>
-            </div>
-        @endif
+
         <div class="columns is-centered">
             <div class="column is-half">
                 <div class="cardCreate">
                     <div class="cardCreate-header">
-                        <p class="cardCreate-header-title">Create Listing</p>
+                        <h3 class="cardCreate-header-title">Create Listing</h3>
+                        <p>Fill the data below</p>
+                        @if ($errors->any())
+                            <div class="error-container">
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                        @endif
+                        @if (session('success'))
+                            <div class="container mt-3">
+                                <div class="alert alert-success">
+                                    {{ session('success') }}
+                                </div>
+                            </div>
+                        @endif
                     </div>
                     <div class="cardCreate-content">
                         <form action="{{ route('listings.store') }}" method="POST" enctype="multipart/form-data">
@@ -166,10 +178,8 @@
                                         <!-- Indicator icon -->
                                         @if ($latitude && $longitude)
                                             <i class="fas fa-check" style="color: green;"></i>
-                                            <!-- Change to your preferred icon -->
                                         @else
                                             <i class="fas fa-times" style="color: red;"></i>
-                                            <!-- Change to your preferred icon -->
                                         @endif
                                     </a>
                                 </div>
@@ -180,7 +190,7 @@
                                 <div class="control">
                                     @if ($isBusiness)
                                         <input type="hidden" name="businessName" value="{{ $user->name }}">
-                                        <p>{{ $user->name }}</p> <!-- Display the business name as plain text -->
+                                        <p>{{ $user->name }}</p>
                                     @else
                                         <input type="text" class="input" id="businessName" name="businessName" required
                                             title="Please provide the name of your business"
@@ -193,68 +203,37 @@
                                 <label class="label">Description</label>
                                 <div class="control">
                                     <textarea class="textarea" id="description" name="description" rows="3" required
-                                        title="Please provide a description of your business"></textarea>
+                                        title="Please provide a description of your business">{{ old('description') }}</textarea>
                                 </div>
                             </div>
+
                             <div class="field">
                                 <label class="label">Contact Number</label>
                                 <div class="control">
                                     <input type="tel" class="input" id="contactNumber" name="contactNumber"
                                         pattern="[0-9]{11}" title="Please enter a valid 11-digit numeric contact number"
-                                        required>
+                                        required value="{{ old('contactNumber') }}">
                                 </div>
                             </div>
 
                             <label class="label">Store Hours</label>
-                            <div class="field">
-                                <label class="label">Monday</label>
-                                <div class="control">
-                                    <input type="time" id="mondayOpen" name="mondayOpen" >
-                                    <input type="time" id="mondayClose" name="mondayClose" >
+                            @php
+                                $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+                            @endphp
+
+                            @foreach ($days as $day)
+                                <div class="field">
+                                    <label class="label">{{ $day }}</label>
+                                    <div class="control">
+                                        <input type="time" id="{{ strtolower($day) }}Open"
+                                            name="{{ strtolower($day) }}Open"
+                                            value="{{ old(strtolower($day) . 'Open') }}">
+                                        <input type="time" id="{{ strtolower($day) }}Close"
+                                            name="{{ strtolower($day) }}Close"
+                                            value="{{ old(strtolower($day) . 'Close') }}">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="field">
-                                <label class="label">Tuesday</label>
-                                <div class="control">
-                                    <input type="time" id="tuesdayOpen" name="tuesdayOpen" >
-                                    <input type="time" id="tuesdayClose" name="tuesdayClose" >
-                                </div>
-                            </div>
-                            <div class="field">
-                                <label class="label">Wednesday</label>
-                                <div class="control">
-                                    <input type="time" id="wednesdayOpen" name="wednesdayOpen" >
-                                    <input type="time" id="wednesdayClose" name="wednesdayClose" >
-                                </div>
-                            </div>
-                            <div class="field">
-                                <label class="label">Thursday</label>
-                                <div class="control">
-                                    <input type="time" id="thursdayOpen" name="thursdayOpen" >
-                                    <input type="time" id="thursdayClose" name="thursdayClose" >
-                                </div>
-                            </div>
-                            <div class="field">
-                                <label class="label">Friday</label>
-                                <div class="control">
-                                    <input type="time" id="fridayOpen" name="fridayOpen" >
-                                    <input type="time" id="fridayClose" name="fridayClose" >
-                                </div>
-                            </div>
-                            <div class="field">
-                                <label class="label">Saturday</label>
-                                <div class="control">
-                                    <input type="time" id="saturdayOpen" name="saturdayOpen" >
-                                    <input type="time" id="saturdayClose" name="saturdayClose" >
-                                </div>
-                            </div>
-                            <div class="field">
-                                <label class="label">Sunday</label>
-                                <div class="control">
-                                    <input type="time" id="sundayOpen" name="sundayOpen" >
-                                    <input type="time" id="sundayClose" name="sundayClose" >
-                                </div>
-                            </div>
+                            @endforeach
 
                             <div class="field">
                                 <label class="label" for="type">Type</label>
@@ -262,46 +241,10 @@
                                     <select id="type" name="type" class="input" title="Please Choose a type"
                                         required>
                                         <option value="" disabled selected>Please select</option>
-                                        <option value="Accounting">Accounting</option>
-                                        <option value="Agriculture">Agriculture</option>
-                                        <option value="Construction">Construction</option>
-                                        <option value="Education">Education</option>
-                                        <option value="Finance">Finance</option>
-                                        <option value="Retail">Retail</option>
-                                        <option value="Fashion Photography Studios">Fashion Photography Studios</option>
-                                        <option value="Healthcare">Healthcare</option>
-                                        <option value="Coffee Shops">Coffee Shops</option>
-                                        <option value="Information Technology">Information Technology</option>
-                                        <option value="Shopping Malls">Shopping Malls</option>
-                                        <option value="Trading Goods">Trading Goods</option>
-                                        <option value="Consulting">Consulting</option>
-                                        <option value="Barbershop">Barbershop</option>
-                                        <option value="Fashion Consultancy">Fashion Consultancy</option>
-                                        <option value="Beauty Salon">Beauty Salon</option>
-                                        <option value="Logistics">Logistics</option>
-                                        <option value="Sports">Sports</option>
-                                        <option value="Pets">Pets</option>
-                                        <option value="Entertainment">Entertainment</option>
-                                        <option value="Pattern Making Services">Pattern Making Services</option>
-                                        <option value="Maintenance">Maintenance</option>
-                                        <option value="Pharmaceuticals">Pharmaceuticals</option>
-                                        <option value="Automotive">Automotive</option>
-                                        <option value="Environmental">Environmental</option>
-                                        <option value="Quick Service Restaurants">Quick Service Restaurants</option>
-                                        <option value="Food & Beverage">Food & Beverage</option>
-                                        <option value="Garment Manufacturing">Garment Manufacturing</option>
-                                        <option value="Fashion Events Management">Fashion Events Management</option>
-                                        <option value="Retail Clothing Stores">Retail Clothing Stores</option>
-                                        <option value="Fashion Design Studios">Fashion Design Studios</option>
-                                        <option value="Shoe Manufacturing">Shoe Manufacturing</option>
-                                        <option value="Tailoring and Alterations">Tailoring and Alterations</option>
-                                        <option value="Textile Printing and Embroidery">Textile Printing and Embroidery
-                                        </option>
-                                        <option value="Fashion Accessories">Fashion Accessories</option>
-                                        <option value="Boutiques">Boutiques</option>
-                                        <option value="Apparel Recycling and Upcycling">Apparel Recycling and Upcycling
-                                        </option>
-                                        <option value="Apparel Exporters">Apparel Exporters</option>
+                                        @foreach (['Accounting', 'Agriculture', 'Construction', 'Education', 'Finance', 'Retail', 'Fashion Photography Studios', 'Healthcare', 'Coffee Shops', 'Information Technology', 'Shopping Malls', 'Trading Goods', 'Consulting', 'Barbershop', 'Fashion Consultancy', 'Beauty Salon', 'Logistics', 'Sports', 'Pets', 'Entertainment', 'Pattern Making Services', 'Maintenance', 'Pharmaceuticals', 'Automotive', 'Environmental', 'Quick Service Restaurants', 'Food & Beverage', 'Garment Manufacturing', 'Fashion Events Management', 'Retail Clothing Stores', 'Fashion Design Studios', 'Shoe Manufacturing', 'Tailoring and Alterations', 'Textile Printing and Embroidery', 'Fashion Accessories', 'Boutiques', 'Apparel Recycling and Upcycling', 'Apparel Exporters'] as $type)
+                                            <option value="{{ $type }}"
+                                                {{ old('type') === $type ? 'selected' : '' }}>{{ $type }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -327,6 +270,7 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="field">
                                 <label class="label">Image Previews</label>
                                 <div class="control">
@@ -341,12 +285,15 @@
                                         value="{{ $latitude }}" readonly required>
                                 </div>
                             </div>
+
                             <div class="field">
                                 <label class="labelLocated">Longitude</label>
                                 <div class="labelLocated">
-                                    <input type="text" class="input readonly-input" id="longitude" name="longitude" value="{{ $longitude }}" readonly required>
+                                    <input type="text" class="input readonly-input" id="longitude" name="longitude"
+                                        value="{{ $longitude }}" readonly required>
                                 </div>
                             </div>
+
                             <div class="field">
                                 <div class="control">
                                     <button type="submit" class="button is-primary">Create Listing</button>
@@ -355,78 +302,27 @@
                         </form>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
 
-                @if ($errors->any())
-                    <div class="container mt-3">
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    </div>
-                @endif
-@endsection
+    <script>
+        function previewImages(event) {
+            var files = event.target.files;
+            var imagePreviews = document.getElementById('imagePreviews');
+            imagePreviews.innerHTML = '';
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var currentDate = new Date(); // Get current date and time
-        var currentHour = currentDate.getUTCHours(); // Get current hour (UTC time)
-
-        // Convert UTC time to Philippine time (UTC+8)
-        var philippineHour = (currentHour + 8) % 24;
-
-        // Get day of the week (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
-        var currentDay = currentDate.getUTCDay();
-
-        // Adjust current day to match your form input (e.g., 0 = Sunday, 1 = Monday, ..., 6 = Saturday)
-        var storeHours = [
-            { open: '08:00', close: '18:00' }, // Adjust these times based on your form input
-            { open: '09:00', close: '19:00' },
-            { open: '09:00', close: '19:00' },
-            { open: '09:00', close: '19:00' },
-            { open: '09:00', close: '19:00' },
-            { open: '09:00', close: '19:00' },
-            { open: '10:00', close: '16:00' }
-        ];
-
-        var openingTime = storeHours[currentDay].open;
-        var closingTime = storeHours[currentDay].close;
-
-        // Compare current time with store opening and closing times
-        var isOpen = philippineHour >= parseInt(openingTime.split(':')[0]) &&
-                     philippineHour < parseInt(closingTime.split(':')[0]);
-
-        if (isOpen) {
-            console.log('Store is open.');
-            // Optionally, update UI to indicate open status
-        } else {
-            console.log('Store is closed.');
-            // Optionally, update UI to indicate closed status
-        }
-    });
-
-    function previewImages(event) {
-        var files = event.target.files;
-
-        var previewContainer = document.getElementById('imagePreviews');
-        previewContainer.innerHTML = '';
-
-        for (var i = 0; i < files.length; i++) {
-            var file = files[i];
-            var reader = new FileReader();
-
-            reader.onload = function(e) {
-                var img = document.createElement('img');
-                img.src = e.target.result;
-                img.style.maxWidth = '100%';
-                img.style.maxHeight = '200px';
-                img.style.marginRight = '10px';
-                previewContainer.appendChild(img);
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    var img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.style.maxWidth = '100%';
+                    imagePreviews.appendChild(img);
+                };
+                reader.readAsDataURL(file);
             }
-
-            reader.readAsDataURL(file);
         }
-    }
-</script>
+    </script>
+@endsection

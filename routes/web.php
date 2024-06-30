@@ -171,8 +171,9 @@ Route::middleware(['auth', 'user-access:business', 'verified', 'checkstatus'])->
     Route::get('/business/home', [HomeController::class, 'businessPostList'])->name('business.home');
 
     // Define routes for listing creation
-    Route::get('/listings/create/{id}', [ListingController::class, 'create'])->name('listings.create');
-    Route::post('/listings', [ListingController::class, 'store'])->name('listings.store');
+    Route::get('/listings/create/', [ListingController::class, 'create'])->name('listings.create');
+    Route::post('/listings/store/', [ListingController::class, 'store'])->name('listings.store');
+
 
     Route::get('/listings/latest/update/{id}', [HomeController::class, 'edit'])->name('listings.update');
     Route::put('/listings/latest/update/{id}', [HomeController::class, 'update'])->name('listings.update.put');

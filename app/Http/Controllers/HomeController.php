@@ -183,7 +183,7 @@ public function mapStore(Request $request)
                 'required',
                 Rule::in($allowedTypes),
             ],
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Adjust max file size and formats as needed
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg',
             'latitude' => 'required|numeric',
             'longitude' => 'required|numeric',
             'mondayOpen' => 'nullable',

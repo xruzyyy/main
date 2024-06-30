@@ -101,7 +101,7 @@
                         $updateListing = \App\Models\Posts::where('user_id', auth()->user()->id)->exists();
                     @endphp
 
-                    <button class="Listing" onclick="window.location.href='{{ $updateListing ? route('listings.update', ['id' => \App\Models\Posts::where('user_id', auth()->user()->id)->first()->id]) : route('listings.create', ['id' => auth()->user()->id]) }}'">
+                    <button class="Listing" onclick="window.location.href='{{ $updateListing ? route('listings.update', ['id' => \App\Models\Posts::where('user_id', auth()->user()->id)->first()->id]) : route('listings.create') }}'">
                         <div class="sign">+</div>
                         <div class="text">Listing</div>
                     </button>
