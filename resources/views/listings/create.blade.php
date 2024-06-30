@@ -195,11 +195,11 @@
 <body>
 
     @if (session('success'))
-    <div class="container mt-3">
-        <div class="alert alert-success">
-            {{ session('success') }}
+        <div class="container mt-3">
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
         </div>
-    </div>
     @endif
 
     <div class="form-holder">
@@ -216,24 +216,26 @@
                     @csrf
 
                     @if (session('error'))
-                    <div class="alert alert-danger">
-                        {{ session('error') }}
-                    </div>
+                        <div class="alert alert-danger">
+                            {{ session('error') }}
+                        </div>
                     @endif
 
                     <!-- Location indicator -->
                     <div class="field">
                         <label class="label">Location</label>
                         <div class="control">
+                            <!-- Example integration link in your form -->
                             <a href="{{ route('map') }}" class="map-button" title="Provide your business location">
                                 <i class="fas fa-map-marked-alt map-button-icon"></i> Provide Location
                                 <!-- Indicator icon -->
                                 @if ($latitude && $longitude)
-                                <i class="fas fa-check" style="color: green;"></i>
+                                    <i class="fas fa-check" style="color: green;"></i>
                                 @else
-                                <i class="fas fa-times" style="color: red;"></i>
+                                    <i class="fas fa-times" style="color: red;"></i>
                                 @endif
                             </a>
+
                         </div>
                     </div>
 
@@ -241,25 +243,22 @@
                         <label class="label">Business Name</label>
                         <div class="control">
                             @if ($isBusiness)
-                            <input type="hidden" name="businessName" value="{{ $user->name }}">
-                            <p class="readonly-input">{{ $user->name }}</p>
+                                <input type="hidden" name="businessName" value="{{ $user->name }}">
+                                <p>{{ $user->name }}</p> <!-- Display the business name as plain text -->
                             @else
-                            <input type="text" class="input" id="businessName" name="businessName" required
-                                title="Please provide the name of your business" value="{{ old('businessName') }}">
-                            @error('businessName')
-                            <p class="invalid-feedback">{{ $message }}</p>
-                            @enderror
+                                <input type="text" class="input" id="businessName" name="businessName" required
+                                    title="Please provide the name of your business"
+                                    value="{{ old('businessName') }}">
                             @endif
                         </div>
                     </div>
-
                     <div class="field">
                         <label class="label">Description</label>
                         <div class="control">
                             <textarea class="textarea" id="description" name="description" rows="3" required
                                 title="Please provide a description of your business">{{ old('description') }}</textarea>
                             @error('description')
-                            <p class="invalid-feedback">{{ $message }}</p>
+                                <p class="invalid-feedback">{{ $message }}</p>
                             @enderror
                         </div>
                     </div>
@@ -271,26 +270,26 @@
                                 pattern="[0-9]{11}" title="Please enter a valid 11-digit numeric contact number"
                                 required value="{{ old('contactNumber') }}">
                             @error('contactNumber')
-                            <p class="invalid-feedback">{{ $message }}</p>
+                                <p class="invalid-feedback">{{ $message }}</p>
                             @enderror
                         </div>
                     </div>
 
                     <label class="label">Store Hours</label>
                     @php
-                    $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+                        $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
                     @endphp
 
                     @foreach ($days as $day)
-                    <div class="field">
-                        <label class="label">{{ $day }}</label>
-                        <div class="control">
-                            <input type="time" id="{{ strtolower($day) }}Open" name="{{ strtolower($day) }}Open"
-                                value="{{ old(strtolower($day) . 'Open') }}">
-                            <input type="time" id="{{ strtolower($day) }}Close"
-                                name="{{ strtolower($day) }}Close" value="{{ old(strtolower($day) . 'Close') }}">
+                        <div class="field">
+                            <label class="label">{{ $day }}</label>
+                            <div class="control">
+                                <input type="time" id="{{ strtolower($day) }}Open"
+                                    name="{{ strtolower($day) }}Open" value="{{ old(strtolower($day) . 'Open') }}">
+                                <input type="time" id="{{ strtolower($day) }}Close"
+                                    name="{{ strtolower($day) }}Close" value="{{ old(strtolower($day) . 'Close') }}">
+                            </div>
                         </div>
-                    </div>
                     @endforeach
 
                     <div class="field">
@@ -299,11 +298,12 @@
                             <select id="type" name="type" class="input" title="Please Choose a type" required>
                                 <option value="" disabled selected>Please select</option>
                                 @foreach (['Accounting', 'Agriculture', 'Construction', 'Education', 'Finance', 'Retail', 'Fashion Photography Studios', 'Healthcare', 'Coffee Shops', 'Information Technology', 'Shopping Malls', 'Trading Goods', 'Consulting', 'Barbershop', 'Fashion Consultancy', 'Beauty Salon', 'Logistics', 'Sports', 'Pets', 'Entertainment', 'Pattern Making Services', 'Maintenance', 'Pharmaceuticals', 'Automotive', 'Environmental', 'Quick Service Restaurants', 'Food & Beverage', 'Garment Manufacturing', 'Fashion Events Management', 'Retail Clothing Stores', 'Fashion Design Studios', 'Shoe Manufacturing', 'Tailoring and Alterations', 'Textile Printing and Embroidery', 'Fashion Accessories', 'Boutiques', 'Apparel Recycling and Upcycling', 'Apparel Exporters'] as $type)
-                                <option value="{{ $type }}" {{ old('type') === $type ? 'selected' : '' }}>{{ $type }}</option>
+                                    <option value="{{ $type }}" {{ old('type') === $type ? 'selected' : '' }}>
+                                        {{ $type }}</option>
                                 @endforeach
                             </select>
                             @error('type')
-                            <p class="invalid-feedback">{{ $message }}</p>
+                                <p class="invalid-feedback">{{ $message }}</p>
                             @enderror
                         </div>
                     </div>
@@ -314,7 +314,8 @@
                         <div class="control">
                             <div class="file has-name is-boxed">
                                 <label class="file-label">
-                                    <input type="file" class="file-input" id="images" name="images[]" accept="image/*" multiple required onchange="previewImages(event)">
+                                    <input type="file" class="file-input" id="images" name="images[]"
+                                        accept="image/*" multiple required onchange="previewImages(event)">
                                     <span class="file-cta">
                                         <span class="file-icon">
                                             <i class="fas fa-upload"></i>
@@ -325,7 +326,7 @@
                                     </span>
                                 </label>
                                 @error('images')
-                                <p class="invalid-feedback">{{ $message }}</p>
+                                    <p class="invalid-feedback">{{ $message }}</p>
                                 @enderror
                             </div>
                         </div>
@@ -341,14 +342,16 @@
                     <div class="field">
                         <label class="labelLocated">Latitude</label>
                         <div class="labelLocated">
-                            <input type="text" class="input readonly-input" id="latitude" name="latitude" value="{{ $latitude }}" readonly required>
+                            <input type="text" class="input readonly-input" id="latitude" name="latitude"
+                                value="{{ $latitude }}" readonly required>
                         </div>
                     </div>
 
                     <div class="field">
                         <label class="labelLocated">Longitude</label>
                         <div class="labelLocated">
-                            <input type="text" class="input readonly-input" id="longitude" name="longitude" value="{{ $longitude }}" readonly required>
+                            <input type="text" class="input readonly-input" id="longitude" name="longitude"
+                                value="{{ $longitude }}" readonly required>
                         </div>
                     </div>
 
@@ -374,7 +377,7 @@
                 var file = files[i];
                 var reader = new FileReader();
 
-                reader.onload = function (e) {
+                reader.onload = function(e) {
                     var imageDiv = document.createElement('div');
                     imageDiv.classList.add('image-preview');
 
@@ -385,7 +388,7 @@
                     var deleteButton = document.createElement('span');
                     deleteButton.classList.add('delete-image');
                     deleteButton.innerHTML = '<i class="fas fa-trash"></i>';
-                    deleteButton.addEventListener('click', function () {
+                    deleteButton.addEventListener('click', function() {
                         imageDiv.remove();
                     });
 

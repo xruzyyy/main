@@ -117,9 +117,6 @@
             display: block;
             margin-top: 5px;
         }
-        .readonly-input {
-            background-color: #f0f0f0;
-        }
     </style>
 </head>
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
@@ -412,7 +409,7 @@
                             <div class="file has-name is-boxed">
                                 <label class="file-label">
                                     <input type="file" class="file-input" id="images" name="images[]"
-                                        accept="image/*" multiple>
+                                        accept="image/*" multiple re>
                                     <span class="file-cta">
                                         <span class="file-icon">
                                             <i class="fas fa-upload"></i>
@@ -437,13 +434,13 @@
                     <div class="form-group">
                         <label for="latitude">Latitude</label>
                         <input type="text" id="latitude" name="latitude"
-                        class="input readonly-input"  value="{{ old('latitude', request()->input('latitude', $listing->latitude)) }}" required>
+                            value="{{ old('latitude', request()->input('latitude', $listing->latitude)) }}" required>
                     </div>
 
                     <div class="form-group">
                         <label for="longitude">Longitude</label>
                         <input type="text" id="longitude" name="longitude"
-                        class="input readonly-input" value="{{ old('longitude', request()->input('longitude', $listing->longitude)) }}"
+                            value="{{ old('longitude', request()->input('longitude', $listing->longitude)) }}"
                             required>
                     </div>
 
