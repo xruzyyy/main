@@ -23,6 +23,7 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
         body {
@@ -60,15 +61,16 @@
 
         #directions-container {
             position: absolute;
-            top:140px;
+            top:230px;
             left: 10px;
             z-index: 1000;
-            background: white;
+            background: rgba(255, 255, 255, 0);
             padding: 10px;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             display: none;
-            margin-left:5px;
+            margin-left:10px;
+            background-color:rgb(255, 255, 255);
         }
 
         h2 {
@@ -164,13 +166,34 @@
 .leaflet-routing-container {
     display: block !important;
     max-height: 300px;
-    width: 350px;
+    width: 300px;
     overflow-y: auto;
     background-color: white;
     padding: 10px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
+
+.home-button {
+    display: inline-block;
+    margin: 10px; /* Adjust margins as needed */
+    padding: 5px;
+    background-color: #007bff; /* Button background color */
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.home-button a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    text-align: center;
+}
+
+.home-button:hover {
+    background-color: #0056b3; /* Darker color on hover */
+}
+
     </style>
 </head>
 
@@ -186,6 +209,12 @@
             <input type="text" id="end" placeholder="Enter end location">
             <button onclick="useCurrentLocation('start')">Use Current Location</button>
             <button id="start-navigation" onclick="startNavigation()">Start Navigation</button>
+            <div class="home-button">
+                <a href="{{ route('business.home') }}" class="nav-link" title="Home">
+                    <i class="fas fa-home fa-3x"></i>
+                </a>
+            </div>
+
         </div>
     </div>
 
@@ -291,18 +320,19 @@
         }
 
         function addLegend() {
-            var legend = L.control({
-                position: 'bottomright'
-            });
-            legend.onAdd = function(map) {
-                var div = L.DomUtil.create('div', 'info legend');
-                div.innerHTML += '<i style="background: green"></i> Open<br>';
-                div.innerHTML += '<i style="background: blue"></i> Closed<br>';
-                div.innerHTML += '<i style="background: red"></i> Expired Permit<br>';
-                return div;
-            };
-            legend.addTo(map);
-        }
+    var legend = L.control({
+        position: 'topleft' // Changed position to 'topleft'
+    });
+    legend.onAdd = function(map) {
+        var div = L.DomUtil.create('div', 'info legend');
+        div.innerHTML += '<i style="background: green"></i> Open<br>';
+        div.innerHTML += '<i style="background: blue"></i> Closed<br>';
+        div.innerHTML += '<i style="background: red"></i> Expired <br> Permit<br>';
+        return div;
+    };
+    legend.addTo(map);
+}
+
 
         function isBusinessOpen(storeHours) {
             if (!storeHours) return false;
@@ -387,15 +417,24 @@ function getDirections() {
                 routingControl.setWaypoints(waypoints);
             } else {
                 console.error("Unable to find end location:", endName);
-                alert("Unable to find end location: " + endName);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Unable to find end location: ' + endName,
+                });
             }
         } else {
-            alert("Unable to get current location. Please try again.");
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Unable to get current location. Please try again.',
+            });
         }
     } else {
         // ... rest of the function for non-current location starts ...
     }
 }
+
 
 function updateUserLocationMarker(location) {
     if (!userLocationMarker) {
@@ -410,7 +449,6 @@ function updateUserLocationMarker(location) {
             getUserLocation();
             document.getElementById(field).value = "Current Location";
         }
-
         function startNavigation() {
     var startName = document.getElementById("start").value;
     var endName = document.getElementById("end").value;
@@ -423,9 +461,14 @@ function updateUserLocationMarker(location) {
         document.getElementById("directions-container").style.display = 'block';
         getDirections();
     } else {
-        alert("Please fill both the start and end locations.");
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Please fill both the start and end locations.',
+        });
     }
 }
+
 
         function stopNavigation() {
             if (routingControl) {
@@ -446,7 +489,11 @@ function updateUserLocationMarker(location) {
         if (userLocation) {
             waypoints.push(L.latLng(userLocation.lat, userLocation.lng));
         } else {
-            alert("Unable to get current location. Please try again.");
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Unable to get current location. Please try again.',
+            });
             return;
         }
     } else {
@@ -454,7 +501,11 @@ function updateUserLocationMarker(location) {
         if (startLocation) {
             waypoints.push(L.latLng(startLocation.lat, startLocation.lng));
         } else {
-            alert("Unable to find start location: " + startName);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Unable to find start location,make sure to turn on your location: ' + startName,
+            });
             return;
         }
     }
@@ -463,14 +514,20 @@ function updateUserLocationMarker(location) {
     if (endLocation) {
         waypoints.push(L.latLng(endLocation.lat, endLocation.lng));
     } else {
-        alert("Unable to find end location: " + endName);
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Unable to find end location: ' + endName,
+        });
         return;
     }
 
+    // Remove existing routing control if it exists
     if (routingControl) {
         map.removeControl(routingControl);
     }
 
+    // Add new routing control with updated waypoints
     routingControl = L.Routing.control({
         waypoints: waypoints,
         routeWhileDragging: true,
