@@ -6,8 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Listing Form</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="path/to/your/custom/styles.css"> <!-- Ensure this links to your custom styles -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         /* Your custom styles here */
         *,
@@ -298,11 +299,14 @@
 <body>
 
     @if (session('success'))
-        <div class="container mt-3">
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-        </div>
+        <script>
+            Swal.fire({
+                title: 'Success!',
+                text: '{{ session('success') }}',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
+        </script>
         <script>
             // JavaScript redirect after success message display
             setTimeout(function() {
@@ -321,22 +325,21 @@
 
                 <h3>Create Listing</h3>
                 <p>Fill in the data below.</p>
-                <a href="{{ route('map') }}" class="map-button"
-                title="Provide your business location">
-                <!-- Icon for location button -->
-                <img src="{{ asset('images/map.png') }}" alt="Store Icon"
-                    style="background-color: #007bff; height: 40px; width: 40px; border-radius: 50%; margin-right: 5px;">
-                Provide Location
-                <!-- Indicator icon -->
-                @if ($latitude && $longitude)
-                    <i class="fas fa-check"
-                        style="background-color: green; height:20px; width:20px; border-radius:5px;"></i>
-                @else
-                    <i class="fas fa-times"
-                        style="background-color: red; height:20px; width:20px; border-radius:5px;"></i>
-                @endif
-            </a>
-                <form action="{{ route('listings.store') }}" method="POST" enctype="multipart/form-data" >
+                <a href="{{ route('map') }}" class="map-button" title="Provide your business location">
+                    <!-- Icon for location button -->
+                    <img src="{{ asset('images/map.png') }}" alt="Store Icon"
+                        style="background-color: #007bff; height: 40px; width: 40px; border-radius: 50%; margin-right: 5px;">
+                    Provide Location
+                    <!-- Indicator icon -->
+                    @if ($latitude && $longitude)
+                        <i class="fas fa-check"
+                            style="background-color: green; height:20px; width:20px; border-radius:5px;"></i>
+                    @else
+                        <i class="fas fa-times"
+                            style="background-color: red; height:20px; width:20px; border-radius:5px;"></i>
+                    @endif
+                </a>
+                <form action="{{ route('listings.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
 
                     @if ($errors->any())
@@ -387,8 +390,8 @@
                                             adjust the location.</p>
                                         <!-- Add your GIF here -->
                                         <div class="gif-container" style="text-align: center; margin-top: 2em;">
-                                            <img src="{{ asset('images/instruction.gif') }}"
-                                                alt="Location Instructions" style="width: 100%; max-width: 400px;">
+                                            <img src="{{ asset('images/instruction.gif') }}" alt="Location Instructions"
+                                                style="width: 100%; max-width: 400px;">
                                         </div>
                                     </div>
                                     <div class="modal-footer">
@@ -483,7 +486,7 @@
                                         </span>
                                     </span>
                                     <input type="file" class="file-input" id="images" name="images[]"
-                                        accept="image/*" multiple  onchange="previewImages(event)" required>
+                                        accept="image/*" multiple onchange="previewImages(event)" required>
                                 </label>
 
                             </div>
@@ -500,16 +503,18 @@
                     <div class="field" style="display: none;">
                         <label class="labelLocated">Latitude</label>
                         <div class="labelLocated">
-                            <input type="text" class="input readonly-input" id="latitude" name="location[latitude]"
-                                   value="{{ old('location.latitude', $latitude) }}" readonly required>
+                            <input type="text" class="input readonly-input" id="latitude"
+                                name="location[latitude]" value="{{ old('location.latitude', $latitude) }}" readonly
+                                required>
                         </div>
                     </div>
 
                     <div class="field" style="display: none;">
                         <label class="labelLocated">Longitude</label>
                         <div class="labelLocated">
-                            <input type="text" class="input readonly-input" id="longitude" name="location[longitude]"
-                                   value="{{ old('location.longitude', $longitude) }}" readonly required>
+                            <input type="text" class="input readonly-input" id="longitude"
+                                name="location[longitude]" value="{{ old('location.longitude', $longitude) }}"
+                                readonly required>
                         </div>
                     </div>
 
@@ -572,18 +577,18 @@
             myModal.show();
         });
 
-         // Function to validate image upload field
-    function validateForm(event) {
-        var imagesInput = document.getElementById('images');
-        if (imagesInput.files.length === 0) {
-            event.preventDefault(); // Prevent form submission
-            alert('Image input is required.');
+        // Function to validate image upload field
+        function validateForm(event) {
+            var imagesInput = document.getElementById('images');
+            if (imagesInput.files.length === 0) {
+                event.preventDefault(); // Prevent form submission
+                alert('Image input is required.');
+            }
         }
-    }
 
-    // Add event listener to form submission
-    var form = document.querySelector('form');
-    form.addEventListener('submit', validateForm);
+        // Add event listener to form submission
+        var form = document.querySelector('form');
+        form.addEventListener('submit', validateForm);
     </script>
 </body>
 

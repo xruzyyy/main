@@ -153,104 +153,104 @@ public function mapStoreUpdate(Request $request)
 
 
     public function update(Request $request, $id)
-    {
-        // Fetch the listing by ID and ensure it belongs to the authenticated user
-        $listing = Posts::where('id', $id)->where('user_id', auth()->user()->id)->firstOrFail();
+{
+    // Fetch the listing by ID and ensure it belongs to the authenticated user
+    $listing = Posts::where('id', $id)->where('user_id', auth()->user()->id)->firstOrFail();
 
-        // Define allowed types
-        $allowedTypes = [
-            'Accounting', 'Agriculture', 'Construction', 'Education', 'Finance',
-            'Retail', 'Fashion Photography Studios', 'Healthcare', 'Coffee Shops',
-            'Information Technology', 'Shopping Malls', 'Trading Goods', 'Consulting',
-            'Barbershop', 'Fashion Consultancy', 'Beauty Salon', 'Logistics', 'Sports',
-            'Pets', 'Entertainment', 'Pattern Making Services', 'Maintenance',
-            'Pharmaceuticals', 'Automotive', 'Environmental', 'Quick Service Restaurants',
-            'Food & Beverage', 'Garment Manufacturing', 'Fashion Events Management',
-            'Retail Clothing Stores', 'Fashion Design Studios', 'Shoe Manufacturing',
-            'Tailoring and Alterations', 'Textile Printing and Embroidery',
-            'Fashion Accessories', 'Boutiques', 'Apparel Recycling and Upcycling',
-            'Apparel Exporters'
-        ];
+    // Define allowed types
+    $allowedTypes = [
+        'Accounting', 'Agriculture', 'Construction', 'Education', 'Finance',
+        'Retail', 'Fashion Photography Studios', 'Healthcare', 'Coffee Shops',
+        'Information Technology', 'Shopping Malls', 'Trading Goods', 'Consulting',
+        'Barbershop', 'Fashion Consultancy', 'Beauty Salon', 'Logistics', 'Sports',
+        'Pets', 'Entertainment', 'Pattern Making Services', 'Maintenance',
+        'Pharmaceuticals', 'Automotive', 'Environmental', 'Quick Service Restaurants',
+        'Food & Beverage', 'Garment Manufacturing', 'Fashion Events Management',
+        'Retail Clothing Stores', 'Fashion Design Studios', 'Shoe Manufacturing',
+        'Tailoring and Alterations', 'Textile Printing and Embroidery',
+        'Fashion Accessories', 'Boutiques', 'Apparel Recycling and Upcycling',
+        'Apparel Exporters'
+    ];
 
-        // Validate the request data
-        $request->validate([
-            'businessName' => 'required|max:255|string',
-            'description' => 'required|max:200|string',
-            'contactNumber' => 'required|string',
-            'type' => [
-                'required',
-                Rule::in($allowedTypes),
-            ],
-            'images.*' => ['required', 'mimes:jpg,jpeg,webp,png,jfif', new ImageDimensions()],
-            'latitude' => 'required|numeric',
-            'longitude' => 'required|numeric',
-            'mondayOpen' => 'nullable',
-            'mondayClose' => 'nullable|after:mondayOpen',
-            'tuesdayOpen' => 'nullable',
-            'tuesdayClose' => 'nullable|after:tuesdayOpen',
-            'wednesdayOpen' => 'nullable',
-            'wednesdayClose' => 'nullable|after:wednesdayOpen',
-            'thursdayOpen' => 'nullable',
-            'thursdayClose' => 'nullable|after:thursdayOpen',
-            'fridayOpen' => 'nullable',
-            'fridayClose' => 'nullable|after:fridayOpen',
-            'saturdayOpen' => 'nullable',
-            'saturdayClose' => 'nullable|after:saturdayOpen',
-            'sundayOpen' => 'nullable',
-            'sundayClose' => 'nullable|after:sundayOpen',
-        ]);
+    // Validate the request data
+    $request->validate([
+        'businessName' => 'required|max:255|string',
+        'description' => 'required|max:200|string',
+        'contactNumber' => 'required|string',
+        'type' => [
+            'required',
+            Rule::in($allowedTypes),
+        ],
+        'images.*' => ['required', 'mimes:jpg,jpeg,webp,png,jfif', new ImageDimensions()],
+        'latitude' => 'required|numeric',
+        'longitude' => 'required|numeric',
+        'mondayOpen' => 'nullable',
+        'mondayClose' => 'nullable|after:mondayOpen',
+        'tuesdayOpen' => 'nullable',
+        'tuesdayClose' => 'nullable|after:tuesdayOpen',
+        'wednesdayOpen' => 'nullable',
+        'wednesdayClose' => 'nullable|after:wednesdayOpen',
+        'thursdayOpen' => 'nullable',
+        'thursdayClose' => 'nullable|after:thursdayOpen',
+        'fridayOpen' => 'nullable',
+        'fridayClose' => 'nullable|after:fridayOpen',
+        'saturdayOpen' => 'nullable',
+        'saturdayClose' => 'nullable|after:saturdayOpen',
+        'sundayOpen' => 'nullable',
+        'sundayClose' => 'nullable|after:sundayOpen',
+    ]);
 
-        // Update the listing with the new data
-        $listing->businessName = $request->businessName;
-        $listing->description = $request->description;
-        $listing->contactNumber = $request->contactNumber;
-        $listing->type = $request->type;
-        $listing->latitude = $request->latitude;
-        $listing->longitude = $request->longitude;
+    // Update the listing with the new data
+    $listing->businessName = $request->businessName;
+    $listing->description = $request->description;
+    $listing->contactNumber = $request->contactNumber;
+    $listing->type = $request->type;
+    $listing->latitude = $request->latitude;
+    $listing->longitude = $request->longitude;
 
-        // Store hours
-        $listing->monday_open = $request->mondayOpen;
-        $listing->monday_close = $request->mondayClose;
-        $listing->tuesday_open = $request->tuesdayOpen;
-        $listing->tuesday_close = $request->tuesdayClose;
-        $listing->wednesday_open = $request->wednesdayOpen;
-        $listing->wednesday_close = $request->wednesdayClose;
-        $listing->thursday_open = $request->thursdayOpen;
-        $listing->thursday_close = $request->thursdayClose;
-        $listing->friday_open = $request->fridayOpen;
-        $listing->friday_close = $request->fridayClose;
-        $listing->saturday_open = $request->saturdayOpen;
-        $listing->saturday_close = $request->saturdayClose;
-        $listing->sunday_open = $request->sundayOpen;
-        $listing->sunday_close = $request->sundayClose;
+    // Store hours
+    $listing->monday_open = $request->mondayOpen;
+    $listing->monday_close = $request->mondayClose;
+    $listing->tuesday_open = $request->tuesdayOpen;
+    $listing->tuesday_close = $request->tuesdayClose;
+    $listing->wednesday_open = $request->wednesdayOpen;
+    $listing->wednesday_close = $request->wednesdayClose;
+    $listing->thursday_open = $request->thursdayOpen;
+    $listing->thursday_close = $request->thursdayClose;
+    $listing->friday_open = $request->fridayOpen;
+    $listing->friday_close = $request->fridayClose;
+    $listing->saturday_open = $request->saturdayOpen;
+    $listing->saturday_close = $request->saturdayClose;
+    $listing->sunday_open = $request->sundayOpen;
+    $listing->sunday_close = $request->sundayClose;
 
-        // Handle image uploads
-        $paths = [];
-        if ($request->has('images')) {
-            foreach ($request->file('images') as $image) {
-                $extension = $image->getClientOriginalExtension();
-                $filename = time() . '_' . uniqid() . '.' . $extension;
-                $path = 'uploads/category'; // Adjust path as needed
+    // Handle image uploads
+    $paths = [];
+    if ($request->has('images')) {
+        foreach ($request->file('images') as $image) {
+            $extension = $image->getClientOriginalExtension();
+            $filename = time() . '_' . uniqid() . '.' . $extension;
+            $path = 'uploads/category'; // Adjust path as needed
 
-                // Move image to storage
-                $image->move($path, $filename);
+            // Move image to storage
+            $image->move($path, $filename);
 
-                // Store image path
-                $paths[] = $path . '/' . $filename;
-            }
+            // Store image path
+            $paths[] = $path . '/' . $filename;
         }
+    }
 
-        // Update images field with new paths
-        $listing->images = json_encode($paths);
+    // Update images field with new paths
+    $listing->images = json_encode($paths);
 
-        // Save the updated listing
-        $listing->save();
+    // Save the updated listing
+    $listing->save();
 
-    // Redirect back to business.home with a success message
+    // Redirect back to business.home with a SweetAlert success message
     return redirect()
         ->route('business.home')
         ->with('success', 'Successfully Updated!');
-    }
+}
 
 
 

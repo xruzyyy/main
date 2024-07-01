@@ -123,7 +123,7 @@
 
 <body>
 
-    @if (session('success'))
+    {{-- @if (session('success'))
         <div class="container mt-3">
             <div class="alert alert-success">
                 {{ session('success') }}
@@ -135,7 +135,8 @@
                 window.location.href = "{{ route('business.home') }}";
             }, 2000); // Redirect after 3 seconds (adjust as needed)
         </script>
-    @endif
+    @endif --}}
+
 
     <div class="form-holder">
         <div class="form-content">
@@ -161,17 +162,19 @@
                         </div>
                     @endif
                     <!-- Icon for location button -->
-                    <img src="{{ asset('images/map.png') }}" alt="Store Icon"
-                        style="background-color: #007bff; height: 40px; width: 40px; border-radius: 50%; margin-right: 5px;">
-                    Provide Location
-                    <!-- Indicator icon -->
-                    @if ($latitude && $longitude)
-                        <i class="fas fa-check"
-                            style="background-color: green; height:20px; width:20px; border-radius:5px;"></i>
-                    @else
-                        <i class="fas fa-times"
-                            style="background-color: red; height:20px; width:20px; border-radius:5px;"></i>
-                    @endif
+                    <a href="{{ route('map') }}" class="map-button" title="Provide your business location">
+                        <!-- Icon for location button -->
+                        <img src="{{ asset('images/map.png') }}" alt="Store Icon"
+                            style="background-color: #007bff; height: 40px; width: 40px; border-radius: 50%; margin-right: 5px;">
+                        Provide Location
+                        <!-- Indicator icon -->
+                        @if ($latitude && $longitude)
+                            <i class="fas fa-check"
+                                style="background-color: green; height:20px; width:20px; border-radius:5px;"></i>
+                        @else
+                            <i class="fas fa-times"
+                                style="background-color: red; height:20px; width:20px; border-radius:5px;"></i>
+                        @endif
                     </a>
                     <div class="field">
                         <label class="label">Business Name</label>
@@ -455,6 +458,7 @@
             </div>
         </div>
     </div>
+
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
     <script>

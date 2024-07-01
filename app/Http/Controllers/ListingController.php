@@ -185,7 +185,6 @@ class ListingController extends Controller
                 $filename = time() . '_' . uniqid() . '.' . $extension;
                 $path = 'uploads/category/';
 
-
                 $image->move($path, $filename);
                 $paths[] = $path . $filename;
             }
@@ -194,13 +193,18 @@ class ListingController extends Controller
         // Store the image paths as a JSON string
         $imagesJson = json_encode($paths);
 
+        // Extract latitude and longitude from the location field
+        $location = $request->input('location');
+        $latitude = $location['latitude'];
+        $longitude = $location['longitude'];
+
         // Create the listing with store hours and other fields
         $post = Posts::create([
             'businessName' => $request->businessName,
             'description' => $request->description,
             'images' => $imagesJson,
-            'latitude' => $request->latitude,
-            'longitude' => $request->longitude,
+            'latitude' => $latitude,
+            'longitude' => $longitude,
             'contactNumber' => $request->contactNumber,
             'is_active' => $request->has('is_active') ? $request->input('is_active') : 1,
             'type' => $request->type,
