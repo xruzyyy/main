@@ -1,15 +1,101 @@
 @extends(Auth::user()->type === 'business' ? 'layouts.businessHome' : 'layouts.app')
 
 @section('content')
-    <!-- HTML -->
-    <style>
-        .form-control {
-    color: #000 !important;
-    width: 100%;
-    margin-bottom: 2.5em;
-}
-    </style>
-    <section class="business-section-post-list" id="section3">
+<style>
+    #section3 {
+        background-color: #f8f9fa;
+        padding: 50px 0;
+    }
+    .section3-container {
+        max-width: 1200px;
+    }
+    h2 {
+        color: #333;
+        font-size: 32px;
+        margin-bottom: 30px;
+        text-align: center;
+    }
+    .form-control, .form-select {
+        width: 100%;
+        border: 1px solid #ced4da;
+        border-radius: 20px;
+        padding: 10px 15px;
+        font-size: 16px;
+        transition: all 0.3s ease;
+    }
+    .form-control:focus, .form-select:focus {
+        box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+        border-color: #80bdff;
+    }
+    .btn-search {
+        background-color: #007bff;
+        color: white;
+        border-radius: 20px;
+        padding: 10px 20px;
+        transition: all 0.3s ease;
+    }
+    .btn-search:hover {
+        background-color: #0056b3;
+    }
+    .card {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+    }
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+    }
+    .card-img-top {
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+        height: 200px;
+        object-fit: cover;
+        cursor: pointer;
+    }
+    .card-body {
+        padding: 20px;
+    }
+    .card-title {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+    .card-text {
+        font-size: 14px;
+        color: #6c757d;
+    }
+    .number-suffix {
+        color: #28a745;
+        font-weight: bold;
+    }
+    .pagination {
+        justify-content: center;
+    }
+    .store-map-link, .message-link {
+        color: #007bff;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+    .store-map-link:hover, .message-link:hover {
+        color: #0056b3;
+    }
+    .status-active {
+        color: green;
+        font-weight: bold;
+    }
+    .status-inactive {
+        color: red;
+        font-weight: bold;
+    }
+    .store-hours {
+        font-size: 14px;
+        margin-top: 10px;
+    }
+</style>
+
+<section  id="section3">
     <div class="container section3-container">
         <h2 >Latest Business Posts</h2>
           <!-- Search Form -->

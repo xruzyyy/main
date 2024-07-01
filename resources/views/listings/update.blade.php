@@ -27,66 +27,66 @@
             padding: 20px;
         }
 
-        .form-content {
-            width: 100%;
-            max-width: 800px;
-            padding: 40px;
-            border: 3px solid #fff;
-            border-radius: 10px;
-            text-align: left;
-            transition: all 0.4s ease;
-        }
+            .form-content {
+                width: 100%;
+                max-width: 800px;
+                padding: 40px;
+                border: 3px solid #fff;
+                border-radius: 10px;
+                text-align: left;
+                transition: all 0.4s ease;
+            }
 
-        .form-items {
-            width: 100%;
-        }
+            .form-items {
+                width: 100%;
+            }
 
-        .form-content h3 {
-            font-size: 28px;
-            font-weight: 600;
-            margin-bottom: 20px;
-        }
+            .form-content h3 {
+                font-size: 28px;
+                font-weight: 600;
+                margin-bottom: 20px;
+            }
 
-        .form-content p {
-            font-size: 17px;
-            font-weight: 300;
-            margin-bottom: 20px;
-        }
+            .form-content p {
+                font-size: 17px;
+                font-weight: 300;
+                margin-bottom: 20px;
+            }
 
-        .form-content label {
-            font-weight: 500;
-        }
+            .form-content label {
+                font-weight: 500;
+            }
 
-        .form-content input[type=text],
-        .form-content input[type=password],
-        .form-content input[type=email],
-        .form-content input[type=tel],
-        .form-content input[type=file],
-        .form-content select,
-        .form-content textarea {
-            width: 100%;
-            padding: 10px;
-            border: none;
-            outline: none;
-            border-radius: 6px;
-            background-color: #fff;
-            font-size: 15px;
-            color: #333;
-            margin-top: 10px;
-        }
+            .form-content input[type=text],
+            .form-content input[type=password],
+            .form-content input[type=email],
+            .form-content input[type=tel],
+            .form-content input[type=file],
+            .form-content select,
+            .form-content textarea {
+                width: 100%;
+                padding: 10px;
+                border: none;
+                outline: none;
+                border-radius: 6px;
+                background-color: #fff;
+                font-size: 15px;
+                color: #333;
+                margin-top: 10px;
+            }
 
-        .form-content input[type=time] {
-            width: 48%;
-        }
+            .form-content input[type=time] {
+                width: 48%;
+            }
 
-        .form-check-input {
-            margin-top: 6px;
-        }
+            .form-check-input {
+                margin-top: 6px;
+            }
 
-        .form-button {
-            text-align: right;
-            margin-top: 20px;
-        }
+            .form-button {
+                text-align: right;
+                margin-top: 20px;
+            }
 
         .btn-primary {
             background-color: #6C757D;
@@ -354,9 +354,7 @@
                                 <option value="Maintenance"
                                     {{ old('type', $listing->type) == 'Maintenance' ? 'selected' : '' }}>Maintenance
                                 </option>
-                                <option value="Pharmaceuticals"
-                                    {{ old('type', $listing->type) == 'Pharmaceuticals' ? 'selected' : '' }}>
-                                    Pharmaceuticals</option>
+
                                 <option value="Automotive"
                                     {{ old('type', $listing->type) == 'Automotive' ? 'selected' : '' }}>Automotive
                                 </option>
@@ -455,6 +453,8 @@
                         </div>
                     </div>
                 </form>
+
+
             </div>
         </div>
     </div>

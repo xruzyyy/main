@@ -43,10 +43,6 @@
                         <i class="fas fa-coffee business-icon"></i>
                         <a href="{{ route('showCoffeeShopsCategories') }}" class="business-name">Coffee Shops</a>
                     </li>
-                    <li class="business-item">
-                        <i class="fas fa-medkit business-icon"></i>
-                        <a href="{{ route('showPharmaceuticalsCategories') }}" class="business-name">Pharmaceuticals</a>
-                    </li>
                 </ul>
             </div>
 

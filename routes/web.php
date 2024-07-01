@@ -260,6 +260,7 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
         // Route for updating an existing user
         Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
 
+
         // Route for deleting an existing user
         Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
         Route::put('/users/{id}/reject', [UserController::class, 'rejectUser'])->name('users.reject');

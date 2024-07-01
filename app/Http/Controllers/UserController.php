@@ -212,21 +212,25 @@ class UserController extends Controller
             'type' => 'required|string|in:user,admin,business',
             'account_expiration_date' => 'nullable|date',
             'status' => 'required|string',
-            'image' => 'nullable|mimes:jpg,jpeg,webp,png,jfif,heic',
+            'image' => 'nullable|mimes:jpg,jpeg,webp,png,jfif|dimensions:min_width=480,min_height=480',
         ]);
 
-        // Handle image upload if provided
+        // Handle permit image upload if provided
         if ($request->hasFile('image')) {
-            // Store the uploaded image
-            $imagePath = $request->file('image')->store('permit_images', 'public');
+            $permitImagePath = 'uploads/permit_images/';
+            $permitImageName = time() . '_permit.' . $request->file('image')->getClientOriginalExtension();
+            $request->file('image')->move($permitImagePath, $permitImageName);
 
             // Delete the old image if exists
             if ($user->image) {
-                Storage::disk('public')->delete($user->image);
+                $oldImagePath = public_path($user->image);
+                if (file_exists($oldImagePath)) {
+                    unlink($oldImagePath);
+                }
             }
 
             // Update the user image path
-            $user->image = $imagePath;
+            $user->image = $permitImagePath . $permitImageName;
         }
 
         // Update other user details
@@ -235,7 +239,15 @@ class UserController extends Controller
         if ($request->filled('password')) {
             $user->password = Hash::make($request->password);
         }
-        $user->type = $validatedData['type'];
+
+        // Map user type string to integer value
+        $typeMap = [
+            'user' => 0,
+            'admin' => 1,
+            'business' => 2,
+        ];
+        $user->type = $typeMap[$validatedData['type']];
+
         $user->account_expiration_date = $validatedData['account_expiration_date'];
         list($user->status, $user->is_active) = explode('_', $validatedData['status']);
         $user->save();

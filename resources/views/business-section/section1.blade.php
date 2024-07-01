@@ -239,7 +239,6 @@
                     <option value="Entertainment">Entertainment</option>
                     <option value="Pattern Making Services">Pattern Making Services</option>
                     <option value="Maintenance">Maintenance</option>
-                    <option value="Pharmaceuticals">Pharmaceuticals</option>
                     <option value="Automotive">Automotive</option>
                     <option value="Environmental">Environmental</option>
                     <option value="Quick Service Restaurants">Quick Service Restaurants</option>
