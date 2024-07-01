@@ -48,9 +48,9 @@
                                 <div class="card-body">
                                     <h5>{{ \Illuminate\Support\Str::limit($post->businessName, 12) }}</h5>
                                     <i class="fas fa-map-marker-alt" style="color: #006ce7f1;"></i>
-                                    <a href="{{ route('mapStore') }}" class="store-map-link" style="text-decoration: none;">
-                                        <b style="color: black;">Map</b>
-                                    </a>
+                            <a href="{{ route('mapStore', ['business' => rawurlencode($post->businessName)]) }}" class="store-map-link" style="text-decoration: none;">
+                                <b style="color: black;">Map</b>
+                            </a>
                                     <a href="/chatify/{{ $post->user_id }}">
                                         <b style="color:rgb(0, 0, 0);">Message</b>
                                     </a>

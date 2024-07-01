@@ -188,6 +188,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('end').value = decodeURIComponent(selectedBusiness);
         setTimeout(function() {
             getDirections();
+            startNavigation();
         }, 1000); // Delay to ensure map is fully loaded
     }
 });
@@ -209,7 +210,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
         function addCategoryMarkers() {
     posts.forEach(function(post) {
-        var markerColor = post.is_active ? (post.is_open ? 'green' : 'blue') : 'red';
+        var isOpen = isBusinessOpen(post.store_hours);
+        var markerColor = post.is_active ? (isOpen ? 'green' : 'blue') : 'red';
         var marker = L.marker([post.latitude, post.longitude], {
             icon: coloredIcon(markerColor)
         }).addTo(map);
@@ -227,12 +229,21 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!post.is_active) {
             popupContent += "<br><strong>Expired Permit</strong>";
         } else {
-            popupContent += "<br><strong>" + (post.is_open ? "Open" : "Closed") + "</strong>";
+            if (isOpen) {
+                popupContent += "<br><strong><span style='color: green;'>Open</span></strong>";
+            } else {
+                popupContent += "<br><strong><span style='color: red;'>Closed</span></strong>";
+            }
 
-            // Add this check for store_hours
             if (post.store_hours) {
-                var today = new Date().toLocaleDateString('en-US', { weekday: 'long' }).toLowerCase();
-                popupContent += "<br>Hours today: " + (post.store_hours[today] || 'Not available');
+                var today = new Date().toLocaleString('en-US', { weekday: 'long', timeZone: 'Asia/Manila' }).toLowerCase();
+                var hoursToday = post.store_hours[today];
+                if (hoursToday === 'Closed') {
+                    popupContent += "<br>Hours today: <span style='color: red;'>Closed</span>";
+                } else {
+                    var [openStr, closeStr] = hoursToday.split(' - ');
+                    popupContent += "<br>Hours today: <span style='color: green;'>" + openStr + " - " + closeStr + "</span>";
+                }
             } else {
                 popupContent += "<br>Hours today: Not available";
             }
@@ -240,6 +251,31 @@ document.addEventListener('DOMContentLoaded', function() {
 
         marker.bindPopup(popupContent);
     });
+}
+
+function isBusinessOpen(storeHours) {
+    if (!storeHours) return false;
+
+    var now = new Date(new Date().toLocaleString("en-US", {timeZone: "Asia/Manila"}));
+    var day = now.toLocaleString('en-US', { weekday: 'long' }).toLowerCase();
+    var currentTime = now.getHours() * 60 + now.getMinutes();
+
+    var hours = storeHours[day];
+    if (hours === 'Closed') return false;
+
+    var [openStr, closeStr] = hours.split(' - ');
+    var openTime = timeStringToMinutes(openStr);
+    var closeTime = timeStringToMinutes(closeStr);
+
+    return currentTime >= openTime && currentTime < closeTime;
+}
+
+function timeStringToMinutes(timeStr) {
+    var [time, period] = timeStr.split(' ');
+    var [hours, minutes] = time.split(':').map(Number);
+    if (period === 'PM' && hours !== 12) hours += 12;
+    if (period === 'AM' && hours === 12) hours = 0;
+    return hours * 60 + minutes;
 }
 
         // Define a function to create colored markers

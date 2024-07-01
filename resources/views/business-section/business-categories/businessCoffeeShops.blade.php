@@ -52,8 +52,8 @@
                             <p class="card-text"><strong>Contact Number:</strong> {{ $post->contactNumber }}</p>
                             <p class="card-text">
                                 <i class="fas fa-map-marker-alt" style="color: #006ce7f1;"></i>
-                                <a href="{{ route('mapStore') }}" class="store-map-link" style="text-decoration: none;">
-                                    <b style="color: black;">Explore Store on Map</b>
+                                <a href="{{ route('mapStore', ['business' => rawurlencode($post->businessName)]) }}" class="store-map-link" style="text-decoration: none;">
+                                    <b style="color: black;">Map</b>
                                 </a>
                             </p>
                             <a href="/chatify/{{ $post->user_id }}" class="message-link">
