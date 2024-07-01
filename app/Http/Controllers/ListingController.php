@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Rules\ImageDimensions;
 use App\Rules\LocationRequired;
+use Carbon\Carbon;
 
 class ListingController extends Controller
 {
@@ -300,20 +301,67 @@ class ListingController extends Controller
         return view('map', ['unseenCount' => $unseenCount]);
     }
 
+
     public function mapStore(Request $request)
     {
+        $selectedBusiness = urldecode($request->query('business'));
+
         // Fetch unseen message count
         $unseenCount = DB::table('ch_messages')
             ->where('to_id', '=', Auth::user()->id)
             ->where('seen', '=', '0')
             ->count();
-        // Retrieve categories from the database
-        $posts = Posts::all(['id', 'businessName', 'description', 'images', 'latitude', 'longitude', 'is_active']);
 
-        // Pass category data and any other necessary data to the view
+        // Retrieve posts with store hours from the database
+        $posts = Posts::select([
+            'id', 'businessName', 'description', 'images', 'latitude', 'longitude', 'is_active',
+            'monday_open', 'monday_close',
+            'tuesday_open', 'tuesday_close',
+            'wednesday_open', 'wednesday_close',
+            'thursday_open', 'thursday_close',
+            'friday_open', 'friday_close',
+            'saturday_open', 'saturday_close',
+            'sunday_open', 'sunday_close'
+        ])->get();
+
+        // Format store hours for each post
+        $posts = $posts->map(function ($post) {
+            $post->store_hours = $this->formatStoreHours($post);
+            return $post;
+        });
+
+        // Get the business name from the query parameter
+        $selectedBusiness = $request->query('business');
+
         return view('mapStore', [
-            'posts' => $posts, // Use 'posts' instead of 'categories' as the variable name
+            'posts' => $posts,
             'unseenCount' => $unseenCount,
+            'selectedBusiness' => $selectedBusiness,
+            'postsJson' => json_encode($posts), // Add this line
         ]);
+    }
+
+    private function formatStoreHours($post)
+    {
+        $days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+        $hours = [];
+
+        foreach ($days as $day) {
+            $open = $post->{$day . '_open'};
+            $close = $post->{$day . '_close'};
+
+            if ($open && $close) {
+                $hours[$day] = $this->formatTime($open) . ' - ' . $this->formatTime($close);
+            } else {
+                $hours[$day] = 'Closed';
+            }
+        }
+
+        return $hours;
+    }
+
+    private function formatTime($time)
+    {
+        return date('g:i A', strtotime($time));
     }
 }

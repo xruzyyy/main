@@ -175,15 +175,31 @@
 
     </div>
 
-
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
     <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
-
     <script>
-        // Assuming you have already fetched the posts data from your database in PHP
-        var posts = {!! json_encode($posts) !!};
+document.addEventListener('DOMContentLoaded', function() {
+    var selectedBusiness = @json($selectedBusiness);
+    console.log("Selected Business:", selectedBusiness);
+    console.log("All Posts:", posts);
 
+    if (selectedBusiness) {
+        document.getElementById('end').value = decodeURIComponent(selectedBusiness);
+        setTimeout(function() {
+            getDirections();
+        }, 1000); // Delay to ensure map is fully loaded
+    }
+});
+
+        function fuzzyMatch(str1, str2) {
+    str1 = str1.toLowerCase().replace(/[^a-z0-9]/g, '');
+    str2 = str2.toLowerCase().replace(/[^a-z0-9]/g, '');
+    return str1.includes(str2) || str2.includes(str1);
+}
+        </script>
+    <script>
+                var posts = {!! json_encode($posts) !!};
         var map = L.map("map").setView([14.5695, 121.1126], 13);
 
         L.tileLayer("https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}", {
@@ -192,33 +208,39 @@
         }).addTo(map);
 
         function addCategoryMarkers() {
-            var posts = {!! json_encode($posts) !!};
+    posts.forEach(function(post) {
+        var markerColor = post.is_active ? (post.is_open ? 'green' : 'blue') : 'red';
+        var marker = L.marker([post.latitude, post.longitude], {
+            icon: coloredIcon(markerColor)
+        }).addTo(map);
 
-            posts.forEach(function(post) {
-                var markerColor = post.is_active ? 'blue' : 'red'; // Set marker color based on is_active value
-                var marker = L.marker([post.latitude, post.longitude], {
-                    icon: coloredIcon(markerColor)
-                }).addTo(map);
+        var popupContent = "<b>" + post.businessName + "</b><br>" + post.description;
 
-                // Check if the images property is defined and not empty
-                if (post.images && post.images.length > 0) {
-                    // Parse the JSON-encoded images string
-                    var images = JSON.parse(post.images);
-
-                    // Get the first image from the array
-                    var firstImage = images[0];
-
-                    marker.bindPopup("<b>" + post.businessName + "</b><br>" + post.description + "<br><img src='" +
-                        firstImage + "' width='100'>" + (post.is_active ? "" :
-                            "<br><strong>Expired Permit</strong>"));
-                } else {
-                    // If no image is available, display a default message
-                    marker.bindPopup("<b>" + post.businessName + "</b><br>" + post.description +
-                        "<br>No image available" + (post.is_active ? "" : "<br><strong>Expired Permit</strong>")
-                    );
-                }
-            });
+        if (post.images && post.images.length > 0) {
+            var images = JSON.parse(post.images);
+            var firstImage = images[0];
+            popupContent += "<br><img src='" + firstImage + "' width='100'>";
+        } else {
+            popupContent += "<br>No image available";
         }
+
+        if (!post.is_active) {
+            popupContent += "<br><strong>Expired Permit</strong>";
+        } else {
+            popupContent += "<br><strong>" + (post.is_open ? "Open" : "Closed") + "</strong>";
+
+            // Add this check for store_hours
+            if (post.store_hours) {
+                var today = new Date().toLocaleDateString('en-US', { weekday: 'long' }).toLowerCase();
+                popupContent += "<br>Hours today: " + (post.store_hours[today] || 'Not available');
+            } else {
+                popupContent += "<br>Hours today: Not available";
+            }
+        }
+
+        marker.bindPopup(popupContent);
+    });
+}
 
         // Define a function to create colored markers
         function coloredIcon(color) {
@@ -235,50 +257,78 @@
 
         addCategoryMarkers();
 
-        function getUserLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    function(position) {
-                        var userLatLng = L.latLng(
-                            position.coords.latitude,
-                            position.coords.longitude
-                        );
-                        map.setView(userLatLng, 13);
-                        updateUserLocationMarker(userLatLng);
-                        document.getElementById("start").value = "Current Location";
-                    },
-                    function(error) {
-                        console.error("Error getting user location:", error.message);
-                    }, {
-                        maximumAge: 60000,
-                        timeout: 5000,
-                        enableHighAccuracy: true
-                    }
-                );
-            } else {
-                console.error("Geolocation is not supported by this browser.");
+        var userLocation = null;
+
+function getUserLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            function(position) {
+                userLocation = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+                document.getElementById("start").value = "Current Location";
+                updateUserLocationMarker(userLocation);
+            },
+            function(error) {
+                console.error("Error getting user location:", error.message);
             }
-        }
+        );
+    } else {
+        console.error("Geolocation is not supported by this browser.");
+    }
+}
 
-        getUserLocation();
+document.addEventListener('DOMContentLoaded', function() {
+    getUserLocation();
 
-        var userLocationMarker;
+    var selectedBusiness = @json($selectedBusiness);
+    console.log("Selected Business:", selectedBusiness);
+    console.log("All Posts:", posts);
 
-        function updateUserLocationMarker(userLatLng) {
-            if (!userLocationMarker) {
-                userLocationMarker = L.marker(userLatLng).addTo(map);
-                userLocationMarker.bindPopup("Your Location").openPopup();
-                userLocationMarker.on("click", function() {
-                    showStreetView(userLocationMarker.getLatLng());
-                });
+    if (selectedBusiness) {
+        document.getElementById('end').value = decodeURIComponent(selectedBusiness);
+        setTimeout(function() {
+            getDirections();
+        }, 1000); // Delay to ensure map is fully loaded
+    }
+});
+
+function getDirections() {
+    var startName = document.getElementById("start").value;
+    var endName = decodeURIComponent(document.getElementById("end").value);
+    console.log("Searching for end location:", endName);
+
+    var waypoints = [];
+
+    if (startName.toLowerCase() === "current location") {
+        if (userLocation) {
+            waypoints.push(L.latLng(userLocation.lat, userLocation.lng));
+            var endLocation = findLocationByName(endName);
+
+            if (endLocation !== null) {
+                waypoints.push(L.latLng(endLocation.lat, endLocation.lng));
+                routingControl.setWaypoints(waypoints);
             } else {
-                userLocationMarker.setLatLng(userLatLng);
+                console.error("Unable to find end location:", endName);
+                alert("Unable to find end location: " + endName);
             }
-
-            document.getElementById("latitude").innerText = userLatLng.lat.toFixed(6);
-            document.getElementById("longitude").innerText = userLatLng.lng.toFixed(6);
+        } else {
+            alert("Unable to get current location. Please try again.");
         }
+    } else {
+        // ... rest of the function for non-current location starts ...
+    }
+}
 
+function updateUserLocationMarker(location) {
+    if (!userLocationMarker) {
+        userLocationMarker = L.marker(location).addTo(map);
+        userLocationMarker.bindPopup("Your Location").openPopup();
+    } else {
+        userLocationMarker.setLatLng(location);
+    }
+}
         function useCurrentLocation(field) {
             getUserLocation();
             document.getElementById(field).value = "Current Location";
@@ -340,65 +390,89 @@
 
 
 
-        function getDirections() {
-            var startName = document.getElementById("start").value;
-            var endName = document.getElementById("end").value;
-            var waypoints = [];
+        var posts = @json($posts);
 
-            if (startName.toLowerCase().includes("current")) {
-                navigator.geolocation.getCurrentPosition(
-                    function(position) {
-                        var userLatLng = [position.coords.latitude, position.coords.longitude];
-                        waypoints.push(L.latLng(userLatLng[0], userLatLng[1]));
-                        var endLocation = findLocationByName(endName);
-                        let alertShown = false;
+document.addEventListener('DOMContentLoaded', function() {
+    var selectedBusiness = @json($selectedBusiness);
+    console.log("Selected Business:", selectedBusiness);
+    console.log("All Posts:", posts);
 
-                        if (endLocation !== null) {
-                            waypoints.push(L.latLng(endLocation.lat, endLocation.lng));
-                            routingControl.setWaypoints(waypoints);
-                        } else {
-                            if (!alertShown) {
-                                alert("Unable to find end location.");
-                                alertShown = true; // Set flag to true after showing the alert
-                                setTimeout(function() {
-                                    window.history.back(); // Navigate back in history after 1 second
-                                }, 1000); // 1000 milliseconds = 1 second
-                            }
-                        }
+    if (selectedBusiness) {
+        document.getElementById('end').value = selectedBusiness;
+        setTimeout(function() {
+            getDirections();
+        }, 1000); // Delay to ensure map is fully loaded
+    }
+});
 
-                    },
-                    function(error) {
-                        console.error("Error getting user location:", error.message);
-                    }
-                );
-            } else {
-                var startLocation = findLocationByName(startName);
-                if (startLocation !== null) {
-                    waypoints.push(L.latLng(startLocation.lat, startLocation.lng));
-                    var endLocation = findLocationByName(endName);
-                    if (endLocation !== null) {
-                        waypoints.push(L.latLng(endLocation.lat, endLocation.lng));
-                        routingControl.setWaypoints(waypoints);
-                    } else {
-                        alert("Unable to find end location.");
-                    }
+function getDirections() {
+    var startName = document.getElementById("start").value;
+    var endName = document.getElementById("end").value;
+    console.log("Searching for end location:", endName);
+
+    var waypoints = [];
+
+    if (startName.toLowerCase().includes("current")) {
+        navigator.geolocation.getCurrentPosition(
+            function(position) {
+                var userLatLng = [position.coords.latitude, position.coords.longitude];
+                waypoints.push(L.latLng(userLatLng[0], userLatLng[1]));
+                var endLocation = findLocationByName(endName);
+
+                if (endLocation !== null) {
+                    waypoints.push(L.latLng(endLocation.lat, endLocation.lng));
+                    routingControl.setWaypoints(waypoints);
                 } else {
-                    alert("Unable to find start location.");
+                    console.error("Unable to find end location:", endName);
+                    alert("Unable to find end location: " + endName);
                 }
+            },
+            function(error) {
+                console.error("Error getting user location:", error.message);
             }
+        );
+    } else {
+        var startLocation = findLocationByName(startName);
+        if (startLocation !== null) {
+            waypoints.push(L.latLng(startLocation.lat, startLocation.lng));
+            var endLocation = findLocationByName(endName);
+            if (endLocation !== null) {
+                waypoints.push(L.latLng(endLocation.lat, endLocation.lng));
+                routingControl.setWaypoints(waypoints);
+            } else {
+                console.error("Unable to find end location:", endName);
+                alert("Unable to find end location: " + endName);
+            }
+        } else {
+            console.error("Unable to find start location:", startName);
+            alert("Unable to find start location: " + startName);
         }
+    }
+}
 
-        function findLocationByName(name) {
-            for (var i = 0; i < posts.length; i++) {
-                if (posts[i].businessName.toLowerCase() === name.toLowerCase()) {
-                    return {
-                        lat: posts[i].latitude,
-                        lng: posts[i].longitude
-                    };
-                }
-            }
-            return null;
+function findLocationByName(name) {
+    name = decodeURIComponent(name).toLowerCase().trim();
+    console.log("Searching for:", name);
+
+    let bestMatch = null;
+    let highestSimilarity = 0;
+
+    for (var i = 0; i < posts.length; i++) {
+        var postName = posts[i].businessName.toLowerCase().trim();
+        console.log("Comparing with:", postName);
+
+        if (fuzzyMatch(postName, name)) {
+            console.log("Match found:", posts[i]);
+            return {
+                lat: posts[i].latitude,
+                lng: posts[i].longitude
+            };
         }
+    }
+
+    console.error("Location not found:", name);
+    return null;
+}
 
         function clearMarkers() {
             routingControl.getPlan().setWaypoints([]);
