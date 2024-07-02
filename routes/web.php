@@ -241,7 +241,7 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
         Route::get('ManagePost/{id}/edit', [ManagePostController::class, 'edit'])->name('ManagePost.edit');
         Route::put('ManagePost/{id}/update', [ManagePostController::class, 'update'])->name('ManagePost.update');
         Route::delete('ManagePost/{id}/delete', [ManagePostController::class, 'destroy'])->name('ManagePost.destroy');
-        Route::get('ManagePost/{id}/toggleStatus', [ManagePostController::class, 'toggleStatus'])->name('ManagePost.toggleStatus');
+        // Route::get('ManagePost/{id}/toggleStatus', [ManagePostController::class, 'toggleStatus'])->name('managePost.toggleStatus');
 
         Route::get('/usersList', [UserController::class, 'index'])->name('users');
         Route::put('/ManagePost/{id}/edit', [UserController::class, 'update'])->name('users.update');

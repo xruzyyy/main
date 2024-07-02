@@ -31,10 +31,10 @@
                         data-bs-target="#editModal{{ $user->id }}">Edit</a>
                     <!-- Button to toggle user status -->
                     <a href="#"
-                        class="btn btn-sm {{ $user->is_active && $user->status && $user->status !== 3 ? 'btn-outline-danger' : 'btn-outline-success' }}"
-                        data-bs-toggle="modal" data-bs-target="#confirmationModal{{ $user->id }}">
-                        {{ $user->is_active && $user->status && $user->status !== 3 ? 'Deactivate' : 'Activate' }}
-                    </a>
+                    class="btn btn-sm {{ ($user->status == 1 && $user->is_active == 1) ? 'btn-outline-danger' : 'btn-outline-success' }}"
+                    data-bs-toggle="modal" data-bs-target="#confirmationModal{{ $user->id }}">
+                    {{ ($user->status == 1 && $user->is_active == 1) ? 'Deactivate' : 'Activate' }}
+                </a>
                     <!-- Button to trigger the rejection modal -->
                     <button type="button" class="btn btn-sm btn-outline-danger"
                         onclick="showRejectionConfirmation('{{ route('users.reject', $user->id) }}', '{{ $user->name }}')">RESTRICT</button>

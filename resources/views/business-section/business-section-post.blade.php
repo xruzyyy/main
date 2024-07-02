@@ -1,3 +1,8 @@
+<style>
+    a{
+        text-decoration: none;
+    }
+</style>
 <section class="business-section-post" id="section3">
     <div class="container section3-container">
         <h2 class="animate-on-scroll" style="color: rgb(3, 0, 0);">
@@ -25,14 +30,16 @@
                             onclick="openFullScreen('{{ route('businessPost', ['id' => $post->id]) }}')">
                         <div class="card-body">
                             <h5>{{ \Illuminate\Support\Str::limit($post->businessName, 12) }}</h5>
-                            <i class="fas fa-map-marker-alt" style="color: #006ce7f1;"></i>
-                            <a href="{{ route('mapStore', ['business' => rawurlencode($post->businessName)]) }}" class="store-map-link" style="text-decoration: none;">
-                                <b style="color: black;">Map</b>
-                            </a>
-                            <a href="/chatify/{{ $post->user_id }}">
-                                <b style="color:rgb(0, 0, 0);">Message</b>
-                            </a>
-                            <i class="fa-brands fa-facebook-messenger" style="color: #006ce7f1; margin-right:40px;"></i>
+                            <p class="card-text">
+                                <i class="fas fa-map-marker-alt mr-2" style="color: #006ce7f1;"></i>
+                                <a href="{{ route('mapStore', ['business' => rawurlencode($post->businessName)]) }}" class="store-map-link">
+                                    View Map
+                                </a>
+                                <a href="/chatify/{{ $post->user_id }}" class="message-link ml-3">
+                                    <i class="fa-brands fa-facebook-messenger mr-1" style="color: #006ce7f1;"></i>
+                                    Message
+                                </a>
+                            </p>
                             <div style="margin: 0; font-weight:bolder;"><strong>Type:</strong> {{ $post->type }}</div>
 
                             <!-- Display the is_active status -->

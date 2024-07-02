@@ -285,8 +285,9 @@
             <div class="business-actions">
                 <p class="postText">
                     <i class="fas fa-map-marker-alt"></i>
-                    <a href="{{ route('mapStore') }}" class="store-map-link">Explore Store on Map</a>
-                </p>
+                    <a href="{{ route('mapStore', ['business' => rawurlencode($post->businessName)]) }}" class="store-map-link">
+                        Map
+                    </a>                </p>
                 <p class="postText">
                     <a href="/chatify/{{ $post->user_id }}" class="message-link">
                         <i class="fab fa-facebook-messenger"></i>

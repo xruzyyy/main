@@ -460,6 +460,7 @@ function updateUserLocationMarker(location) {
         document.getElementById("search-form").style.display = "none";
         document.getElementById("directions-container").style.display = 'block';
         getDirections();
+        speak("Starting navigation. Please follow the route on your screen.");
     } else {
         Swal.fire({
             icon: 'error',
@@ -470,16 +471,17 @@ function updateUserLocationMarker(location) {
 }
 
 
-        function stopNavigation() {
-            if (routingControl) {
-                map.removeControl(routingControl);
-                routingControl = null;
-            }
-            document.getElementById("search-form").style.display = "block";
-            document.getElementById("directions-container").style.display = 'none';
-        }
-
-        function getDirections() {
+function stopNavigation() {
+    if (routingControl) {
+        map.removeControl(routingControl);
+        routingControl = null;
+    }
+    document.getElementById("search-form").style.display = "block";
+    document.getElementById("directions-container").style.display = 'none';
+    speechSynthesis.cancel(); // Stop any ongoing speech
+    speak("Navigation ended.");
+}
+function getDirections() {
     var startName = document.getElementById("start").value;
     var endName = document.getElementById("end").value;
 
@@ -492,7 +494,7 @@ function updateUserLocationMarker(location) {
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
-                text: 'Unable to get current location. Please try again.',
+                text: 'Unable to get current location. Please enable location services and try again.',
             });
             return;
         }
@@ -504,7 +506,7 @@ function updateUserLocationMarker(location) {
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
-                text: 'Unable to find start location,make sure to turn on your location: ' + startName,
+                text: 'Unable to find start location: ' + startName,
             });
             return;
         }
@@ -522,12 +524,10 @@ function updateUserLocationMarker(location) {
         return;
     }
 
-    // Remove existing routing control if it exists
     if (routingControl) {
         map.removeControl(routingControl);
     }
 
-    // Add new routing control with updated waypoints
     routingControl = L.Routing.control({
         waypoints: waypoints,
         routeWhileDragging: true,
@@ -536,8 +536,98 @@ function updateUserLocationMarker(location) {
         show: true
     }).addTo(map);
 
-    // Ensure the directions container is visible
-    document.getElementById("directions-container").style.display = 'block';
+    routingControl.on('routesfound', function(e) {
+        var routes = e.routes;
+        var summary = routes[0].summary;
+
+        var businessName = endName;
+
+        var routeSummary = `Route to ${businessName} found. `;
+        routeSummary += `The trip is approximately ${Math.round(summary.totalDistance / 1000)} kilometers `;
+        routeSummary += `and will take about ${Math.round(summary.totalTime / 60)} minutes.`;
+
+        speak(routeSummary);
+
+        if (routes[0].instructions.length > 0) {
+            speak(routes[0].instructions[0].text);
+        }
+
+        startLocationTracking();
+    });
+
+    routingControl.on('routingerror', function(e) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Routing Error',
+            text: 'Unable to calculate route. Please check your locations and try again.',
+        });
+    });
+}
+
+function startLocationTracking() {
+    var lastAnnouncedInstruction = -1;
+
+    function updatePosition(position) {
+        var latlng = L.latLng(position.coords.latitude, position.coords.longitude);
+
+        if (routingControl) {
+            var route = routingControl.getRouter().route()[0];
+            if (route) {
+                var closestIndex = L.GeometryUtil.closest(map, route.coordinates, latlng);
+
+                // Find the next instruction
+                var nextInstructionIndex = route.instructions.findIndex((instruction, index) =>
+                    index > lastAnnouncedInstruction && instruction.index > closestIndex
+                );
+
+                if (nextInstructionIndex !== -1) {
+                    var nextInstruction = route.instructions[nextInstructionIndex];
+                    var distanceToInstruction = L.GeometryUtil.length(
+                        route.coordinates.slice(closestIndex, nextInstruction.index)
+                    );
+
+                    // Announce the instruction when within 50 meters
+                    if (distanceToInstruction <= 50) {
+                        speak(nextInstruction.text);
+                        lastAnnouncedInstruction = nextInstructionIndex;
+                    }
+                }
+            }
+        }
+    }
+
+    function errorHandler(err) {
+        console.warn('ERROR(' + err.code + '): ' + err.message);
+    }
+
+    var options = {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 0
+    };
+
+    navigator.geolocation.watchPosition(updatePosition, errorHandler, options);
+}
+
+function speak(text) {
+    if ('speechSynthesis' in window) {
+        var utterance = new SpeechSynthesisUtterance(text);
+
+        var voices = speechSynthesis.getVoices();
+
+        // Choose a specific voice by name
+        var desiredVoice = voices.find(voice => voice.name === "Google UK English Female");
+
+        if (desiredVoice) {
+            utterance.voice = desiredVoice;
+        }
+
+        utterance.pitch = 1;
+        utterance.rate = 1;
+        utterance.volume = 1;
+
+        speechSynthesis.speak(utterance);
+    }
 }
 
         function findLocationByName(name) {
@@ -658,6 +748,86 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 1000);
     }
 });
+
+function speak(text) {
+    if ('speechSynthesis' in window) {
+        var utterance = new SpeechSynthesisUtterance(text);
+
+        // Get the list of available voices
+        var voices = speechSynthesis.getVoices();
+
+        // Choose a specific voice
+        // You can change the index or use a different selection method
+        utterance.voice = voices[4]; // This selects the third available voice
+
+        // Optionally, adjust other properties
+        utterance.pitch = 1; // Range from 0 to 2
+        utterance.rate = 0.9; // Range from 0.1 to 10
+        utterance.volume = 1; // Range from 0 to 1
+
+        speechSynthesis.speak(utterance);
+    }
+}
+
+map.on('locationfound', function(e) {
+    if (routingControl) {
+        var routes = routingControl.getRouter().route();
+        if (routes.length > 0) {
+            var nextInstruction = routes[0].instructions.find(function(instruction) {
+                return instruction.distance > 0;
+            });
+            if (nextInstruction) {
+                speak(nextInstruction.text);
+            }
+        }
+    }
+});
+
+function startLocationTracking() {
+    var lastAnnouncedInstruction = -1;
+
+    function updatePosition(position) {
+        var latlng = L.latLng(position.coords.latitude, position.coords.longitude);
+
+        if (routingControl) {
+            var route = routingControl.getRouter().route()[0];
+            if (route) {
+                var closestIndex = L.GeometryUtil.closest(map, route.coordinates, latlng);
+
+                // Find the next instruction
+                var nextInstructionIndex = route.instructions.findIndex((instruction, index) =>
+                    index > lastAnnouncedInstruction && instruction.index > closestIndex
+                );
+
+                if (nextInstructionIndex !== -1) {
+                    var nextInstruction = route.instructions[nextInstructionIndex];
+                    var distanceToInstruction = L.GeometryUtil.length(
+                        route.coordinates.slice(closestIndex, nextInstruction.index)
+                    );
+
+                    // Announce the instruction when within 50 meters
+                    if (distanceToInstruction <= 50) {
+                        speak(nextInstruction.text);
+                        lastAnnouncedInstruction = nextInstructionIndex;
+                    }
+                }
+            }
+        }
+    }
+
+    function errorHandler(err) {
+        console.warn('ERROR(' + err.code + '): ' + err.message);
+    }
+
+    var options = {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 0
+    };
+
+    navigator.geolocation.watchPosition(updatePosition, errorHandler, options);
+}
+
     </script>
 </body>
 

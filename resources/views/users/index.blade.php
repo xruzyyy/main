@@ -1,6 +1,20 @@
 @extends('layouts.master')
 
 @section('manageUsers')
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+@if(session('success'))
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: '{{ session('success') }}',
+            });
+        });
+    </script>
+@endif
 <div class="container p-4">
     <div class="text-center">
         <h1 class="">Manage All Business Accounts</h1>
@@ -10,6 +24,25 @@
     @include('partials.allUsersPagination')
     @include('partials.allUsersTbl')
     @include('partials.allUsersModalImagePreview')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            @if(session('error'))
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: '{{ session('error') }}',
+                });
+            @endif
+
+            @if($errors->any())
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    html: '{!! implode('<br>', $errors->all()) !!}',
+                });
+            @endif
+        });
+    </script>
 
 </div>
 
@@ -34,7 +67,6 @@
 <script src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.html5.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.print.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.colVis.min.js"></script>
-
 <script>
     $(document).ready(function() {
                 // Get the current limit parameter from the URL
@@ -109,4 +141,6 @@
     }
 
 </script>
+
+
 @endsection

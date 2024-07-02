@@ -128,6 +128,12 @@
                         <img src="{{ asset($firstImage) }}" class="card-img-top" alt="Business Image" onclick="openFullScreen('{{ route('businessPost', ['id' => $post->id]) }}')">
                         <div class="card-body">
                             <p class="card-text"><strong>Type:</strong> {{ $post->type }}</p>
+                            <p class="card-text">
+                                <strong>Permit Status:</strong>
+                                <span class="{{ $post->is_active ? 'status-active' : 'status-inactive' }}">
+                                    {{ $post->is_active ? 'Active' : 'Not Active' }}
+                                </span>
+                            </p>
                             <h5 class="card-title">{{ $post->businessName }}</h5>
                             <p class="card-text">
                                 <strong>Ratings:</strong>

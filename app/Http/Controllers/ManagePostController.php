@@ -269,14 +269,23 @@ public function edit(int $id)
         return redirect()->back()->with('status', 'Business Listing Successfully Deleted');
     }
 
-    public function toggleStatus($id)
-    {
-        $posts = Posts::findOrFail($id);
-        $posts->update(['is_active' => !$posts->is_active]);
+// public function toggleStatus($id)
+// {
+//     $post = Posts::findOrFail($id);
+//     $user = User::findOrFail($post->user_id);
 
-        return redirect()->back();
-    }
+//     // Toggle both status and is_active for the post
+//     $newStatus = $post->status == 0 ? 1 : 0;
 
+//     // Update both the post and the user
+//     $post->update([
+//         'status' => $newStatus,
+//         'is_active' => $newStatus
+//     ]);
+//     $user->update(['status' => $newStatus]);
+
+//     return redirect()->back()->with('success', 'Status updated successfully.');
+// }
     public function sortTable(Request $request)
     {
         $query = Posts::query();
