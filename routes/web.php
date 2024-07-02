@@ -28,7 +28,6 @@ use App\Http\Controllers\UpdateAccountController;
 
 
 
-Route::post('/email/verify-manually', [VerificationController::class, 'verifyManually'])->name('verification.verify-manually');
 
 
 Auth::routes(['verify' => true]);

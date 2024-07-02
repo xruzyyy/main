@@ -26,29 +26,29 @@ class RegisterController extends Controller
     }
 
     protected function validator(array $data)
-{
-    $messages = [
-        'image.dimensions' => 'The permit image dimensions must be at least 480x480 pixels.',
-        'password.regex' => 'The password must contain at least one lowercase letter, one uppercase letter, and one numeric digit.',
-        'password.confirmed' => 'The passwords do not match.',
-        'email.gmail' => 'The email must be a Gmail address.',
-    ];
+    {
+        $messages = [
+            'image.dimensions' => 'The permit image dimensions must be at least 480x480 pixels.',
+            'password.regex' => 'The password must contain at least one lowercase letter, one uppercase letter, and one numeric digit.',
+            'password.confirmed' => 'The passwords do not match.',
+            'email.gmail' => 'The email must be a Gmail address.',
+        ];
 
-    $rules = [
-        'name' => ['required', 'string', 'max:255'],
-        'email' => ['required', 'string', 'email', 'max:255', 'unique:users', 'regex:/^[a-zA-Z0-9._%+-]+@gmail\.com$/'],
-        'password' => ['required', 'string', 'min:8', 'confirmed', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/'],
-        'type' => ['required', 'string', 'in:user,admin,business'],
-        'profile_image' => ['required', 'mimes:jpg,jpeg,webp,png,jfif,heic'],
-    ];
+        $rules = [
+            'name' => ['required', 'string', 'min:6', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users', 'regex:/^[a-zA-Z0-9._%+-]+@gmail\.com$/'],
+            'password' => ['required', 'string', 'min:8', 'confirmed', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/'],
+            'type' => ['required', 'string', 'in:user,admin,business'],
+            'profile_image' => ['required', 'mimes:jpg,jpeg,webp,png,jfif,heic'],
+        ];
 
-    // If the selected type is not 'user', require the permit image
-    if ($data['type'] !== 'user') {
-        $rules['image'] = ['required', 'mimes:jpg,jpeg,webp,png,jfif', 'dimensions:min_width=480,min_height=480'];
+        // If the selected type is not 'user', require the permit image
+        if ($data['type'] !== 'user') {
+            $rules['image'] = ['required', 'mimes:jpg,jpeg,webp,png,jfif', 'dimensions:min_width=480,min_height=480'];
+        }
+
+        return Validator::make($data, $rules, $messages);
     }
-
-    return Validator::make($data, $rules, $messages);
-}
 
 
 
@@ -114,9 +114,14 @@ class RegisterController extends Controller
         return $user;
     }
 
-    // protected function registered(Request $request, $user)
-    // {
-    //     event(new Registered($user));
-    //     return redirect()->route('verification.notice');
-    // }
+
+    protected function registered(Request $request, $user)
+    {
+        auth()->logout();
+        return redirect()->route('login')->with('sweet_alert', [
+            'type' => 'info',
+            'title' => 'Registration Successful!',
+            'text' => 'Please check your email to verify your account before logging in.'
+        ]);
+    }
 }

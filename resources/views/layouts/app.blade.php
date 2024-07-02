@@ -7,6 +7,9 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
     <title>{{ config(
         'app.name',
         'TaytayOnline
@@ -71,6 +74,18 @@
             padding-bottom: 0rem !important;
         }
     </style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        @if(session('sweet_alert'))
+            Swal.fire({
+                icon: '{{ session('sweet_alert.type') }}',
+                title: '{{ session('sweet_alert.title') }}',
+                text: '{{ session('sweet_alert.text') }}',
+            });
+        @endif
+    });
+</script>
 </head>
 
 <body>
