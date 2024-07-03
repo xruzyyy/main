@@ -82,9 +82,9 @@
                         </li>
 
                         <li class="nav-item me-3">
-                            <a href="{{ route('listings.create', ['id' => auth()->user()->id]) }}"
+                            <a href="{{ $updateListing ? route('listings.update', ['id' => \App\Models\Posts::where('user_id', auth()->user()->id)->first()->id]) : route('listings.create', ['id' => auth()->user()->id]) }}"
                                 class="btn btn-outline-light btn-sm">
-                                <i class="fas fa-plus"></i> Create Listing
+                                <i class="fas fa-plus"></i> {{ $updateListing ? 'Update Listing' : 'Create Listing' }}
                             </a>
                         </li>
 

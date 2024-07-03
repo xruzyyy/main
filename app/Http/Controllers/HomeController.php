@@ -277,6 +277,7 @@ public function mapStoreUpdate(Request $request)
         // Retrieve the latest active posts and the latest posts overall
         $latestActivePosts = Posts::where('is_active', 1)->orderBy('created_at', 'desc')->take(6)->get();
         $latestPosts = Posts::orderBy('created_at', 'desc')->get();
+        $updateListing = Posts::where('user_id', auth()->user()->id)->exists();
 
         // If the latest active posts are less than 6, fetch the additional active posts to fill up to 6
         if ($latestActivePosts->count() < 6) {
@@ -293,6 +294,7 @@ public function mapStoreUpdate(Request $request)
             'posts' => $latestActivePosts,
             'unseenCount' => $this->fetchUnseenMessageCount(),
             'latestPosts' => $latestPosts,
+            'updateListing' => $updateListing,
         ]);
     }
 

@@ -18,7 +18,7 @@ use App\Mail\UserRejected;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Auth\Events\Registered;
-
+use App\Mail\UserStatusChanged;
 class UserController extends Controller
 {
 
@@ -116,6 +116,7 @@ class UserController extends Controller
 
 
 
+
     public function edit($userId)
     {
         $user = User::find($userId);
@@ -130,8 +131,8 @@ class UserController extends Controller
             'email' => 'required|email|unique:users',
             'password' => ['required', 'string', 'min:8', 'confirmed', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/'],
             'type' => 'required|in:user,admin,business',
-            'profile_image' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'image' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'profile_image' => 'sometimes|image|mimes:jpeg,png,jpg,gif',
+            'image' => 'sometimes|image|mimes:jpeg,png,jpg,gif',
         ]);
 
         // Define expiration date for business type
@@ -229,6 +230,11 @@ class UserController extends Controller
             list($user->status, $user->is_active) = explode('_', $validatedData['status']);
             $user->save();
 
+            // Send the email verification notification if email is updated
+            if ($user->wasChanged('email')) {
+                $user->sendEmailVerificationNotification();
+            }
+
             return redirect()->route('users.index')->with('success', 'User updated successfully');
         } catch (\Exception $e) {
             return redirect()->route('users.index')->with('error', 'Failed to update user: ' . $e->getMessage());
@@ -245,11 +251,11 @@ class UserController extends Controller
             if ($user->status == 3 || ($user->status == 0 && $user->is_active == 0)) {
                 $user->status = 1;
                 $user->is_active = 1;
-                $message = 'User activated successfully.';
+                $statusMessage = 'Your account is activated successfully.';
             } else {
                 $user->status = 0;
                 $user->is_active = 0;
-                $message = 'User deactivated successfully.';
+                $statusMessage = 'Your account is deactivated .';
             }
 
             if ($request->has('account_expiration_date')) {
@@ -258,13 +264,14 @@ class UserController extends Controller
 
             $user->save();
 
-            return redirect()->route('users.index')->with('success', $message);
+            // Send email notification
+            Mail::to($user->email)->send(new UserStatusChanged($user, $statusMessage));
+
+            return redirect()->route('users.index')->with('success', $statusMessage);
         } catch (\Exception $e) {
             return redirect()->route('users.index')->with('error', 'Failed to update user status: ' . $e->getMessage());
         }
     }
-
-
 
 
 

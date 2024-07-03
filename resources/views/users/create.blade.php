@@ -99,19 +99,44 @@
                                         <label for="email">Email</label>
                                         <input type="email" name="email" id="email" class="form-control" required value="{{ old('email') }}">
                                     </div>
-
                                     <div class="form-group position-relative">
                                         <label for="password">Password</label>
-                                        <input placeholder="Password" id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+                                        <input
+                                            placeholder="Password"
+                                            id="password"
+                                            type="password"
+                                            class="form-control @error('password') is-invalid @enderror"
+                                            name="password"
+                                            required
+                                            autocomplete="new-password"
+                                            value="{{ old('password') }}">
                                         <i id="togglePassword" class="fas fa-eye password-toggle"></i>
+                                        @error('password')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
 
                                     <div class="form-group position-relative">
                                         <label for="password_confirmation">Confirm Password</label>
-                                        <input placeholder="Confirm Password" id="password_confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                                        <input
+                                            placeholder="Confirm Password"
+                                            id="password_confirm"
+                                            type="password"
+                                            class="form-control @error('password_confirmation') is-invalid @enderror"
+                                            name="password_confirmation"
+                                            required
+                                            autocomplete="new-password"
+                                            value="{{ old('password_confirmation') }}">
                                         <i id="toggleConfirmPassword" class="fas fa-eye password-toggle"></i>
+                                        @error('password_confirmation')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
-                                </div>
+
 
                                 <div class="col-md-6">
                                     <div class="form-group">
