@@ -353,13 +353,29 @@ function getUserLocation() {
                 };
                 document.getElementById("start").value = "Current Location";
                 updateUserLocationMarker(userLocation);
+                map.setView([userLocation.lat, userLocation.lng], 15);
             },
             function(error) {
                 console.error("Error getting user location:", error.message);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Location Error',
+                    text: 'Unable to get your location. Please enable location services and try again.',
+                });
+            },
+            {
+                enableHighAccuracy: true,
+                timeout: 10000,
+                maximumAge: 0
             }
         );
     } else {
         console.error("Geolocation is not supported by this browser.");
+        Swal.fire({
+            icon: 'error',
+            title: 'Browser Error',
+            text: 'Geolocation is not supported by your browser.',
+        });
     }
 }
 
@@ -418,11 +434,11 @@ function startNavigation() {
         // Initial call to getDirections
         getDirections();
 
-        // Set up interval to call getDirections every 5 seconds
+        // Set up interval to call getDirections every 10 seconds
         directionIntervalId = setInterval(function() {
-            console.log("Calling getDirections (5-second interval)");
+            console.log("Calling getDirections (10-second interval)");
             getDirections();
-        }, 5000);
+        }, 10000);
 
         speak("Starting navigation. Please follow the route on your screen.");
     } else {
@@ -453,68 +469,68 @@ function stopNavigation() {
 
 
 function getDirections() {
-    console.log("getDirections called at:", new Date().toLocaleTimeString());
     var startName = document.getElementById("start").value;
     var endName = document.getElementById("end").value;
 
-    var waypoints = [];
-
-    if (startName.toLowerCase() === "current location") {
-        if (userLocation) {
-            waypoints.push(L.latLng(userLocation.lat, userLocation.lng));
-        } else {
-            console.error("User location not available");
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Unable to get current location. Please enable location services and try again.',
-            });
-            return;
-        }
-    } else {
-        var startLocation = findLocationByName(startName);
-        if (startLocation) {
-            waypoints.push(L.latLng(startLocation.lat, startLocation.lng));
-        } else {
-            console.error("Start location not found:", startName);
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Unable to find start location: ' + startName,
-            });
-            return;
-        }
-    }
-
-    var endLocation = findLocationByName(endName);
-    if (endLocation) {
-        waypoints.push(L.latLng(endLocation.lat, endLocation.lng));
-    } else {
-        console.error("End location not found:", endName);
+    if (!startName || !endName) {
         Swal.fire({
             icon: 'error',
-            title: 'Error',
-            text: 'Unable to find end location: ' + endName,
+            title: 'Input Error',
+            text: 'Please fill both start and end locations.',
         });
         return;
     }
 
-    console.log("Setting up route with waypoints:", waypoints);
+    var waypoints = [];
 
-    if (!routingControl) {
-        routingControl = L.Routing.control({
-            waypoints: waypoints,
-            routeWhileDragging: true,
-            showAlternatives: true,
-            fitSelectedRoutes: false, //zooming out auto fix
-            show: true
-        }).addTo(map);
-
-        routingControl.on('routesfound', handleRoutesFound);
-        routingControl.on('routingerror', handleRoutingError);
+    if (startName.toLowerCase() === "current location") {
+        if (!userLocation) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Location Error',
+                text: 'Current location not available. Please try again or enter a specific start location.',
+            });
+            return;
+        }
+        waypoints.push(L.latLng(userLocation.lat, userLocation.lng));
     } else {
-        routingControl.setWaypoints(waypoints);
+        var startLocation = findLocationByName(startName);
+        if (!startLocation) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Location Error',
+                text: 'Unable to find start location: ' + startName,
+            });
+            return;
+        }
+        waypoints.push(L.latLng(startLocation.lat, startLocation.lng));
     }
+
+    var endLocation = findLocationByName(endName);
+    if (!endLocation) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Location Error',
+            text: 'Unable to find end location: ' + endName,
+        });
+        return;
+    }
+    waypoints.push(L.latLng(endLocation.lat, endLocation.lng));
+
+    if (routingControl) {
+        map.removeControl(routingControl);
+    }
+
+    routingControl = L.Routing.control({
+        waypoints: waypoints,
+        routeWhileDragging: false,
+        showAlternatives: true,
+        fitSelectedRoutes: false,
+        show: true
+    }).addTo(map);
+
+    routingControl.on('routesfound', handleRoutesFound);
+    routingControl.on('routingerror', handleRoutingError);
 }
 
 function handleRoutesFound(e) {
@@ -572,13 +588,20 @@ function speak(text) {
 
 function startLocationTracking() {
     var lastAnnouncedInstruction = -1;
+    var options = {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 0
+    };
 
     function updatePosition(position) {
         var latlng = L.latLng(position.coords.latitude, position.coords.longitude);
+        updateUserLocationMarker(latlng);
 
         if (routingControl) {
-            var route = routingControl.getRouter().route()[0];
-            if (route) {
+            var routes = routingControl.getRouter().route();
+            if (routes.length > 0) {
+                var route = routes[0];
                 var closestIndex = L.GeometryUtil.closest(map, route.coordinates, latlng);
 
                 var nextInstructionIndex = route.instructions.findIndex((instruction, index) =>
@@ -602,13 +625,12 @@ function startLocationTracking() {
 
     function errorHandler(err) {
         console.warn('ERROR(' + err.code + '): ' + err.message);
+        Swal.fire({
+            icon: 'error',
+            title: 'Location Tracking Error',
+            text: 'Unable to track your location: ' + err.message,
+        });
     }
-
-    var options = {
-        enableHighAccuracy: true,
-        timeout: 5000,
-        maximumAge: 0
-    };
 
     navigator.geolocation.watchPosition(updatePosition, errorHandler, options);
 }
