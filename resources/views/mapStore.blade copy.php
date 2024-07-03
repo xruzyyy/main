@@ -451,7 +451,6 @@ function stopNavigation() {
     }
 }
 
-
 function getDirections() {
     console.log("getDirections called at:", new Date().toLocaleTimeString());
     var startName = document.getElementById("start").value;
@@ -499,74 +498,68 @@ function getDirections() {
         return;
     }
 
-    console.log("Setting up route with waypoints:", waypoints);
-
-    if (!routingControl) {
-        routingControl = L.Routing.control({
-            waypoints: waypoints,
-            routeWhileDragging: true,
-            showAlternatives: true,
-            fitSelectedRoutes: false, //zooming out auto fix
-            show: true
-        }).addTo(map);
-
-        routingControl.on('routesfound', handleRoutesFound);
-        routingControl.on('routingerror', handleRoutingError);
-    } else {
-        routingControl.setWaypoints(waypoints);
-    }
-}
-
-function handleRoutesFound(e) {
-    console.log("Routes found:", e.routes);
-    var routes = e.routes;
-    var summary = routes[0].summary;
-
-    var businessName = document.getElementById("end").value;
-
-    var routeSummary = `Route to ${businessName} found. `;
-    routeSummary += `The trip is approximately ${Math.round(summary.totalDistance / 1000)} kilometers `;
-    routeSummary += `and will take about ${Math.round(summary.totalTime / 60)} minutes.`;
-
-    console.log("Route summary:", routeSummary);
-    speak(routeSummary);
-
-    if (routes[0].instructions.length > 0) {
-        console.log("First instruction:", routes[0].instructions[0].text);
-        speak(routes[0].instructions[0].text);
+    if (routingControl) {
+        map.removeControl(routingControl);
     }
 
-    startLocationTracking();
-}
+    console.log("Setting up new route with waypoints:", waypoints);
+    routingControl = L.Routing.control({
+        waypoints: waypoints,
+        routeWhileDragging: true,
+        showAlternatives: true,
+        fitSelectedRoutes: true,
+        show: true
+    }).addTo(map);
 
-function handleRoutingError(e) {
-    console.error("Routing error:", e.error);
-    Swal.fire({
-        icon: 'error',
-        title: 'Routing Error',
-        text: 'Unable to calculate route. Please check your locations and try again.',
+    routingControl.on('routesfound', function(e) {
+        console.log("Routes found:", e.routes);
+        var routes = e.routes;
+        var summary = routes[0].summary;
+
+        var businessName = endName;
+
+        var routeSummary = `Route to ${businessName} found. `;
+        routeSummary += `The trip is approximately ${Math.round(summary.totalDistance / 1000)} kilometers `;
+        routeSummary += `and will take about ${Math.round(summary.totalTime / 60)} minutes.`;
+
+        console.log("Route summary:", routeSummary);
+        speak(routeSummary);
+
+        if (routes[0].instructions.length > 0) {
+            console.log("First instruction:", routes[0].instructions[0].text);
+            speak(routes[0].instructions[0].text);
+        }
+
+        startLocationTracking();
+    });
+
+    routingControl.on('routingerror', function(e) {
+        console.error("Routing error:", e.error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Routing Error',
+            text: 'Unable to calculate route. Please check your locations and try again.',
+        });
     });
 }
 
 function speak(text) {
-    if ('speechSynthesis' in window) {
+    if ('speechSynthesis' in window && speechCount < 2) {
         var utterance = new SpeechSynthesisUtterance(text);
         var voices = speechSynthesis.getVoices();
         var desiredVoice = voices.find(voice => voice.name === "Google UK English Female");
 
-        utterance.voice = desiredVoice || voices[2]; // Fallback to the third available voice if desiredVoice is not found
+        if (desiredVoice) {
+            utterance.voice = desiredVoice;
+        }
+
         utterance.pitch = 1;
         utterance.rate = 1;
         utterance.volume = 1;
 
-        // Always speak "Navigation ended." regardless of speechCount
-        if (text === "Navigation ended." || speechCount < 4) {
-            speechSynthesis.speak(utterance);
-            if (text !== "Navigation ended.") {
-                speechCount++;
-            }
-            console.log("Speech count:", speechCount);
-        }
+        speechSynthesis.speak(utterance);
+        speechCount++;
+        console.log("Speech count:", speechCount);
     }
 }
 
@@ -704,23 +697,6 @@ function findMarkerByBusinessName(name) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize map
-    map = L.map('map').setView([initialLat, initialLng], initialZoom);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap contributors'
-    }).addTo(map);
-
-    // Initialize routing control without waypoints
-    routingControl = L.Routing.control({
-        routeWhileDragging: true,
-        showAlternatives: true,
-        fitSelectedRoutes: true,
-        show: true
-    }).addTo(map);
-
-    routingControl.on('routesfound', handleRoutesFound);
-    routingControl.on('routingerror', handleRoutingError);
-
     getUserLocation();
 
     if (selectedBusiness) {

@@ -506,7 +506,7 @@ function getDirections() {
             waypoints: waypoints,
             routeWhileDragging: true,
             showAlternatives: true,
-            fitSelectedRoutes: false, //zooming out auto fix
+            fitSelectedRoutes: true,
             show: true
         }).addTo(map);
 
@@ -547,26 +547,23 @@ function handleRoutingError(e) {
         text: 'Unable to calculate route. Please check your locations and try again.',
     });
 }
-
 function speak(text) {
-    if ('speechSynthesis' in window) {
+    if ('speechSynthesis' in window && speechCount < 2) {
         var utterance = new SpeechSynthesisUtterance(text);
         var voices = speechSynthesis.getVoices();
         var desiredVoice = voices.find(voice => voice.name === "Google UK English Female");
 
-        utterance.voice = desiredVoice || voices[2]; // Fallback to the third available voice if desiredVoice is not found
+        if (desiredVoice) {
+            utterance.voice = desiredVoice;
+        }
+
         utterance.pitch = 1;
         utterance.rate = 1;
         utterance.volume = 1;
 
-        // Always speak "Navigation ended." regardless of speechCount
-        if (text === "Navigation ended." || speechCount < 4) {
-            speechSynthesis.speak(utterance);
-            if (text !== "Navigation ended.") {
-                speechCount++;
-            }
-            console.log("Speech count:", speechCount);
-        }
+        speechSynthesis.speak(utterance);
+        speechCount++;
+        console.log("Speech count:", speechCount);
     }
 }
 
