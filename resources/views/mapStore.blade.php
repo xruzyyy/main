@@ -193,7 +193,15 @@
     .home-button:hover {
         background-color: #0056b3; /* Darker color on hover */
     }
-
+    .attribution {
+    font-size: 10px;
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 2px 5px;
+    border-radius: 3px;
+}
         </style>
     </head>
 
@@ -223,6 +231,9 @@
                 <img src="{{ asset('images/delete.png') }}" alt="Stop" style="width:25px; height:25px;" onclick="stopNavigation()">
 
             </div>
+        </div>
+        <div class="attribution">
+            Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
         </div>
         {{-- <div class="leaflet-routing-container leaflet-bar leaflet-control" onclick="stopNavigation()"></div> --}}
 
@@ -256,6 +267,21 @@
     var routingControl;
     var speechCount = 0;
     var routingContainer;
+    let startMarker, endMarker;
+
+    var startIcon = L.icon({
+        iconUrl: '{{ asset("images/start-pin.gif") }}',
+        iconSize: [64, 64],
+        iconAnchor: [16, 32],
+        popupAnchor: [0, -32]
+    });
+
+    var endIcon = L.icon({
+        iconUrl: '{{ asset("images/finish-flag.png") }}',
+        iconSize: [32, 32],
+        iconAnchor: [16, 32],
+        popupAnchor: [0, -32]
+    });
 
     function updateRouting(waypoints) {
         if (!routingControl) {
@@ -443,7 +469,7 @@
     function updateUserLocationMarker(location) {
         if (!userLocationMarker) {
             userLocationMarker = L.marker(location).addTo(map);
-            userLocationMarker.bindPopup("Your Location").openPopup();
+            userLocationMarker.bindPopup("Your Origin").openPopup();
         } else {
             userLocationMarker.setLatLng(location);
         }
@@ -460,67 +486,22 @@
     var endName = document.getElementById("end").value;
 
     if (startName && endName) {
+        // Hide search form and show directions container
         document.getElementById("search-form").style.display = "none";
         document.getElementById("directions-container").style.display = 'block';
 
-        // Call getDirections instead of directly updating routing
-        getDirections();
+        // Remove existing markers if present
+        if (startMarker) map.removeLayer(startMarker);
+        if (endMarker) map.removeLayer(endMarker);
+        startMarker = endMarker = null;
 
-        speak("Starting navigation. Please follow the route on your screen.");
-
-        // Start the interval for logging
-        navigationInterval = setInterval(function() {
-            console.log("Navigation in progress - " + new Date().toLocaleTimeString());
-        }, 5000);
-    } else {
-        Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: 'Please fill both the start and end locations.',
-        });
-    }
-}
-
-function stopNavigation() {
-    if (routingControl) {
-        map.removeControl(routingControl);
-        routingControl = null;
-    }
-    if (routingContainer) {
-        routingContainer.innerHTML = '';
-    }
-    document.getElementById("search-form").style.display = "block";
-    document.getElementById("directions-container").style.display = 'none';
-    speechSynthesis.cancel();
-    speak("Navigation ended.");
-
-    if (directionIntervalId) {
-        clearInterval(directionIntervalId);
-    }
-
-    // Clear the navigation logging interval
-    if (navigationInterval) {
-        clearInterval(navigationInterval);
-        console.log("Navigation stopped - " + new Date().toLocaleTimeString());
-    }
-}
-
-
-    function getDirections() {
-        var startName = document.getElementById("start").value;
-        var endName = document.getElementById("end").value;
-
-        if (!startName || !endName) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Input Error',
-                text: 'Please fill both start and end locations.',
-            });
-            return;
+        // Remove existing routing control if present
+        if (routingControl) {
+            map.removeControl(routingControl);
         }
 
+        // Set up new routing control
         var waypoints = [];
-
         if (startName.toLowerCase() === "current location") {
             if (!userLocation) {
                 Swal.fire({
@@ -555,21 +536,161 @@ function stopNavigation() {
         }
         waypoints.push(L.latLng(endLocation.lat, endLocation.lng));
 
-        if (routingControl) {
-            map.removeControl(routingControl);
-        }
-
         routingControl = L.Routing.control({
             waypoints: waypoints,
             routeWhileDragging: false,
             showAlternatives: true,
             fitSelectedRoutes: false,
-            show: true
+            show: true,
+            createMarker: function(i, waypoint, n) {
+                if (i === 0) {
+                    startMarker = L.marker(waypoint.latLng, { icon: startIcon });
+                    return startMarker;
+                }
+                if (i === n - 1) {
+                    endMarker = L.marker(waypoint.latLng, { icon: endIcon });
+                    return endMarker;
+                }
+                return null;
+            }
         }).addTo(map);
 
         routingControl.on('routesfound', handleRoutesFound);
         routingControl.on('routingerror', handleRoutingError);
+
+        speak("Starting navigation. Please follow the route on your screen.");
+
+        // Start the interval for logging
+        navigationInterval = setInterval(function() {
+            console.log("Navigation in progress - " + new Date().toLocaleTimeString());
+        }, 5000);
+
+        startLocationTracking();
+    } else {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Please fill both the start and end locations.',
+        });
     }
+}
+
+function stopNavigation() {
+    // Remove routing control
+    if (routingControl) {
+        map.removeControl(routingControl);
+        routingControl = null;
+    }
+
+    // Clear routing container
+    if (routingContainer) {
+        routingContainer.innerHTML = '';
+    }
+
+    // Remove markers
+    if (startMarker) map.removeLayer(startMarker);
+    if (endMarker) map.removeLayer(endMarker);
+    startMarker = endMarker = null;
+
+    // Update UI
+    document.getElementById("search-form").style.display = "block";
+    document.getElementById("directions-container").style.display = 'none';
+
+    // Stop speech and announce end of navigation
+    speechSynthesis.cancel();
+    speak("Navigation ended.");
+
+    // Clear intervals
+    if (directionIntervalId) {
+        clearInterval(directionIntervalId);
+    }
+    if (navigationInterval) {
+        clearInterval(navigationInterval);
+        console.log("Navigation stopped - " + new Date().toLocaleTimeString());
+    }
+
+    // Stop location tracking
+    if (navigator.geolocation) {
+        navigator.geolocation.clearWatch(locationWatchId);
+    }
+}
+
+function getDirections() {
+    var startName = document.getElementById("start").value;
+    var endName = document.getElementById("end").value;
+
+    if (!startName || !endName) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Input Error',
+            text: 'Please fill both start and end locations.',
+        });
+        return;
+    }
+
+    var waypoints = [];
+
+    if (startName.toLowerCase() === "current location") {
+        if (!userLocation) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Location Error',
+                text: 'Current location not available. Please try again or enter a specific start location.',
+            });
+            return;
+        }
+        waypoints.push(L.latLng(userLocation.lat, userLocation.lng));
+    } else {
+        var startLocation = findLocationByName(startName);
+        if (!startLocation) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Location Error',
+                text: 'Unable to find start location: ' + startName,
+            });
+            return;
+        }
+        waypoints.push(L.latLng(startLocation.lat, startLocation.lng));
+    }
+
+    var endLocation = findLocationByName(endName);
+    if (!endLocation) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Location Error',
+            text: 'Unable to find end location: ' + endName,
+        });
+        return;
+    }
+    waypoints.push(L.latLng(endLocation.lat, endLocation.lng));
+
+    if (routingControl) {
+        map.removeControl(routingControl);
+    }
+
+    routingControl = L.Routing.control({
+        waypoints: waypoints,
+        routeWhileDragging: false,
+        showAlternatives: true,
+        fitSelectedRoutes: false,
+        show: true,
+        createMarker: function(i, waypoint, n) {
+    if (i === 0) {
+        if (startMarker) map.removeLayer(startMarker);
+        startMarker = L.marker(waypoint.latLng, { icon: startIcon });
+        return startMarker;
+    }
+    if (i === n - 1) {
+        if (endMarker) map.removeLayer(endMarker);
+        endMarker = L.marker(waypoint.latLng, { icon: endIcon });
+        return endMarker;
+    }
+    return null;
+}
+
+    routingControl.on('routesfound', handleRoutesFound);
+    routingControl.on('routingerror', handleRoutingError);
+}
 
     function handleRoutesFound(e) {
         console.log("Routes found:", e.routes);
@@ -624,54 +745,56 @@ function stopNavigation() {
         }
     }
 
-    function startLocationTracking() {
-        var lastAnnouncedInstruction = -1;
-        var options = {
-            enableHighAccuracy: true,
-            timeout: 5000,
-            maximumAge: 0
-        };
+    let locationWatchId;
 
-        function updatePosition(position) {
-            var latlng = L.latLng(position.coords.latitude, position.coords.longitude);
-            updateUserLocationMarker(latlng);
+function startLocationTracking() {
+    var lastAnnouncedInstruction = -1;
+    var options = {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 0
+    };
 
-            if (routingControl) {
-                var routes = routingControl.getRouter().route();
-                if (routes.length > 0) {
-                    var route = routes[0];
-                    var closestIndex = L.GeometryUtil.closest(map, route.coordinates, latlng);
+    function updatePosition(position) {
+        var latlng = L.latLng(position.coords.latitude, position.coords.longitude);
+        updateUserLocationMarker(latlng);
 
-                    var nextInstructionIndex = route.instructions.findIndex((instruction, index) =>
-                        index > lastAnnouncedInstruction && instruction.index > closestIndex
+        if (routingControl) {
+            var routes = routingControl.getRouter().route();
+            if (routes.length > 0) {
+                var route = routes[0];
+                var closestIndex = L.GeometryUtil.closest(map, route.coordinates, latlng);
+
+                var nextInstructionIndex = route.instructions.findIndex((instruction, index) =>
+                    index > lastAnnouncedInstruction && instruction.index > closestIndex
+                );
+
+                if (nextInstructionIndex !== -1) {
+                    var nextInstruction = route.instructions[nextInstructionIndex];
+                    var distanceToInstruction = L.GeometryUtil.length(
+                        route.coordinates.slice(closestIndex, nextInstruction.index)
                     );
 
-                    if (nextInstructionIndex !== -1) {
-                        var nextInstruction = route.instructions[nextInstructionIndex];
-                        var distanceToInstruction = L.GeometryUtil.length(
-                            route.coordinates.slice(closestIndex, nextInstruction.index)
-                        );
-
-                        if (distanceToInstruction <= 50) {
-                            speak(nextInstruction.text);
-                            lastAnnouncedInstruction = nextInstructionIndex;
-                        }
+                    if (distanceToInstruction <= 50) {
+                        speak(nextInstruction.text);
+                        lastAnnouncedInstruction = nextInstructionIndex;
                     }
                 }
             }
         }
-
-        function errorHandler(err) {
-            console.warn('ERROR(' + err.code + '): ' + err.message);
-            Swal.fire({
-                icon: 'error',
-                title: 'Location Tracking Error',
-                text: 'Unable to track your location: ' + err.message,
-            });
-        }
-
-        navigator.geolocation.watchPosition(updatePosition, errorHandler, options);
     }
+
+    function errorHandler(err) {
+        console.warn('ERROR(' + err.code + '): ' + err.message);
+        Swal.fire({
+            icon: 'error',
+            title: 'Location Tracking Error',
+            text: 'Unable to track your location: ' + err.message,
+        });
+    }
+
+    locationWatchId = navigator.geolocation.watchPosition(updatePosition, errorHandler, options);
+}
 
     function findLocationByName(name) {
         name = decodeURIComponent(name).toLowerCase().trim();
